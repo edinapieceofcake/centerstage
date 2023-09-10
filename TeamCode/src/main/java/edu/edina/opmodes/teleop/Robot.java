@@ -12,6 +12,7 @@ import java.util.concurrent.ExecutorService;
 import edu.edina.library.subsystems.Lift;
 import edu.edina.library.subsystems.MecanumDrive;
 import edu.edina.library.subsystems.Subsystem;
+import edu.edina.library.subsystems.AprilTags;
 import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.RobotState;
 
@@ -25,6 +26,8 @@ public class Robot {
     private Telemetry telemetry;
     public Lift Lift;
     public MecanumDrive MecanumDrive;
+
+    public AprilTags aprilTags;
 
     private Runnable subsystemUpdateRunnable = () -> {
         while (!Thread.currentThread().isInterrupted()) {
@@ -41,13 +44,16 @@ public class Robot {
 
         subsystems = new ArrayList<>();
 
-        this.Lift = new Lift(this);
+       // this.Lift = new Lift(this);
 
-        subsystems.add(this.Lift);
+       // subsystems.add(this.Lift);
 
         this.MecanumDrive = new MecanumDrive(map, this);
 
         subsystems.add(this.MecanumDrive);
+
+        this.aprilTags = new AprilTags(map, this);
+        subsystems.add(aprilTags);
         
         if (this.runMultiThreaded) {
             // setup the thread executor

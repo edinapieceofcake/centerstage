@@ -12,6 +12,7 @@ public class RobotHardware {
     public Servo servo2;
 
     public RobotHardware(HardwareMap map, Robot robot) {
+        /*
         motor = map.get(DcMotor.class, "lift");
         servo1 = map.servo.get("servo1");
         servo2 = map.get(Servo.class, "servo2");
@@ -24,5 +25,6 @@ public class RobotHardware {
 
         servo1.setPosition(robot.RobotState.ServoOneClosedPosition);
         servo2.setPosition(robot.RobotState.ServoTwoClosedPosition);
+         */
     }
 }

@@ -32,7 +32,7 @@ public class TeleopOpMode extends OpMode {
         _gamepad1.update();
         _gamepad2.update();
 
-        robot.Lift.setLiftProperties(_gamepad1.dpad_up, _gamepad1.dpad_down, _gamepad1.a, _gamepad1.b);
+        //robot.Lift.setLiftProperties(_gamepad1.dpad_up, _gamepad1.dpad_down, _gamepad1.a, _gamepad1.b);
 
         robot.MecanumDrive.setDriveProperties(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
 
