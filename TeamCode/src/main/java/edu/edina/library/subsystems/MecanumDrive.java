@@ -1,24 +1,23 @@
 package edu.edina.library.subsystems;
 
-import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-
-import edu.edina.library.util.RobotState;
+import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.PoseVelocity2d;
+import com.acmerobotics.roadrunner.Vector2d;
 import edu.edina.opmodes.teleop.Robot;
 
 public class MecanumDrive extends Subsystem {
     private double leftStickX;
     private double leftStickY;
     private double rightStickX;
-    private SampleMecanumDrive drive;
+    private org.firstinspires.ftc.teamcode.MecanumDrive drive;
     private Robot robot;
 
-    public MecanumDrive(HardwareMap map, Robot robot) {
-        drive = new SampleMecanumDrive(map);
-        drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    public MecanumDrive(Robot robot) {
+        drive = new org.firstinspires.ftc.teamcode.MecanumDrive(robot.RobotHardware.leftFront,
+                robot.RobotHardware.leftBack, robot.RobotHardware.rightBack, robot.RobotHardware.rightFront,
+                robot.RobotHardware.par0, robot.RobotHardware.par1, robot.RobotHardware.perp,
+                robot.RobotHardware.imu, robot.RobotHardware.voltageSensor, new Pose2d(0, 0, 0));
+
         this.robot = robot;
     }
 
@@ -33,19 +32,14 @@ public class MecanumDrive extends Subsystem {
 
     @Override
     public void update() {
-        // Pass in the rotated input + right stick value for rotation
-        // Rotation is not part of the rotated input thus must be passed in separately
-        drive.setWeightedDrivePower(
-                new Pose2d(
-                        // To change to Robot centric change leftSticks to ____
-                        // To change to Robot centric change leftSticks to ____
+        drive.setDrivePowers(new PoseVelocity2d(
+                new Vector2d(
                         -leftStickY,
-                        -leftStickX,
-                        -rightStickX
-                )
-        );
+                        -leftStickX
+                ),
+                -rightStickX
+        ));
 
-        // Update everything. Odometry. Etc.
-        drive.update();
+        drive.updatePoseEstimate();
     }
 }

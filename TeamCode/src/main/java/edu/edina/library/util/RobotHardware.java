@@ -1,30 +1,56 @@
 package edu.edina.library.util;
 
+import com.acmerobotics.roadrunner.ftc.LynxFirmware;
+import com.acmerobotics.roadrunner.ftc.RawEncoder;
+import com.qualcomm.hardware.lynx.LynxModule;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
+
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
 import edu.edina.opmodes.teleop.Robot;
 
 public class RobotHardware {
-    public DcMotor motor;
-    public Servo servo1;
-    public Servo servo2;
 
-    public RobotHardware(HardwareMap map, Robot robot) {
-        /*
-        motor = map.get(DcMotor.class, "lift");
-        servo1 = map.servo.get("servo1");
-        servo2 = map.get(Servo.class, "servo2");
+    public final DcMotorEx leftFront, leftBack, rightBack, rightFront;
 
-        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motor.setTargetPosition(robot.RobotState.LiftClosingTargetPosition);
-        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor.setPower(.5);
+    public final VoltageSensor voltageSensor;
 
-        servo1.setPosition(robot.RobotState.ServoOneClosedPosition);
-        servo2.setPosition(robot.RobotState.ServoTwoClosedPosition);
-         */
+    public final IMU imu;
+
+    public final DcMotorEx par0, par1, perp;
+
+    public final WebcamName webcamName;
+
+    public RobotHardware(HardwareMap hardwareMap, Robot robot) {
+        LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
+
+        for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
+            module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
+        }
+
+        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
+        leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
+        rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
+        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+
+        imu = hardwareMap.get(IMU.class, "imu");
+        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
+        imu.initialize(parameters);
+
+        voltageSensor = hardwareMap.voltageSensor.iterator().next();
+
+        par0 = hardwareMap.get(DcMotorEx.class, "par0");
+        par1 = hardwareMap.get(DcMotorEx.class, "par1");
+        perp = hardwareMap.get(DcMotorEx.class, "perp");
+
+        webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
     }
 }

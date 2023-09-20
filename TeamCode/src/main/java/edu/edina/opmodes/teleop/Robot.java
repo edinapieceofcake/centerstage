@@ -40,19 +40,19 @@ public class Robot {
         this.telemetry = telemetry;
         this.runMultiThreaded = runMultiThreaded;
 
-        RobotHardware = new RobotHardware(map, this);
+        this.RobotHardware = new RobotHardware(map, this);
 
         subsystems = new ArrayList<>();
 
-       // this.Lift = new Lift(this);
+        this.Lift = new Lift(this);
 
-       // subsystems.add(this.Lift);
+        subsystems.add(this.Lift);
 
-        this.MecanumDrive = new MecanumDrive(map, this);
+        this.MecanumDrive = new MecanumDrive(this);
 
         subsystems.add(this.MecanumDrive);
 
-        this.aprilTags = new AprilTags(map, this);
+        this.aprilTags = new AprilTags(this);
         subsystems.add(aprilTags);
         
         if (this.runMultiThreaded) {

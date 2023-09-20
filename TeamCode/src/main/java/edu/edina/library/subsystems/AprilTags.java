@@ -31,14 +31,14 @@ public class AprilTags extends Subsystem {
         return aprilTag;
     }
 
-    public AprilTags(HardwareMap map, Robot robot){
+    public AprilTags(Robot robot){
         // Create the AprilTag processor the easy way.
         aprilTag = AprilTagProcessor.easyCreateWithDefaults();
         this.robot = robot;
         // Create the vision portal the easy way.
         if (USE_WEBCAM) {
             visionPortal = VisionPortal.easyCreateWithDefaults(
-                    map.get(WebcamName.class, "Webcam 1"), aprilTag);
+                    robot.RobotHardware.webcamName, aprilTag);
         } else {
             visionPortal = VisionPortal.easyCreateWithDefaults(
                     BuiltinCameraDirection.BACK, aprilTag);
