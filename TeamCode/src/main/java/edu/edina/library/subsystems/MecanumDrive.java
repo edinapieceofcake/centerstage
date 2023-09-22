@@ -31,6 +31,13 @@ public class MecanumDrive extends Subsystem {
     public void init() { }
 
     @Override
+    public void start() {
+        robot.RobotHardware.par0Servo.setPosition(robot.RobotState.par0UpPosition);
+        robot.RobotHardware.par1Servo.setPosition(robot.RobotState.par1UpPosition);
+        robot.RobotHardware.perpServo.setPosition(robot.RobotState.perpUpPosition);
+    }
+
+    @Override
     public void update() {
         drive.setDrivePowers(new PoseVelocity2d(
                 new Vector2d(

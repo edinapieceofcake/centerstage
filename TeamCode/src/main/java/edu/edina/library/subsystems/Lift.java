@@ -5,7 +5,7 @@ import edu.edina.library.util.LiftState;
 import edu.edina.library.util.OpeningState;
 import edu.edina.opmodes.teleop.Robot;
 
-public class Lift  extends Subsystem{
+public class Lift extends Subsystem{
     private Robot robot;
 
     public Lift(Robot robot) {
@@ -14,6 +14,12 @@ public class Lift  extends Subsystem{
 
     @Override
     public void init() {}
+
+    @Override
+    public void start() {
+
+    }
+
     @Override
     public void update() {
         if (robot.Started) {

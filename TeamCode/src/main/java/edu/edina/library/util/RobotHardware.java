@@ -25,6 +25,18 @@ public class RobotHardware {
 
     public final DcMotorEx par0, par1, perp;
 
+    public final Servo par0Servo, par1Servo, perpServo;
+
+    public final Servo leftClawServo, rightClawServo, twistClawServo, angleClawServo;
+
+    public final Servo leftLiftServo, rightLiftServo;
+
+    public final Servo droneLaunchServo;
+
+    public final DcMotorEx robotHangerMotor;
+
+    public final DcMotorEx topLiftMotor, bottomLiftMotor;
+
     public final WebcamName webcamName;
 
     public RobotHardware(HardwareMap hardwareMap, Robot robot) {
@@ -52,5 +64,24 @@ public class RobotHardware {
         perp = hardwareMap.get(DcMotorEx.class, "perp");
 
         webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
+
+        par0Servo = hardwareMap.get(Servo.class, "par0Servo");
+        par1Servo = hardwareMap.get(Servo.class, "par1Servo");
+        perpServo = hardwareMap.get(Servo.class, "perpServo");
+
+        leftClawServo = hardwareMap.get(Servo.class, "leftClawServo");
+        rightClawServo = hardwareMap.get(Servo.class, "rightClawServo");
+        twistClawServo = hardwareMap.get(Servo.class, "twistClawServo");
+        angleClawServo = hardwareMap.get(Servo.class, "angleClawServo");
+
+        leftLiftServo = hardwareMap.get(Servo.class, "leftLiftServo");
+        rightLiftServo = hardwareMap.get(Servo.class, "rightLiftServo");
+
+        droneLaunchServo = hardwareMap.get(Servo.class, "droneLaunchServo");
+
+        robotHangerMotor = hardwareMap.get(DcMotorEx.class, "robotHangerMotor");
+
+        topLiftMotor = hardwareMap.get(DcMotorEx.class, "topLiftMotor");
+        bottomLiftMotor = hardwareMap.get(DcMotorEx.class, "bottomLiftMotor");
     }
 }

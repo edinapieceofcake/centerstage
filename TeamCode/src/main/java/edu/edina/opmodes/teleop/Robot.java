@@ -9,8 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
+import edu.edina.library.subsystems.Claw;
+import edu.edina.library.subsystems.DroneLauncher;
 import edu.edina.library.subsystems.Lift;
 import edu.edina.library.subsystems.MecanumDrive;
+import edu.edina.library.subsystems.RobotHanger;
 import edu.edina.library.subsystems.Subsystem;
 import edu.edina.library.subsystems.AprilTags;
 import edu.edina.library.util.RobotHardware;
@@ -26,9 +29,9 @@ public class Robot {
     private Telemetry telemetry;
     public Lift Lift;
     public MecanumDrive MecanumDrive;
-
-    public AprilTags aprilTags;
-
+    public Claw Claw;
+    public DroneLauncher DroneLauncher;
+    public RobotHanger RobotHanger;
     private Runnable subsystemUpdateRunnable = () -> {
         while (!Thread.currentThread().isInterrupted()) {
             internal_update();
@@ -52,8 +55,17 @@ public class Robot {
 
         subsystems.add(this.MecanumDrive);
 
-        this.aprilTags = new AprilTags(this);
-        subsystems.add(aprilTags);
+        this.Claw = new Claw(this);
+
+        subsystems.add(this.Claw);
+
+        this.RobotHanger = new RobotHanger(this);
+
+        subsystems.add(this.RobotHanger);
+
+        this.DroneLauncher = new DroneLauncher(this);
+
+        subsystems.add(this.DroneLauncher);
         
         if (this.runMultiThreaded) {
             // setup the thread executor
@@ -82,6 +94,10 @@ public class Robot {
     }
 
     public void start() {
+        for (Subsystem subsystem : subsystems) {
+            subsystem.start();
+        }
+
         if (runMultiThreaded){
             if (!Started) {
                 subsystemUpdateExecutor.submit(subsystemUpdateRunnable);

@@ -48,14 +48,12 @@ public class AprilTags extends Subsystem {
 
     public void init(){}
 
-    public void update(){
-        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+    @Override
+    public void start() {
 
-        for (AprilTagDetection detection : currentDetections) {
-            if (detection.metadata != null) {
-                this.robot.RobotState.detection = detection;
-                break;   
-            }
-        }
+    }
+
+    public void update(){
+        this.robot.RobotState.detections = aprilTag.getDetections();
     }
 }
