@@ -1,8 +1,5 @@
 package edu.edina.library.subsystems;
 
-import edu.edina.library.util.ClosingState;
-import edu.edina.library.util.LiftState;
-import edu.edina.library.util.OpeningState;
 import edu.edina.opmodes.teleop.Robot;
 
 public class Lift extends Subsystem{

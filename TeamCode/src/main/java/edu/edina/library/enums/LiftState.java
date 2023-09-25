@@ -1,4 +1,4 @@
-package edu.edina.library.util;
+package edu.edina.library.enums;
 
 public enum LiftState {
     Idle,
