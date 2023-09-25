@@ -8,12 +8,12 @@ public class DroneLauncher extends Subsystem {
     private DroneLauncherState state;
 
     public DroneLauncher(Robot robot) {
-        this.state = DroneLauncherState.Armed;
         this.robot = robot;
     }
 
     @Override
     public void init() {
+        this.state = DroneLauncherState.Armed;
         this.robot.RobotHardware.droneLaunchServo.setPosition(this.robot.RobotState.droneLauncherArmedPosition);
     }
 
@@ -25,11 +25,11 @@ public class DroneLauncher extends Subsystem {
         if (robot.Started) {
             switch (state) {
                 case Armed:
-                    this.robot.RobotHardware.droneLaunchServo.setPosition(this.robot.RobotState.droneLauncherLaunchedPosition);
+                    this.robot.RobotHardware.droneLaunchServo.setPosition(this.robot.RobotState.droneLauncherArmedPosition);
                     break;
                 case Launched:
                 default:
-                    this.robot.RobotHardware.droneLaunchServo.setPosition(this.robot.RobotState.droneLauncherArmedPosition);
+                    this.robot.RobotHardware.droneLaunchServo.setPosition(this.robot.RobotState.droneLauncherLaunchedPosition);
                     break;
             }
         }
