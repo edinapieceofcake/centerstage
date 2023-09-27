@@ -49,7 +49,7 @@ public class TestLiftServos extends LinearOpMode {
                 bottomLiftMotor.setPower(0);
             }
 
-            double servoPosition = (1/maxLiftTicks) * topLiftMotor.getCurrentPosition() + 0.26;
+            double servoPosition = (1/maxLiftTicks) * topLiftMotor.getCurrentPosition() - 0.26;
             leftLiftServo.setPosition(servoPosition);
             rightLiftServo.setPosition(servoPosition);
 
