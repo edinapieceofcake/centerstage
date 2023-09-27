@@ -34,7 +34,6 @@ public class DroneLauncher extends Subsystem {
             }
         }
     }
-
     public void setProperties(boolean launchDrone) {
         if (launchDrone) {
             if (state == DroneLauncherState.Launched) {
