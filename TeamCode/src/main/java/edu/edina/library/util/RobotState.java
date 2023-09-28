@@ -6,7 +6,6 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import java.util.List;
 
 public class RobotState {
-    private Robot robot;
     public double droneLauncherArmedPosition = 0.0;
     public double droneLauncherLaunchedPosition = 1.0;
     public double clawLeftOpenPosition = 1.0;
@@ -21,12 +20,9 @@ public class RobotState {
     public double par1UpPosition = 1.0;
     public double perpUpPosition = 0.0;
     public double perpDownPosition = 1.0;
-
     public List<AprilTagDetection> detections;
 
-    public RobotState(Robot robot) {
-        this.robot = robot;
-
+    public RobotState() {
     }
 
     public void telemetry(Telemetry telemetry) {

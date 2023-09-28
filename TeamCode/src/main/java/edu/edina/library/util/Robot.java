@@ -20,9 +20,9 @@ public class Robot {
     private ExecutorService subsystemUpdateExecutor;
     public boolean Started;
     private boolean runMultiThreaded;
-    public RobotState RobotState;
+    public RobotState RobotState = new RobotState();
     public RobotHardware RobotHardware;
-    private List<Subsystem> subsystems;
+    private List<Subsystem> subsystems = new ArrayList<>();
     private Telemetry telemetry;
     public Lift Lift;
     public MecanumDrive MecanumDrive;
@@ -36,13 +36,9 @@ public class Robot {
     };
 
     public Robot(Telemetry telemetry, HardwareMap map, boolean runMultiThreaded) {
-        this.RobotState = new RobotState(this);
         this.telemetry = telemetry;
         this.runMultiThreaded = runMultiThreaded;
-
-        this.RobotHardware = new RobotHardware(map, this);
-
-        subsystems = new ArrayList<>();
+        this.RobotHardware = new RobotHardware(map);
 
         this.Lift = new Lift(this);
 

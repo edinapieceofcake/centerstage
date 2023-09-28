@@ -35,7 +35,7 @@ public class RobotHardware {
 
     public final WebcamName webcamName;
 
-    public RobotHardware(HardwareMap hardwareMap, Robot robot) {
+    public RobotHardware(HardwareMap hardwareMap) {
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
 
         for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
