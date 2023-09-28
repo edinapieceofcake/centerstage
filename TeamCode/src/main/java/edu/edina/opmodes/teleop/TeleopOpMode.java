@@ -41,6 +41,8 @@ public class TeleopOpMode extends OpMode {
 
         robot.Claw.setProperties(_gamepad1.left_bumper, _gamepad1.right_bumper);
 
+        robot.RobotHanger.setProperties(gamepad2.left_bumper, gamepad2.right_bumper);
+
         robot.update();
         robot.telemetry();
     }

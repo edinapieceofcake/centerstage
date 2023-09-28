@@ -20,6 +20,8 @@ public class RobotState {
     public double par1UpPosition = 1.0;
     public double perpUpPosition = 0.0;
     public double perpDownPosition = 1.0;
+    public double hangerRetractingPower = -0.5;
+    public double hangerExtendingPower = -0.5;
     public List<AprilTagDetection> detections;
 
     public RobotState() {
