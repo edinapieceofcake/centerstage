@@ -1,4 +1,4 @@
-package edu.edina.opmodes.teleop;
+package edu.edina.library.util;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ThreadPool;
@@ -15,9 +15,6 @@ import edu.edina.library.subsystems.Lift;
 import edu.edina.library.subsystems.MecanumDrive;
 import edu.edina.library.subsystems.RobotHanger;
 import edu.edina.library.subsystems.Subsystem;
-import edu.edina.library.subsystems.AprilTags;
-import edu.edina.library.util.RobotHardware;
-import edu.edina.library.util.RobotState;
 
 public class Robot {
     private ExecutorService subsystemUpdateExecutor;

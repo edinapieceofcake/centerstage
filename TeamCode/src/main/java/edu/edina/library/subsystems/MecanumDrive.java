@@ -3,7 +3,7 @@ package edu.edina.library.subsystems;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
-import edu.edina.opmodes.teleop.Robot;
+import edu.edina.library.util.Robot;
 
 public class MecanumDrive extends Subsystem {
     private double leftStickX;
@@ -22,9 +22,9 @@ public class MecanumDrive extends Subsystem {
     }
 
     public void setDriveProperties(double leftStickX, double leftStickY, double rightStickX){
-        this.leftStickX = leftStickX;
-        this.leftStickY = leftStickY;
-        this.rightStickX = rightStickX;
+        this.leftStickX = ScaleMotorCube(leftStickX);
+        this.leftStickY = ScaleMotorCube(leftStickY);
+        this.rightStickX = ScaleMotorCube(rightStickX);
     }
 
     @Override
@@ -48,5 +48,9 @@ public class MecanumDrive extends Subsystem {
         ));
 
         drive.updatePoseEstimate();
+    }
+
+    public static double ScaleMotorCube(double joyStickPosition) {
+        return (double) Math.pow(joyStickPosition, 3.0);
     }
 }

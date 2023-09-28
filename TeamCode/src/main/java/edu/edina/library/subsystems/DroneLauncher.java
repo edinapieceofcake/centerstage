@@ -1,7 +1,7 @@
 package edu.edina.library.subsystems;
 
 import edu.edina.library.enums.DroneLauncherState;
-import edu.edina.opmodes.teleop.Robot;
+import edu.edina.library.util.Robot;
 
 public class DroneLauncher extends Subsystem {
     private Robot robot;

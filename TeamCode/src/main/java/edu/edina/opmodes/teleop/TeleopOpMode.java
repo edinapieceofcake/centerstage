@@ -2,6 +2,7 @@ package edu.edina.opmodes.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import edu.edina.library.util.Robot;
 import edu.edina.library.util.Smartgamepad;
 
 public class TeleopOpMode extends OpMode {

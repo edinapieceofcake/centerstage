@@ -1,6 +1,6 @@
 package edu.edina.library.subsystems;
 
-import edu.edina.opmodes.teleop.Robot;
+import edu.edina.library.util.Robot;
 
 public class Lift extends Subsystem{
     private Robot robot;

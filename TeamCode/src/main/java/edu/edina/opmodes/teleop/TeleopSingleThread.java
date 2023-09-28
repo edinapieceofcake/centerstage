@@ -2,6 +2,8 @@ package edu.edina.opmodes.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import edu.edina.library.util.Robot;
+
 @TeleOp(name = "TeleopSingleThread", group = "teleop")
 public class TeleopSingleThread extends TeleopOpMode {
     @Override

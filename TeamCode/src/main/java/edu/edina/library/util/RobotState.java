@@ -5,8 +5,6 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 import java.util.List;
 
-import edu.edina.opmodes.teleop.Robot;
-
 public class RobotState {
     private Robot robot;
     public double droneLauncherArmedPosition = 0.0;
