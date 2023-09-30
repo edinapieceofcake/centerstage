@@ -1,6 +1,6 @@
 package edu.edina.library.enums;
 
-public enum HangerState {
+public enum LiftState {
     Retracting,
     Extending,
     Idle

@@ -22,6 +22,8 @@ public class RobotState {
     public double perpDownPosition = 1.0;
     public double hangerRetractingPower = -0.5;
     public double hangerExtendingPower = -0.5;
+    public double liftRetractingPower = -0.5;
+    public double liftExtendingPower = -0.5;
     public List<AprilTagDetection> detections;
 
     public RobotState() {

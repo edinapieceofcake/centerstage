@@ -13,7 +13,7 @@ public class RobotHanger extends Subsystem {
 
     @Override
     public void init() {
-        hangerState = HangerState.Inactive;
+        hangerState = HangerState.Idle;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class RobotHanger extends Subsystem {
                 case Extending:
                     robot.RobotHardware.robotHangerMotor.setPower(robot.RobotState.hangerExtendingPower);
                     break;
-                case Inactive:
+                case Idle:
                     robot.RobotHardware.robotHangerMotor.setPower(0);
                     break;
             }
@@ -41,7 +41,7 @@ public class RobotHanger extends Subsystem {
         } else if (toggleRetract) {
             hangerState = HangerState.Retracting;
         } else {
-            hangerState = HangerState.Inactive;
+            hangerState = HangerState.Idle;
         }
     }
 }

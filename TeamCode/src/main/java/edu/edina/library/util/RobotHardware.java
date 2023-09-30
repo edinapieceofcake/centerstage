@@ -3,6 +3,7 @@ package edu.edina.library.util;
 import com.acmerobotics.roadrunner.ftc.LynxFirmware;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -79,5 +80,16 @@ public class RobotHardware {
 
         topLiftMotor = hardwareMap.get(DcMotorEx.class, "topLiftMotor");
         bottomLiftMotor = hardwareMap.get(DcMotorEx.class, "bottomLiftMotor");
+
+        topLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        topLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        topLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        bottomLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bottomLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bottomLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        leftLiftServo.setPosition(0);
+        rightLiftServo.setPosition(0);
     }
 }
