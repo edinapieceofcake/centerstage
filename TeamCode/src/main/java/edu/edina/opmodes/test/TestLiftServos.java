@@ -4,10 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import edu.edina.library.util.Smartgamepad;
+import edu.edina.library.util.SmartGamepad;
 
 @TeleOp
 //@Disabled
@@ -16,7 +15,7 @@ public class TestLiftServos extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Smartgamepad pad1 = new Smartgamepad(gamepad1);
+        SmartGamepad pad1 = new SmartGamepad(gamepad1);
         Servo rightLiftServo = hardwareMap.get(Servo.class, "rightLiftServo");
         Servo leftLiftServo = hardwareMap.get(Servo.class, "leftLiftServo");
         DcMotorEx topLiftMotor = hardwareMap.get(DcMotorEx.class, "topLiftMotor");

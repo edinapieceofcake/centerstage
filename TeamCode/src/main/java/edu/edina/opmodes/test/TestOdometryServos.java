@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import edu.edina.library.util.Smartgamepad;
+import edu.edina.library.util.SmartGamepad;
 
 @TeleOp
 //@Disabled
@@ -12,7 +12,7 @@ public class TestOdometryServos extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Smartgamepad pad1 = new Smartgamepad(gamepad1);
+        SmartGamepad pad1 = new SmartGamepad(gamepad1);
         Servo par0Servo = hardwareMap.get(Servo.class, "par0Servo");
         Servo par1Servo = hardwareMap.get(Servo.class, "par1Servo");
         Servo perpServo = hardwareMap.get(Servo.class, "perpServo");

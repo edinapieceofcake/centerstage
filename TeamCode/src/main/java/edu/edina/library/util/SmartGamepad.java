@@ -2,7 +2,7 @@ package edu.edina.library.util;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-public class Smartgamepad {
+public class SmartGamepad {
 
     private Gamepad gamepad;
 
@@ -16,7 +16,7 @@ public class Smartgamepad {
     private boolean left_bumper_down, right_bumper_down;
     private boolean left_stick_button_down, right_stick_button_down;
 
-    public Smartgamepad(Gamepad gamepad) {
+    public SmartGamepad(Gamepad gamepad) {
         this.gamepad = gamepad;
     }
 

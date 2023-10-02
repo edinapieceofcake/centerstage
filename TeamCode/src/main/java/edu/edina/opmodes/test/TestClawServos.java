@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import edu.edina.library.util.Smartgamepad;
+import edu.edina.library.util.SmartGamepad;
 
 @TeleOp
 //@Disabled
@@ -12,7 +12,7 @@ public class TestClawServos extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Smartgamepad pad1 = new Smartgamepad(gamepad1);
+        SmartGamepad pad1 = new SmartGamepad(gamepad1);
         Servo leftClawServo = hardwareMap.get(Servo.class, "leftClawServo");
         Servo rightClawServo = hardwareMap.get(Servo.class, "rightClawServo");
 

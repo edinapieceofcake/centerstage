@@ -37,9 +37,11 @@ public class Lift extends Subsystem{
                     break;
             }
 
-            double servoPosition = (1/maxLiftTicks) * robot.RobotHardware.topLiftMotor.getCurrentPosition() - 0.26;
-            robot.RobotHardware.leftLiftServo.setPosition(servoPosition);
-            robot.RobotHardware.rightLiftServo.setPosition(servoPosition);
+            robot.RobotState.currentLiftPosition = robot.RobotHardware.topLiftMotor.getCurrentPosition();
+            robot.RobotState.currentLiftServoPosition = (1/maxLiftTicks) * robot.RobotState.currentLiftPosition - 0.26;
+            robot.RobotHardware.leftLiftServo.setPosition(robot.RobotState.currentLiftServoPosition);
+            robot.RobotHardware.rightLiftServo.setPosition(robot.RobotState.currentLiftServoPosition);
+
         }
     }
 

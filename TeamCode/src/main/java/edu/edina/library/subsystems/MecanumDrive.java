@@ -21,7 +21,7 @@ public class MecanumDrive extends Subsystem {
         this.robot = robot;
     }
 
-    public void setDriveProperties(double leftStickX, double leftStickY, double rightStickX){
+    public void setProperties(double leftStickX, double leftStickY, double rightStickX){
         this.leftStickX = ScaleMotorCube(leftStickX);
         this.leftStickY = ScaleMotorCube(leftStickY);
         this.rightStickX = ScaleMotorCube(rightStickX);

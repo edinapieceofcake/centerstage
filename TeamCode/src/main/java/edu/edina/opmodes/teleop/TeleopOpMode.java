@@ -3,17 +3,17 @@ package edu.edina.opmodes.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import edu.edina.library.util.Robot;
-import edu.edina.library.util.Smartgamepad;
+import edu.edina.library.util.SmartGamepad;
 
 public class TeleopOpMode extends OpMode {
     protected Robot robot;
-    protected Smartgamepad _gamepad1;
-    protected Smartgamepad _gamepad2;
+    protected SmartGamepad _gamepad1;
+    protected SmartGamepad _gamepad2;
 
     @Override
     public void init() {
-        _gamepad1 = new Smartgamepad(gamepad1);
-        _gamepad2 = new Smartgamepad(gamepad2);
+        _gamepad1 = new SmartGamepad(gamepad1);
+        _gamepad2 = new SmartGamepad(gamepad2);
     }
 
     @Override
@@ -33,17 +33,15 @@ public class TeleopOpMode extends OpMode {
         _gamepad1.update();
         _gamepad2.update();
 
-        robot.DroneLauncher.setProperties(_gamepad2.y);
-
-        //robot.Lift.setLiftProperties(_gamepad1.dpad_up, _gamepad1.dpad_down, _gamepad1.a, _gamepad1.b);
-
-        robot.MecanumDrive.setDriveProperties(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
+        robot.MecanumDrive.setProperties(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
 
         robot.Claw.setProperties(_gamepad1.left_bumper, _gamepad1.right_bumper);
 
+        robot.Lift.setProperties(gamepad1.left_trigger != 0, gamepad1.right_trigger != 0);
+
         robot.RobotHanger.setProperties(gamepad2.left_bumper, gamepad2.right_bumper);
 
-        robot.Lift.setProperties(gamepad1.left_trigger != 0, gamepad1.right_trigger != 0);
+        robot.DroneLauncher.setProperties(_gamepad2.y);
 
         robot.update();
         robot.telemetry();
