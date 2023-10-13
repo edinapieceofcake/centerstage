@@ -1,6 +1,7 @@
 package edu.edina.library.util;
 
 import com.acmerobotics.roadrunner.ftc.LynxFirmware;
+import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -35,6 +36,8 @@ public class RobotHardware {
     public final DcMotorEx topLiftMotor, bottomLiftMotor;
 
     public final WebcamName webcamName;
+
+    public final HuskyLens huskyLens;
 
     public RobotHardware(HardwareMap hardwareMap) {
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
@@ -91,5 +94,7 @@ public class RobotHardware {
 
         leftLiftServo.setPosition(0);
         rightLiftServo.setPosition(0);
+
+        huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
     }
 }
