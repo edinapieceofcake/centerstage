@@ -24,22 +24,24 @@ public class TestClawServos extends LinearOpMode {
         while (opModeIsActive()) {
             pad1.update();
 
-            if (pad1.dpad_left) {
+            if (pad1.dpad_up) {
                 leftClawServo.setPosition(leftClawServo.getPosition() + .01);
             }
 
-            if (pad1.dpad_right) {
+            if (pad1.dpad_down) {
                 leftClawServo.setPosition(leftClawServo.getPosition() - .01);
             }
 
-            if (pad1.x) {
+            if (pad1.y) {
                 rightClawServo.setPosition(rightClawServo.getPosition() + .01);
             }
 
-            if (pad1.b) {
+            if (pad1.a) {
                 rightClawServo.setPosition(rightClawServo.getPosition() - .01);
             }
 
+            telemetry.addData("Dpad up/down controls the left claw", "");
+            telemetry.addData("y, a controls the right claw", "");
             telemetry.addData("Left Claw Position: ", leftClawServo.getPosition());
             telemetry.addData("Right Claw Position: ", rightClawServo.getPosition());
 
