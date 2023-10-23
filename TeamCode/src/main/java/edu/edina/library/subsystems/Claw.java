@@ -8,6 +8,7 @@ public class Claw extends Subsystem {
     private ClawState leftClawState;
     private ClawState rightClawState;
 
+
     public Claw(Robot robot) {
         this.robot = robot;
     }

@@ -11,6 +11,7 @@ import java.util.concurrent.ExecutorService;
 
 import edu.edina.library.subsystems.Claw;
 import edu.edina.library.subsystems.DroneLauncher;
+import edu.edina.library.subsystems.HuskyLensSubsystem;
 import edu.edina.library.subsystems.Lift;
 import edu.edina.library.subsystems.MecanumDrive;
 import edu.edina.library.subsystems.RobotHanger;
@@ -29,6 +30,7 @@ public class Robot {
     public Claw Claw;
     public DroneLauncher DroneLauncher;
     public RobotHanger RobotHanger;
+    public HuskyLensSubsystem HuskyLensSubsystem;
     private Runnable subsystemUpdateRunnable = () -> {
         while (!Thread.currentThread().isInterrupted()) {
             internal_update();
@@ -41,24 +43,22 @@ public class Robot {
         this.RobotHardware = new RobotHardware(map);
 
         this.Lift = new Lift(this);
-
         subsystems.add(this.Lift);
 
         this.MecanumDrive = new MecanumDrive(this);
-
         subsystems.add(this.MecanumDrive);
 
         this.Claw = new Claw(this);
-
         subsystems.add(this.Claw);
 
         this.RobotHanger = new RobotHanger(this);
-
         subsystems.add(this.RobotHanger);
 
         this.DroneLauncher = new DroneLauncher(this);
-
         subsystems.add(this.DroneLauncher);
+
+        this.HuskyLensSubsystem = new HuskyLensSubsystem(this);
+        subsystems.add(this.HuskyLensSubsystem);
         
         if (this.runMultiThreaded) {
             // setup the thread executor
