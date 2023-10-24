@@ -27,8 +27,8 @@ public class ConfigureLift extends LinearOpMode {
         Servo twistClawServo = hardwareMap.get(Servo.class, "twistClawServo");
         Servo angleClawServo = hardwareMap.get(Servo.class, "angleClawServo");
 
-        rightLiftServo.setPosition(.5);
-        leftLiftServo.setPosition(.5);
+        rightLiftServo.setPosition(0);
+        leftLiftServo.setPosition(0);
 
         twistClawServo.setPosition(.5);
         angleClawServo.setPosition(.5);

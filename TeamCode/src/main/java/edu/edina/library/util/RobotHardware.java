@@ -6,6 +6,7 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -39,6 +40,8 @@ public class RobotHardware {
 
     public final HuskyLens huskyLens;
 
+    public final DigitalChannel liftSwitch;
+
     public RobotHardware(HardwareMap hardwareMap) {
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
 
@@ -59,9 +62,9 @@ public class RobotHardware {
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
-        par0 = hardwareMap.get(DcMotorEx.class, "par0");
-        par1 = hardwareMap.get(DcMotorEx.class, "par1");
-        perp = hardwareMap.get(DcMotorEx.class, "perp");
+        par0 = hardwareMap.get(DcMotorEx.class, "rightFront");
+        par1 = hardwareMap.get(DcMotorEx.class, "rightBack");
+        perp = hardwareMap.get(DcMotorEx.class, "leftFront");
 
         webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
 
@@ -96,5 +99,7 @@ public class RobotHardware {
         rightLiftServo.setPosition(0);
 
         huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
+
+        liftSwitch = hardwareMap.get(DigitalChannel.class, "liftSwitch");
     }
 }
