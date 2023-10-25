@@ -58,9 +58,6 @@ public class Robot {
         this.DroneLauncher = new DroneLauncher(this);
         subsystems.add(this.DroneLauncher);
 
-        this.HuskyLensSubsystem = new HuskyLensSubsystem(this);
-        subsystems.add(this.HuskyLensSubsystem);
-        
         if (this.runMultiThreaded) {
             // setup the thread executor
             subsystemUpdateExecutor = ThreadPool.newSingleThreadExecutor("subsystem update");

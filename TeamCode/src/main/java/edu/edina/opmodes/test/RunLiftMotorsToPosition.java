@@ -1,12 +1,13 @@
 package edu.edina.opmodes.test;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 @TeleOp
-//@Disabled
+@Disabled
 public class RunLiftMotorsToPosition extends LinearOpMode {
     private final double maxLiftTicks = 2000;
 

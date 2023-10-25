@@ -6,6 +6,7 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -36,8 +37,6 @@ public class RobotHardware {
 
     public final DcMotorEx topLiftMotor, bottomLiftMotor;
 
-    public final WebcamName webcamName;
-
     public final HuskyLens huskyLens;
 
     public final DigitalChannel liftSwitch;
@@ -66,8 +65,6 @@ public class RobotHardware {
         par1 = hardwareMap.get(DcMotorEx.class, "rightBack");
         perp = hardwareMap.get(DcMotorEx.class, "leftFront");
 
-        webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
-
         par0Servo = hardwareMap.get(Servo.class, "par0Servo");
         par1Servo = hardwareMap.get(Servo.class, "par1Servo");
         perpServo = hardwareMap.get(Servo.class, "perpServo");
@@ -87,9 +84,15 @@ public class RobotHardware {
         topLiftMotor = hardwareMap.get(DcMotorEx.class, "topLiftMotor");
         bottomLiftMotor = hardwareMap.get(DcMotorEx.class, "bottomLiftMotor");
 
+        //huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
+        huskyLens = null;
+
+        liftSwitch = hardwareMap.get(DigitalChannel.class, "liftSwitch");
+
         topLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         topLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         topLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        topLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         bottomLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bottomLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -97,9 +100,5 @@ public class RobotHardware {
 
         leftLiftServo.setPosition(0);
         rightLiftServo.setPosition(0);
-
-        huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
-
-        liftSwitch = hardwareMap.get(DigitalChannel.class, "liftSwitch");
     }
 }

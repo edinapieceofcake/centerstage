@@ -2,13 +2,14 @@ package edu.edina.opmodes.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import edu.edina.library.util.SmartGamepad;
 
 @TeleOp
 //@Disabled
-public class TestOdometryServos extends LinearOpMode {
+public class TestOdometryServoAndWheels extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -16,6 +17,10 @@ public class TestOdometryServos extends LinearOpMode {
         Servo par0Servo = hardwareMap.get(Servo.class, "par0Servo");
         Servo par1Servo = hardwareMap.get(Servo.class, "par1Servo");
         Servo perpServo = hardwareMap.get(Servo.class, "perpServo");
+
+        DcMotorEx par0 = hardwareMap.get(DcMotorEx.class, "rightFront");
+        DcMotorEx par1 = hardwareMap.get(DcMotorEx.class, "rightBack");
+        DcMotorEx perp = hardwareMap.get(DcMotorEx.class, "leftFront");
 
         par0Servo.setPosition(.5);
         par1Servo.setPosition(.5);
@@ -53,6 +58,10 @@ public class TestOdometryServos extends LinearOpMode {
             telemetry.addData("par0 Servo", par0Servo.getPosition());
             telemetry.addData("par1 Servo", par1Servo.getPosition());
             telemetry.addData("perp Servo", perpServo.getPosition());
+
+            telemetry.addData("par0 Location", par0.getCurrentPosition());
+            telemetry.addData("par1 Location", par1.getCurrentPosition());
+            telemetry.addData("perp Location", perp.getCurrentPosition());
 
             telemetry.update();
         }
