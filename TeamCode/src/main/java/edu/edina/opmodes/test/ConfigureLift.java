@@ -43,6 +43,8 @@ public class ConfigureLift extends LinearOpMode {
         twistClawServo.setPosition(.96);
         angleClawServo.setPosition(.32);
 
+//        left claw closed position is 0.83
+//        right claw closed position is 0.25
         leftClawServo.setPosition(.92);
         rightClawServo.setPosition(.08);
 
