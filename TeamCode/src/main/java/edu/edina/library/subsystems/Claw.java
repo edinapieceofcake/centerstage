@@ -21,8 +21,8 @@ public class Claw extends Subsystem {
 
     @Override
     public void start() {
-        robot.RobotHardware.leftClawServo.setPosition(robot.RobotState.clawLeftOpenPosition);
-        robot.RobotHardware.rightClawServo.setPosition(robot.RobotState.clawRightOpenPosition);
+        robot.RobotHardware.leftClawServo.setPosition(robot.RobotConfiguration.clawLeftOpenPosition);
+        robot.RobotHardware.rightClawServo.setPosition(robot.RobotConfiguration.clawRightOpenPosition);
     }
 
     @Override
@@ -30,19 +30,19 @@ public class Claw extends Subsystem {
         if (robot.Started) {
             switch (leftClawState) {
                 case Opened:
-                    robot.RobotHardware.leftClawServo.setPosition(robot.RobotState.clawLeftOpenPosition);
+                    robot.RobotHardware.leftClawServo.setPosition(robot.RobotConfiguration.clawLeftOpenPosition);
                     break;
                 case Closed:
-                    robot.RobotHardware.leftClawServo.setPosition(robot.RobotState.clawLeftClosedPosition);
+                    robot.RobotHardware.leftClawServo.setPosition(robot.RobotConfiguration.clawLeftClosedPosition);
                     break;
             }
 
             switch (rightClawState) {
                 case Opened:
-                    robot.RobotHardware.rightClawServo.setPosition(robot.RobotState.clawRightOpenPosition);
+                    robot.RobotHardware.rightClawServo.setPosition(robot.RobotConfiguration.clawRightOpenPosition);
                     break;
                 case Closed:
-                    robot.RobotHardware.rightClawServo.setPosition(robot.RobotState.clawRightClosedPosition);
+                    robot.RobotHardware.rightClawServo.setPosition(robot.RobotConfiguration.clawRightClosedPosition);
                     break;
             }
         }

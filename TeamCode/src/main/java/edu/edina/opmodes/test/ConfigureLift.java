@@ -130,6 +130,7 @@ public class ConfigureLift extends LinearOpMode {
             telemetry.addData("y, a controls the right claw", "");
             telemetry.addData("Dpad left/right controls twist servo", "");
             telemetry.addData("x, b controls the angle servo", "");
+            telemetry.addData("press left stick, press right stick controls the drone launcher", "");
 
             telemetry.addData("=======================================================", "");
 

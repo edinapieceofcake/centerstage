@@ -24,12 +24,12 @@ public class Lift extends Subsystem{
         if (robot.Started) {
             switch (liftState) {
                 case Retracting:
-                    robot.RobotHardware.topLiftMotor.setPower(robot.RobotState.liftRetractingPower);
-                    robot.RobotHardware.bottomLiftMotor.setPower(robot.RobotState.liftRetractingPower);
+                    robot.RobotHardware.topLiftMotor.setPower(robot.RobotConfiguration.liftRetractingPower);
+                    robot.RobotHardware.bottomLiftMotor.setPower(robot.RobotConfiguration.liftRetractingPower);
                     break;
                 case Extending:
-                    robot.RobotHardware.topLiftMotor.setPower(robot.RobotState.liftExtendingPower);
-                    robot.RobotHardware.bottomLiftMotor.setPower(robot.RobotState.liftExtendingPower);
+                    robot.RobotHardware.topLiftMotor.setPower(robot.RobotConfiguration.liftExtendingPower);
+                    robot.RobotHardware.bottomLiftMotor.setPower(robot.RobotConfiguration.liftExtendingPower);
                     break;
                 case Idle:
                     robot.RobotHardware.topLiftMotor.setPower(0);

@@ -6,24 +6,6 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import java.util.List;
 
 public class RobotState {
-    public double droneLauncherArmedPosition = 0.0;
-    public double droneLauncherLaunchedPosition = 1.0;
-    public double clawLeftOpenPosition = 1.0;
-    public double clawLeftClosedPosition = 0.0;
-    public double clawRightClosedPosition = 0.0;
-    public double clawRightOpenPosition = 1.0;
-    public double twistClawServoPickUpPosition = 0.0;
-    public double twistClawServoDropOffPosition = 1.0;
-    public double par0UpPosition = 1.0;
-    public double par0DownPosition = 0.0;
-    public double par1DownPosition = 0.0;
-    public double par1UpPosition = 1.0;
-    public double perpUpPosition = 0.0;
-    public double perpDownPosition = 1.0;
-    public double hangerRetractingPower = -0.5;
-    public double hangerExtendingPower = -0.5;
-    public double liftRetractingPower = -0.5;
-    public double liftExtendingPower = -0.5;
     public double currentLiftPosition;
     public double currentLiftServoPosition;
     public List<AprilTagDetection> detections;

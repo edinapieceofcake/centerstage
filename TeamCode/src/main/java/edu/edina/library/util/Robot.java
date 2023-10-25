@@ -22,6 +22,7 @@ public class Robot {
     public boolean Started;
     private boolean runMultiThreaded;
     public RobotState RobotState = new RobotState();
+    public RobotConfiguration RobotConfiguration = new RobotConfiguration();
     public RobotHardware RobotHardware;
     private List<Subsystem> subsystems = new ArrayList<>();
     private Telemetry telemetry;

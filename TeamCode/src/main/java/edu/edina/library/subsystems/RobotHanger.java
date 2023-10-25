@@ -24,10 +24,10 @@ public class RobotHanger extends Subsystem {
         if (robot.Started) {
             switch (hangerState) {
                 case Retracting:
-                    robot.RobotHardware.robotHangerMotor.setPower(robot.RobotState.hangerRetractingPower);
+                    robot.RobotHardware.robotHangerMotor.setPower(robot.RobotConfiguration.hangerRetractingPower);
                     break;
                 case Extending:
-                    robot.RobotHardware.robotHangerMotor.setPower(robot.RobotState.hangerExtendingPower);
+                    robot.RobotHardware.robotHangerMotor.setPower(robot.RobotConfiguration.hangerExtendingPower);
                     break;
                 case Idle:
                     robot.RobotHardware.robotHangerMotor.setPower(0);
