@@ -2,6 +2,7 @@ package edu.edina.library.subsystems;
 
 import edu.edina.library.enums.DroneLauncherState;
 import edu.edina.library.util.Robot;
+import edu.edina.library.util.RobotConfiguration;
 
 public class DroneLauncher extends Subsystem {
     private Robot robot;
@@ -14,7 +15,7 @@ public class DroneLauncher extends Subsystem {
     @Override
     public void init() {
         this.state = DroneLauncherState.Armed;
-        this.robot.RobotHardware.droneLaunchServo.setPosition(this.robot.RobotConfiguration.droneLauncherArmedPosition);
+        this.robot.RobotHardware.droneLaunchServo.setPosition(RobotConfiguration.getInstance().droneLauncherArmedPosition);
     }
 
     @Override
@@ -25,11 +26,11 @@ public class DroneLauncher extends Subsystem {
         if (robot.Started) {
             switch (state) {
                 case Armed:
-                    this.robot.RobotHardware.droneLaunchServo.setPosition(this.robot.RobotConfiguration.droneLauncherArmedPosition);
+                    this.robot.RobotHardware.droneLaunchServo.setPosition(RobotConfiguration.getInstance().droneLauncherArmedPosition);
                     break;
                 case Launched:
                 default:
-                    this.robot.RobotHardware.droneLaunchServo.setPosition(this.robot.RobotConfiguration.droneLauncherLaunchedPosition);
+                    this.robot.RobotHardware.droneLaunchServo.setPosition(RobotConfiguration.getInstance().droneLauncherLaunchedPosition);
                     break;
             }
         }

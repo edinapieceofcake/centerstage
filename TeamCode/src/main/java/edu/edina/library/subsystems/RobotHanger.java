@@ -2,6 +2,7 @@ package edu.edina.library.subsystems;
 
 import edu.edina.library.enums.HangerState;
 import edu.edina.library.util.Robot;
+import edu.edina.library.util.RobotConfiguration;
 
 public class RobotHanger extends Subsystem {
     private Robot robot;
@@ -24,10 +25,10 @@ public class RobotHanger extends Subsystem {
         if (robot.Started) {
             switch (hangerState) {
                 case Retracting:
-                    robot.RobotHardware.robotHangerMotor.setPower(robot.RobotConfiguration.hangerRetractingPower);
+                    robot.RobotHardware.robotHangerMotor.setPower(RobotConfiguration.getInstance().hangerRetractingPower);
                     break;
                 case Extending:
-                    robot.RobotHardware.robotHangerMotor.setPower(robot.RobotConfiguration.hangerExtendingPower);
+                    robot.RobotHardware.robotHangerMotor.setPower(RobotConfiguration.getInstance().hangerExtendingPower);
                     break;
                 case Idle:
                     robot.RobotHardware.robotHangerMotor.setPower(0);

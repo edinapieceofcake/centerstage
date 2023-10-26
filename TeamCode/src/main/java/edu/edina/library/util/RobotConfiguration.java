@@ -1,6 +1,7 @@
 package edu.edina.library.util;
 
 public class RobotConfiguration {
+    private static RobotConfiguration robotConfiguration = null;
     public double droneLauncherArmedPosition = 0.6;
     public double droneLauncherLaunchedPosition = 0;
     public double clawLeftOpenPosition = 0.92;
@@ -21,12 +22,20 @@ public class RobotConfiguration {
     public double twistClawServoDropOffPosition = 0.27;
     public double angleClawPickupPosition = 0.32;
     public double angleClawDrivePosition = 0.35;
-    public int liftDrivePosition = -20;
-    public int liftPickupPosition = -20;
-    public int liftDropOffLowPosition = -300;
-    public int liftDropOffHighPosition = -400;
-    public int minimumExtensionBeforeTwistingAtZeroLift = 360;
-    public int minimumExtensionBeforeRaisingLift = 100;
+    public double liftDrivePosition = -20;
+    public double liftPickupPosition = -20;
+    public double liftDropOffLowPosition = -300;
+    public double liftDropOffHighPosition = -400;
+    public double minimumExtensionBeforeTwistingAtZeroLift = 360;
+    public double minimumExtensionBeforeRaisingLift = 100;
+    public double startingLiftServoPosition = 0.26;
 
-    public RobotConfiguration() {}
+    public static synchronized RobotConfiguration getInstance()
+    {
+        if (robotConfiguration == null) {
+            robotConfiguration = new RobotConfiguration();
+        }
+
+        return robotConfiguration;
+    }
 }

@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import edu.edina.library.util.Robot;
+import edu.edina.library.util.RobotConfiguration;
 
 public class MecanumDrive extends Subsystem {
     private double leftStickX;
@@ -32,9 +33,9 @@ public class MecanumDrive extends Subsystem {
 
     @Override
     public void start() {
-        robot.RobotHardware.par0Servo.setPosition(robot.RobotConfiguration.par0UpPosition);
-        robot.RobotHardware.par1Servo.setPosition(robot.RobotConfiguration.par1UpPosition);
-        robot.RobotHardware.perpServo.setPosition(robot.RobotConfiguration.perpUpPosition);
+        robot.RobotHardware.par0Servo.setPosition(RobotConfiguration.getInstance().par0UpPosition);
+        robot.RobotHardware.par1Servo.setPosition(RobotConfiguration.getInstance().par1UpPosition);
+        robot.RobotHardware.perpServo.setPosition(RobotConfiguration.getInstance().perpUpPosition);
     }
 
     @Override
