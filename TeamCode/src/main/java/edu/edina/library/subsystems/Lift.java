@@ -3,6 +3,7 @@ package edu.edina.library.subsystems;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import edu.edina.library.enums.LiftDriveState;
+import edu.edina.library.enums.LiftServoState;
 import edu.edina.library.enums.LiftSlideState;
 import edu.edina.library.util.Robot;
 import edu.edina.library.util.RobotConfiguration;
@@ -24,6 +25,8 @@ public class Lift extends Subsystem{
     @Override
     public void start() {
         robot.RobotState.currentLiftServoPosition = RobotConfiguration.getInstance().startingLiftServoPosition;
+        robot.RobotHardware.leftLiftServo.setPosition(.5);
+        robot.RobotHardware.rightLiftServo.setPosition(.5);
     }
 
     @Override
@@ -49,6 +52,17 @@ public class Lift extends Subsystem{
                         robot.RobotHardware.bottomLiftMotor.setPower(0);
                         break;
                 }
+
+                switch (robot.RobotState.currentLiftServoState) {
+                    case Rising:
+                        robot.RobotHardware.leftLiftServo.setPosition(robot.RobotHardware.leftLiftServo.getPosition() + 0.1);
+                        robot.RobotHardware.rightLiftServo.setPosition(robot.RobotHardware.rightLiftServo.getPosition() + 0.1);
+                        break;
+                    case Falling:
+                        robot.RobotHardware.leftLiftServo.setPosition(robot.RobotHardware.leftLiftServo.getPosition() - 0.1);
+                        robot.RobotHardware.rightLiftServo.setPosition(robot.RobotHardware.rightLiftServo.getPosition() - 0.1);
+                        break;
+                }
             } else {
 
             }
@@ -72,7 +86,8 @@ public class Lift extends Subsystem{
         }
     }
 
-    public void setProperties(boolean closeLift, boolean openLift, boolean a, boolean x, boolean y, boolean b) {
+    public void setProperties(boolean closeLift, boolean openLift, boolean a, boolean x, boolean y, boolean b,
+                              boolean dpadUp, boolean dpadDown) {
         if (openLift) {
             robot.RobotState.currentLiftSlideState = LiftSlideState.Extending;
             robot.RobotState.currentLiftDriveState = LiftDriveState.Manual;
@@ -91,6 +106,18 @@ public class Lift extends Subsystem{
             robot.RobotState.currentLiftDriveState = LiftDriveState.LowDropOff;
         } else if (b) {
             robot.RobotState.currentLiftDriveState = LiftDriveState.HighDropOff;
+        }
+
+        if (dpadUp) {
+            robot.RobotState.currentLiftServoState = LiftServoState.Rising;
+            robot.RobotHardware.leftLiftServo.setPosition(robot.RobotHardware.leftLiftServo.getPosition() + 0.1);
+            robot.RobotHardware.rightLiftServo.setPosition(robot.RobotHardware.rightLiftServo.getPosition() + 0.1);
+        } else if (dpadDown) {
+            robot.RobotState.currentLiftServoState = LiftServoState.Falling;
+            robot.RobotHardware.leftLiftServo.setPosition(robot.RobotHardware.leftLiftServo.getPosition() - 0.1);
+            robot.RobotHardware.rightLiftServo.setPosition(robot.RobotHardware.rightLiftServo.getPosition() - 0.1);
+        } else {
+            robot.RobotState.currentLiftServoState = LiftServoState.Idle;
         }
     }
 

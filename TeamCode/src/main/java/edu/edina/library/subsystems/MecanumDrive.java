@@ -52,6 +52,6 @@ public class MecanumDrive extends Subsystem {
     }
 
     public static double ScaleMotorCube(double joyStickPosition) {
-        return (double) Math.pow(joyStickPosition, 3.0);
+        return (double) Math.pow(joyStickPosition, 3.0) * 1.3;
     }
 }

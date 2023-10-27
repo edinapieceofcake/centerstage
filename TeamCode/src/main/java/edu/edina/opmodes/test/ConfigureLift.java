@@ -79,10 +79,10 @@ public class ConfigureLift extends LinearOpMode {
                 rightClawServo.setPosition(rightClawServo.getPosition() - .01);
             }
 
-            if (gamepad1.left_trigger != 0) {
+            if (gamepad1.right_trigger != 0) {
                 topLiftMotor.setPower(.25);
                 bottomLiftMotor.setPower(.25);
-            } else if (gamepad1.right_trigger != 0) {
+            } else if (gamepad1.left_trigger != 0) {
                 topLiftMotor.setPower(-0.25);
                 bottomLiftMotor.setPower(-0.25);
             } else {
@@ -90,30 +90,37 @@ public class ConfigureLift extends LinearOpMode {
                 bottomLiftMotor.setPower(0);
             }
 
-            if (pad1.left_bumper) {
+            if (gamepad1.right_bumper) {
                 rightLiftServo.setPosition(rightLiftServo.getPosition() + .01);
                 leftLiftServo.setPosition(leftLiftServo.getPosition() + .01);
             }
 
-            if (pad1.right_bumper) {
+            if (gamepad1.left_bumper) {
                 rightLiftServo.setPosition(rightLiftServo.getPosition() - .01);
                 leftLiftServo.setPosition(leftLiftServo.getPosition() - .01);
             }
 
             if (pad1.dpad_left) {
-                twistClawServo.setPosition(twistClawServo.getPosition() + .01);
+//                twistClawServo.setPosition(twistClawServo.getPosition() + .01);
+                twistClawServo.setPosition(0.28);
+                angleClawServo.setPosition(1);
             }
 
             if (pad1.dpad_right) {
-                twistClawServo.setPosition(twistClawServo.getPosition() - .01);
+//                twistClawServo.setPosition(twistClawServo.getPosition() - .01);
+                twistClawServo.setPosition(0.96);
+                angleClawServo.setPosition(0.32);
             }
 
             if (pad1.x) {
-                angleClawServo.setPosition(angleClawServo.getPosition() + .01);
+                angleClawServo.setPosition(angleClawServo.getPosition() + .1);
+//                angleClawServo.setPosition(1);
             }
 
+
             if (pad1.b) {
-                angleClawServo.setPosition(angleClawServo.getPosition() - .01);
+                angleClawServo.setPosition(angleClawServo.getPosition() - .1);
+//                angleClawServo.setPosition(0);
             }
 
             if (gamepad1.left_stick_button) {
