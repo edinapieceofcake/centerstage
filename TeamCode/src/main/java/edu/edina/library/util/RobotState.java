@@ -3,6 +3,7 @@ package edu.edina.library.util;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
+import edu.edina.library.enums.DropOffState;
 import edu.edina.library.enums.LiftDriveState;
 import edu.edina.library.enums.LiftServoState;
 import edu.edina.library.enums.LiftSlideState;
@@ -17,6 +18,9 @@ public class RobotState {
     public LiftDriveState currentLiftDriveState;
     public int liftTargetPosition = 0;
     public TwistServoState twistServoState;
+    public double currentLiftAngle;
+    public double currentLiftLength;
+    public DropOffState dropOffState;
 
     public RobotState() {
         currentLiftSlidePower = 0.0;

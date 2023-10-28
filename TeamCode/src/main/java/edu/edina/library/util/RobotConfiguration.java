@@ -30,6 +30,7 @@ public class RobotConfiguration {
     public int minimumExtensionBeforeTwistingAtZeroLift = 360;
     public int minimumExtensionBeforeRaisingLift = 100;
     public double startingLiftServoPosition = 0.26;
+    public double minimumHeightToTwistServo = 10;
 
     public static synchronized RobotConfiguration getInstance()
     {

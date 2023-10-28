@@ -31,6 +31,13 @@ public class Claw extends Subsystem {
     @Override
     public void update() {
         if (robot.Started) {
+            double liftHeight = robot.RobotState.currentLiftLength * Math.sin(robot.RobotState.currentLiftAngle);
+            if (liftHeight > RobotConfiguration.getInstance().minimumHeightToTwistServo) {
+                robot.RobotState.twistServoState = TwistServoState.DropOff;
+            } else {
+                robot.RobotState.twistServoState = TwistServoState.Pickup;
+            }
+
             switch (robot.RobotState.currentLiftDriveState) {
                 case Drive:
                     robot.RobotHardware.angleClawServo.setPosition(RobotConfiguration.getInstance().angleClawDrivePosition);
