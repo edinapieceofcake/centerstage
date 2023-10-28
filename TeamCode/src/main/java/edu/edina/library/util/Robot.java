@@ -109,7 +109,7 @@ public class Robot {
     }
 
     public void telemetry() {
-        RobotState.telemetry(this.telemetry);
+        RobotState.telemetry(this.telemetry, this.RobotHardware);
         telemetry.update();
     }
 }

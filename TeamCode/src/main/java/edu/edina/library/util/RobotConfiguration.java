@@ -16,18 +16,19 @@ public class RobotConfiguration {
     public double perpDownPosition = 1.0;
     public double hangerRetractingPower = -0.5;
     public double hangerExtendingPower = 0.5;
-    public double liftRetractingPower = -0.25;
-    public double liftExtendingPower = 0.25;
+    public double liftRetractingPower = -1;
+    public double liftExtendingPower = 1;
     public double twistClawServoPickUpPosition = 0.96;
-    public double twistClawServoDropOffPosition = 0.27;
+    public double twistClawServoDropOffPosition = 0.28;
     public double angleClawPickupPosition = 0.32;
     public double angleClawDrivePosition = 0.35;
-    public double liftDrivePosition = -20;
-    public double liftPickupPosition = -20;
-    public double liftDropOffLowPosition = -300;
-    public double liftDropOffHighPosition = -400;
-    public double minimumExtensionBeforeTwistingAtZeroLift = 360;
-    public double minimumExtensionBeforeRaisingLift = 100;
+    public double angleClawDropOffPosition = 1.0;
+    public int liftDrivePosition = -50;
+    public int liftPickupPosition = -20;
+    public int liftLowDropOffPostion = -200;
+    public int liftHighDropOffPosition = -550;
+    public int minimumExtensionBeforeTwistingAtZeroLift = 360;
+    public int minimumExtensionBeforeRaisingLift = 100;
     public double startingLiftServoPosition = 0.26;
 
     public static synchronized RobotConfiguration getInstance()

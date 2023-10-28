@@ -92,7 +92,6 @@ public class RobotHardware {
         topLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         topLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         topLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        topLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         bottomLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bottomLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
