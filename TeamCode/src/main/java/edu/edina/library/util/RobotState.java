@@ -6,6 +6,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import edu.edina.library.enums.LiftDriveState;
 import edu.edina.library.enums.LiftServoState;
 import edu.edina.library.enums.LiftSlideState;
+import edu.edina.library.enums.TwistServoState;
 
 public class RobotState {
     public int currentTopMotorPosition;
@@ -15,11 +16,13 @@ public class RobotState {
     public double currentLiftServoPosition;
     public LiftDriveState currentLiftDriveState;
     public int liftTargetPosition = 0;
+    public TwistServoState twistServoState;
 
     public RobotState() {
         currentLiftSlidePower = 0.0;
         currentLiftDriveState = LiftDriveState.Manual;
         currentLiftServoState = LiftServoState.Idle;
+        twistServoState = TwistServoState.Pickup;
     }
 
     public void telemetry(Telemetry telemetry, RobotHardware hardware) {
@@ -30,6 +33,7 @@ public class RobotState {
         telemetry.addData("LiftDriveState", currentLiftDriveState);
         telemetry.addData("Current Lift Servo Position", currentLiftServoPosition);
         telemetry.addData("liftTargetPosition", liftTargetPosition);
+        telemetry.addData("Twist Servo State: ", twistServoState);
 
         if (hardware != null) {
             telemetry.addData("Left Front Power, Current", "%f %f", hardware.leftFront.getPower(), hardware.leftFront.getCurrent(CurrentUnit.MILLIAMPS));

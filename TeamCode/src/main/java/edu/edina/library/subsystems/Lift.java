@@ -105,13 +105,13 @@ public class Lift extends Subsystem{
         }
     }
 
-    public void setProperties(double leftTrigger, double rightTrigger, boolean a, boolean x, boolean y, boolean b,
+    public void setProperties(double rightTrigger, double leftTrigger, boolean a, boolean x, boolean y, boolean b,
                               boolean dpadUp, boolean dpadDown) {
         if (leftTrigger != 0) {
-            robot.RobotState.currentLiftSlidePower = -leftTrigger;
+            robot.RobotState.currentLiftSlidePower = leftTrigger;
             robot.RobotState.currentLiftDriveState = Manual;
         } else if (rightTrigger != 0) {
-            robot.RobotState.currentLiftSlidePower = rightTrigger;
+            robot.RobotState.currentLiftSlidePower = -rightTrigger;
             robot.RobotState.currentLiftDriveState = Manual;
         } else {
             robot.RobotState.currentLiftSlidePower = 0;

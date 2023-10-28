@@ -101,12 +101,14 @@ public class ConfigureLift extends LinearOpMode {
             }
 
             if (pad1.dpad_left) {
+//                DropOff
 //                twistClawServo.setPosition(twistClawServo.getPosition() + .01);
                 twistClawServo.setPosition(0.28);
                 angleClawServo.setPosition(1);
             }
 
             if (pad1.dpad_right) {
+//                Pick Up
 //                twistClawServo.setPosition(twistClawServo.getPosition() - .01);
                 twistClawServo.setPosition(0.96);
                 angleClawServo.setPosition(0.32);

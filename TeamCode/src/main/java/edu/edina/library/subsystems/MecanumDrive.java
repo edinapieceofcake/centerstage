@@ -45,7 +45,7 @@ public class MecanumDrive extends Subsystem {
                         -leftStickY,
                         -leftStickX
                 ),
-                -rightStickX
+                (-rightStickX/1.5)
         ));
 
         drive.updatePoseEstimate();
