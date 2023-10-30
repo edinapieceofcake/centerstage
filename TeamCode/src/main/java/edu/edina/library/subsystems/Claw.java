@@ -4,6 +4,8 @@ import edu.edina.library.enums.ClawState;
 import edu.edina.library.enums.TwistServoState;
 import edu.edina.library.util.Robot;
 import edu.edina.library.util.RobotConfiguration;
+import edu.edina.library.util.RobotHardware;
+import edu.edina.library.util.RobotState;
 
 public class Claw extends Subsystem {
     private Robot robot;
@@ -30,45 +32,51 @@ public class Claw extends Subsystem {
 
     @Override
     public void update() {
+        RobotState state = RobotState.getInstance();
+        RobotHardware hardware = robot.RobotHardware;
+        RobotConfiguration config = RobotConfiguration.getInstance();
+
         if (robot.Started) {
-            double liftHeight = robot.RobotState.currentLiftLength * Math.sin(robot.RobotState.currentLiftAngle);
-            if (liftHeight > RobotConfiguration.getInstance().minimumHeightToTwistServo) {
-                robot.RobotState.twistServoState = TwistServoState.DropOff;
+            if ((state.currentLiftHeight > config.minimumHeightToTwistServoInInches) &&
+                (state.currentTopMotorPosition < config.minimumExtensionBeforeTwistingInTicks)){
+                // make sure we are at a minimum distance and height. height won't work by itself as we could be
+                // tucked in and hit the hubs
+               state.twistServoState = TwistServoState.DropOff;
             } else {
-                robot.RobotState.twistServoState = TwistServoState.Pickup;
+               state.twistServoState = TwistServoState.Pickup;
             }
 
-            switch (robot.RobotState.currentLiftDriveState) {
+            switch (state.currentLiftDriveState) {
                 case Drive:
-                    robot.RobotHardware.angleClawServo.setPosition(RobotConfiguration.getInstance().angleClawDrivePosition);
+                    hardware.angleClawServo.setPosition(config.angleClawDrivePosition);
                     break;
             }
             switch (leftClawState) {
                 case Opened:
-                    robot.RobotHardware.leftClawServo.setPosition(RobotConfiguration.getInstance().clawLeftOpenPosition);
+                    hardware.leftClawServo.setPosition(config.clawLeftOpenPosition);
                     break;
                 case Closed:
-                    robot.RobotHardware.leftClawServo.setPosition(RobotConfiguration.getInstance().clawLeftClosedPosition);
+                    hardware.leftClawServo.setPosition(config.clawLeftClosedPosition);
                     break;
             }
 
             switch (rightClawState) {
                 case Opened:
-                    robot.RobotHardware.rightClawServo.setPosition(RobotConfiguration.getInstance().clawRightOpenPosition);
+                    hardware.rightClawServo.setPosition(config.clawRightOpenPosition);
                     break;
                 case Closed:
-                    robot.RobotHardware.rightClawServo.setPosition(RobotConfiguration.getInstance().clawRightClosedPosition);
+                    hardware.rightClawServo.setPosition(config.clawRightClosedPosition);
                     break;
             }
 
-            switch (robot.RobotState.twistServoState) {
+            switch (state.twistServoState) {
                 case Pickup:
-                    robot.RobotHardware.twistClawServo.setPosition(RobotConfiguration.getInstance().twistClawServoPickUpPosition);
-                    robot.RobotHardware.angleClawServo.setPosition(RobotConfiguration.getInstance().angleClawPickupPosition);
+                    hardware.twistClawServo.setPosition(config.twistClawServoPickUpPosition);
+                    hardware.angleClawServo.setPosition(config.angleClawPickupPosition);
                     break;
                 case DropOff:
-                    robot.RobotHardware.twistClawServo.setPosition(RobotConfiguration.getInstance().twistClawServoDropOffPosition);
-                    robot.RobotHardware.angleClawServo.setPosition(RobotConfiguration.getInstance().angleClawDropOffPosition);
+                    hardware.twistClawServo.setPosition(config.twistClawServoDropOffPosition);
+                    hardware.angleClawServo.setPosition(config.angleClawDropOffPosition);
                     break;
             }
         }
@@ -92,9 +100,9 @@ public class Claw extends Subsystem {
         }
 
         if (leftDpad) {
-            robot.RobotState.twistServoState = TwistServoState.DropOff;
+           RobotState.getInstance().twistServoState = TwistServoState.DropOff;
         } else if (rightDpad) {
-            robot.RobotState.twistServoState = TwistServoState.Pickup;
+           RobotState.getInstance().twistServoState = TwistServoState.Pickup;
         }
     }
 }

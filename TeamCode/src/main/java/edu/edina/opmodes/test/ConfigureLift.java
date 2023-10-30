@@ -51,7 +51,6 @@ public class ConfigureLift extends LinearOpMode {
         topLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         topLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         topLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        topLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         bottomLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bottomLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -90,12 +89,12 @@ public class ConfigureLift extends LinearOpMode {
                 bottomLiftMotor.setPower(0);
             }
 
-            if (gamepad1.right_bumper) {
+            if (pad1.right_bumper) {
                 rightLiftServo.setPosition(rightLiftServo.getPosition() + .01);
                 leftLiftServo.setPosition(leftLiftServo.getPosition() + .01);
             }
 
-            if (gamepad1.left_bumper) {
+            if (pad1.left_bumper) {
                 rightLiftServo.setPosition(rightLiftServo.getPosition() - .01);
                 leftLiftServo.setPosition(leftLiftServo.getPosition() - .01);
             }

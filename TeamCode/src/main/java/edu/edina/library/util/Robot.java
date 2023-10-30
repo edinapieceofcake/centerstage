@@ -21,7 +21,6 @@ public class Robot {
     private ExecutorService subsystemUpdateExecutor;
     public boolean Started;
     private boolean runMultiThreaded;
-    public RobotState RobotState = new RobotState();
     public RobotHardware RobotHardware;
     private List<Subsystem> subsystems = new ArrayList<>();
     private Telemetry telemetry;
@@ -109,7 +108,7 @@ public class Robot {
     }
 
     public void telemetry() {
-        RobotState.telemetry(this.telemetry, this.RobotHardware);
+        RobotState.getInstance().telemetry(this.telemetry, this.RobotHardware);
         telemetry.update();
     }
 }
