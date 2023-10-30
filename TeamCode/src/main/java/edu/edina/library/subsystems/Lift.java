@@ -111,6 +111,35 @@ public class Lift extends Subsystem{
                     }
                 } else if ((state.currentLiftDriveState == LiftDriveState.Pickup) ||
                         (state.currentLiftDriveState == LiftDriveState.Drive)) {
+                    if (state.pickUpState == PickUpState.Start) {
+                        hardware.topLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks);
+                        hardware.bottomLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks);
+                        hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        hardware.topLiftMotor.setPower(config.liftExtendingPower);
+                        hardware.bottomLiftMotor.setPower(config.liftExtendingPower);
+                        state.pickUpState = PickUpState.FirstRetraction;
+                    } else if (state.pickUpState == PickUpState.FirstRetraction) {
+                        if (hardware.topLiftMotor.getCurrentPosition() < (config.minimumExtensionBeforeRaisingLiftInTicks + 10)) {
+                            state.pickUpState = PickUpState.DropArm;
+                            state.currentLiftServoPosition = config.startingLiftServoPosition;
+                            highLiftDelay.reset();
+                        }
+                    } else if (state.pickUpState == PickUpState.DropArm) {
+                        if (highLiftDelay.hasExpired()) {
+                            state.pickUpState = PickUpState.SecondRetraction;
+                        }
+                    } else if (state.pickUpState == PickUpState.SecondRetraction) {
+                        if (state.currentLiftDriveState == LiftDriveState.Drive) {
+                            hardware.topLiftMotor.setTargetPosition(config.liftDrivePosition);
+                            hardware.bottomLiftMotor.setTargetPosition(config.liftDrivePosition);
+                        } else {
+                            hardware.topLiftMotor.setTargetPosition(config.liftPickupPosition);
+                            hardware.bottomLiftMotor.setTargetPosition(config.liftPickupPosition);
+                        }
+
+                        state.pickUpState = PickUpState.Finished;
+                    }
                 }
 
                 switch (state.currentLiftDriveState) {
