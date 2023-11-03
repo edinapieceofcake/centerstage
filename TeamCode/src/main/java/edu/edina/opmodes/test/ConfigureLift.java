@@ -21,6 +21,7 @@ public class ConfigureLift extends LinearOpMode {
         SmartGamepad pad1 = new SmartGamepad(gamepad1);
         DcMotorEx topLiftMotor = hardwareMap.get(DcMotorEx.class, "topLiftMotor");
         DcMotorEx bottomLiftMotor = hardwareMap.get(DcMotorEx.class, "bottomLiftMotor");
+        DcMotorEx reelMotor = hardwareMap.get(DcMotorEx.class, "reelMotor");
 
         Servo rightLiftServo = hardwareMap.get(Servo.class, "rightLiftServo");
         Servo leftLiftServo = hardwareMap.get(Servo.class, "leftLiftServo");
@@ -37,11 +38,11 @@ public class ConfigureLift extends LinearOpMode {
 
         droneLauncher.setPosition(droneStart);
 
-        rightLiftServo.setPosition(0.25);
-        leftLiftServo.setPosition(0.25);
+        rightLiftServo.setPosition(0.95);
+        leftLiftServo.setPosition(0.05);
 
         twistClawServo.setPosition(.96);
-        angleClawServo.setPosition(.32);
+        angleClawServo.setPosition(.42);
 
 //        left claw closed position is 0.83
 //        right claw closed position is 0.25
@@ -79,38 +80,42 @@ public class ConfigureLift extends LinearOpMode {
             }
 
             if (gamepad1.right_trigger != 0) {
-                topLiftMotor.setPower(.25);
-                bottomLiftMotor.setPower(.25);
+                reelMotor.setPower(1);
+//                topLiftMotor.setPower(.25);
+//                bottomLiftMotor.setPower(.25);
             } else if (gamepad1.left_trigger != 0) {
-                topLiftMotor.setPower(-0.25);
-                bottomLiftMotor.setPower(-0.25);
+                reelMotor.setPower(-1);
+//                topLiftMotor.setPower(-0.25);
+//                bottomLiftMotor.setPower(-0.25);
             } else {
-                topLiftMotor.setPower(0);
-                bottomLiftMotor.setPower(0);
+                reelMotor.setPower(0);
+//                topLiftMotor.setPower(0);
+//                bottomLiftMotor.setPower(0);
             }
 
             if (pad1.right_bumper) {
+                // moving up
                 rightLiftServo.setPosition(rightLiftServo.getPosition() + .01);
-                leftLiftServo.setPosition(leftLiftServo.getPosition() + .01);
+                leftLiftServo.setPosition(leftLiftServo.getPosition() - .01);
             }
 
             if (pad1.left_bumper) {
                 rightLiftServo.setPosition(rightLiftServo.getPosition() - .01);
-                leftLiftServo.setPosition(leftLiftServo.getPosition() - .01);
+                leftLiftServo.setPosition(leftLiftServo.getPosition() + .01);
             }
 
             if (pad1.dpad_left) {
 //                DropOff
-//                twistClawServo.setPosition(twistClawServo.getPosition() + .01);
-                twistClawServo.setPosition(0.28);
-                angleClawServo.setPosition(1);
+                twistClawServo.setPosition(twistClawServo.getPosition() + .01);
+//                twistClawServo.setPosition(0.28);
+//                angleClawServo.setPosition(1);
             }
 
             if (pad1.dpad_right) {
 //                Pick Up
-//                twistClawServo.setPosition(twistClawServo.getPosition() - .01);
-                twistClawServo.setPosition(0.96);
-                angleClawServo.setPosition(0.32);
+                twistClawServo.setPosition(twistClawServo.getPosition() - .01);
+//                twistClawServo.setPosition(0.96);
+//                angleClawServo.setPosition(0.32);
             }
 
             if (pad1.x) {
@@ -132,7 +137,7 @@ public class ConfigureLift extends LinearOpMode {
                 droneLauncher.setPosition(0);
             }
 
-            telemetry.addData("Triggers control the lift motors", "");
+            telemetry.addData("Triggers control the reel motor", "");
             telemetry.addData("Bumpers control the lift servos", "");
             telemetry.addData("Dpad up/down controls the left claw", "");
             telemetry.addData("y, a controls the right claw", "");
@@ -146,6 +151,7 @@ public class ConfigureLift extends LinearOpMode {
             telemetry.addData("Right Claw Position: ", rightClawServo.getPosition());
             telemetry.addData("Top Lift Motor Current Position: ", topLiftMotor.getCurrentPosition());
             telemetry.addData("Bottom Lift Motor Current Position: ", bottomLiftMotor.getCurrentPosition());
+            telemetry.addData("Reel Motor Current Position: ", reelMotor.getCurrentPosition());
             telemetry.addData("Left Lift Position: ", leftLiftServo.getPosition());
             telemetry.addData("Right Lift Position: ", rightLiftServo.getPosition());
             telemetry.addData("Twist Claw Position: ", twistClawServo.getPosition());

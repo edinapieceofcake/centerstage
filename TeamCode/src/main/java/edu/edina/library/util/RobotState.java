@@ -18,7 +18,8 @@ public class RobotState {
     public int currentBottomMotorPosition;
     public double currentLiftSlidePower;
     public LiftServoState currentLiftServoState;
-    public double currentLiftServoPosition;
+    public double currentLeftLiftServoPosition;
+    public double currentRightLiftServoPosition;
     public LiftDriveState currentLiftDriveState;
     public LiftSlideState currentLiftSlideState;
     public int liftTargetPosition = 0;
@@ -53,7 +54,8 @@ public class RobotState {
         telemetry.addData("LiftSlidePower", currentLiftSlidePower);
         telemetry.addData("LiftServoState", currentLiftServoState);
         telemetry.addData("LiftDriveState", currentLiftDriveState);
-        telemetry.addData("Current Lift Servo Position", currentLiftServoPosition);
+        telemetry.addData("Current Left Lift Servo Position", currentLeftLiftServoPosition);
+        telemetry.addData("Current Right Servo Position", currentRightLiftServoPosition);
         telemetry.addData("liftTargetPosition", liftTargetPosition);
         telemetry.addData("Twist Servo State: ", twistServoState);
         telemetry.addData("Current Lift Angle, Length, Height: ", "%f %f %f", currentLiftAngle, currentLiftLength, currentLiftHeight);
@@ -68,7 +70,8 @@ public class RobotState {
             telemetry.addData("Top Target", hardware.topLiftMotor.getTargetPosition());
             telemetry.addData("Bottom Target", hardware.bottomLiftMotor.getTargetPosition());
 
-            telemetry.addData("Lift Servo Position", hardware.leftLiftServo.getPosition());
+            telemetry.addData("Left Lift Servo Position", hardware.leftLiftServo.getPosition());
+            telemetry.addData("Right Lift Servo Position", hardware.rightLiftServo.getPosition());
         }
     }
 }

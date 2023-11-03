@@ -31,15 +31,20 @@ public class Lift extends Subsystem{
 
     @Override
     public void init() {
-        RobotState.getInstance().currentLiftDriveState = LiftDriveState.Manual;
-        RobotState.getInstance().currentLiftSlidePower = 0;
+        RobotState state = RobotState.getInstance();
+        RobotHardware hardware = robot.RobotHardware;
+        RobotConfiguration config = RobotConfiguration.getInstance();
+
+        state.currentLiftDriveState = LiftDriveState.Manual;
+        state.currentLiftSlidePower = 0;
+        state.currentLeftLiftServoPosition = config.startingLeftLiftServoPosition;
+        state.currentRightLiftServoPosition = config.startingRightLiftServoPosition;
+        hardware.leftLiftServo.setPosition(state.currentLeftLiftServoPosition);
+        hardware.rightLiftServo.setPosition(state.currentRightLiftServoPosition);
     }
 
     @Override
     public void start() {
-        RobotState.getInstance().currentLiftServoPosition = RobotConfiguration.getInstance().startingLiftServoPosition;
-        robot.RobotHardware.leftLiftServo.setPosition(RobotState.getInstance().currentLiftServoPosition);
-        robot.RobotHardware.rightLiftServo.setPosition(RobotState.getInstance().currentLiftServoPosition);
         liftLimit.expire();
     }
 
@@ -76,10 +81,12 @@ public class Lift extends Subsystem{
                         if (hardware.topLiftMotor.getCurrentPosition() < (config.minimumExtensionBeforeRaisingLiftInTicks + 10)) {
                             state.dropOffState = DropOffState.LiftArm;
                             if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {
-                                state.currentLiftServoPosition = config.lowDropOffServoPosition;
+                                state.currentLeftLiftServoPosition = config.leftLowDropOffServoPosition;
+                                state.currentRightLiftServoPosition = config.rightLowDropOffServoPosition;
                                 lowLiftDelay.reset();
                             } else {
-                                state.currentLiftServoPosition = config.highDropOffServoPosition;
+                                state.currentLeftLiftServoPosition = config.leftHighDropOffServoPosition;
+                                state.currentRightLiftServoPosition = config.rightHighDropOffServoPosition;
                                 highLiftDelay.reset();
                             }
                         }
@@ -124,7 +131,8 @@ public class Lift extends Subsystem{
                     } else if (state.pickUpState == PickUpState.FirstRetraction) {
                         if (hardware.topLiftMotor.getCurrentPosition() < (config.minimumExtensionBeforeRaisingLiftInTicks + 10)) {
                             state.pickUpState = PickUpState.DropArm;
-                            state.currentLiftServoPosition = config.startingLiftServoPosition;
+                            state.currentLeftLiftServoPosition = config.startingLeftLiftServoPosition;
+                            state.currentRightLiftServoPosition = config.startingRightLiftServoPosition;
                             highLiftDelay.reset();
                         }
                     } else if (state.pickUpState == PickUpState.DropArm) {
@@ -160,15 +168,18 @@ public class Lift extends Subsystem{
                     case Rising:
                         if (state.currentTopMotorPosition < config.minimumExtensionBeforeRaisingLiftInTicks) {
                             // we have to be out these ticks before we can even raise it so we don't hit the hubs
-                            state.currentLiftServoPosition += .025;
+                            state.currentLeftLiftServoPosition -= 0.025;
+                            state.currentRightLiftServoPosition += 0.025;
                         }
                         break;
                     case Falling:
-                        state.currentLiftServoPosition -= .025;
+                        state.currentLeftLiftServoPosition += 0.025;
+                        state.currentRightLiftServoPosition -= 0.025;
                         break;
                 }
 
-                state.currentLiftServoPosition = Math.max(RobotConfiguration.getInstance().startingLiftServoPosition, Math.min(1.0, state.currentLiftServoPosition));
+//                state.currentLeftLiftServoPosition = Math.max(RobotConfiguration.getInstance().startingLeftLiftServoPosition, Math.min(1.0, state.currentLeftLiftServoPosition));
+//                state.currentRightLiftServoPosition = Math.max(RobotConfiguration.getInstance().startingRightLiftServoPosition, Math.min(1.0, state.currentRightLiftServoPosition));
                 liftLimit.reset();
             }
 
@@ -186,8 +197,8 @@ public class Lift extends Subsystem{
                 liftMotorReset = false;
             }
 
-            hardware.leftLiftServo.setPosition(state.currentLiftServoPosition);
-            hardware.rightLiftServo.setPosition(state.currentLiftServoPosition);
+            hardware.leftLiftServo.setPosition(state.currentLeftLiftServoPosition);
+            hardware.rightLiftServo.setPosition(state.currentRightLiftServoPosition);
         }
     }
 

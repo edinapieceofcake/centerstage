@@ -3,6 +3,9 @@ package edu.edina.opmodes.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import edu.edina.library.util.Robot;
+import edu.edina.library.util.RobotConfiguration;
+import edu.edina.library.util.RobotHardware;
+import edu.edina.library.util.RobotState;
 import edu.edina.library.util.SmartGamepad;
 
 public class TeleopOpMode extends OpMode {
@@ -16,10 +19,19 @@ public class TeleopOpMode extends OpMode {
         driver2Gamepad = new SmartGamepad(gamepad2);
     }
 
+    // hit after init is called and before play
+    // great place to put vision code to detect where to go for autonomous
     @Override
     public void init_loop() {
-        // hit after init is called and before play
-        // great place to put vision code to detect where to go for autonomous
+        RobotState state = RobotState.getInstance();
+        RobotHardware hardware = robot.RobotHardware;
+        RobotConfiguration config = RobotConfiguration.getInstance();
+
+        telemetry.addData("Current Left Lift Servo Position", state.currentLeftLiftServoPosition);
+        telemetry.addData("Current Right Servo Position", state.currentRightLiftServoPosition);
+
+        telemetry.update();
+
     }
 
     @Override
