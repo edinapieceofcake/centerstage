@@ -5,5 +5,6 @@ public enum PickUpState {
     FirstRetraction,
     DropArm,
     SecondRetraction,
+    WaitForSecondRetraction,
     Finished
 }

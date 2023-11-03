@@ -110,11 +110,13 @@ public class Lift extends Subsystem{
                             if (hardware.topLiftMotor.getCurrentPosition() < (config.liftLowDropOffPosition + 10)) {
                                 state.dropOffState = DropOffState.Finished;
                                 state.currentLiftSlideState = LiftSlideState.Idle;
+                                state.currentLiftDriveState = Manual;
                             }
                         } else {
                             if (hardware.topLiftMotor.getCurrentPosition() < (config.liftHighDropOffPosition + 10)) {
                                 state.dropOffState = DropOffState.Finished;
                                 state.currentLiftSlideState = LiftSlideState.Idle;
+                                state.currentLiftDriveState = Manual;
                             }
                         }
                     }
@@ -147,9 +149,21 @@ public class Lift extends Subsystem{
                             hardware.topLiftMotor.setTargetPosition(config.liftPickupPosition);
                             hardware.bottomLiftMotor.setTargetPosition(config.liftPickupPosition);
                         }
-
-                        state.pickUpState = PickUpState.Finished;
-                        state.currentLiftSlideState = LiftSlideState.Idle;
+                        state.pickUpState = PickUpState.WaitForSecondRetraction;
+                    } else if (state.pickUpState == PickUpState.WaitForSecondRetraction) {
+                        if (state.currentLiftDriveState == LiftDriveState.Drive) {
+                            if (hardware.topLiftMotor.getCurrentPosition() < (config.liftDrivePosition + 10)) {
+                                state.pickUpState = PickUpState.Finished;
+                                state.currentLiftSlideState = LiftSlideState.Idle;
+                                state.currentLiftDriveState = Manual;
+                            }
+                        } else {
+                            if (hardware.topLiftMotor.getCurrentPosition() < (config.liftPickupPosition + 10)) {
+                                state.pickUpState = PickUpState.Finished;
+                                state.currentLiftSlideState = LiftSlideState.Idle;
+                                state.currentLiftDriveState = Manual;
+                            }
+                        }
                     }
                 }
 
