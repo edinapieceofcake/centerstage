@@ -14,6 +14,7 @@ import edu.edina.library.subsystems.DroneLauncher;
 import edu.edina.library.subsystems.HuskyLensSubsystem;
 import edu.edina.library.subsystems.Lift;
 import edu.edina.library.subsystems.MecanumDrive;
+import edu.edina.library.subsystems.Reel;
 import edu.edina.library.subsystems.RobotHanger;
 import edu.edina.library.subsystems.Subsystem;
 
@@ -30,6 +31,7 @@ public class Robot {
     public DroneLauncher DroneLauncher;
     public RobotHanger RobotHanger;
     public HuskyLensSubsystem HuskyLensSubsystem;
+    public Reel Reel;
     private Runnable subsystemUpdateRunnable = () -> {
         while (!Thread.currentThread().isInterrupted()) {
             internal_update();
@@ -55,6 +57,9 @@ public class Robot {
 
         this.DroneLauncher = new DroneLauncher(this);
         subsystems.add(this.DroneLauncher);
+
+        this.Reel = new Reel(this);
+        subsystems.add(this.Reel);
 
         if (this.runMultiThreaded) {
             // setup the thread executor
