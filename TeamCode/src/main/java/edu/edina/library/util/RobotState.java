@@ -36,6 +36,7 @@ public class RobotState {
 
     // Reel Properties
     public ReelState currentReelState;
+    public int reelTargetPosition;
 
     public RobotState() {
         currentLiftSlidePower = 0.0;

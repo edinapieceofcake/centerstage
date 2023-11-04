@@ -3,6 +3,8 @@ package edu.edina.library.subsystems;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import edu.edina.library.enums.LiftDriveState;
+import edu.edina.library.enums.LiftSlideState;
+import edu.edina.library.enums.PickUpState;
 import edu.edina.library.enums.ReelState;
 import edu.edina.library.util.Robot;
 import edu.edina.library.util.RobotConfiguration;
@@ -49,20 +51,51 @@ public class Reel extends Subsystem {
             }
         } else {
             if (state.currentReelState == ReelState.Start) {
-                hardware.reelMotor.setTargetPosition(hardware.reelMotor.getCurrentPosition() + config.reelDistanceForFirstRetraction);
+                state.reelTargetPosition = hardware.reelMotor.getCurrentPosition() + config.reelDistanceForFirstRetraction;
+                hardware.reelMotor.setTargetPosition(state.reelTargetPosition);
                 hardware.reelMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 hardware.reelMotor.setPower(0.5);
                 state.currentReelState = ReelState.FirstRetraction;
             } else if (state.currentReelState == ReelState.FirstRetraction) {
-                if (hardware.reelMotor.getCurrentPosition() < config.reelDistanceForFirstRetraction + 10)
-                if (state.lastKnownLiftState == LiftDriveState.HighDropOff) {
-                    hardware.reelMotor.setTargetPosition(hardware.reelMotor.getCurrentPosition() + config.reelDistanceForHighDrop);
-                    state.currentReelState = ReelState.Drop;
-                } else {
-                    hardware.reelMotor.setTargetPosition(hardware.reelMotor.getCurrentPosition() + config.reelDistanceForLowDrop);
-                    state.currentReelState = ReelState.Drop;
+                if (hardware.reelMotor.getCurrentPosition() < state.reelTargetPosition + 10) {
+                    if (state.lastKnownLiftState == LiftDriveState.HighDropOff) {
+                        state.reelTargetPosition = hardware.reelMotor.getCurrentPosition() + config.reelDistanceForHighDrop;
+                        hardware.reelMotor.setTargetPosition(state.reelTargetPosition);
+                        state.currentReelState = ReelState.Drop;
+                    } else {
+                        state.reelTargetPosition = hardware.reelMotor.getCurrentPosition() + config.reelDistanceForLowDrop;
+                        hardware.reelMotor.setTargetPosition(state.reelTargetPosition);
+                        state.currentReelState = ReelState.Drop;
+                    }
+                }
+            } else if (state.currentReelState == ReelState.Drop) {
+                if (hardware.reelMotor.getCurrentPosition() < state.reelTargetPosition + 10) {
+                    if (state.currentLiftDriveState == LiftDriveState.Drive) {
+                        state.reelTargetPosition = hardware.reelMotor.getCurrentPosition() + config.reelDistanceForDrive;
+                        hardware.reelMotor.setTargetPosition(state.reelTargetPosition);
+                        state.currentReelState = ReelState.SecondRetraction;
+                    } else {
+                        state.reelTargetPosition = hardware.reelMotor.getCurrentPosition() + config.reelDistanceForPickUp;
+                        hardware.reelMotor.setTargetPosition(state.reelTargetPosition);
+                        state.currentReelState = ReelState.SecondRetraction;
+                    }
+                }
+            } else if (state.currentReelState == ReelState.SecondRetraction) {
+                if (hardware.reelMotor.getCurrentPosition() < state.reelTargetPosition + 10) {
+                    state.currentReelState = ReelState.Finished;
+                    hardware.reelMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 }
             }
+        }
+    }
+
+    public void setProperties(boolean a, boolean x) {
+        RobotState state = RobotState.getInstance();
+
+        if (a) {
+            state.currentReelState = ReelState.Start;
+        } else if (x) {
+            state.currentReelState = ReelState.Start;
         }
     }
 }
