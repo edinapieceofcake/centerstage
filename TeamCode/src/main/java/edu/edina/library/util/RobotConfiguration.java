@@ -52,6 +52,13 @@ public class RobotConfiguration {
 
     public double minimumHeightToTwistServoInInches = 9.0;
 
+//    Reel Constants
+    public int reelDistanceForFirstRetraction;
+    public int reelDistanceForHighDrop;
+    public int reelDistanceForLowDrop;
+    public int reelDistanceForDrive;
+    public int reelDistanceForPickUp;
+
     public static synchronized RobotConfiguration getInstance()
     {
         if (robotConfiguration == null) {

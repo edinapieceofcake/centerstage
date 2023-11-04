@@ -8,6 +8,7 @@ import edu.edina.library.enums.LiftDriveState;
 import edu.edina.library.enums.LiftServoState;
 import edu.edina.library.enums.LiftSlideState;
 import edu.edina.library.enums.PickUpState;
+import edu.edina.library.enums.ReelState;
 import edu.edina.library.enums.TwistServoState;
 
 public class RobotState {
@@ -22,6 +23,7 @@ public class RobotState {
     public double currentRightLiftServoPosition;
     public LiftDriveState currentLiftDriveState;
     public LiftSlideState currentLiftSlideState;
+    public LiftDriveState lastKnownLiftState;
     public int liftTargetPosition = 0;
     public DropOffState dropOffState;
     public PickUpState pickUpState;
@@ -31,6 +33,9 @@ public class RobotState {
     public double currentLiftAngle;
     public double currentLiftLength;
     public double currentLiftHeight;
+
+    // Reel Properties
+    public ReelState currentReelState;
 
     public RobotState() {
         currentLiftSlidePower = 0.0;

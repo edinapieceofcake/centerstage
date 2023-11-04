@@ -1,5 +1,7 @@
 package edu.edina.library.subsystems;
 
+import static edu.edina.library.enums.LiftDriveState.HighDropOff;
+import static edu.edina.library.enums.LiftDriveState.LowDropOff;
 import static edu.edina.library.enums.LiftDriveState.Manual;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -111,12 +113,14 @@ public class Lift extends Subsystem{
                                 state.dropOffState = DropOffState.Finished;
                                 state.currentLiftSlideState = LiftSlideState.Idle;
                                 state.currentLiftDriveState = Manual;
+                                state.lastKnownLiftState = LowDropOff;
                             }
                         } else {
                             if (hardware.topLiftMotor.getCurrentPosition() < (config.liftHighDropOffPosition + 10)) {
                                 state.dropOffState = DropOffState.Finished;
                                 state.currentLiftSlideState = LiftSlideState.Idle;
                                 state.currentLiftDriveState = Manual;
+                                state.lastKnownLiftState = HighDropOff;
                             }
                         }
                     }
