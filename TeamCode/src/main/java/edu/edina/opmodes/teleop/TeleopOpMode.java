@@ -56,7 +56,7 @@ public class TeleopOpMode extends OpMode {
 
         robot.DroneLauncher.setProperties(driver2Gamepad.y);
 
-        robot.Reel.setProperties(driver1Gamepad.a, driver1Gamepad.x);
+//        robot.Reel.setProperties(driver1Gamepad.a, driver1Gamepad.x);
 
         robot.update();
         robot.telemetry();

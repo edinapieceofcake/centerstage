@@ -15,7 +15,7 @@ public class RobotConfiguration {
     public double twistClawServoPickUpPosition = 0.96;
     public double twistClawServoDropOffPosition = 0.28;
     public double angleClawPickupPosition = 0.42;
-    public double angleClawDrivePosition = 0.35;
+    public double angleClawDrivePosition = 0.32;
     public double angleClawDropOffPosition = 1.0;
 
     // odo pod servo positions
@@ -27,26 +27,26 @@ public class RobotConfiguration {
     public double perpDownPosition = 1.0;
 
     // lift servo positions
-    public double startingLeftLiftServoPosition = 0.05;
-    public double startingRightLiftServoPosition = 0.95;
-    public double leftLowDropOffServoPosition = .5;
-    public double rightLowDropOffServoPosition = .5;
-    public double leftHighDropOffServoPosition = .75;
-    public double rightHighDropOffServoPosition = .25;
+    public double startingLeftLiftServoPosition = 0.04;
+    public double startingRightLiftServoPosition = 0.99;
+    public double leftLowDropOffServoPosition = .49;
+    public double rightLowDropOffServoPosition = .54;
+    public double leftHighDropOffServoPosition = .69;
+    public double rightHighDropOffServoPosition = .34;
     public double liftServoPositionAtBottomOfHubs = 0.29;
 
     // motor powers
     public double hangerRetractingPower = -0.5;
     public double hangerExtendingPower = 0.5;
-    public double liftRetractingPower = -.25;
-    public double liftExtendingPower = .25;
+    public double liftRetractingPower = -.75;
+    public double liftExtendingPower = 1;
 
     // lift encoder positions
-    public int liftDrivePosition = -50;
-    public int liftPickupPosition = -20;
+    public int liftDrivePosition = 0;
+    public int liftPickupPosition = 0;
     public int liftFirstExtensionDropOffPosition = -120;
-    public int liftLowDropOffPosition = -200;
-    public int liftHighDropOffPosition = -550;
+    public int liftLowDropOffPosition = -600;
+    public int liftHighDropOffPosition = -800;
     public int minimumExtensionBeforeTwistingInTicks = -350;
     public int minimumExtensionBeforeRaisingLiftInTicks = -120;
 

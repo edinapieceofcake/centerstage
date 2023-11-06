@@ -3,6 +3,7 @@ package edu.edina.library.util;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
+import edu.edina.library.enums.AngleClawState;
 import edu.edina.library.enums.DropOffState;
 import edu.edina.library.enums.LiftDriveState;
 import edu.edina.library.enums.LiftServoState;
@@ -30,6 +31,7 @@ public class RobotState {
 
     // claw properties
     public TwistServoState twistServoState;
+    public AngleClawState angleClawState;
     public double currentLiftAngle;
     public double currentLiftLength;
     public double currentLiftHeight;
@@ -41,8 +43,10 @@ public class RobotState {
     public RobotState() {
         currentLiftSlidePower = 0.0;
         currentLiftDriveState = LiftDriveState.Manual;
-        currentLiftServoState = LiftServoState.Idle;
+        currentLiftServoState = LiftServoState.Start;
         twistServoState = TwistServoState.Pickup;
+        angleClawState = AngleClawState.Drive;
+        lastKnownLiftState = LiftDriveState.Drive;
     }
 
     public static synchronized RobotState getInstance()
@@ -60,10 +64,13 @@ public class RobotState {
         telemetry.addData("LiftSlidePower", currentLiftSlidePower);
         telemetry.addData("LiftServoState", currentLiftServoState);
         telemetry.addData("LiftDriveState", currentLiftDriveState);
+        telemetry.addData("LastKnownLiftDriveState", lastKnownLiftState);
+        telemetry.addData("PickUpState", pickUpState);
         telemetry.addData("Current Left Lift Servo Position", currentLeftLiftServoPosition);
         telemetry.addData("Current Right Servo Position", currentRightLiftServoPosition);
         telemetry.addData("liftTargetPosition", liftTargetPosition);
         telemetry.addData("Twist Servo State: ", twistServoState);
+        telemetry.addData("AngleClawState", angleClawState);
         telemetry.addData("Current Lift Angle, Length, Height: ", "%f %f %f", currentLiftAngle, currentLiftLength, currentLiftHeight);
         telemetry.addData("Sin Current Lift Angle", Math.sin(Math.toRadians(currentLiftAngle)));
 

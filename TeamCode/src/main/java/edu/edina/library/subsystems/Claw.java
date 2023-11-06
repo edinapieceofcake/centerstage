@@ -37,20 +37,24 @@ public class Claw extends Subsystem {
         RobotConfiguration config = RobotConfiguration.getInstance();
 
         if (robot.Started) {
-            if ((state.currentLiftHeight > config.minimumHeightToTwistServoInInches) &&
-                (state.currentTopMotorPosition < config.minimumExtensionBeforeTwistingInTicks)){
-                // make sure we are at a minimum distance and height. height won't work by itself as we could be
-                // tucked in and hit the hubs
-               state.twistServoState = TwistServoState.DropOff;
-            } else {
-               state.twistServoState = TwistServoState.Pickup;
-            }
+//            if ((state.currentLiftHeight > config.minimumHeightToTwistServoInInches) &&
+//                (state.currentTopMotorPosition < config.minimumExtensionBeforeTwistingInTicks)){
+//                // make sure we are at a minimum distance and height. height won't work by itself as we could be
+//                // tucked in and hit the hubs
+//               state.twistServoState = TwistServoState.DropOff;
+//            } else {
+//               state.twistServoState = TwistServoState.Pickup;
+//            }
 
             switch (state.currentLiftDriveState) {
                 case Drive:
                     hardware.angleClawServo.setPosition(config.angleClawDrivePosition);
                     break;
+                case Pickup:
+                    hardware.angleClawServo.setPosition(config.angleClawPickupPosition);
+                    break;
             }
+
             switch (leftClawState) {
                 case Opened:
                     hardware.leftClawServo.setPosition(config.clawLeftOpenPosition);
@@ -72,10 +76,20 @@ public class Claw extends Subsystem {
             switch (state.twistServoState) {
                 case Pickup:
                     hardware.twistClawServo.setPosition(config.twistClawServoPickUpPosition);
-                    hardware.angleClawServo.setPosition(config.angleClawPickupPosition);
                     break;
                 case DropOff:
                     hardware.twistClawServo.setPosition(config.twistClawServoDropOffPosition);
+                    break;
+            }
+
+            switch (state.angleClawState) {
+                case Drive:
+                    hardware.angleClawServo.setPosition(config.angleClawDrivePosition);
+                    break;
+                case Pickup:
+                    hardware.angleClawServo.setPosition(config.angleClawPickupPosition);
+                    break;
+                case DropOff:
                     hardware.angleClawServo.setPosition(config.angleClawDropOffPosition);
                     break;
             }

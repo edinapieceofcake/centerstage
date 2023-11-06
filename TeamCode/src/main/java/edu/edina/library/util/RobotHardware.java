@@ -87,6 +87,8 @@ public class RobotHardware {
         bottomLiftMotor = hardwareMap.get(DcMotorEx.class, "bottomLiftMotor");
 
         reelMotor = hardwareMap.get(DcMotorEx.class, "reelMotor");
+        reelMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        reelMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         //huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
         huskyLens = null;

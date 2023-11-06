@@ -31,7 +31,7 @@ public class Robot {
     public DroneLauncher DroneLauncher;
     public RobotHanger RobotHanger;
     public HuskyLensSubsystem HuskyLensSubsystem;
-    public Reel Reel;
+//    public Reel Reel;
     private Runnable subsystemUpdateRunnable = () -> {
         while (!Thread.currentThread().isInterrupted()) {
             internal_update();
@@ -58,8 +58,8 @@ public class Robot {
         this.DroneLauncher = new DroneLauncher(this);
         subsystems.add(this.DroneLauncher);
 
-        this.Reel = new Reel(this);
-        subsystems.add(this.Reel);
+//        this.Reel = new Reel(this);
+//        subsystems.add(this.Reel);
 
         if (this.runMultiThreaded) {
             // setup the thread executor

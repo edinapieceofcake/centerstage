@@ -13,6 +13,8 @@ import edu.edina.library.util.RobotState;
 
 public class Reel extends Subsystem {
     Robot robot;
+    private boolean reelMotorReset = false;
+
     public Reel(Robot robot) {
         this.robot = robot;
     }
@@ -37,7 +39,7 @@ public class Reel extends Subsystem {
             (state.currentLiftDriveState == LiftDriveState.HighDropOff) ||
             (state.currentLiftDriveState == LiftDriveState.LowDropOff)){
 
-            hardware.reelMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            hardware.reelMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             switch (state.currentLiftSlideState) {
                 case Extending:
                     hardware.reelMotor.setPower(0.1);
@@ -83,9 +85,20 @@ public class Reel extends Subsystem {
             } else if (state.currentReelState == ReelState.SecondRetraction) {
                 if (hardware.reelMotor.getCurrentPosition() < state.reelTargetPosition + 10) {
                     state.currentReelState = ReelState.Finished;
-                    hardware.reelMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                    hardware.reelMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 }
             }
+        }
+
+        if (!hardware.liftSwitch.getState()) {
+            if (!reelMotorReset) {
+                hardware.reelMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                hardware.reelMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                hardware.reelMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                reelMotorReset = true;
+            }
+        } else {
+            reelMotorReset = false;
         }
     }
 
