@@ -236,6 +236,8 @@ public class Lift extends Subsystem{
         if (leftTrigger != 0) {
             state.currentLiftDriveState = Manual;
             state.currentLiftSlideState = LiftSlideState.Retracting;
+            hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             if ((hardware.leftLiftServo.getPosition()  > config.liftServoPositionAtBottomOfHubs) &&
                 (state.currentTopMotorPosition > config.minimumExtensionBeforeRaisingLiftInTicks)) {
                 // if we are above the bottom of the hubs, don't let the lift back down into it
@@ -244,10 +246,19 @@ public class Lift extends Subsystem{
                 state.currentLiftSlidePower = leftTrigger * .25;
             }
         } else if (rightTrigger != 0) {
+            hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             state.currentLiftSlidePower = -rightTrigger;
             state.currentLiftDriveState = Manual;
             state.currentLiftSlideState = LiftSlideState.Extending;
         } else {
+            state.liftTargetPosition = hardware.topLiftMotor.getTargetPosition();
+            hardware.topLiftMotor.setTargetPosition(state.liftTargetPosition);
+            hardware.bottomLiftMotor.setTargetPosition(state.liftTargetPosition);
+            hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            hardware.topLiftMotor.setPower(config.liftExtendingPower);
+            hardware.bottomLiftMotor.setPower(config.liftExtendingPower);
             state.currentLiftSlidePower = 0;
             state.currentLiftSlideState = LiftSlideState.Idle;
         }
