@@ -73,6 +73,7 @@ public class Lift extends Subsystem{
                 if ((state.currentLiftDriveState == LiftDriveState.LowDropOff) ||
                     (state.currentLiftDriveState == LiftDriveState.HighDropOff)) {
                     if (state.dropOffState == DropOffState.Start) {
+                        hardware.reelMotor.setPower(0.5);
                         hardware.topLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks);
                         hardware.bottomLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks);
                         hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -112,7 +113,6 @@ public class Lift extends Subsystem{
                                 hardware.bottomLiftMotor.setTargetPosition(config.liftHighDropOffPosition);
                                 state.dropOffState = DropOffState.SecondExtension;
                             }
-
                         }
                     }
 
@@ -125,6 +125,7 @@ public class Lift extends Subsystem{
                                     state.lastKnownLiftState = LowDropOff;
                                     state.twistServoState = TwistServoState.DropOff;
                                     state.angleClawState = AngleClawState.DropOff;
+                                    hardware.reelMotor.setPower(0);
                                 }
                             } else {
                                 if (hardware.topLiftMotor.getCurrentPosition() < (config.liftLowDropOffPosition + 10)) {
@@ -133,6 +134,7 @@ public class Lift extends Subsystem{
                                     state.lastKnownLiftState = LowDropOff;
                                     state.twistServoState = TwistServoState.DropOff;
                                     state.angleClawState = AngleClawState.DropOff;
+                                    hardware.reelMotor.setPower(0);
                                 }
                             }
                         } else {
@@ -142,12 +144,14 @@ public class Lift extends Subsystem{
                                 state.lastKnownLiftState = HighDropOff;
                                 state.twistServoState = TwistServoState.DropOff;
                                 state.angleClawState = AngleClawState.DropOff;
+                                hardware.reelMotor.setPower(0);
                             }
                         }
                     }
                 } else if ((state.currentLiftDriveState == LiftDriveState.Pickup) ||
                         (state.currentLiftDriveState == LiftDriveState.Drive)) {
                     if (state.pickUpState == PickUpState.Start) {
+                        hardware.reelMotor.setPower(-1);
                         hardware.topLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks);
                         hardware.bottomLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks);
                         hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -198,6 +202,7 @@ public class Lift extends Subsystem{
                             state.pickUpState = PickUpState.Finished;
                             state.currentLiftSlideState = LiftSlideState.Idle;
                             state.currentLiftDriveState = Manual;
+                            hardware.reelMotor.setPower(0);
                         }
                     }
                 }
