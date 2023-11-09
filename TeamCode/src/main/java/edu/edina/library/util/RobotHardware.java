@@ -41,8 +41,6 @@ public class RobotHardware {
 
     public final DigitalChannel liftSwitch;
 
-    public final DcMotorEx reelMotor;
-
     public RobotHardware(HardwareMap hardwareMap) {
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
 
@@ -86,12 +84,7 @@ public class RobotHardware {
         topLiftMotor = hardwareMap.get(DcMotorEx.class, "topLiftMotor");
         bottomLiftMotor = hardwareMap.get(DcMotorEx.class, "bottomLiftMotor");
 
-        reelMotor = hardwareMap.get(DcMotorEx.class, "reelMotor");
-        reelMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        reelMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-
-        //huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
-        huskyLens = null;
+        huskyLens = hardwareMap.get(HuskyLens.class, "huskyLens");
 
         liftSwitch = hardwareMap.get(DigitalChannel.class, "liftSwitch");
 

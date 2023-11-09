@@ -50,7 +50,7 @@ public class RobotConfiguration {
     public int minimumExtensionBeforeTwistingInTicks = -350;
     public int minimumExtensionBeforeRaisingLiftInTicks = -120;
 
-    public double minimumHeightToTwistServoInInches = 9.0;
+    public double minimumHeightToTwistServoInInches = 12.0;
 
 //    Reel Constants
     public int reelDistanceForFirstRetraction;

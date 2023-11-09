@@ -59,7 +59,7 @@ public class Lift extends Subsystem{
 
         if (robot.Started) {
             state.currentLiftLength = -0.031914 * hardware.topLiftMotor.getCurrentPosition() + 12.117;
-            state.currentLiftAngle = 75 * hardware.leftLiftServo.getPosition() - 0.5;
+            state.currentLiftAngle = 51.111 * hardware.leftLiftServo.getPosition() + 20.956;
             state.currentLiftHeight = state.currentLiftLength * Math.sin(Math.toRadians(state.currentLiftAngle));
             state.currentTopMotorPosition = hardware.topLiftMotor.getCurrentPosition();
             state.currentBottomMotorPosition = hardware.bottomLiftMotor.getCurrentPosition();
@@ -73,7 +73,6 @@ public class Lift extends Subsystem{
                 if ((state.currentLiftDriveState == LiftDriveState.LowDropOff) ||
                     (state.currentLiftDriveState == LiftDriveState.HighDropOff)) {
                     if (state.dropOffState == DropOffState.Start) {
-                        hardware.reelMotor.setPower(0.5);
                         hardware.topLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks);
                         hardware.bottomLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks);
                         hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -117,6 +116,12 @@ public class Lift extends Subsystem{
                     }
 
                     if (state.dropOffState == DropOffState.SecondExtension) {
+                        // twist the claw as soon as we get to 600 just in case the batter doesn't have enough to get to the high position
+                        if (hardware.topLiftMotor.getCurrentPosition() < (config.liftLowDropOffPosition + 10)) {
+                            state.twistServoState = TwistServoState.DropOff;
+                            state.angleClawState = AngleClawState.DropOff;
+                        }
+
                         if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {
                             if (state.lastKnownLiftState == HighDropOff) {
                                 if (hardware.topLiftMotor.getCurrentPosition() > (config.liftLowDropOffPosition - 10)) {
@@ -125,7 +130,6 @@ public class Lift extends Subsystem{
                                     state.lastKnownLiftState = LowDropOff;
                                     state.twistServoState = TwistServoState.DropOff;
                                     state.angleClawState = AngleClawState.DropOff;
-                                    hardware.reelMotor.setPower(0);
                                 }
                             } else {
                                 if (hardware.topLiftMotor.getCurrentPosition() < (config.liftLowDropOffPosition + 10)) {
@@ -134,7 +138,6 @@ public class Lift extends Subsystem{
                                     state.lastKnownLiftState = LowDropOff;
                                     state.twistServoState = TwistServoState.DropOff;
                                     state.angleClawState = AngleClawState.DropOff;
-                                    hardware.reelMotor.setPower(0);
                                 }
                             }
                         } else {
@@ -144,14 +147,12 @@ public class Lift extends Subsystem{
                                 state.lastKnownLiftState = HighDropOff;
                                 state.twistServoState = TwistServoState.DropOff;
                                 state.angleClawState = AngleClawState.DropOff;
-                                hardware.reelMotor.setPower(0);
                             }
                         }
                     }
                 } else if ((state.currentLiftDriveState == LiftDriveState.Pickup) ||
                         (state.currentLiftDriveState == LiftDriveState.Drive)) {
                     if (state.pickUpState == PickUpState.Start) {
-                        hardware.reelMotor.setPower(-1);
                         hardware.topLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks);
                         hardware.bottomLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks);
                         hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -190,7 +191,7 @@ public class Lift extends Subsystem{
                     }
 
                     if (state.pickUpState == PickUpState.WaitForSecondRetraction) {
-                        if (hardware.topLiftMotor.getCurrentPosition() > (config.liftDrivePosition - 10)) {
+                        if (hardware.topLiftMotor.getCurrentPosition() > (config.liftDrivePosition - 20)) {
                             if (state.currentLiftDriveState == LiftDriveState.Drive) {
                                 state.angleClawState = AngleClawState.Drive;
                                 state.lastKnownLiftState = LiftDriveState.Drive;
@@ -199,10 +200,14 @@ public class Lift extends Subsystem{
                                 state.lastKnownLiftState = LiftDriveState.Pickup;
                             }
 
+                            hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                            hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                            hardware.topLiftMotor.setPower(0);
+                            hardware.bottomLiftMotor.setPower(0);
+
                             state.pickUpState = PickUpState.Finished;
                             state.currentLiftSlideState = LiftSlideState.Idle;
                             state.currentLiftDriveState = Manual;
-                            hardware.reelMotor.setPower(0);
                         }
                     }
                 }
@@ -227,8 +232,7 @@ public class Lift extends Subsystem{
         }
     }
 
-    public void setProperties(double rightTrigger, double leftTrigger, boolean a, boolean x, boolean y, boolean b,
-                              boolean dpadUp, boolean dpadDown) {
+    public void setProperties(double rightTrigger, double leftTrigger, boolean a, boolean x, boolean y, boolean b) {
         RobotState state = RobotState.getInstance();
         RobotHardware hardware = robot.RobotHardware;
         RobotConfiguration config = RobotConfiguration.getInstance();
@@ -243,7 +247,7 @@ public class Lift extends Subsystem{
                 // if we are above the bottom of the hubs, don't let the lift back down into it
                 state.currentLiftSlidePower = 0;
             } else {
-                state.currentLiftSlidePower = leftTrigger * .25;
+                state.currentLiftSlidePower = leftTrigger * .5;
             }
         } else if (rightTrigger != 0) {
             hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -252,13 +256,13 @@ public class Lift extends Subsystem{
             state.currentLiftDriveState = Manual;
             state.currentLiftSlideState = LiftSlideState.Extending;
         } else {
-            state.liftTargetPosition = hardware.topLiftMotor.getTargetPosition();
-            hardware.topLiftMotor.setTargetPosition(state.liftTargetPosition);
-            hardware.bottomLiftMotor.setTargetPosition(state.liftTargetPosition);
-            hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            hardware.topLiftMotor.setPower(config.liftExtendingPower);
-            hardware.bottomLiftMotor.setPower(config.liftExtendingPower);
+//            state.liftTargetPosition = hardware.topLiftMotor.getTargetPosition();
+//            hardware.topLiftMotor.setTargetPosition(state.liftTargetPosition);
+//            hardware.bottomLiftMotor.setTargetPosition(state.liftTargetPosition);
+//            hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            hardware.topLiftMotor.setPower(config.liftExtendingPower);
+//            hardware.bottomLiftMotor.setPower(config.liftExtendingPower);
             state.currentLiftSlidePower = 0;
             state.currentLiftSlideState = LiftSlideState.Idle;
         }

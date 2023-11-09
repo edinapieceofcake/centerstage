@@ -86,11 +86,12 @@ public class RobotState {
             telemetry.addData("Left Lift Servo Position", hardware.leftLiftServo.getPosition());
             telemetry.addData("Right Lift Servo Position", hardware.rightLiftServo.getPosition());
 
-            telemetry.addData("Reel Position", hardware.reelMotor.getCurrentPosition());
             telemetry.addData("Top Motor Mode", hardware.topLiftMotor.getMode());
             telemetry.addData("Bottom Motor Mode", hardware.bottomLiftMotor.getMode());
             telemetry.addData("Top Power, Current", "%f %f", hardware.topLiftMotor.getPower(), hardware.topLiftMotor.getCurrent(CurrentUnit.MILLIAMPS));
             telemetry.addData("Bottom Front Power, Current", "%f %f", hardware.bottomLiftMotor.getPower(), hardware.bottomLiftMotor.getCurrent(CurrentUnit.MILLIAMPS));
+
+            telemetry.addData("Lift Switch", hardware.liftSwitch.getState());
         }
     }
 }
