@@ -74,8 +74,8 @@ public class RobotHardware {
         twistClawServo = hardwareMap.get(Servo.class, "twistClawServo");
         angleClawServo = hardwareMap.get(Servo.class, "angleClawServo");
 
-        leftLiftServo = hardwareMap.get(Servo.class, "leftLiftServo");
-        rightLiftServo = hardwareMap.get(Servo.class, "rightLiftServo");
+        leftLiftServo = hardwareMap.get(Servo.class, "rightLiftServo");
+        rightLiftServo = hardwareMap.get(Servo.class, "leftLiftServo");
 
         droneLaunchServo = hardwareMap.get(Servo.class, "droneLaunchServo");
 

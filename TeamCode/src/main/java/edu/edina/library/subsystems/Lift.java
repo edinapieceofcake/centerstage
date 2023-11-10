@@ -245,7 +245,7 @@ public class Lift extends Subsystem{
             if ((hardware.leftLiftServo.getPosition()  > config.liftServoPositionAtBottomOfHubs) &&
                 (state.currentTopMotorPosition > config.minimumExtensionBeforeRaisingLiftInTicks)) {
                 // if we are above the bottom of the hubs, don't let the lift back down into it
-                state.currentLiftSlidePower = 0;
+                //state.currentLiftSlidePower = 0;
             } else {
                 state.currentLiftSlidePower = leftTrigger * .5;
             }
@@ -268,28 +268,37 @@ public class Lift extends Subsystem{
         }
 
         if (a) {
-            state.currentLiftDriveState = LiftDriveState.Pickup;
+            // Pickup
             if (state.lastKnownLiftState == LiftDriveState.Drive || state.lastKnownLiftState == LiftDriveState.Pickup) {
-                state.pickUpState = PickUpState.SecondRetraction;
+                state.angleClawState = AngleClawState.Pickup;
+                state.lastKnownLiftState = LiftDriveState.Pickup;
+                state.pickUpState = PickUpState.Finished;
+                state.currentLiftSlideState = LiftSlideState.Idle;
+                state.currentLiftDriveState = Manual;
             } else {
                 state.pickUpState = PickUpState.Start;
+                state.currentLiftDriveState = LiftDriveState.Pickup;
+                state.currentLiftSlideState = LiftSlideState.Retracting;
             }
-
-            state.currentLiftSlideState = LiftSlideState.Retracting;
         }
 
         if (x) {
-            state.currentLiftDriveState = LiftDriveState.Drive;
+            // drive
             if (state.lastKnownLiftState == LiftDriveState.Drive  || state.lastKnownLiftState == LiftDriveState.Pickup) {
-                state.pickUpState = PickUpState.SecondRetraction;
+                state.angleClawState = AngleClawState.Drive;
+                state.lastKnownLiftState = LiftDriveState.Drive;
+                state.pickUpState = PickUpState.Finished;
+                state.currentLiftSlideState = LiftSlideState.Idle;
+                state.currentLiftDriveState = Manual;
             } else {
                 state.pickUpState = PickUpState.Start;
+                state.currentLiftDriveState = LiftDriveState.Drive;
+                state.currentLiftSlideState = LiftSlideState.Retracting;
             }
-
-            state.currentLiftSlideState = LiftSlideState.Retracting;
         }
 
         if (y) {
+            // low
             state.currentLiftDriveState = LiftDriveState.LowDropOff;
             if (state.lastKnownLiftState == LiftDriveState.LowDropOff  || state.lastKnownLiftState == HighDropOff) {
                 state.dropOffState = DropOffState.FirstExtension;
@@ -301,6 +310,7 @@ public class Lift extends Subsystem{
         }
 
         if (b) {
+            // high
             state.currentLiftDriveState = LiftDriveState.HighDropOff;
             if (state.lastKnownLiftState == LiftDriveState.LowDropOff  || state.lastKnownLiftState == LiftDriveState.HighDropOff) {
                 state.dropOffState = DropOffState.FirstExtension;

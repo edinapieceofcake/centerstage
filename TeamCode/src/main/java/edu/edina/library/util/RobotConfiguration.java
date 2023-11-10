@@ -9,14 +9,15 @@ public class RobotConfiguration {
 
     // claw servo positions
     public double clawLeftOpenPosition = 0.92;
-    public double clawLeftClosedPosition = 0.8;
+    public double clawLeftClosedPosition = 0.75;
     public double clawRightClosedPosition = 0.25;
     public double clawRightOpenPosition = 0.08;
     public double twistClawServoPickUpPosition = 0.96;
     public double twistClawServoDropOffPosition = 0.28;
     public double angleClawPickupPosition = 0.37;
     public double angleClawDrivePosition = 0.23;
-    public double angleClawDropOffPosition = .85;
+    public double angleClawDropOffPosition = .77;
+    public double angleClawHighDropOffPosition = .85;
 
     // odo pod servo positions
     public double par0UpPosition = 1.0;
@@ -27,12 +28,12 @@ public class RobotConfiguration {
     public double perpDownPosition = 1.0;
 
     // lift servo positions
-    public double startingLeftLiftServoPosition = 0.04;
-    public double startingRightLiftServoPosition = 0.99;
-    public double leftLowDropOffServoPosition = .49;
-    public double rightLowDropOffServoPosition = .54;
-    public double leftHighDropOffServoPosition = .69;
-    public double rightHighDropOffServoPosition = .34;
+    public double startingLeftLiftServoPosition = 0.96;
+    public double startingRightLiftServoPosition = 0.1;
+    public double leftLowDropOffServoPosition = .53;
+    public double rightLowDropOffServoPosition = .51;
+    public double leftHighDropOffServoPosition = .33;
+    public double rightHighDropOffServoPosition = .68;
     public double liftServoPositionAtBottomOfHubs = 0.29;
 
     // motor powers

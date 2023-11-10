@@ -225,8 +225,6 @@ public final class MecanumDrive {
 
         localizer = new ThreeDeadWheelLocalizer(hardwareMap, 0.0);
 
-//        localizer = new DriveLocalizer();
-
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
 

@@ -29,8 +29,8 @@ public class ConfigureLift extends LinearOpMode {
         DcMotorEx topLiftMotor = hardwareMap.get(DcMotorEx.class, "topLiftMotor");
         DcMotorEx bottomLiftMotor = hardwareMap.get(DcMotorEx.class, "bottomLiftMotor");
 
-        ServoImplEx rightLiftServo = hardwareMap.get(ServoImplEx.class, "rightLiftServo");
-        ServoImplEx leftLiftServo = hardwareMap.get(ServoImplEx.class, "leftLiftServo");
+        ServoImplEx rightLiftServo = hardwareMap.get(ServoImplEx.class, "leftLiftServo");
+        ServoImplEx leftLiftServo = hardwareMap.get(ServoImplEx.class, "rightLiftServo");
 
         ServoImplEx leftClawServo = hardwareMap.get(ServoImplEx.class, "leftClawServo");
         ServoImplEx rightClawServo = hardwareMap.get(ServoImplEx.class, "rightClawServo");
@@ -44,8 +44,8 @@ public class ConfigureLift extends LinearOpMode {
 
         droneLauncher.setPosition(droneStart);
 
-        rightLiftServo.setPosition(0.95);
-        leftLiftServo.setPosition(0.05);
+        rightLiftServo.setPosition(0.1);
+        leftLiftServo.setPosition(0.96);
 
         twistClawServo.setPosition(.96);
         angleClawServo.setPosition(.42);
@@ -97,14 +97,18 @@ public class ConfigureLift extends LinearOpMode {
                 bottomLiftMotor.setPower(0);
             }
 
-            if (gamepad1.right_bumper) {
+            if (pad1.right_bumper) {
                 // moving up
-//                rightLiftServo.setPosition(.5);
-//                leftLiftServo.setPosition(.5);
-            } else if (gamepad1.left_bumper) {
+//                rightLiftServo.setPosition(rightLiftServo.getPosition() - .01);
+//                leftLiftServo.setPosition(leftLiftServo.getPosition() + .01);
+                leftLiftServo.setPosition(.33);
+                rightLiftServo.setPosition(.68);
+            } else if (pad1.left_bumper) {
                 // intake
-//                rightLiftServo.setPosition(.95);
-//                leftLiftServo.setPosition(.05);
+//                rightLiftServo.setPosition(rightLiftServo.getPosition() + .01);
+//                leftLiftServo.setPosition(leftLiftServo.getPosition() - .01);
+                leftLiftServo.setPosition(.96);
+                rightLiftServo.setPosition(.1);
             }
 
             if (pad1.dpad_left) {
@@ -152,17 +156,17 @@ public class ConfigureLift extends LinearOpMode {
 
             telemetry.addData("Left Claw Position: ", leftClawServo.getPosition());
             telemetry.addData("Right Claw Position: ", rightClawServo.getPosition());
-            telemetry.addData("Top Lift Motor Current Position: ", topLiftMotor.getCurrentPosition());
-            telemetry.addData("Bottom Lift Motor Current Position: ", bottomLiftMotor.getCurrentPosition());
+//            telemetry.addData("Top Lift Motor Current Position: ", topLiftMotor.getCurrentPosition());
+//            telemetry.addData("Bottom Lift Motor Current Position: ", bottomLiftMotor.getCurrentPosition());
             telemetry.addData("Left Lift Position: ", leftLiftServo.getPosition());
             telemetry.addData("Right Lift Position: ", rightLiftServo.getPosition());
-            telemetry.addData("Twist Claw Position: ", twistClawServo.getPosition());
-            telemetry.addData("Angle Claw Position: ", angleClawServo.getPosition());
-            telemetry.addData("Lift Switch: ", liftSwitch.getState());
-            telemetry.addData("Servo Manufacturer", leftLiftServo.getManufacturer().name());
-            telemetry.addData("Par0 (rightFront)(0)", par0.getCurrentPosition());
-            telemetry.addData("Par1 (rightBack)(3)", par1.getCurrentPosition());
-            telemetry.addData("Perp (leftFront)(1)", perp.getCurrentPosition());
+//            telemetry.addData("Twist Claw Position: ", twistClawServo.getPosition());
+//            telemetry.addData("Angle Claw Position: ", angleClawServo.getPosition());
+//            telemetry.addData("Lift Switch: ", liftSwitch.getState());
+//            telemetry.addData("Servo Manufacturer", leftLiftServo.getManufacturer().name());
+//            telemetry.addData("Par0 (rightFront)(0)", par0.getCurrentPosition());
+//            telemetry.addData("Par1 (rightBack)(3)", par1.getCurrentPosition());
+//            telemetry.addData("Perp (leftFront)(1)", perp.getCurrentPosition());
 
             telemetry.update();
         }
