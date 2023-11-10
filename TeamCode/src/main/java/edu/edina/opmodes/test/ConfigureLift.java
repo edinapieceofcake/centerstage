@@ -22,9 +22,12 @@ public class ConfigureLift extends LinearOpMode {
         final double droneStart = 0.6;
         SmartGamepad pad1 = new SmartGamepad(gamepad1);
 
+        DcMotorEx par0 = hardwareMap.get(DcMotorEx.class, "rightFront");
+        DcMotorEx par1 = hardwareMap.get(DcMotorEx.class, "rightBack");
+        DcMotorEx perp = hardwareMap.get(DcMotorEx.class, "leftFront");
+
         DcMotorEx topLiftMotor = hardwareMap.get(DcMotorEx.class, "topLiftMotor");
         DcMotorEx bottomLiftMotor = hardwareMap.get(DcMotorEx.class, "bottomLiftMotor");
-        DcMotorEx reelMotor = hardwareMap.get(DcMotorEx.class, "reelMotor");
 
         ServoImplEx rightLiftServo = hardwareMap.get(ServoImplEx.class, "rightLiftServo");
         ServoImplEx leftLiftServo = hardwareMap.get(ServoImplEx.class, "leftLiftServo");
@@ -60,10 +63,6 @@ public class ConfigureLift extends LinearOpMode {
         bottomLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         bottomLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        reelMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        reelMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        reelMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-
         waitForStart();
 
         while (opModeIsActive()) {
@@ -87,12 +86,10 @@ public class ConfigureLift extends LinearOpMode {
             }
 
             if (gamepad1.right_trigger != 0) {
-                reelMotor.setPower(0);
                 topLiftMotor.setPower(-1);
                 bottomLiftMotor.setPower(-1);
             } else if (gamepad1.left_trigger != 0) {
                 // intake
-                reelMotor.setPower(-1);
                 topLiftMotor.setPower(0.5);
                 bottomLiftMotor.setPower(0.5);
             } else {
@@ -102,16 +99,12 @@ public class ConfigureLift extends LinearOpMode {
 
             if (gamepad1.right_bumper) {
                 // moving up
-                reelMotor.setPower(1);
 //                rightLiftServo.setPosition(.5);
 //                leftLiftServo.setPosition(.5);
             } else if (gamepad1.left_bumper) {
                 // intake
-                reelMotor.setPower(-1);
 //                rightLiftServo.setPosition(.95);
 //                leftLiftServo.setPosition(.05);
-            } else {
-                reelMotor.setPower(0);
             }
 
             if (pad1.dpad_left) {
@@ -161,13 +154,15 @@ public class ConfigureLift extends LinearOpMode {
             telemetry.addData("Right Claw Position: ", rightClawServo.getPosition());
             telemetry.addData("Top Lift Motor Current Position: ", topLiftMotor.getCurrentPosition());
             telemetry.addData("Bottom Lift Motor Current Position: ", bottomLiftMotor.getCurrentPosition());
-            telemetry.addData("Reel Motor Current Position: ", reelMotor.getCurrentPosition());
             telemetry.addData("Left Lift Position: ", leftLiftServo.getPosition());
             telemetry.addData("Right Lift Position: ", rightLiftServo.getPosition());
             telemetry.addData("Twist Claw Position: ", twistClawServo.getPosition());
             telemetry.addData("Angle Claw Position: ", angleClawServo.getPosition());
             telemetry.addData("Lift Switch: ", liftSwitch.getState());
             telemetry.addData("Servo Manufacturer", leftLiftServo.getManufacturer().name());
+            telemetry.addData("Par0 (rightFront)(0)", par0.getCurrentPosition());
+            telemetry.addData("Par1 (rightBack)(3)", par1.getCurrentPosition());
+            telemetry.addData("Perp (leftFront)(1)", perp.getCurrentPosition());
 
             telemetry.update();
         }
