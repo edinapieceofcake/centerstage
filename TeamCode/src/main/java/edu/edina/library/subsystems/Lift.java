@@ -250,15 +250,20 @@ public class Lift extends Subsystem{
             state.currentLiftSlideState = LiftSlideState.Retracting;
             hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            if (state.currentLiftServoState == LiftServoState.Start) {
-                state.currentLiftSlidePower = leftTrigger * .5;
+            if (!hardware.liftSwitch.getState()) {
+                state.currentLiftSlidePower = 0;
+                state.currentLiftSlideState = LiftSlideState.Idle;
             } else {
-                if (state.currentTopMotorPosition > config.minimumExtensionBeforeRaisingLiftInTicks) {
-                    // if we are above the bottom of the hubs, don't let the lift back down into it
-                    state.currentLiftSlidePower = 0;
-                    state.currentLiftSlideState = LiftSlideState.Idle;
-                } else {
+                if (state.currentLiftServoState == LiftServoState.Start) {
                     state.currentLiftSlidePower = leftTrigger * .5;
+                } else {
+                    if (state.currentTopMotorPosition > config.minimumExtensionBeforeRaisingLiftInTicks) {
+                        // if we are above the bottom of the hubs, don't let the lift back down into it
+                        state.currentLiftSlidePower = 0;
+                        state.currentLiftSlideState = LiftSlideState.Idle;
+                    } else {
+                        state.currentLiftSlidePower = leftTrigger * .5;
+                    }
                 }
             }
         } else if (rightTrigger != 0) {
