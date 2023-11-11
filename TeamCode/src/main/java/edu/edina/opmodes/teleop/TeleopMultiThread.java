@@ -1,10 +1,12 @@
 package edu.edina.opmodes.teleop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import edu.edina.library.util.Robot;
 
 @TeleOp(name = "TeleopMultiThread", group = "teleop")
+@Disabled
 public class TeleopMultiThread extends TeleopOpMode {
     @Override
     public void init() {

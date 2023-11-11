@@ -1,5 +1,6 @@
 package edu.edina.opmodes.test;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -14,12 +15,12 @@ import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.SmartGamepad;
 
 @TeleOp
-//@Disabled
+@Disabled
 public class ConfigureLift extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        final double droneStart = 0.6;
+        final double droneStart = 0.7;
         SmartGamepad pad1 = new SmartGamepad(gamepad1);
 
         DcMotorEx par0 = hardwareMap.get(DcMotorEx.class, "rightFront");
@@ -137,11 +138,11 @@ public class ConfigureLift extends LinearOpMode {
             }
 
             if (gamepad1.left_stick_button) {
-                droneLauncher.setPosition(0.6);
+                droneLauncher.setPosition(0.7);
             }
 
             if (gamepad1.right_stick_button) {
-                droneLauncher.setPosition(0);
+                droneLauncher.setPosition(0.1);
             }
 
             telemetry.addData("Triggers control the reel motor", "");

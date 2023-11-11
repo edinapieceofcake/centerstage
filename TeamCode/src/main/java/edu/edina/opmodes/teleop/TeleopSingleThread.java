@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import edu.edina.library.util.Robot;
 
-@TeleOp(name = "TeleopSingleThread", group = "teleop")
+@TeleOp(name = "DriveMe", group = "teleop")
 public class TeleopSingleThread extends TeleopOpMode {
     @Override
     public void init() {

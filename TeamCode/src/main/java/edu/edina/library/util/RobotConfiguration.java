@@ -4,8 +4,8 @@ public class RobotConfiguration {
     private static RobotConfiguration robotConfiguration = null;
 
     // droneservo positions
-    public double droneLauncherArmedPosition = 0.6;
-    public double droneLauncherLaunchedPosition = 0;
+    public double droneLauncherArmedPosition = 0.7;
+    public double droneLauncherLaunchedPosition = 0.1;
 
     // claw servo positions
     public double clawLeftOpenPosition = 0.92;

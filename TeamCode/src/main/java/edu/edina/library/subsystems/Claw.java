@@ -1,6 +1,7 @@
 package edu.edina.library.subsystems;
 
 import edu.edina.library.enums.ClawState;
+import edu.edina.library.enums.LiftServoState;
 import edu.edina.library.enums.TwistServoState;
 import edu.edina.library.util.Robot;
 import edu.edina.library.util.RobotConfiguration;
@@ -90,7 +91,14 @@ public class Claw extends Subsystem {
                     hardware.angleClawServo.setPosition(config.angleClawPickupPosition);
                     break;
                 case DropOff:
-                    hardware.angleClawServo.setPosition(config.angleClawDropOffPosition);
+                    switch (state.currentLiftServoState) {
+                        case Medium:
+                            hardware.angleClawServo.setPosition(config.angleClawDropOffPosition);
+                            break;
+                        case High:
+                            hardware.angleClawServo.setPosition(config.angleClawHighDropOffPosition);
+                            break;
+                    }
                     break;
             }
         }

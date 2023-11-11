@@ -22,9 +22,9 @@ public class TestOdometryServoAndWheels extends LinearOpMode {
         DcMotorEx par1 = hardwareMap.get(DcMotorEx.class, "rightBack");
         DcMotorEx perp = hardwareMap.get(DcMotorEx.class, "leftFront");
 
-        par0Servo.setPosition(.5);
-        par1Servo.setPosition(.5);
-        perpServo.setPosition(.5);
+        par0Servo.setPosition(0); // 0 - up, 1 - down
+        par1Servo.setPosition(1);
+        perpServo.setPosition(0); // 0 - up, 1 - down
 
         waitForStart();
 
@@ -40,20 +40,24 @@ public class TestOdometryServoAndWheels extends LinearOpMode {
             }
 
             if (pad1.left_bumper) {
-                perpServo.setPosition(par0Servo.getPosition() + .01);
+                perpServo.setPosition(perpServo.getPosition() + .01);
             }
 
             if (pad1.right_bumper) {
-                perpServo.setPosition(par0Servo.getPosition() - .01);
+                perpServo.setPosition(perpServo.getPosition() - .01);
             }
 
             if (pad1.y) {
-                par1Servo.setPosition(par0Servo.getPosition() + .01);
+                par1Servo.setPosition(par1Servo.getPosition() + .01);
             }
 
             if (pad1.a) {
-                par1Servo.setPosition(par0Servo.getPosition() - .01);
+                par1Servo.setPosition(par1Servo.getPosition() - .01);
             }
+
+            telemetry.addData("Press dpad up/down to move par0 servo", "");
+            telemetry.addData("Press a/y to move par1 servo.", "");
+            telemetry.addData("Press left/right bumber to move perp servo", "");
 
             telemetry.addData("par0 Servo", par0Servo.getPosition());
             telemetry.addData("par1 Servo", par1Servo.getPosition());

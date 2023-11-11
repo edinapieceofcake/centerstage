@@ -54,7 +54,7 @@ public class TeleopOpMode extends OpMode {
 
         robot.RobotHanger.setProperties(gamepad2.left_bumper, gamepad2.right_bumper);
 
-        robot.DroneLauncher.setProperties(driver2Gamepad.y);
+        robot.DroneLauncher.setProperties(driver2Gamepad.dpad_down);
 
         robot.update();
         robot.telemetry();

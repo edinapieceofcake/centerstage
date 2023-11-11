@@ -170,13 +170,21 @@ public class Lift extends Subsystem{
                             state.currentLeftLiftServoPosition = config.startingLeftLiftServoPosition;
                             state.currentRightLiftServoPosition = config.startingRightLiftServoPosition;
                             highLiftDelay.reset();
+                            lowLiftDelay.reset();
                         }
                     }
 
                     if (state.pickUpState == PickUpState.DropArm) {
-                        if (highLiftDelay.hasExpired()) {
-                            state.currentLiftServoState = LiftServoState.Start;
-                            state.pickUpState = PickUpState.SecondRetraction;
+                        if (state.lastKnownLiftState == HighDropOff) {
+                            if (highLiftDelay.hasExpired()) {
+                                state.currentLiftServoState = LiftServoState.Start;
+                                state.pickUpState = PickUpState.SecondRetraction;
+                            }
+                        } else {
+                            if (lowLiftDelay.hasExpired()) {
+                                state.currentLiftServoState = LiftServoState.Start;
+                                state.pickUpState = PickUpState.SecondRetraction;
+                            }
                         }
                     }
 
@@ -191,7 +199,7 @@ public class Lift extends Subsystem{
                     }
 
                     if (state.pickUpState == PickUpState.WaitForSecondRetraction) {
-                        if (hardware.topLiftMotor.getCurrentPosition() > (config.liftDrivePosition - 20)) {
+                        if (hardware.topLiftMotor.getCurrentPosition() > (config.liftDrivePosition - 10)) {
                             if (state.currentLiftDriveState == LiftDriveState.Drive) {
                                 state.angleClawState = AngleClawState.Drive;
                                 state.lastKnownLiftState = LiftDriveState.Drive;
@@ -242,12 +250,16 @@ public class Lift extends Subsystem{
             state.currentLiftSlideState = LiftSlideState.Retracting;
             hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            if ((hardware.leftLiftServo.getPosition()  > config.liftServoPositionAtBottomOfHubs) &&
-                (state.currentTopMotorPosition > config.minimumExtensionBeforeRaisingLiftInTicks)) {
-                // if we are above the bottom of the hubs, don't let the lift back down into it
-                //state.currentLiftSlidePower = 0;
-            } else {
+            if (state.currentLiftServoState == LiftServoState.Start) {
                 state.currentLiftSlidePower = leftTrigger * .5;
+            } else {
+                if (state.currentTopMotorPosition > config.minimumExtensionBeforeRaisingLiftInTicks) {
+                    // if we are above the bottom of the hubs, don't let the lift back down into it
+                    state.currentLiftSlidePower = 0;
+                    state.currentLiftSlideState = LiftSlideState.Idle;
+                } else {
+                    state.currentLiftSlidePower = leftTrigger * .5;
+                }
             }
         } else if (rightTrigger != 0) {
             hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -256,13 +268,6 @@ public class Lift extends Subsystem{
             state.currentLiftDriveState = Manual;
             state.currentLiftSlideState = LiftSlideState.Extending;
         } else {
-//            state.liftTargetPosition = hardware.topLiftMotor.getTargetPosition();
-//            hardware.topLiftMotor.setTargetPosition(state.liftTargetPosition);
-//            hardware.bottomLiftMotor.setTargetPosition(state.liftTargetPosition);
-//            hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            hardware.topLiftMotor.setPower(config.liftExtendingPower);
-//            hardware.bottomLiftMotor.setPower(config.liftExtendingPower);
             state.currentLiftSlidePower = 0;
             state.currentLiftSlideState = LiftSlideState.Idle;
         }
