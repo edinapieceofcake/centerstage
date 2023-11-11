@@ -92,11 +92,11 @@ public class Claw extends Subsystem {
                     break;
                 case DropOff:
                     switch (state.currentLiftServoState) {
-                        case Medium:
-                            hardware.angleClawServo.setPosition(config.angleClawDropOffPosition);
-                            break;
                         case High:
                             hardware.angleClawServo.setPosition(config.angleClawHighDropOffPosition);
+                            break;
+                        default:
+                            hardware.angleClawServo.setPosition(config.angleClawDropOffPosition);
                             break;
                     }
                     break;
