@@ -35,7 +35,6 @@ public final class ThreeDeadWheelLocalizer implements Localizer {
         this.par1 = new RawEncoder(par1);
         this.perp = new RawEncoder(perp);
 
-
         this.par1.setDirection(DcMotorSimple.Direction.REVERSE);
         this.perp.setDirection(DcMotorSimple.Direction.REVERSE);
 

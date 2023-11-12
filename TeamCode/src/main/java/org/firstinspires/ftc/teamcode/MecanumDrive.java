@@ -56,7 +56,7 @@ public final class MecanumDrive {
         // feedforward parameters (in tick units)
         public double kS = 1.2910169721041824;
         public double kV = 0.0009322128366890543;
-        public double kA = 0;
+        public double kA = 0.00015;
 
         // path profile parameters (in inches)
         public double maxWheelVel = 50;
@@ -68,13 +68,13 @@ public final class MecanumDrive {
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = 0.0;
-        public double lateralGain = 0.0;
-        public double headingGain = 0.0; // shared with turn
+        public double axialGain = 50;
+        public double lateralGain = 50;
+        public double headingGain = 50; // shared with turn
 
-        public double axialVelGain = 0.0;
-        public double lateralVelGain = 0.0;
-        public double headingVelGain = 0.0; // shared with turn
+        public double axialVelGain = 0.5;
+        public double lateralVelGain = 0.25;
+        public double headingVelGain = 0.25; // shared with turn
     }
 
     public static Params PARAMS = new Params();
@@ -188,7 +188,7 @@ public final class MecanumDrive {
 
         this.voltageSensor = voltageSensor;
 
-        localizer = new ThreeDeadWheelLocalizer(par0, par1, perp, 0.0);
+        localizer = new ThreeDeadWheelLocalizer(par0, par1, perp, PARAMS.inPerTick);
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
@@ -223,7 +223,7 @@ public final class MecanumDrive {
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
-        localizer = new ThreeDeadWheelLocalizer(hardwareMap, 0.0);
+        localizer = new ThreeDeadWheelLocalizer(hardwareMap, PARAMS.inPerTick);
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
@@ -254,7 +254,7 @@ public final class MecanumDrive {
 
             List<Double> disps = com.acmerobotics.roadrunner.Math.range(
                     0, t.path.length(),
-                    (int) Math.ceil(t.path.length() / 2));
+                    Math.max(2, (int) Math.ceil(t.path.length() / 2)));
             xPoints = new double[disps.size()];
             yPoints = new double[disps.size()];
             for (int i = 0; i < disps.size(); i++) {
