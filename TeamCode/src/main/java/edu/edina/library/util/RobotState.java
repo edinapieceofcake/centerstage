@@ -9,7 +9,6 @@ import edu.edina.library.enums.LiftDriveState;
 import edu.edina.library.enums.LiftServoState;
 import edu.edina.library.enums.LiftSlideState;
 import edu.edina.library.enums.PickUpState;
-import edu.edina.library.enums.ReelState;
 import edu.edina.library.enums.TwistServoState;
 
 public class RobotState {
@@ -35,10 +34,6 @@ public class RobotState {
     public double currentLiftAngle;
     public double currentLiftLength;
     public double currentLiftHeight;
-
-    // Reel Properties
-    public ReelState currentReelState;
-    public int reelTargetPosition;
 
     public RobotState() {
         currentLiftSlidePower = 0.0;

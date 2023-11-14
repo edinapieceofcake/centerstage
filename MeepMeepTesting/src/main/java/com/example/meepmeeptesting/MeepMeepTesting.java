@@ -91,6 +91,85 @@ public class MeepMeepTesting {
                 .splineTo(new Vector2d(60, -60), Math.toRadians(0))
                 .build());
 
+        // center bot steps
+        RoadRunnerBotEntity centerBotToDropBack = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        centerBotToDropBack.runAction(centerBotToDropBack.getDrive().actionBuilder(new Pose2d(8, -64, Math.toRadians(90)))
+                .splineTo(new Vector2d(48, -35), Math.toRadians(0))
+                .build());
+
+        RoadRunnerBotEntity centerBotToPixel = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        centerBotToPixel.runAction(centerBotToPixel.getDrive().actionBuilder(new Pose2d(48, -35, Math.toRadians(0)))
+                .setReversed(true)
+                .splineTo(new Vector2d(12.5, -36), Math.toRadians(-90))
+                .build());
+
+        RoadRunnerBotEntity centerBotToPark = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        centerBotToPark.runAction(centerBotToPark.getDrive().actionBuilder(new Pose2d(12.5, -36, Math.toRadians(90)))
+                .setReversed(true)
+                .splineTo(new Vector2d(60, -60), Math.toRadians(0))
+                .build());
+
+        // right bot steps
+        RoadRunnerBotEntity rightBotToPixel = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        rightBotToPixel.runAction(rightBotToPixel.getDrive().actionBuilder(new Pose2d(48, -35, Math.toRadians(0)))
+                .setReversed(true)
+                .splineTo(new Vector2d(30, -36), Math.toRadians(0))
+                .build());
+
+        RoadRunnerBotEntity rightBotToPark = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        rightBotToPark.runAction(rightBotToPark.getDrive().actionBuilder(new Pose2d(30, -36, Math.toRadians(180)))
+                .setReversed(true)
+                .splineTo(new Vector2d(60, -60), Math.toRadians(0))
+                .build());
+
+        // left bot steps
+        RoadRunnerBotEntity leftBotToPixel = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        leftBotToPixel.runAction(leftBotToPixel.getDrive().actionBuilder(new Pose2d(48, -35, Math.toRadians(0)))
+                .setReversed(true)
+                .splineTo(new Vector2d(10, -36), Math.toRadians(0))
+                .build());
+
+        RoadRunnerBotEntity leftBotToPark = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        leftBotToPark.runAction(rightBotToPark.getDrive().actionBuilder(new Pose2d(10, -36, Math.toRadians(180)))
+                .setReversed(true)
+                .splineTo(new Vector2d(60, -60), Math.toRadians(0))
+                .build());
+
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_OFFICIAL)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
@@ -100,7 +179,7 @@ public class MeepMeepTesting {
 //                .addEntity(leftSpike)
 //                .addEntity(corner)
 //                .addEntity(middle)
-                .addEntity(centerBot)
+                .addEntity(centerBotToDropBack)
                 .start();
     }
 }

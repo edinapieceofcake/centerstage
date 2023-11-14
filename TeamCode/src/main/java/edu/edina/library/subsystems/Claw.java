@@ -1,6 +1,7 @@
 package edu.edina.library.subsystems;
 
 import edu.edina.library.enums.ClawState;
+import edu.edina.library.enums.LiftDriveState;
 import edu.edina.library.enums.LiftServoState;
 import edu.edina.library.enums.TwistServoState;
 import edu.edina.library.util.Robot;
@@ -38,69 +39,67 @@ public class Claw extends Subsystem {
         RobotConfiguration config = RobotConfiguration.getInstance();
 
         if (robot.Started) {
-//            if ((state.currentLiftHeight > config.minimumHeightToTwistServoInInches) &&
-//                (state.currentTopMotorPosition < config.minimumExtensionBeforeTwistingInTicks)){
-//                // make sure we are at a minimum distance and height. height won't work by itself as we could be
-//                // tucked in and hit the hubs
-//               state.twistServoState = TwistServoState.DropOff;
-//            } else {
-//               state.twistServoState = TwistServoState.Pickup;
-//            }
+            if ((state.currentLiftDriveState == LiftDriveState.Manual) && (state.currentLiftServoState == LiftServoState.Start))
+                if (state.currentLiftHeight > config.minimumHeightToTwistServoInInches) {
+                    state.twistServoState = TwistServoState.DropOff;
+                } else {
+                    state.twistServoState = TwistServoState.Pickup;
+                }
+        }
 
-            switch (state.currentLiftDriveState) {
-                case Drive:
-                    hardware.angleClawServo.setPosition(config.angleClawDrivePosition);
-                    break;
-                case Pickup:
-                    hardware.angleClawServo.setPosition(config.angleClawPickupPosition);
-                    break;
-            }
+        switch (state.currentLiftDriveState) {
+            case Drive:
+                hardware.angleClawServo.setPosition(config.angleClawDrivePosition);
+                break;
+            case Pickup:
+                hardware.angleClawServo.setPosition(config.angleClawPickupPosition);
+                break;
+        }
 
-            switch (leftClawState) {
-                case Opened:
-                    hardware.leftClawServo.setPosition(config.clawLeftOpenPosition);
-                    break;
-                case Closed:
-                    hardware.leftClawServo.setPosition(config.clawLeftClosedPosition);
-                    break;
-            }
+        switch (leftClawState) {
+            case Opened:
+                hardware.leftClawServo.setPosition(config.clawLeftOpenPosition);
+                break;
+            case Closed:
+                hardware.leftClawServo.setPosition(config.clawLeftClosedPosition);
+                break;
+        }
 
-            switch (rightClawState) {
-                case Opened:
-                    hardware.rightClawServo.setPosition(config.clawRightOpenPosition);
-                    break;
-                case Closed:
-                    hardware.rightClawServo.setPosition(config.clawRightClosedPosition);
-                    break;
-            }
+        switch (rightClawState) {
+            case Opened:
+                hardware.rightClawServo.setPosition(config.clawRightOpenPosition);
+                break;
+            case Closed:
+                hardware.rightClawServo.setPosition(config.clawRightClosedPosition);
+                break;
+        }
 
-            switch (state.twistServoState) {
-                case Pickup:
-                    hardware.twistClawServo.setPosition(config.twistClawServoPickUpPosition);
-                    break;
-                case DropOff:
-                    hardware.twistClawServo.setPosition(config.twistClawServoDropOffPosition);
-                    break;
-            }
+        switch (state.twistServoState) {
+            case Pickup:
+                hardware.twistClawServo.setPosition(config.twistClawServoPickUpPosition);
+                break;
+            case DropOff:
+                hardware.twistClawServo.setPosition(config.twistClawServoDropOffPosition);
+                break;
+        }
 
-            switch (state.angleClawState) {
-                case Drive:
-                    hardware.angleClawServo.setPosition(config.angleClawDrivePosition);
-                    break;
-                case Pickup:
-                    hardware.angleClawServo.setPosition(config.angleClawPickupPosition);
-                    break;
-                case DropOff:
-                    switch (state.currentLiftServoState) {
-                        case High:
-                            hardware.angleClawServo.setPosition(config.angleClawHighDropOffPosition);
-                            break;
-                        default:
-                            hardware.angleClawServo.setPosition(config.angleClawDropOffPosition);
-                            break;
-                    }
-                    break;
-            }
+        switch (state.angleClawState) {
+            case Drive:
+                hardware.angleClawServo.setPosition(config.angleClawDrivePosition);
+                break;
+            case Pickup:
+                hardware.angleClawServo.setPosition(config.angleClawPickupPosition);
+                break;
+            case DropOff:
+                switch (state.currentLiftServoState) {
+                    case High:
+                        hardware.angleClawServo.setPosition(config.angleClawHighDropOffPosition);
+                        break;
+                    default:
+                        hardware.angleClawServo.setPosition(config.angleClawLowDropOffPosition);
+                        break;
+                }
+                break;
         }
     }
 
@@ -122,9 +121,9 @@ public class Claw extends Subsystem {
         }
 
         if (leftDpad) {
-           RobotState.getInstance().twistServoState = TwistServoState.DropOff;
+            RobotState.getInstance().twistServoState = TwistServoState.DropOff;
         } else if (rightDpad) {
-           RobotState.getInstance().twistServoState = TwistServoState.Pickup;
+            RobotState.getInstance().twistServoState = TwistServoState.Pickup;
         }
     }
 }

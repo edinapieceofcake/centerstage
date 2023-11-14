@@ -16,7 +16,7 @@ public class RobotConfiguration {
     public double twistClawServoDropOffPosition = 0.28;
     public double angleClawPickupPosition = 0.37;
     public double angleClawDrivePosition = 0.23;
-    public double angleClawDropOffPosition = .77;
+    public double angleClawLowDropOffPosition = .77;
     public double angleClawHighDropOffPosition = .85;
 
     // odo pod servo positions
@@ -43,22 +43,16 @@ public class RobotConfiguration {
     public double liftExtendingPower = 1;
 
     // lift encoder positions
-    public int liftDrivePosition = 0;
+    public int liftDrivePosition = 10;
     public int liftPickupPosition = 0;
     public int liftFirstExtensionDropOffPosition = -120;
     public int liftLowDropOffPosition = -600;
     public int liftHighDropOffPosition = -800;
+    public int liftTwistPosition = -300;
     public int minimumExtensionBeforeTwistingInTicks = -350;
     public int minimumExtensionBeforeRaisingLiftInTicks = -120;
 
     public double minimumHeightToTwistServoInInches = 12.0;
-
-//    Reel Constants
-    public int reelDistanceForFirstRetraction;
-    public int reelDistanceForHighDrop;
-    public int reelDistanceForLowDrop;
-    public int reelDistanceForDrive;
-    public int reelDistanceForPickUp;
 
     public static synchronized RobotConfiguration getInstance()
     {

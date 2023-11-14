@@ -95,8 +95,5 @@ public class RobotHardware {
         bottomLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bottomLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         bottomLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        leftLiftServo.setPosition(0);
-        rightLiftServo.setPosition(0);
     }
 }

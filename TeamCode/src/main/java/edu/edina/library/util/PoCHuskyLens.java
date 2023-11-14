@@ -21,8 +21,8 @@ public class PoCHuskyLens {
 
     private PropLocation propLocation = PropLocation.Left;
 
-    public PoCHuskyLens(HardwareMap hardwareMap, Telemetry telemetry){
-        huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
+    public PoCHuskyLens(HuskyLens huskyLens, Telemetry telemetry){
+        this.huskyLens = huskyLens;
         this.telemetry = telemetry;
     }
 
@@ -47,18 +47,21 @@ public class PoCHuskyLens {
         if (!rateLimit.hasExpired()) {
             return;
         }
+
         rateLimit.reset();
 
         HuskyLens.Block[] blocks = huskyLens.blocks();
         telemetry.addData("Block count", blocks.length);
 
         for (int i = 0; i < blocks.length; i++) {
-            telemetry.addData("Block", blocks[i].toString());
             double ratio = (1.0 - (blocks[i].x / blocks[i].y));
             if (ratio < smallestRatio) {
                 smallestRatio = ratio;
                 smallestBlockLocation = i;
             }
+
+            telemetry.addData("Block", blocks[i].toString());
+            telemetry.addData("Ratio, Picked Location", "%f %d", ratio, smallestBlockLocation);
         }
 
         if (smallestBlockLocation != -1) {
