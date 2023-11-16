@@ -62,6 +62,7 @@ public class RedBackstageActions extends LinearOpMode {
                                 .setReversed(true)
                                 .splineTo(new Vector2d(1, -44), Math.toRadians(-90))
                                 .build(),
+                        dropPixelAtBackBoard.dropPixels(),
                         new SleepAction(1))
                 );
                 break;
