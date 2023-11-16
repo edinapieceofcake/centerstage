@@ -3,6 +3,7 @@ package edu.edina.library.util;
 import com.acmerobotics.roadrunner.ftc.LynxFirmware;
 import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.hardware.lynx.LynxModule;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -40,6 +41,8 @@ public class RobotHardware {
     public final HuskyLens huskyLens;
 
     public final DigitalChannel liftSwitch;
+    public final RevBlinkinLedDriver blinkinLedDriver;
+
 
     public RobotHardware(HardwareMap hardwareMap) {
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
@@ -95,5 +98,8 @@ public class RobotHardware {
         bottomLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bottomLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         bottomLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+
     }
 }
