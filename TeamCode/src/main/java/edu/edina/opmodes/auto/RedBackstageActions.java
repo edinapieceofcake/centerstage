@@ -63,9 +63,9 @@ public class RedBackstageActions extends LinearOpMode {
                                 .setReversed(true)
                                 .splineTo(new Vector2d(1, -44), Math.toRadians(-90))
                                 .build(),
-                        depositMech.dropPixels(),
-                        sleep1sAction,
                         depositMech.moveLift(300),
+                        sleep1sAction,
+                        depositMech.dropPixels(),
                         sleep1sAction)
                 );
                 break;
