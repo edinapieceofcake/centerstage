@@ -9,7 +9,7 @@ import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.RobotState;
 
-public class Claw extends Subsystem {
+public class Claw implements Subsystem {
     private Robot robot;
     private ClawState leftClawState;
     private ClawState rightClawState;

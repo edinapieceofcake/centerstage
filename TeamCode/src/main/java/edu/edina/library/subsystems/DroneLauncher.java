@@ -4,7 +4,7 @@ import edu.edina.library.enums.DroneLauncherState;
 import edu.edina.library.util.Robot;
 import edu.edina.library.util.RobotConfiguration;
 
-public class DroneLauncher extends Subsystem {
+public class DroneLauncher implements Subsystem {
     private Robot robot;
     private DroneLauncherState state;
 

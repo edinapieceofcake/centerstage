@@ -4,7 +4,7 @@ import edu.edina.library.enums.HangerState;
 import edu.edina.library.util.Robot;
 import edu.edina.library.util.RobotConfiguration;
 
-public class RobotHanger extends Subsystem {
+public class RobotHanger implements Subsystem {
     private Robot robot;
     private HangerState hangerState;
 

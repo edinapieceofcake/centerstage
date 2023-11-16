@@ -6,7 +6,7 @@ import com.acmerobotics.roadrunner.Vector2d;
 import edu.edina.library.util.Robot;
 import edu.edina.library.util.RobotConfiguration;
 
-public class MecanumDrive extends Subsystem {
+public class MecanumDrive implements Subsystem {
     private double leftStickX;
     private double leftStickY;
     private double rightStickX;

@@ -5,6 +5,11 @@ import static edu.edina.library.enums.LiftDriveState.LowDropOff;
 import static edu.edina.library.enums.LiftDriveState.Manual;
 import static edu.edina.library.enums.LiftDriveState.Pickup;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.canvas.Canvas;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.internal.system.Deadline;
@@ -23,7 +28,7 @@ import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.RobotState;
 
-public class Lift extends Subsystem{
+public class Lift implements Subsystem, Action {
     private Robot robot;
     private boolean liftMotorReset = false;
     private Deadline lowLiftDelay = new Deadline(700, TimeUnit.MILLISECONDS);
@@ -228,7 +233,8 @@ public class Lift extends Subsystem{
                             state.pickUpState = PickUpState.Finished;
                             state.currentLiftSlideState = LiftSlideState.Idle;
                             state.currentLiftDriveState = Manual;
-                            state.currentLiftSlidePower = 0;                        }
+                            state.currentLiftSlidePower = 0;
+                        }
                     }
                 }
             }
@@ -327,5 +333,32 @@ public class Lift extends Subsystem{
 
     private double round(double originalValue) {
         return ((int)(originalValue * 100)) / 100.0;
+    }
+
+    @Override
+    public void preview(@NonNull Canvas fieldOverlay) {
+        Action.super.preview(fieldOverlay);
+    }
+
+    @Override
+    public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+        RobotState state = RobotState.getInstance();
+
+        update();
+        if ((state.dropOffState == DropOffState.Finished) && (state.currentLiftDriveState == LowDropOff)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public Action moveLiftToLowPosition() {
+        RobotState state = RobotState.getInstance();
+        
+        state.currentLiftDriveState = LiftDriveState.LowDropOff;
+        state.dropOffState = DropOffState.Start;
+        state.currentLiftSlideState = LiftSlideState.Extending;
+
+        return this;
     }
 }

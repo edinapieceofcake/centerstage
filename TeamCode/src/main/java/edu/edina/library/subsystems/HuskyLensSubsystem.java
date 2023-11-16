@@ -12,7 +12,7 @@ import edu.edina.library.enums.ClawState;
 import edu.edina.library.enums.PropLocation;
 import edu.edina.library.util.Robot;
 
-public class HuskyLensSubsystem extends Subsystem{
+public class HuskyLensSubsystem implements Subsystem{
     private final int READ_PERIOD = 0;
     private HuskyLensSubsystem huskyLens;
     private PropLocation propLocation;
