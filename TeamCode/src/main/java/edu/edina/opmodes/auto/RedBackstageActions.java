@@ -20,13 +20,14 @@ import edu.edina.library.util.RobotHardware;
 public class RedBackstageActions extends LinearOpMode {
     protected MecanumDrive drive;
     RevBlinkinLedDriver.BlinkinPattern pattern;
-    private DropPixelAtBackBoard dropPixelAtBackBoard;
+    private DropPixelAtBackBoard depositMech;
     RobotHardware hardware;
+    private SleepAction sleep1sAction = new SleepAction(1);
 
     protected void initHardware() {
         // test hardware construction and use in an empty action
         hardware = new RobotHardware(hardwareMap);
-        dropPixelAtBackBoard = new DropPixelAtBackBoard(hardware);
+        depositMech = new DropPixelAtBackBoard(hardware);
 
         Pose2d startPose = new Pose2d(8, -64, Math.toRadians(90));
 
@@ -62,8 +63,10 @@ public class RedBackstageActions extends LinearOpMode {
                                 .setReversed(true)
                                 .splineTo(new Vector2d(1, -44), Math.toRadians(-90))
                                 .build(),
-                        dropPixelAtBackBoard.dropPixels(),
-                        new SleepAction(1))
+                        depositMech.dropPixels(),
+                        sleep1sAction,
+                        depositMech.moveLift(300),
+                        sleep1sAction)
                 );
                 break;
             case Center:
@@ -72,6 +75,9 @@ public class RedBackstageActions extends LinearOpMode {
                                 .setReversed(true)
                                 .splineTo(new Vector2d(12.5, -36), Math.toRadians(-90))
                                 .build(),
+                        depositMech.dropPixels(),
+                        new SleepAction(1),
+                        depositMech.moveLift(300),
                         new SleepAction(1))
                 );
                 break;
@@ -81,6 +87,9 @@ public class RedBackstageActions extends LinearOpMode {
                                 .setReversed(true)
                                 .splineTo(new Vector2d(23, -44), Math.toRadians(-90))
                                 .build(),
+                        depositMech.dropPixels(),
+                        new SleepAction(1),
+                        depositMech.moveLift(300),
                         new SleepAction(1))
                 );
                 break;
