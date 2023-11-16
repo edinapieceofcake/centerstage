@@ -84,7 +84,7 @@ public class RobotHardware {
         topLiftMotor = hardwareMap.get(DcMotorEx.class, "topLiftMotor");
         bottomLiftMotor = hardwareMap.get(DcMotorEx.class, "bottomLiftMotor");
 
-        huskyLens = hardwareMap.get(HuskyLens.class, "huskyLens");
+        huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
 
         liftSwitch = hardwareMap.get(DigitalChannel.class, "liftSwitch");
 
