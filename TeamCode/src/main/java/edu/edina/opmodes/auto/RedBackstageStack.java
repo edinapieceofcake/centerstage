@@ -11,14 +11,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
-import edu.edina.library.actions.roadrunner.DropPixelAtBackBoard;
 import edu.edina.library.enums.ParkLocation;
 import edu.edina.library.enums.PropLocation;
 import edu.edina.library.util.PoCHuskyLens;
 import edu.edina.library.util.RobotHardware;
 
 @Autonomous
-public class RedBackstageActions extends LinearOpMode {
+public class RedBackstageStack extends LinearOpMode {
     RobotHardware hardware;
     protected MecanumDrive drive;
 
@@ -27,7 +26,7 @@ public class RedBackstageActions extends LinearOpMode {
     PoCHuskyLens poCHuskyLens;
     PropLocation propLocation;
 
-    double delta1 = 9;
+    double delta1 = 0;
 
     private SleepAction sleep1sAction = new SleepAction(1);
 
@@ -39,7 +38,7 @@ public class RedBackstageActions extends LinearOpMode {
         Pose2d startPose = new Pose2d(8, -64, Math.toRadians(90));
 
         // use out version of the drive based off the hardware that we created above.
-        drive = new org.firstinspires.ftc.teamcode.MecanumDrive(hardware.leftFront,
+        drive = new MecanumDrive(hardware.leftFront,
                 hardware.leftBack, hardware.rightBack, hardware.rightFront,
                 hardware.par0, hardware.par1, hardware.perp,
                 hardware.imu, hardware.voltageSensor, startPose);
@@ -77,6 +76,7 @@ public class RedBackstageActions extends LinearOpMode {
                                 .splineTo(new Vector2d(48,-29), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1)));
+                delta1 = 9;
                 break;
             case Center:
                 Actions.runBlocking(new SequentialAction(
@@ -88,9 +88,10 @@ public class RedBackstageActions extends LinearOpMode {
             case Right:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(47,-42), Math.toRadians(0))
+                                .splineTo(new Vector2d(48,-42), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1)));
+                delta1 = 9;
                 break;
             default:
                 break;
@@ -113,7 +114,7 @@ public class RedBackstageActions extends LinearOpMode {
                         //depositMech.moveLift(300),
                         //sleep1sAction,
                         //depositMech.dropPixels(),
-                        sleep1sAction)
+                        new SleepAction(1))
                 );
                 break;
             case Center:
@@ -143,6 +144,21 @@ public class RedBackstageActions extends LinearOpMode {
             default:
                 break;
         }
+
+        // head for center lane
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        .setReversed(true)
+                        .splineTo(new Vector2d(36, -12), Math.toRadians(180))
+                        .setReversed(false)
+                        .splineTo(new Vector2d(-52, -12), Math.toRadians(180))
+                        .build());
+
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        .setReversed(true)
+                        .splineTo(new Vector2d(36, -12), Math.toRadians(180))
+                        .build());
 
         // where to park?
         switch (parkLocation) {
