@@ -166,21 +166,105 @@ public class MeepMeepTesting {
                 .build();
 
         leftBotToPark.runAction(rightBotToPark.getDrive().actionBuilder(new Pose2d(10, -36, Math.toRadians(180)))
-                        .lineToX(20)
-//                .setReversed(true)
-//                .splineTo(new Vector2d(60, -60), Math.toRadians(0))
+                .setReversed(true)
+                .splineTo(new Vector2d(60, -60), Math.toRadians(0))
+                .build());
+
+        RoadRunnerBotEntity audienceRedRight = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(40, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        audienceRedRight.runAction(audienceRedRight.getDrive().actionBuilder(new Pose2d(-42, -64, Math.toRadians(90)))
+                .splineTo(new Vector2d(-30, -30), Math.toRadians(0))
+                .setReversed(true)
+                .splineTo(new Vector2d(-35, -10), Math.toRadians(0))
+                .splineTo(new Vector2d(35, -10), Math.toRadians(0))
+                .splineTo(new Vector2d(45, -40), Math.toRadians(180))
+                .build());
+
+        RoadRunnerBotEntity audienceRedCenter = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(40, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        audienceRedCenter.runAction(audienceRedCenter.getDrive().actionBuilder(new Pose2d(-42, -64, Math.toRadians(90)))
+                .splineTo(new Vector2d(-35, -30), Math.toRadians(90))
+                .setReversed(true)
+                .splineTo(new Vector2d(-55, -35), Math.toRadians(90))
+                .splineTo(new Vector2d(-45, -10), Math.toRadians(0))
+                .splineTo(new Vector2d(35, -10), Math.toRadians(0))
+                .splineTo(new Vector2d(45, -40), Math.toRadians(180))
+                .build());
+
+        RoadRunnerBotEntity audienceRedLeft = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(40,40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        audienceRedLeft.runAction(audienceRedLeft.getDrive().actionBuilder(new Pose2d(-42, -64, Math.toRadians(90)))
+                .splineTo(new Vector2d(-42, -30), Math.toRadians(180))
+                .setReversed(true)
+                .splineTo(new Vector2d(-30, -10), Math.toRadians(0))
+                .splineTo(new Vector2d(35, -10), Math.toRadians(0))
+                .splineTo(new Vector2d(45, -40), Math.toRadians(180))
+                .build());
+
+        RoadRunnerBotEntity audienceBlueLeft = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(40, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        audienceBlueLeft.runAction(audienceBlueLeft.getDrive().actionBuilder(new Pose2d(-32, 64, Math.toRadians(270)))
+                .splineTo(new Vector2d(-30, 30), Math.toRadians(0))
+                .setReversed(true)
+                .splineTo(new Vector2d(-30, 10), Math.toRadians(0))
+                .splineTo(new Vector2d(35, 10), Math.toRadians(0))
+                .splineTo(new Vector2d(45, 40), Math.toRadians(180))
+                .build());
+
+        RoadRunnerBotEntity audienceBlueCenter = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(40, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        audienceBlueCenter.runAction(audienceBlueCenter.getDrive().actionBuilder(new Pose2d(-32, 64, Math.toRadians(270)))
+                .splineTo(new Vector2d(-35, 30), Math.toRadians(270))
+                .setReversed(true)
+                .splineTo(new Vector2d(-55, 35), Math.toRadians(270))
+                .splineTo(new Vector2d(-45, 10), Math.toRadians(0))
+                .splineTo(new Vector2d(35, 10), Math.toRadians(0))
+                .splineTo(new Vector2d(45, 40), Math.toRadians(180))
+                .build());
+
+        RoadRunnerBotEntity audienceBlueRight = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(40, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        audienceBlueRight.runAction(audienceBlueRight.getDrive().actionBuilder(new Pose2d(-32, 64, Math.toRadians(270)))
+                .splineTo(new Vector2d(-40, 30), Math.toRadians(180))
+                .setReversed(true)
+                .splineTo(new Vector2d(-30, 10), Math.toRadians(0))
+                .splineTo(new Vector2d(35, 10), Math.toRadians(0))
+                .splineTo(new Vector2d(45, 40), Math.toRadians(180))
                 .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_OFFICIAL)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-//                .addEntity(myBot)
-//                .addEntity(rightSpike)
-//                .addEntity(centerSpike)
-//                .addEntity(leftSpike)
-//                .addEntity(corner)
-//                .addEntity(middle)
-                .addEntity(leftBotToPark)
+                .addEntity(audienceBlueLeft)
+                .addEntity(audienceBlueCenter)
+                .addEntity(audienceBlueRight)
+                .addEntity(audienceRedLeft)
+                .addEntity(audienceRedCenter)
+                .addEntity(audienceRedRight)
                 .start();
     }
 }
