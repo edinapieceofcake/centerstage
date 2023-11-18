@@ -13,6 +13,8 @@ import edu.edina.library.enums.PropLocation;
 public class PoCHuskyLens {
     private final int READ_PERIOD = 1;
 
+    private int blockId;
+
     private HuskyLens huskyLens;
 
     private Telemetry telemetry;
@@ -21,9 +23,10 @@ public class PoCHuskyLens {
 
     private PropLocation propLocation = PropLocation.Left;
 
-    public PoCHuskyLens(HuskyLens huskyLens, Telemetry telemetry){
+    public PoCHuskyLens(HuskyLens huskyLens, Telemetry telemetry, int blockId){
         this.huskyLens = huskyLens;
         this.telemetry = telemetry;
+        this.blockId = blockId;
     }
 
     public void init() {
@@ -54,14 +57,16 @@ public class PoCHuskyLens {
         telemetry.addData("Block count", blocks.length);
 
         for (int i = 0; i < blocks.length; i++) {
-            double ratio = (1.0 - (blocks[i].x / blocks[i].y));
-            if (ratio < smallestRatio) {
-                smallestRatio = ratio;
-                smallestBlockLocation = i;
-            }
+            if (blocks[i].id == blockId) {
+                double ratio = (1.0 - (blocks[i].x / blocks[i].y));
+                if (ratio < smallestRatio) {
+                    smallestRatio = ratio;
+                    smallestBlockLocation = i;
+                }
 
-            telemetry.addData("Block", blocks[i].toString());
-            telemetry.addData("Ratio, Picked Location", "%f %d", ratio, smallestBlockLocation);
+                telemetry.addData("Block", blocks[i].toString());
+                telemetry.addData("Ratio, Picked Location", "%f %d", ratio, smallestBlockLocation);
+            }
         }
 
         if (smallestBlockLocation != -1) {

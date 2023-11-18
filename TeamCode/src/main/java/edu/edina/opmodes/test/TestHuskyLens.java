@@ -13,7 +13,7 @@ public class TestHuskyLens extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         PropLocation lastLocation = PropLocation.Left;
         RobotHardware hardware = new RobotHardware(hardwareMap);
-        PoCHuskyLens poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry);
+        PoCHuskyLens poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, 2);
 
         poCHuskyLens.init();
 

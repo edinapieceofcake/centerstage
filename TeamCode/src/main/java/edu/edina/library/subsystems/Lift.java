@@ -3,7 +3,6 @@ package edu.edina.library.subsystems;
 import static edu.edina.library.enums.LiftDriveState.HighDropOff;
 import static edu.edina.library.enums.LiftDriveState.LowDropOff;
 import static edu.edina.library.enums.LiftDriveState.Manual;
-import static edu.edina.library.enums.LiftDriveState.Pickup;
 
 import androidx.annotation.NonNull;
 
@@ -29,19 +28,23 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.RobotState;
 
 public class Lift implements Subsystem, Action {
-    private Robot robot;
+    private RobotHardware hardware;
+    private boolean started = false;
     private boolean liftMotorReset = false;
     private Deadline lowLiftDelay = new Deadline(700, TimeUnit.MILLISECONDS);
     private Deadline highLiftDelay = new Deadline(1000, TimeUnit.MILLISECONDS);
 
+    public Lift(RobotHardware hardware) {
+        this.hardware = hardware;
+    }
+
     public Lift(Robot robot) {
-        this.robot = robot;
+        this.hardware = robot.RobotHardware;
     }
 
     @Override
     public void init() {
         RobotState state = RobotState.getInstance();
-        RobotHardware hardware = robot.RobotHardware;
         RobotConfiguration config = RobotConfiguration.getInstance();
 
         state.currentLiftDriveState = LiftDriveState.Manual;
@@ -54,15 +57,15 @@ public class Lift implements Subsystem, Action {
 
     @Override
     public void start() {
+        started = true;
     }
 
     @Override
     public void update() {
         RobotState state = RobotState.getInstance();
-        RobotHardware hardware = robot.RobotHardware;
         RobotConfiguration config = RobotConfiguration.getInstance();
 
-        if (robot.Started) {
+        if (started) {
             state.currentLiftLength = -0.031914 * hardware.topLiftMotor.getCurrentPosition() + 12.117;
             state.currentLiftAngle = 51.111 * hardware.leftLiftServo.getPosition() + 20.956;
             state.currentLiftHeight = state.currentLiftLength * Math.sin(Math.toRadians(state.currentLiftAngle));
@@ -260,7 +263,6 @@ public class Lift implements Subsystem, Action {
 
     public void setProperties(double rightTrigger, double leftTrigger, boolean a, boolean x, boolean y, boolean b) {
         RobotState state = RobotState.getInstance();
-        RobotHardware hardware = robot.RobotHardware;
         RobotConfiguration config = RobotConfiguration.getInstance();
 
         if (leftTrigger != 0) {
@@ -354,7 +356,7 @@ public class Lift implements Subsystem, Action {
 
     public Action moveLiftToLowPosition() {
         RobotState state = RobotState.getInstance();
-        
+
         state.currentLiftDriveState = LiftDriveState.LowDropOff;
         state.dropOffState = DropOffState.Start;
         state.currentLiftSlideState = LiftSlideState.Extending;

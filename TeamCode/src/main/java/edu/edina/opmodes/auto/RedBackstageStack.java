@@ -52,7 +52,7 @@ public class RedBackstageStack extends LinearOpMode {
 
         // HuskyLens Init
         PropLocation lastLocation = PropLocation.Idle;
-        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry);
+        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, 2);
         poCHuskyLens.init();
 
         sleep(2000);

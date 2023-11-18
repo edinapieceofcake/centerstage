@@ -4,6 +4,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 import edu.edina.library.enums.AngleClawState;
+import edu.edina.library.enums.ClawState;
 import edu.edina.library.enums.DropOffState;
 import edu.edina.library.enums.LiftDriveState;
 import edu.edina.library.enums.LiftServoState;
@@ -34,6 +35,8 @@ public class RobotState {
     public double currentLiftAngle;
     public double currentLiftLength;
     public double currentLiftHeight;
+    public ClawState leftClawState;
+    public ClawState rightClawState;
 
     public RobotState() {
         currentLiftSlidePower = 0.0;
@@ -42,6 +45,8 @@ public class RobotState {
         twistServoState = TwistServoState.Pickup;
         angleClawState = AngleClawState.Drive;
         lastKnownLiftState = LiftDriveState.Drive;
+        rightClawState = ClawState.Opened;
+        leftClawState = ClawState.Opened;
     }
 
     public static synchronized RobotState getInstance()

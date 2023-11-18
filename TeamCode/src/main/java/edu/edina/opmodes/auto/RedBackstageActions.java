@@ -12,18 +12,22 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 import edu.edina.library.actions.roadrunner.DropPixelAtBackBoard;
+import edu.edina.library.enums.ClawState;
 import edu.edina.library.enums.ParkLocation;
 import edu.edina.library.enums.PropLocation;
+import edu.edina.library.subsystems.Claw;
+import edu.edina.library.subsystems.Lift;
 import edu.edina.library.util.PoCHuskyLens;
 import edu.edina.library.util.RobotHardware;
+import edu.edina.library.util.RobotState;
 
 @Autonomous
 public class RedBackstageActions extends LinearOpMode {
-    RobotHardware hardware;
+    private RobotHardware hardware;
+    private Claw claw;
+    private Lift lift;
     protected MecanumDrive drive;
-
     RevBlinkinLedDriver.BlinkinPattern pattern;
-
     PoCHuskyLens poCHuskyLens;
     PropLocation propLocation;
 
@@ -53,22 +57,15 @@ public class RedBackstageActions extends LinearOpMode {
 
         // HuskyLens Init
         PropLocation lastLocation = PropLocation.Idle;
-        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry);
+        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, 2);
         poCHuskyLens.init();
 
-        sleep(2000);
-        while (!isStarted()) {
-            poCHuskyLens.update();
-
-            propLocation = poCHuskyLens.getPropLocation();
-            telemetry.addData("Location", propLocation);
-
-            telemetry.update();
-            sleep(2000);
-        }
+        claw = new Claw(hardware);
+        lift = new Lift(hardware);
     }
 
     protected void runPaths(ParkLocation parkLocation) {
+        RobotState state = RobotState.getInstance();
 
         switch(propLocation) {
             case Left:
@@ -95,7 +92,6 @@ public class RedBackstageActions extends LinearOpMode {
             default:
                 break;
         }
-
 
         Actions.runBlocking(new SequentialAction(
                 drive.actionBuilder(drive.pose)
@@ -144,6 +140,10 @@ public class RedBackstageActions extends LinearOpMode {
                 break;
         }
 
+        state.leftClawState = ClawState.Opened;
+        claw.update();
+        sleep(1000);
+
         // where to park?
         switch (parkLocation) {
             case Center:
@@ -168,15 +168,34 @@ public class RedBackstageActions extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        RobotState state = RobotState.getInstance();
         initHardware();
 
-        waitForStart();
+        claw.init();
+        claw.start();
+        lift.init();
+        lift.start();
 
-        // Signal GREEN for successful run
-        pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
-        hardware.blinkinLedDriver.setPattern(pattern);
+        state.leftClawState = ClawState.Closed;
+        state.rightClawState = ClawState.Closed;
+        claw.update();
+
+        sleep(2000);
+        while (!isStarted()) {
+            poCHuskyLens.update();
+
+            propLocation = poCHuskyLens.getPropLocation();
+            telemetry.addData("Location", propLocation);
+
+            telemetry.update();
+            sleep(2000);
+        }
 
         if (opModeIsActive()) {
+            // Signal GREEN for successful run
+            pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
+            hardware.blinkinLedDriver.setPattern(pattern);
+
             runPaths(ParkLocation.Corner);
         }
 

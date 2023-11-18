@@ -1,8 +1,6 @@
 package edu.edina.library.subsystems;
 
 import edu.edina.library.enums.ClawState;
-import edu.edina.library.enums.LiftDriveState;
-import edu.edina.library.enums.LiftServoState;
 import edu.edina.library.enums.TwistServoState;
 import edu.edina.library.util.Robot;
 import edu.edina.library.util.RobotConfiguration;
@@ -10,42 +8,47 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.RobotState;
 
 public class Claw implements Subsystem {
-    private Robot robot;
-    private ClawState leftClawState;
-    private ClawState rightClawState;
+    private boolean started = false;
+    private RobotHardware hardware;
+
+    public Claw(RobotHardware hardware) {
+        this.hardware = hardware;
+    }
 
     public Claw(Robot robot) {
-        this.robot = robot;
+        this.hardware = robot.RobotHardware;
     }
 
     @Override
     public void init() {
-        rightClawState = ClawState.Opened;
-        leftClawState = ClawState.Opened;
-        robot.RobotHardware.leftClawServo.setPosition(RobotConfiguration.getInstance().clawLeftOpenPosition);
-        robot.RobotHardware.rightClawServo.setPosition(RobotConfiguration.getInstance().clawRightOpenPosition);
-        robot.RobotHardware.twistClawServo.setPosition(RobotConfiguration.getInstance().twistClawServoPickUpPosition);
-        robot.RobotHardware.angleClawServo.setPosition(RobotConfiguration.getInstance().angleClawPickupPosition);
+        RobotState state = RobotState.getInstance();
+
+        state.rightClawState = ClawState.Opened;
+        state.leftClawState = ClawState.Opened;
+        hardware.leftClawServo.setPosition(RobotConfiguration.getInstance().clawLeftOpenPosition);
+        hardware.rightClawServo.setPosition(RobotConfiguration.getInstance().clawRightOpenPosition);
+        hardware.twistClawServo.setPosition(RobotConfiguration.getInstance().twistClawServoPickUpPosition);
+        hardware.angleClawServo.setPosition(RobotConfiguration.getInstance().angleClawPickupPosition);
     }
 
     @Override
     public void start() {
+        started = true;
     }
 
     @Override
     public void update() {
         RobotState state = RobotState.getInstance();
-        RobotHardware hardware = robot.RobotHardware;
         RobotConfiguration config = RobotConfiguration.getInstance();
 
-        if (robot.Started) {
-            if ((state.currentLiftDriveState == LiftDriveState.Manual) && (state.currentLiftServoState == LiftServoState.Start)) {
-                if (state.currentLiftHeight > config.minimumHeightToTwistServoInInches) {
-                    state.twistServoState = TwistServoState.DropOff;
-                } else {
-                    state.twistServoState = TwistServoState.Pickup;
-                }
-            }
+        if (started) {
+//            if ((state.currentLiftDriveState == LiftDriveState.Manual) && (state.currentLiftServoState == LiftServoState.Start)) {
+//                if (state.currentLiftHeight > config.minimumHeightToTwistServoInInches) {
+//                    state.twistServoState = TwistServoState.DropOff;
+//                } else {
+//                    state.twistServoState = TwistServoState.Pickup;
+//                }
+//            }
 
             switch (state.currentLiftDriveState) {
                 case Drive:
@@ -56,7 +59,7 @@ public class Claw implements Subsystem {
                     break;
             }
 
-            switch (leftClawState) {
+            switch (state.leftClawState) {
                 case Opened:
                     hardware.leftClawServo.setPosition(config.clawLeftOpenPosition);
                     break;
@@ -65,7 +68,7 @@ public class Claw implements Subsystem {
                     break;
             }
 
-            switch (rightClawState) {
+            switch (state.rightClawState) {
                 case Opened:
                     hardware.rightClawServo.setPosition(config.clawRightOpenPosition);
                     break;
@@ -105,19 +108,21 @@ public class Claw implements Subsystem {
     }
 
     public void setProperties(boolean toggleLeftClaw, boolean toggleRightClaw, boolean leftDpad, boolean rightDpad) {
+        RobotState state = RobotState.getInstance();
+
         if (toggleLeftClaw) {
-            if (leftClawState == ClawState.Opened) {
-                leftClawState = ClawState.Closed;
+            if (state.leftClawState == ClawState.Opened) {
+                state.leftClawState = ClawState.Closed;
             } else {
-                leftClawState = ClawState.Opened;
+                state.leftClawState = ClawState.Opened;
             }
         }
 
         if (toggleRightClaw) {
-            if (rightClawState == ClawState.Opened) {
-                rightClawState = ClawState.Closed;
+            if (state.rightClawState == ClawState.Opened) {
+                state.rightClawState = ClawState.Closed;
             } else {
-                rightClawState = ClawState.Opened;
+                state.rightClawState = ClawState.Opened;
             }
         }
 
