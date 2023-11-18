@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
-@Autonomous
+//@Autonomous
 public class BlueBackstage extends LinearOpMode {
     protected MecanumDrive drive;
     RevBlinkinLedDriver blinkinLedDriver;

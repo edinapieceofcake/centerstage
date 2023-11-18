@@ -30,12 +30,14 @@ import edu.edina.library.util.RobotState;
 public class Lift implements Subsystem, Action {
     private RobotHardware hardware;
     private boolean started = false;
+    private boolean isTeleop = true;
     private boolean liftMotorReset = false;
     private Deadline lowLiftDelay = new Deadline(700, TimeUnit.MILLISECONDS);
     private Deadline highLiftDelay = new Deadline(1000, TimeUnit.MILLISECONDS);
 
-    public Lift(RobotHardware hardware) {
+    public Lift(RobotHardware hardware, boolean isTeleop) {
         this.hardware = hardware;
+        this.isTeleop = isTeleop;
     }
 
     public Lift(Robot robot) {
@@ -124,12 +126,16 @@ public class Lift implements Subsystem, Action {
                             if (lowLiftDelay.hasExpired()) {
                                 hardware.topLiftMotor.setTargetPosition(config.liftLowDropOffPosition);
                                 hardware.bottomLiftMotor.setTargetPosition(config.liftLowDropOffPosition);
+                                hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                                hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                                 state.dropOffState = DropOffState.SecondExtension;
                             }
                         } else {
                             if (highLiftDelay.hasExpired()) {
                                 hardware.topLiftMotor.setTargetPosition(config.liftHighDropOffPosition);
                                 hardware.bottomLiftMotor.setTargetPosition(config.liftHighDropOffPosition);
+                                hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                                hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                                 state.dropOffState = DropOffState.SecondExtension;
                             }
                         }
@@ -242,18 +248,20 @@ public class Lift implements Subsystem, Action {
                 }
             }
 
-            if (!hardware.liftSwitch.getState()) {
-                if (!liftMotorReset) {
-                    hardware.topLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                    hardware.topLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                    hardware.bottomLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                    hardware.bottomLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                    liftMotorReset = true;
+            if (isTeleop) {
+                if (!hardware.liftSwitch.getState()) {
+                    if (!liftMotorReset) {
+                        hardware.topLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                        hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        hardware.topLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                        hardware.bottomLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                        hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        hardware.bottomLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                        liftMotorReset = true;
+                    }
+                } else {
+                    liftMotorReset = false;
                 }
-            } else {
-                liftMotorReset = false;
             }
 
             hardware.leftLiftServo.setPosition(state.currentLeftLiftServoPosition);

@@ -43,7 +43,7 @@ public class RobotConfiguration {
     public double liftExtendingPower = 1;
 
     // lift encoder positions
-    public int liftDrivePosition = 10;
+    public int liftDrivePosition = 50;
     public int liftPickupPosition = 0;
     public int liftFirstExtensionDropOffPosition = -120;
     public int liftLowDropOffPosition = -600;

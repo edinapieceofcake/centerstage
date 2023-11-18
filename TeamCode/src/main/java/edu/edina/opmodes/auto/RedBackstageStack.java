@@ -16,7 +16,7 @@ import edu.edina.library.enums.PropLocation;
 import edu.edina.library.util.PoCHuskyLens;
 import edu.edina.library.util.RobotHardware;
 
-@Autonomous
+//@Autonomous
 public class RedBackstageStack extends LinearOpMode {
     RobotHardware hardware;
     protected MecanumDrive drive;

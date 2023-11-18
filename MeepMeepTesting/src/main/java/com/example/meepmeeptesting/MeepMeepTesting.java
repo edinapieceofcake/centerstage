@@ -166,8 +166,9 @@ public class MeepMeepTesting {
                 .build();
 
         leftBotToPark.runAction(rightBotToPark.getDrive().actionBuilder(new Pose2d(10, -36, Math.toRadians(180)))
-                .setReversed(true)
-                .splineTo(new Vector2d(60, -60), Math.toRadians(0))
+                        .lineToX(20)
+//                .setReversed(true)
+//                .splineTo(new Vector2d(60, -60), Math.toRadians(0))
                 .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_OFFICIAL)
@@ -179,7 +180,7 @@ public class MeepMeepTesting {
 //                .addEntity(leftSpike)
 //                .addEntity(corner)
 //                .addEntity(middle)
-                .addEntity(centerBotToDropBack)
+                .addEntity(leftBotToPark)
                 .start();
     }
 }
