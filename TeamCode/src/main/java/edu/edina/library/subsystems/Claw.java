@@ -62,18 +62,26 @@ public class Claw implements Subsystem {
             switch (state.leftClawState) {
                 case Opened:
                     hardware.leftClawServo.setPosition(config.clawLeftOpenPosition);
+                    hardware.leftClawRed.setState(false);
+                    hardware.leftClawGreen.setState(true);
                     break;
                 case Closed:
                     hardware.leftClawServo.setPosition(config.clawLeftClosedPosition);
+                    hardware.leftClawRed.setState(true);
+                    hardware.leftClawGreen.setState(false);
                     break;
             }
 
             switch (state.rightClawState) {
                 case Opened:
                     hardware.rightClawServo.setPosition(config.clawRightOpenPosition);
+                    hardware.rightClawRed.setState(false);
+                    hardware.rightClawGreen.setState(true);
                     break;
                 case Closed:
                     hardware.rightClawServo.setPosition(config.clawRightClosedPosition);
+                    hardware.rightClawRed.setState(true);
+                    hardware.rightClawGreen.setState(false);
                     break;
             }
 

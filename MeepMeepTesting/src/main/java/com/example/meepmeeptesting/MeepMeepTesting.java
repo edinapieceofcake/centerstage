@@ -9,7 +9,7 @@ import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 public class MeepMeepTesting {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(800);
-
+/*
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 12)
@@ -169,7 +169,7 @@ public class MeepMeepTesting {
                 .setReversed(true)
                 .splineTo(new Vector2d(60, -60), Math.toRadians(0))
                 .build());
-
+*/
         RoadRunnerBotEntity audienceRedRight = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(40, 40, Math.toRadians(180), Math.toRadians(180), 12)
@@ -181,6 +181,21 @@ public class MeepMeepTesting {
                 .setReversed(true)
                 .splineTo(new Vector2d(-35, -10), Math.toRadians(0))
                 .splineTo(new Vector2d(35, -10), Math.toRadians(0))
+                .splineTo(new Vector2d(45, -40), Math.toRadians(180))
+                .build());
+
+        RoadRunnerBotEntity audienceRedRightWall = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(40, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        audienceRedRightWall.runAction(audienceRedRightWall.getDrive().actionBuilder(new Pose2d(-42, -64, Math.toRadians(90)))
+                .splineTo(new Vector2d(-30, -30), Math.toRadians(0))
+                .setReversed(true)
+                .splineTo(new Vector2d(-30, -55), Math.toRadians(0))
+                .splineTo(new Vector2d(0, -55), Math.toRadians(0))
+                .splineTo(new Vector2d(40, -55), Math.toRadians(0))
                 .splineTo(new Vector2d(45, -40), Math.toRadians(180))
                 .build());
 
@@ -199,6 +214,21 @@ public class MeepMeepTesting {
                 .splineTo(new Vector2d(45, -40), Math.toRadians(180))
                 .build());
 
+        RoadRunnerBotEntity audienceRedCenterWall = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(40, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        audienceRedCenterWall.runAction(audienceRedCenterWall.getDrive().actionBuilder(new Pose2d(-42, -64, Math.toRadians(90)))
+                .splineTo(new Vector2d(-35, -33), Math.toRadians(90))
+                .setReversed(true)
+                .splineTo(new Vector2d(-30, -55), Math.toRadians(0))
+                .splineTo(new Vector2d(0, -55), Math.toRadians(0))
+                .splineTo(new Vector2d(40, -55), Math.toRadians(0))
+                .splineTo(new Vector2d(45, -40), Math.toRadians(180))
+                .build());
+
         RoadRunnerBotEntity audienceRedLeft = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(40,40, Math.toRadians(180), Math.toRadians(180), 12)
@@ -209,8 +239,8 @@ public class MeepMeepTesting {
                 .splineTo(new Vector2d(-42, -30), Math.toRadians(180))
                 .setReversed(true)
                 .splineTo(new Vector2d(-30, -10), Math.toRadians(0))
-                .splineTo(new Vector2d(35, -10), Math.toRadians(0))
-                .splineTo(new Vector2d(45, -40), Math.toRadians(180))
+                .splineTo(new Vector2d(30, -10), Math.toRadians(0))
+                .splineTo(new Vector2d(40, -40), Math.toRadians(180))
                 .build());
 
         RoadRunnerBotEntity audienceBlueLeft = new DefaultBotBuilder(meepMeep)
@@ -227,6 +257,20 @@ public class MeepMeepTesting {
                 .splineTo(new Vector2d(45, 40), Math.toRadians(180))
                 .build());
 
+        RoadRunnerBotEntity audienceBlueLeftWall = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(40, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        audienceBlueLeftWall.runAction(audienceBlueLeftWall.getDrive().actionBuilder(new Pose2d(-32, 64, Math.toRadians(270)))
+                .splineTo(new Vector2d(-30, 30), Math.toRadians(0))
+                .setReversed(true)
+                .splineTo(new Vector2d(-30, 57), Math.toRadians(0))
+                .splineTo(new Vector2d(35, 57), Math.toRadians(0))
+                .splineTo(new Vector2d(45, 40), Math.toRadians(180))
+                .build());
+
         RoadRunnerBotEntity audienceBlueCenter = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(40, 40, Math.toRadians(180), Math.toRadians(180), 12)
@@ -234,11 +278,25 @@ public class MeepMeepTesting {
                 .build();
 
         audienceBlueCenter.runAction(audienceBlueCenter.getDrive().actionBuilder(new Pose2d(-32, 64, Math.toRadians(270)))
-                .splineTo(new Vector2d(-35, 30), Math.toRadians(270))
+                .splineTo(new Vector2d(-35, 33), Math.toRadians(270))
                 .setReversed(true)
                 .splineTo(new Vector2d(-55, 35), Math.toRadians(270))
                 .splineTo(new Vector2d(-45, 10), Math.toRadians(0))
                 .splineTo(new Vector2d(35, 10), Math.toRadians(0))
+                .splineTo(new Vector2d(45, 40), Math.toRadians(180))
+                .build());
+
+        RoadRunnerBotEntity audienceBlueCenterWall = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(40, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        audienceBlueCenterWall.runAction(audienceBlueCenterWall.getDrive().actionBuilder(new Pose2d(-32, 64, Math.toRadians(270)))
+                .splineTo(new Vector2d(-35, 33), Math.toRadians(270))
+                .setReversed(true)
+                .splineTo(new Vector2d(-30, 57), Math.toRadians(0))
+                .splineTo(new Vector2d(35, 57), Math.toRadians(0))
                 .splineTo(new Vector2d(45, 40), Math.toRadians(180))
                 .build());
 
@@ -255,16 +313,33 @@ public class MeepMeepTesting {
                 .splineTo(new Vector2d(35, 10), Math.toRadians(0))
                 .splineTo(new Vector2d(45, 40), Math.toRadians(180))
                 .build());
+        RoadRunnerBotEntity audienceBlueRightWall = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(40, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        audienceBlueRightWall.runAction(audienceBlueRightWall.getDrive().actionBuilder(new Pose2d(-32, 64, Math.toRadians(270)))
+                .splineTo(new Vector2d(-40, 30), Math.toRadians(180))
+                .setReversed(true)
+                .splineTo(new Vector2d(-30, 57), Math.toRadians(0))
+                .splineTo(new Vector2d(35, 57), Math.toRadians(0))
+                .splineTo(new Vector2d(45, 40), Math.toRadians(180))
+                .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_OFFICIAL)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-                .addEntity(audienceBlueLeft)
-                .addEntity(audienceBlueCenter)
-                .addEntity(audienceBlueRight)
-                .addEntity(audienceRedLeft)
-                .addEntity(audienceRedCenter)
-                .addEntity(audienceRedRight)
+//                .addEntity(audienceBlueLeft)
+//                .addEntity(audienceBlueLeftWall)
+//                .addEntity(audienceBlueCenter)
+//                .addEntity(audienceBlueCenterWall)
+//                .addEntity(audienceBlueRight)
+                .addEntity(audienceBlueRightWall)
+//                .addEntity(audienceRedLeft)
+//                .addEntity(audienceRedCenterWall)
+//                .addEntity(audienceRedRight)
+//                .addEntity(audienceRedRightWall)
                 .start();
     }
 }

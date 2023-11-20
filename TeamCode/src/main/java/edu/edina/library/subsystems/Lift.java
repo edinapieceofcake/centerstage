@@ -32,8 +32,8 @@ public class Lift implements Subsystem, Action {
     private boolean started = false;
     private boolean isTeleop = true;
     private boolean liftMotorReset = false;
-    private Deadline lowLiftDelay = new Deadline(700, TimeUnit.MILLISECONDS);
-    private Deadline highLiftDelay = new Deadline(1000, TimeUnit.MILLISECONDS);
+    private Deadline lowLiftDelay = new Deadline(100, TimeUnit.MILLISECONDS);
+    private Deadline highLiftDelay = new Deadline(100, TimeUnit.MILLISECONDS);
 
     public Lift(RobotHardware hardware, boolean isTeleop) {
         this.hardware = hardware;
@@ -42,6 +42,7 @@ public class Lift implements Subsystem, Action {
 
     public Lift(Robot robot) {
         this.hardware = robot.RobotHardware;
+        this.isTeleop = true;
     }
 
     @Override

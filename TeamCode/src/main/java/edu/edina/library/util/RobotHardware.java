@@ -43,6 +43,9 @@ public class RobotHardware {
     public final DigitalChannel liftSwitch;
     public final RevBlinkinLedDriver blinkinLedDriver;
 
+    public final DigitalChannel leftClawRed, leftClawGreen;
+    public final DigitalChannel rightClawRed, rightClawGreen;
+
 
     public RobotHardware(HardwareMap hardwareMap) {
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
@@ -101,5 +104,30 @@ public class RobotHardware {
 
         blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
 
+        leftClawRed = hardwareMap.get(DigitalChannel.class, "leftClawRed");
+        leftClawGreen = hardwareMap.get(DigitalChannel.class, "leftClawGreen");
+        leftClawRed.setMode(DigitalChannel.Mode.OUTPUT);
+        leftClawGreen.setMode(DigitalChannel.Mode.OUTPUT);
+
+        rightClawRed = hardwareMap.get(DigitalChannel.class, "rightClawRed");
+        rightClawGreen = hardwareMap.get(DigitalChannel.class, "rightClawGreen");
+        rightClawRed.setMode(DigitalChannel.Mode.OUTPUT);
+        rightClawGreen.setMode(DigitalChannel.Mode.OUTPUT);
+    }
+
+    public void liftServosForTeleop() {
+        RobotConfiguration config = RobotConfiguration.getInstance();
+
+        par0Servo.setPosition(config.par0UpPosition);
+        par1Servo.setPosition(config.par1UpPosition);
+        perpServo.setPosition(config.perpUpPosition);
+    }
+
+    public void dropServosForAutonomous() {
+        RobotConfiguration config = RobotConfiguration.getInstance();
+
+        par0Servo.setPosition(config.par0DownPosition);
+        par1Servo.setPosition(config.par1DownPosition);
+        perpServo.setPosition(config.perpDownPosition);
     }
 }

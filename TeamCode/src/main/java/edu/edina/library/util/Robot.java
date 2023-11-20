@@ -63,6 +63,8 @@ public class Robot {
     }
 
     public void init() {
+        RobotHardware.liftServosForTeleop();
+
         for (Subsystem subsystem : subsystems) {
             subsystem.init();
         }

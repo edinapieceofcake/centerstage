@@ -57,27 +57,30 @@ public class PoCHuskyLens {
         telemetry.addData("Block count", blocks.length);
 
         for (int i = 0; i < blocks.length; i++) {
+            double ratio = (1.0 - (blocks[i].x / blocks[i].y));
+            telemetry.addData("Block", blocks[i].toString());
+            telemetry.addData("Ratio, Picked Location", "%f %d %d", ratio, smallestBlockLocation, blockId);
+
             if (blocks[i].id == blockId) {
-                double ratio = (1.0 - (blocks[i].x / blocks[i].y));
+                telemetry.addData("Matched block", "");
                 if (ratio < smallestRatio) {
                     smallestRatio = ratio;
                     smallestBlockLocation = i;
                 }
-
-                telemetry.addData("Block", blocks[i].toString());
-                telemetry.addData("Ratio, Picked Location", "%f %d", ratio, smallestBlockLocation);
+            } else {
+                telemetry.addData("Skipped block", "");
             }
         }
 
         if (smallestBlockLocation != -1) {
             HuskyLens.Block propBlock = blocks[smallestBlockLocation];
 
-            if (propBlock.x > 220) {
-                propLocation = PropLocation.Right;
+            if (propBlock.x <= 100) {
+                propLocation = PropLocation.Left;
             } else if (propBlock.x >= 100 && propBlock.x <= 220) {
                 propLocation = PropLocation.Center;
             } else {
-                propLocation = PropLocation.Left;
+                propLocation = PropLocation.Right;
             }
         }
     }
