@@ -100,9 +100,9 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(-30, 57), Math.toRadians(0))
-                                .splineTo(new Vector2d(30, 55), Math.toRadians(0))
-                                .splineTo(new Vector2d(40, 37), Math.toRadians(170))
+                                .splineTo(new Vector2d(-30, 10), Math.toRadians(0))
+                                .splineTo(new Vector2d(35, 10), Math.toRadians(0))
+                                .splineTo(new Vector2d(45, 40), Math.toRadians(180))
                                 .build(),
                         sleep1sAction)
                 );
@@ -111,9 +111,10 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(-37, 57), Math.toRadians(0))
-                                .splineTo(new Vector2d(30, 55), Math.toRadians(0))
-                                .splineTo(new Vector2d(40, 33), Math.toRadians(170))
+                                .splineTo(new Vector2d(-55, 35), Math.toRadians(270))
+                                .splineTo(new Vector2d(-45, 10), Math.toRadians(0))
+                                .splineTo(new Vector2d(35, 10), Math.toRadians(0))
+                                .splineTo(new Vector2d(45, 40), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1))
                 );
@@ -122,9 +123,9 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(-33, 57), Math.toRadians(0))
-                                .splineTo(new Vector2d(30, 55), Math.toRadians(0))
-                                .splineTo(new Vector2d(40, 27), Math.toRadians(170))
+                                .splineTo(new Vector2d(-30, 10), Math.toRadians(0))
+                                .splineTo(new Vector2d(35, 10), Math.toRadians(0))
+                                .splineTo(new Vector2d(45, 40), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1))
                 );

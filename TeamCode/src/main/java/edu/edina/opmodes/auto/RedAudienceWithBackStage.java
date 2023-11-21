@@ -102,7 +102,7 @@ public class RedAudienceWithBackStage extends LinearOpMode {
                                 .setReversed(true)
                                 .splineTo(new Vector2d(-30, -10), Math.toRadians(0))
                                 .splineTo(new Vector2d(28, -10), Math.toRadians(0))
-                                .splineTo(new Vector2d(38, -35), Math.toRadians(180))
+                                .splineTo(new Vector2d(38, -35), Math.toRadians(170))
                                 .build(),
                         sleep1sAction)
                 );
@@ -111,16 +111,16 @@ public class RedAudienceWithBackStage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                //.splineTo(new Vector2d(-30, -57), Math.toRadians(0))
-                                //.splineTo(new Vector2d(0, -57), Math.toRadians(0))
-                                //.splineTo(new Vector2d(40, -57), Math.toRadians(0))
-                                //.splineTo(new Vector2d(45, -40), Math.toRadians(180))
+                                .splineTo(new Vector2d(-30, -57), Math.toRadians(0))
+                                .splineTo(new Vector2d(0, -57), Math.toRadians(0))
+                                .splineTo(new Vector2d(40, -57), Math.toRadians(0))
+                                .splineTo(new Vector2d(45, -40), Math.toRadians(180))
                                 // run down the middle if we can fix the drift
 //                                .setReversed(true)
-                                .splineTo(new Vector2d(-55, -35), Math.toRadians(90))
-                                .splineTo(new Vector2d(-45, -10), Math.toRadians(0))
-                                .splineTo(new Vector2d(28, -10), Math.toRadians(0))
-                                .splineTo(new Vector2d(38, -40), Math.toRadians(180))
+//                                .splineTo(new Vector2d(-55, -35), Math.toRadians(90))
+//                                .splineTo(new Vector2d(-45, -10), Math.toRadians(0))
+//                                .splineTo(new Vector2d(28, -10), Math.toRadians(0))
+//                                .splineTo(new Vector2d(38, -40), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1))
                 );
@@ -129,9 +129,9 @@ public class RedAudienceWithBackStage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(-30, -55), Math.toRadians(0))
-                                .splineTo(new Vector2d(0, -55), Math.toRadians(0))
-                                .splineTo(new Vector2d(40, -55), Math.toRadians(0))
+                                .splineTo(new Vector2d(-30, -58), Math.toRadians(0))
+                                .splineTo(new Vector2d(0, -58), Math.toRadians(0))
+                                .splineTo(new Vector2d(40, -58), Math.toRadians(0))
                                 .splineTo(new Vector2d(45, -40), Math.toRadians(180))
                                 // run down the middle if we can fix the drift
 //                                .setReversed(true)
@@ -226,7 +226,7 @@ public class RedAudienceWithBackStage extends LinearOpMode {
         while (!isStarted()) {
             poCHuskyLens.update();
 
-            propLocation = PropLocation.Center;
+            propLocation = poCHuskyLens.getPropLocation();
             telemetry.addData("Location", propLocation);
 
             telemetry.update();
