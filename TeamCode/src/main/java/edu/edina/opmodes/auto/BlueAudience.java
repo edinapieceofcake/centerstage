@@ -94,44 +94,6 @@ public class BlueAudience extends LinearOpMode {
         claw.update();
         sleep(1000);
 
-        // where to put the yellow pixel?
-        switch (propLocation) {
-            case Left:
-                Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
-                                .setReversed(true)
-                                .splineTo(new Vector2d(-30, 57), Math.toRadians(0))
-                                .splineTo(new Vector2d(30, 55), Math.toRadians(0))
-                                .splineTo(new Vector2d(40, 37), Math.toRadians(170))
-                                .build(),
-                        sleep1sAction)
-                );
-                break;
-            case Center:
-                Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
-                                .setReversed(true)
-                                .splineTo(new Vector2d(-37, 57), Math.toRadians(0))
-                                .splineTo(new Vector2d(30, 55), Math.toRadians(0))
-                                .splineTo(new Vector2d(40, 33), Math.toRadians(170))
-                                .build(),
-                        new SleepAction(1))
-                );
-                break;
-            case Right:
-                Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
-                                .setReversed(true)
-                                .splineTo(new Vector2d(-33, 57), Math.toRadians(0))
-                                .splineTo(new Vector2d(30, 55), Math.toRadians(0))
-                                .splineTo(new Vector2d(40, 27), Math.toRadians(170))
-                                .build(),
-                        new SleepAction(1))
-                );
-                break;
-            default:
-                break;
-        }
     }
 
     @Override

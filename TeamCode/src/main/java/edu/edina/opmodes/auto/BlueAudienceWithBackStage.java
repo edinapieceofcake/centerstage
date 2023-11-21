@@ -12,7 +12,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 import edu.edina.library.enums.ClawState;
+import edu.edina.library.enums.DropOffState;
+import edu.edina.library.enums.LiftDriveState;
+import edu.edina.library.enums.LiftSlideState;
 import edu.edina.library.enums.ParkLocation;
+import edu.edina.library.enums.PickUpState;
 import edu.edina.library.enums.PropLocation;
 import edu.edina.library.subsystems.Claw;
 import edu.edina.library.subsystems.Lift;
@@ -102,7 +106,7 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                                 .setReversed(true)
                                 .splineTo(new Vector2d(-30, 57), Math.toRadians(0))
                                 .splineTo(new Vector2d(30, 55), Math.toRadians(0))
-                                .splineTo(new Vector2d(40, 37), Math.toRadians(170))
+                                .splineTo(new Vector2d(38, 44), Math.toRadians(170))
                                 .build(),
                         sleep1sAction)
                 );
@@ -113,7 +117,7 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                                 .setReversed(true)
                                 .splineTo(new Vector2d(-37, 57), Math.toRadians(0))
                                 .splineTo(new Vector2d(30, 55), Math.toRadians(0))
-                                .splineTo(new Vector2d(40, 33), Math.toRadians(170))
+                                .splineTo(new Vector2d(38, 37), Math.toRadians(170))
                                 .build(),
                         new SleepAction(1))
                 );
@@ -124,7 +128,7 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                                 .setReversed(true)
                                 .splineTo(new Vector2d(-33, 57), Math.toRadians(0))
                                 .splineTo(new Vector2d(30, 55), Math.toRadians(0))
-                                .splineTo(new Vector2d(40, 27), Math.toRadians(170))
+                                .splineTo(new Vector2d(38, 28), Math.toRadians(170))
                                 .build(),
                         new SleepAction(1))
                 );
@@ -138,62 +142,61 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                         .turnTo(Math.toRadians(0))
                         .build()));
 
-        /*
-        state.lastKnownLiftState = LiftDriveState.Drive;
-        state.currentLiftDriveState = LiftDriveState.LowDropOff;
-        state.currentLiftSlideState = LiftSlideState.Extending;
-        state.dropOffState = DropOffState.Start;
 
-        while (state.dropOffState != DropOffState.Finished) {
-            lift.update();
-            claw.update();
-            idle();
-        }
-
-        state.telemetry(telemetry, hardware);
-        telemetry.update();
-
-        Actions.runBlocking(drive.actionBuilder(drive.pose).lineToX(44).build());
-
-        state.rightClawState = ClawState.Opened;
-        claw.update();
-        sleep(2000);
-
-        Actions.runBlocking(drive.actionBuilder(drive.pose).lineToX(38).build());
-
-        state.pickUpState = PickUpState.Start;
-        state.lastKnownLiftState = LiftDriveState.LowDropOff;
-        state.currentLiftDriveState = LiftDriveState.Drive;
-        state.currentLiftSlideState = LiftSlideState.Retracting;
-
-        while (state.pickUpState != PickUpState.Finished) {
-            lift.update();
-            claw.update();
-            idle();
-        }
-
-        state.lastKnownLiftState = LiftDriveState.Drive;
-
-        // where to park?
-        switch (parkLocation) {
-            case Center:
-                Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
-                                .setReversed(true)
-                                .splineTo(new Vector2d(54, 14), Math.toRadians(0))
-                                .build()));
-                break;
-            case Corner:
-                Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
-                                .setReversed(true)
-                                .splineTo(new Vector2d(54, 60), Math.toRadians(0))
-                                .build()));
-                break;
-            default:
-                break;
-        }
-         */
+//        state.lastKnownLiftState = LiftDriveState.Drive;
+//        state.currentLiftDriveState = LiftDriveState.LowDropOff;
+//        state.currentLiftSlideState = LiftSlideState.Extending;
+//        state.dropOffState = DropOffState.Start;
+//
+//        while (state.dropOffState != DropOffState.Finished) {
+//            lift.update();
+//            claw.update();
+//            idle();
+//        }
+//
+//        state.telemetry(telemetry, hardware);
+//        telemetry.update();
+//
+//        Actions.runBlocking(drive.actionBuilder(drive.pose).lineToX(44).build());
+//
+//        state.rightClawState = ClawState.Opened;
+//        claw.update();
+//        sleep(2000);
+//
+//        Actions.runBlocking(drive.actionBuilder(drive.pose).lineToX(38).build());
+//
+//        state.pickUpState = PickUpState.Start;
+//        state.lastKnownLiftState = LiftDriveState.LowDropOff;
+//        state.currentLiftDriveState = LiftDriveState.Drive;
+//        state.currentLiftSlideState = LiftSlideState.Retracting;
+//
+//        while (state.pickUpState != PickUpState.Finished) {
+//            lift.update();
+//            claw.update();
+//            idle();
+//        }
+//
+//        state.lastKnownLiftState = LiftDriveState.Drive;
+//
+//        // where to park?
+//        switch (parkLocation) {
+//            case Center:
+//                Actions.runBlocking(new SequentialAction(
+//                        drive.actionBuilder(drive.pose)
+//                                .setReversed(true)
+//                                .splineTo(new Vector2d(54, 14), Math.toRadians(0))
+//                                .build()));
+//                break;
+//            case Corner:
+//                Actions.runBlocking(new SequentialAction(
+//                        drive.actionBuilder(drive.pose)
+//                                .setReversed(true)
+//                                .splineTo(new Vector2d(54, 60), Math.toRadians(0))
+//                                .build()));
+//                break;
+//            default:
+//                break;
+//        }
     }
 
     @Override

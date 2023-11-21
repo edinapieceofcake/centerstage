@@ -67,21 +67,21 @@ public class RedAudienceWithBackStage extends LinearOpMode {
             case Left:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(-39, -30), Math.toRadians(180))
+                                .splineTo(new Vector2d(46, -29), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Center:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(-35, -33), Math.toRadians(90))
+                                .splineTo(new Vector2d(46, -35.5), Math.toRadians(90))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Right:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(-33, -30), Math.toRadians(0))
+                                .splineTo(new Vector2d(46, -42), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1)));
                 break;
