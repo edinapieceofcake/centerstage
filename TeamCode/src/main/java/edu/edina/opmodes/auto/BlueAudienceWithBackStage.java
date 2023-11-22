@@ -71,21 +71,21 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
             case Left:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(-33, 30), Math.toRadians(0))
+                                .splineTo(new Vector2d(-40, 37), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Center:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(-37, 33), Math.toRadians(270))
+                                .splineTo(new Vector2d(-40, 33), Math.toRadians(270))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Right:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(-38, 30), Math.toRadians(180))
+                                .splineTo(new Vector2d(-38, 27), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1)));
                 break;

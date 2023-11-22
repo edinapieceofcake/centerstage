@@ -75,21 +75,21 @@ public class RedBackstage extends LinearOpMode {
             case Left:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(46,-29), Math.toRadians(0))
+                                .splineTo(new Vector2d(44,-29), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Center:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(46,-35.5), Math.toRadians(0))
+                                .splineTo(new Vector2d(44,-35.5), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Right:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(46,-42), Math.toRadians(0))
+                                .splineTo(new Vector2d(44,-42), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1)));
                 break;
@@ -113,7 +113,7 @@ public class RedBackstage extends LinearOpMode {
         claw.update();
         sleep(2000);
 
-        Actions.runBlocking(drive.actionBuilder(drive.pose).lineToX(46).build());
+        Actions.runBlocking(drive.actionBuilder(drive.pose).lineToX(44).build());
 
         state.pickUpState = PickUpState.Start;
         state.currentLiftDriveState = LiftDriveState.Drive;
