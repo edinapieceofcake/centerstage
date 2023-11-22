@@ -47,6 +47,7 @@ public class RobotConfiguration {
     public int liftPickupPosition = 0;
     public int liftFirstExtensionDropOffPosition = -120;
     public int liftLowDropOffPosition = -600;
+    public int liftAutonomousDropOffPosition = -500;
     public int liftHighDropOffPosition = -800;
     public int liftTwistPosition = -300;
     public int minimumExtensionBeforeTwistingInTicks = -350;

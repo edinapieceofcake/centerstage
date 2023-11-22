@@ -225,8 +225,8 @@ public class MeepMeepTesting {
                 .setReversed(true)
                 .splineTo(new Vector2d(-30, -55), Math.toRadians(0))
                 .splineTo(new Vector2d(0, -55), Math.toRadians(0))
-                .splineTo(new Vector2d(40, -55), Math.toRadians(0))
-                .splineTo(new Vector2d(45, -40), Math.toRadians(180))
+                .splineTo(new Vector2d(28, -55), Math.toRadians(0))
+                .splineTo(new Vector2d(30, -40), Math.toRadians(180))
                 .build());
 
         RoadRunnerBotEntity audienceRedLeft = new DefaultBotBuilder(meepMeep)
@@ -241,6 +241,21 @@ public class MeepMeepTesting {
                 .splineTo(new Vector2d(-30, -10), Math.toRadians(0))
                 .splineTo(new Vector2d(30, -10), Math.toRadians(0))
                 .splineTo(new Vector2d(40, -40), Math.toRadians(180))
+                .build());
+
+        RoadRunnerBotEntity audienceRedLeftWall = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(40,40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        audienceRedLeftWall.runAction(audienceRedLeftWall.getDrive().actionBuilder(new Pose2d(-42, -64, Math.toRadians(90)))
+                .splineTo(new Vector2d(-42, -30), Math.toRadians(180))
+                .setReversed(true)
+                .splineTo(new Vector2d(-30, -55), Math.toRadians(0))
+                .splineTo(new Vector2d(0, -55), Math.toRadians(0))
+                .splineTo(new Vector2d(28, -55), Math.toRadians(0))
+                .splineTo(new Vector2d(30, -40), Math.toRadians(180))
                 .build());
 
         RoadRunnerBotEntity audienceBlueLeft = new DefaultBotBuilder(meepMeep)
@@ -335,8 +350,9 @@ public class MeepMeepTesting {
 //                .addEntity(audienceBlueCenter)
 //                .addEntity(audienceBlueCenterWall)
 //                .addEntity(audienceBlueRight)
-                .addEntity(audienceBlueRightWall)
+//                .addEntity(audienceBlueRightWall)
 //                .addEntity(audienceRedLeft)
+                .addEntity(audienceRedLeftWall)
 //                .addEntity(audienceRedCenterWall)
 //                .addEntity(audienceRedRight)
 //                .addEntity(audienceRedRightWall)

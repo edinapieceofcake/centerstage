@@ -99,30 +99,30 @@ public class ConfigureLift extends LinearOpMode {
 
             if (pad1.right_bumper) {
                 // moving up
-                rightLiftServo.setPosition(rightLiftServo.getPosition() - .01);
-                leftLiftServo.setPosition(leftLiftServo.getPosition() + .01);
-//                leftLiftServo.setPosition(.33);
-//                rightLiftServo.setPosition(.68);
+//                rightLiftServo.setPosition(rightLiftServo.getPosition() - .01);
+//                leftLiftServo.setPosition(leftLiftServo.getPosition() + .01);
+                leftLiftServo.setPosition(.53);
+                rightLiftServo.setPosition(.51);
             } else if (pad1.left_bumper) {
                 // intake
-                rightLiftServo.setPosition(rightLiftServo.getPosition() + .01);
-                leftLiftServo.setPosition(leftLiftServo.getPosition() - .01);
-//                leftLiftServo.setPosition(.96);
-//                rightLiftServo.setPosition(.1);
+//                rightLiftServo.setPosition(rightLiftServo.getPosition() + .01);
+//                leftLiftServo.setPosition(leftLiftServo.getPosition() - .01);
+                leftLiftServo.setPosition(.96);
+                rightLiftServo.setPosition(.1);
             }
 
             if (pad1.dpad_left) {
 //                DropOff
-                twistClawServo.setPosition(twistClawServo.getPosition() + .01);
-//                twistClawServo.setPosition(0.28);
-//                angleClawServo.setPosition(1);
+//                twistClawServo.setPosition(twistClawServo.getPosition() + .01);
+                twistClawServo.setPosition(0.28);
+                angleClawServo.setPosition(.77);
             }
 
             if (pad1.dpad_right) {
 //                Pick Up
-                twistClawServo.setPosition(twistClawServo.getPosition() - .01);
-//                twistClawServo.setPosition(0.96);
-//                angleClawServo.setPosition(0.32);
+//                twistClawServo.setPosition(twistClawServo.getPosition() - .01);
+                twistClawServo.setPosition(0.96);
+                angleClawServo.setPosition(0.37);
             }
 
             if (pad1.x) {
@@ -156,8 +156,8 @@ public class ConfigureLift extends LinearOpMode {
 
             telemetry.addData("Left Claw Position: ", leftClawServo.getPosition());
             telemetry.addData("Right Claw Position: ", rightClawServo.getPosition());
-//            telemetry.addData("Top Lift Motor Current Position: ", topLiftMotor.getCurrentPosition());
-//            telemetry.addData("Bottom Lift Motor Current Position: ", bottomLiftMotor.getCurrentPosition());
+            telemetry.addData("Top Lift Motor Current Position: ", topLiftMotor.getCurrentPosition());
+            telemetry.addData("Bottom Lift Motor Current Position: ", bottomLiftMotor.getCurrentPosition());
             telemetry.addData("Left Lift Position: ", leftLiftServo.getPosition());
             telemetry.addData("Right Lift Position: ", rightLiftServo.getPosition());
 //            telemetry.addData("Twist Claw Position: ", twistClawServo.getPosition());

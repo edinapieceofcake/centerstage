@@ -21,6 +21,7 @@ import edu.edina.library.enums.PropLocation;
 import edu.edina.library.subsystems.Claw;
 import edu.edina.library.subsystems.Lift;
 import edu.edina.library.util.PoCHuskyLens;
+import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.RobotState;
 
@@ -43,7 +44,7 @@ public class RedBackstage extends LinearOpMode {
         // test hardware construction and use in an empty action
         hardware = new RobotHardware(hardwareMap);
 
-        Pose2d startPose = new Pose2d(8, -64, Math.toRadians(90));
+        Pose2d startPose = new Pose2d(9, -64, Math.toRadians(90));
 
         // use out version of the drive based off the hardware that we created above.
         drive = new org.firstinspires.ftc.teamcode.MecanumDrive(hardware.leftFront,
@@ -75,21 +76,21 @@ public class RedBackstage extends LinearOpMode {
             case Left:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(44,-29), Math.toRadians(0))
+                                .splineTo(new Vector2d(44,-30), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Center:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(44,-35.5), Math.toRadians(0))
+                                .splineTo(new Vector2d(44,-38), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Right:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(44,-42), Math.toRadians(0))
+                                .splineTo(new Vector2d(44,-45), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1)));
                 break;
@@ -100,6 +101,7 @@ public class RedBackstage extends LinearOpMode {
         state.currentLiftDriveState = LiftDriveState.LowDropOff;
         state.currentLiftSlideState = LiftSlideState.Extending;
         state.dropOffState = DropOffState.Start;
+        RobotConfiguration.getInstance().liftLowDropOffPosition = -500;
 
         while (state.dropOffState != DropOffState.Finished) {
             lift.update();
@@ -130,6 +132,7 @@ public class RedBackstage extends LinearOpMode {
                     .turnTo(Math.toRadians(180))
                     .build()));
 
+        RobotConfiguration.getInstance().liftLowDropOffPosition = -600;
         // where to put the purple pixel?
         switch (propLocation) {
             case Left:
@@ -154,7 +157,7 @@ public class RedBackstage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 //.setReversed(true)
-                                .splineTo(new Vector2d(32, -34), Math.toRadians(180))
+                                .splineTo(new Vector2d(34, -34), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1))
                 );

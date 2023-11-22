@@ -21,6 +21,7 @@ import edu.edina.library.enums.PropLocation;
 import edu.edina.library.subsystems.Claw;
 import edu.edina.library.subsystems.Lift;
 import edu.edina.library.util.PoCHuskyLens;
+import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.RobotState;
 
@@ -72,21 +73,21 @@ public class BlueBackstage extends LinearOpMode {
             case Left:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(38,44), Math.toRadians(0))
+                                .splineTo(new Vector2d(36,44), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Center:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(38,37), Math.toRadians(0))
+                                .splineTo(new Vector2d(36,37), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Right:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(38,28), Math.toRadians(0))
+                                .splineTo(new Vector2d(36,28), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1)));
                 break;
@@ -98,6 +99,7 @@ public class BlueBackstage extends LinearOpMode {
         state.currentLiftDriveState = LiftDriveState.LowDropOff;
         state.currentLiftSlideState = LiftSlideState.Extending;
         state.dropOffState = DropOffState.Start;
+        RobotConfiguration.getInstance().liftLowDropOffPosition = -500;
 
         while (state.dropOffState != DropOffState.Finished) {
             lift.update();
@@ -114,7 +116,7 @@ public class BlueBackstage extends LinearOpMode {
         claw.update();
         sleep(2000);
 
-        Actions.runBlocking(drive.actionBuilder(drive.pose).lineToX(38).build());
+        Actions.runBlocking(drive.actionBuilder(drive.pose).lineToX(36).build());
 
         state.pickUpState = PickUpState.Start;
         state.lastKnownLiftState = LiftDriveState.LowDropOff;
@@ -134,6 +136,7 @@ public class BlueBackstage extends LinearOpMode {
                     .turnTo(Math.toRadians(180))
                     .build()));
 
+        RobotConfiguration.getInstance().liftLowDropOffPosition = -600;
         // where to put the purple pixel?
         switch (propLocation) {
             case Left:
@@ -158,7 +161,7 @@ public class BlueBackstage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 //.setReversed(true)
-                                .splineTo(new Vector2d(4, 34), Math.toRadians(180))
+                                .splineTo(new Vector2d(2, 34), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1))
                 );

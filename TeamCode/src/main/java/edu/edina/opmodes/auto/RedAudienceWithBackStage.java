@@ -42,7 +42,7 @@ public class RedAudienceWithBackStage extends LinearOpMode {
         // test hardware construction and use in an empty action
         hardware = new RobotHardware(hardwareMap);
 
-        Pose2d startPose = new Pose2d(-42, -64, Math.toRadians(90));
+        Pose2d startPose = new Pose2d(-41, -64, Math.toRadians(90));
 
         // use out version of the drive based off the hardware that we created above.
         drive = new MecanumDrive(hardware.leftFront,
@@ -84,7 +84,7 @@ public class RedAudienceWithBackStage extends LinearOpMode {
             case Right:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(-35, -30), Math.toRadians(0))
+                                .splineTo(new Vector2d(-34, -30), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1)));
                 break;
@@ -103,9 +103,10 @@ public class RedAudienceWithBackStage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(-30, -10), Math.toRadians(0))
-                                .splineTo(new Vector2d(28, -10), Math.toRadians(0))
-                                .splineTo(new Vector2d(30, -35), Math.toRadians(170))
+                                .splineTo(new Vector2d(-30, -57), Math.toRadians(0))
+                                .splineTo(new Vector2d(0, -57), Math.toRadians(0))
+                                .splineTo(new Vector2d(38, -57), Math.toRadians(0))
+                                .splineTo(new Vector2d(40, -32), Math.toRadians(180))
                                 .build(),
                         sleep1sAction)
                 );
@@ -116,14 +117,8 @@ public class RedAudienceWithBackStage extends LinearOpMode {
                                 .setReversed(true)
                                 .splineTo(new Vector2d(-30, -57), Math.toRadians(0))
                                 .splineTo(new Vector2d(0, -57), Math.toRadians(0))
-                                .splineTo(new Vector2d(40, -57), Math.toRadians(0))
-                                .splineTo(new Vector2d(43, -41.5), Math.toRadians(180))
-                                // run down the middle if we can fix the drift
-//                                .setReversed(true)
-//                                .splineTo(new Vector2d(-55, -35), Math.toRadians(90))
-//                                .splineTo(new Vector2d(-45, -10), Math.toRadians(0))
-//                                .splineTo(new Vector2d(28, -10), Math.toRadians(0))
-//                                .splineTo(new Vector2d(38, -40), Math.toRadians(180))
+                                .splineTo(new Vector2d(38, -57), Math.toRadians(0))
+                                .splineTo(new Vector2d(40, -38), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1))
                 );
@@ -134,13 +129,8 @@ public class RedAudienceWithBackStage extends LinearOpMode {
                                 .setReversed(true)
                                 .splineTo(new Vector2d(-30, -58), Math.toRadians(0))
                                 .splineTo(new Vector2d(0, -58), Math.toRadians(0))
-                                .splineTo(new Vector2d(40, -58), Math.toRadians(0))
-                                .splineTo(new Vector2d(43, -48), Math.toRadians(180))
-                                // run down the middle if we can fix the drift
-//                                .setReversed(true)
-//                                .splineTo(new Vector2d(-35, -10), Math.toRadians(0))
-//                                .splineTo(new Vector2d(28, -10), Math.toRadians(0))
-//                                .splineTo(new Vector2d(38, -45), Math.toRadians(180))
+                                .splineTo(new Vector2d(38, -58), Math.toRadians(0))
+                                .splineTo(new Vector2d(40, -48), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1))
                 );
@@ -148,7 +138,6 @@ public class RedAudienceWithBackStage extends LinearOpMode {
             default:
                 break;
         }
-
 
         Actions.runBlocking(new SequentialAction(
                 drive.actionBuilder(drive.pose)
@@ -160,12 +149,13 @@ public class RedAudienceWithBackStage extends LinearOpMode {
         state.currentLiftDriveState = LiftDriveState.LowDropOff;
         state.currentLiftSlideState = LiftSlideState.Extending;
         state.dropOffState = DropOffState.Start;
-//        RobotConfiguration.getInstance().leftLowDropOffServoPosition = .63;
-//        RobotConfiguration.getInstance().rightLowDropOffServoPosition = .41;
+        RobotConfiguration.getInstance().liftLowDropOffPosition = -500;
 
         while (state.dropOffState != DropOffState.Finished) {
             lift.update();
             claw.update();
+            state.telemetry(telemetry, hardware);
+            telemetry.update();
             idle();
         }
 
@@ -173,7 +163,7 @@ public class RedAudienceWithBackStage extends LinearOpMode {
         telemetry.update();
 
         // CHANGE THIS FOR THE BACKBOARD POSITION
-        Actions.runBlocking(drive.actionBuilder(drive.pose).lineToX(44).build());
+        Actions.runBlocking(drive.actionBuilder(drive.pose).lineToX(52).build());
 
         state.rightClawState = ClawState.Opened;
         claw.update();
@@ -189,10 +179,13 @@ public class RedAudienceWithBackStage extends LinearOpMode {
         while (state.pickUpState != PickUpState.Finished) {
             lift.update();
             claw.update();
+            state.telemetry(telemetry, hardware);
+            telemetry.update();
             idle();
         }
 
         state.lastKnownLiftState = LiftDriveState.Drive;
+        RobotConfiguration.getInstance().liftLowDropOffPosition = -600;
 
         // where to park?
         switch (parkLocation) {
@@ -207,7 +200,7 @@ public class RedAudienceWithBackStage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(58, -64), Math.toRadians(0))
+                                .splineTo(new Vector2d(55, -64), Math.toRadians(0))
                                 .build()));
                 break;
             default:
