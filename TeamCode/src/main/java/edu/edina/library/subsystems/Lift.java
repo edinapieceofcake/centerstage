@@ -33,7 +33,8 @@ public class Lift implements Subsystem, Action {
     private boolean isTeleop = true;
     private boolean liftMotorReset = false;
     private Deadline lowLiftDelay = new Deadline(100, TimeUnit.MILLISECONDS);
-    private Deadline highLiftDelay = new Deadline(100, TimeUnit.MILLISECONDS);
+    private Deadline highLiftDelay = new Deadline(300, TimeUnit.MILLISECONDS);
+    private Deadline secondExtensionTimeout = new Deadline(1000, TimeUnit.MILLISECONDS);
 
     public Lift(RobotHardware hardware, boolean isTeleop) {
         this.hardware = hardware;
@@ -130,6 +131,7 @@ public class Lift implements Subsystem, Action {
                                 hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                                 hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                                 state.dropOffState = DropOffState.SecondExtension;
+                                secondExtensionTimeout.reset();;
                             }
                         } else {
                             if (highLiftDelay.hasExpired()) {
@@ -138,6 +140,7 @@ public class Lift implements Subsystem, Action {
                                 hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                                 hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                                 state.dropOffState = DropOffState.SecondExtension;
+                                secondExtensionTimeout.reset();;
                             }
                         }
                     }
@@ -150,30 +153,34 @@ public class Lift implements Subsystem, Action {
                         }
 
                         if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {
-                            if (state.lastKnownLiftState == HighDropOff) {
-                                if (hardware.topLiftMotor.getCurrentPosition() > (config.liftLowDropOffPosition - 10)) {
-                                    state.dropOffState = DropOffState.Finished;
-                                    state.currentLiftSlideState = LiftSlideState.Idle;
-                                    state.lastKnownLiftState = LowDropOff;
-                                    state.twistServoState = TwistServoState.DropOff;
-                                    state.angleClawState = AngleClawState.DropOff;
-                                }
+                            if (secondExtensionTimeout.hasExpired()) {
+                                state.dropOffState = DropOffState.Finished;
+                                state.currentLiftSlideState = LiftSlideState.Idle;
+                                state.lastKnownLiftState = LowDropOff;
                             } else {
-                                if (hardware.topLiftMotor.getCurrentPosition() < (config.liftLowDropOffPosition + 10)) {
-                                    state.dropOffState = DropOffState.Finished;
-                                    state.currentLiftSlideState = LiftSlideState.Idle;
-                                    state.lastKnownLiftState = LowDropOff;
-                                    state.twistServoState = TwistServoState.DropOff;
-                                    state.angleClawState = AngleClawState.DropOff;
+                                if (state.lastKnownLiftState == HighDropOff) {
+                                    if (hardware.topLiftMotor.getCurrentPosition() > (config.liftLowDropOffPosition - 10)) {
+                                        state.dropOffState = DropOffState.Finished;
+                                        state.currentLiftSlideState = LiftSlideState.Idle;
+                                        state.lastKnownLiftState = LowDropOff;
+                                    }
+                                } else {
+                                    if (hardware.topLiftMotor.getCurrentPosition() < (config.liftLowDropOffPosition + 10)) {
+                                        state.dropOffState = DropOffState.Finished;
+                                        state.currentLiftSlideState = LiftSlideState.Idle;
+                                        state.lastKnownLiftState = LowDropOff;
+                                    }
                                 }
                             }
                         } else {
-                            if (hardware.topLiftMotor.getCurrentPosition() < (config.liftHighDropOffPosition + 10)) {
+                            if (secondExtensionTimeout.hasExpired()) {
                                 state.dropOffState = DropOffState.Finished;
                                 state.currentLiftSlideState = LiftSlideState.Idle;
                                 state.lastKnownLiftState = HighDropOff;
-                                state.twistServoState = TwistServoState.DropOff;
-                                state.angleClawState = AngleClawState.DropOff;
+                            } else if (hardware.topLiftMotor.getCurrentPosition() < (config.liftHighDropOffPosition + 10)) {
+                                state.dropOffState = DropOffState.Finished;
+                                state.currentLiftSlideState = LiftSlideState.Idle;
+                                state.lastKnownLiftState = HighDropOff;
                             }
                         }
                     }
@@ -218,10 +225,6 @@ public class Lift implements Subsystem, Action {
                     if (state.pickUpState == PickUpState.SecondRetraction) {
                         hardware.topLiftMotor.setTargetPosition(config.liftDrivePosition);
                         hardware.bottomLiftMotor.setTargetPosition(config.liftDrivePosition);
-                        hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        hardware.topLiftMotor.setPower(config.liftRetractingPower);
-                        hardware.bottomLiftMotor.setPower(config.liftRetractingPower);
                         state.pickUpState = PickUpState.WaitForSecondRetraction;
                     }
 

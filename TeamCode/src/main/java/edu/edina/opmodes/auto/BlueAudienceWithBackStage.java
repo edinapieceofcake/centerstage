@@ -220,7 +220,7 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
         while (!isStarted()) {
             poCHuskyLens.update();
 
-            propLocation = PropLocation.Right;//poCHuskyLens.getPropLocation();
+            propLocation = poCHuskyLens.getPropLocation();
             telemetry.addData("Location", propLocation);
 
             telemetry.update();

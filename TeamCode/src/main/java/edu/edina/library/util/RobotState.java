@@ -61,16 +61,17 @@ public class RobotState {
     public void telemetry(Telemetry telemetry, RobotHardware hardware) {
         telemetry.addData("Top Motor LiftPosition", currentTopMotorPosition);
         telemetry.addData("Bottom Motor LiftPosition", currentBottomMotorPosition);
-//        telemetry.addData("LiftSlidePower", currentLiftSlidePower);
-//        telemetry.addData("LiftServoState", currentLiftServoState);
+        telemetry.addData("LiftSlidePower", currentLiftSlidePower);
+        telemetry.addData("LiftServoState", currentLiftServoState);
         telemetry.addData("LiftDriveState", currentLiftDriveState);
         telemetry.addData("LastKnownLiftDriveState", lastKnownLiftState);
-//        telemetry.addData("PickUpState", pickUpState);
-//        telemetry.addData("Current Left Lift Servo Position", currentLeftLiftServoPosition);
-//        telemetry.addData("Current Right Servo Position", currentRightLiftServoPosition);
-//        telemetry.addData("liftTargetPosition", liftTargetPosition);
-//        telemetry.addData("Twist Servo State: ", twistServoState);
-//        telemetry.addData("AngleClawState", angleClawState);
+        telemetry.addData("PickUpState", pickUpState);
+        telemetry.addData("DropOffState", dropOffState);
+        telemetry.addData("Current Left Lift Servo Position", currentLeftLiftServoPosition);
+        telemetry.addData("Current Right Servo Position", currentRightLiftServoPosition);
+        telemetry.addData("liftTargetPosition", liftTargetPosition);
+        telemetry.addData("Twist Servo State: ", twistServoState);
+        telemetry.addData("AngleClawState", angleClawState);
 //        telemetry.addData("Current Lift Angle, Length, Height: ", "%f %f %f", currentLiftAngle, currentLiftLength, currentLiftHeight);
 //        telemetry.addData("Sin Current Lift Angle", Math.sin(Math.toRadians(currentLiftAngle)));
 
@@ -83,8 +84,8 @@ public class RobotState {
             telemetry.addData("Top Target", hardware.topLiftMotor.getTargetPosition());
             telemetry.addData("Bottom Target", hardware.bottomLiftMotor.getTargetPosition());
 
-//            telemetry.addData("Left Lift Servo Position", hardware.leftLiftServo.getPosition());
-//            telemetry.addData("Right Lift Servo Position", hardware.rightLiftServo.getPosition());
+            telemetry.addData("Left Lift Servo Position", hardware.leftLiftServo.getPosition());
+            telemetry.addData("Right Lift Servo Position", hardware.rightLiftServo.getPosition());
 
             telemetry.addData("Top Motor Mode", hardware.topLiftMotor.getMode());
             telemetry.addData("Bottom Motor Mode", hardware.bottomLiftMotor.getMode());
