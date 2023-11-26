@@ -5,10 +5,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
+import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @TeleOp
@@ -18,6 +20,7 @@ public class TestHangMotor extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         SmartGamepad pad1 = new SmartGamepad(gamepad1);
+        RobotHardware hardware = new RobotHardware(hardwareMap);
         double motorPower = .25;
         DcMotorEx hangMotor = hardwareMap.get(DcMotorEx.class, "robotHangerMotor");
         ServoImplEx rightLiftServo = hardwareMap.get(ServoImplEx.class, "leftLiftServo");
@@ -65,8 +68,15 @@ public class TestHangMotor extends LinearOpMode {
                 rightLiftServo.setPosition(.68);
             }
 
+            if (pad1.y) {
+                hardware.homeHangMotor();
+            }
+
             telemetry.addData("Triggers control the hang motor", "");
             telemetry.addData("Press the bumpers to increase and decrease the motor power", "");
+            telemetry.addData("Press the dpad up to high servo position, down to store, left or right to middle position", "");
+            telemetry.addData("Press the y button to home the hanger motor", "");
+
             telemetry.addData("Current Power", motorPower);
             telemetry.addData("Hang Motor Current Position: ", hangMotor.getCurrentPosition());
             telemetry.addData("Hang Motor Speed, Current: ", "%f, %f", hangMotor.getPower(), hangMotor.getCurrent(CurrentUnit.MILLIAMPS));

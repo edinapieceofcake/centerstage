@@ -46,6 +46,8 @@ public class RobotHardware {
     public final DigitalChannel leftClawRed, leftClawGreen;
     public final DigitalChannel rightClawRed, rightClawGreen;
 
+    public final DigitalChannel hangSwitch;
+
 
     public RobotHardware(HardwareMap hardwareMap) {
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
@@ -116,6 +118,8 @@ public class RobotHardware {
         rightClawGreen = hardwareMap.get(DigitalChannel.class, "rightClawGreen");
         rightClawRed.setMode(DigitalChannel.Mode.OUTPUT);
         rightClawGreen.setMode(DigitalChannel.Mode.OUTPUT);
+
+        hangSwitch = hardwareMap.get(DigitalChannel.class, "hangSwitch");
     }
 
     public void liftServosForTeleop() {
@@ -132,5 +136,25 @@ public class RobotHardware {
         par0Servo.setPosition(config.par0DownPosition);
         par1Servo.setPosition(config.par1DownPosition);
         perpServo.setPosition(config.perpDownPosition);
+    }
+
+    public void homeHangMotor() {
+        robotHangerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robotHangerMotor.setPower(-.1);
+
+        while (hangSwitch.getState()) {
+            Thread.yield();
+        }
+
+        robotHangerMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robotHangerMotor.setTargetPosition(RobotConfiguration.getInstance().hangMotorStorePosition);
+        robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robotHangerMotor.setPower(.5);
+
+        while (robotHangerMotor.isBusy()) {
+            Thread.yield();
+        }
+
+        robotHangerMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 }

@@ -394,6 +394,12 @@ public class Lift implements Subsystem, Action {
 
             state.currentLiftSlideState = LiftSlideState.Extending;
         }
+
+        if (gm2y) {
+            state.currentLiftDriveState = Hang;
+            state.hangState = HangState.Start;
+            state.currentLiftSlideState = LiftSlideState.Extending;
+        }
     }
 
     private double round(double originalValue) {
