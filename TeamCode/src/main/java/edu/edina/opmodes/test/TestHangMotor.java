@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
@@ -19,10 +20,15 @@ public class TestHangMotor extends LinearOpMode {
         SmartGamepad pad1 = new SmartGamepad(gamepad1);
         double motorPower = .25;
         DcMotorEx hangMotor = hardwareMap.get(DcMotorEx.class, "robotHangerMotor");
+        ServoImplEx rightLiftServo = hardwareMap.get(ServoImplEx.class, "leftLiftServo");
+        ServoImplEx leftLiftServo = hardwareMap.get(ServoImplEx.class, "rightLiftServo");
 
         hangMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         hangMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         hangMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        rightLiftServo.setPosition(0.1);
+        leftLiftServo.setPosition(0.96);
 
         waitForStart();
 
@@ -34,7 +40,7 @@ public class TestHangMotor extends LinearOpMode {
             }
 
             if (pad1.right_bumper) {
-                motorPower = 0.01;
+                motorPower -= 0.01;
             }
 
             if (gamepad1.left_trigger != 0) {
@@ -43,6 +49,20 @@ public class TestHangMotor extends LinearOpMode {
                 hangMotor.setPower(-Math.abs(motorPower));
             } else {
                 hangMotor.setPower(0);
+            }
+
+            if (pad1.dpad_left || pad1.dpad_right) {
+                // low
+                leftLiftServo.setPosition(.53);
+                rightLiftServo.setPosition(.51);
+            } else if (pad1.dpad_down) {
+                // drive
+                leftLiftServo.setPosition(.96);
+                rightLiftServo.setPosition(.1);
+            } else if (pad1.dpad_up) {
+                // high
+                leftLiftServo.setPosition(.33);
+                rightLiftServo.setPosition(.68);
             }
 
             telemetry.addData("Triggers control the hang motor", "");

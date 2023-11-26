@@ -41,6 +41,7 @@ public class RobotConfiguration {
     public double hangerExtendingPower = 0.5;
     public double liftRetractingPower = -.75;
     public double liftExtendingPower = 1;
+    public double slowLiftRetractingPower = .3;
 
     // lift encoder positions
     public int liftDrivePosition = 50;
@@ -52,6 +53,15 @@ public class RobotConfiguration {
     public int liftTwistPosition = -300;
     public int minimumExtensionBeforeTwistingInTicks = -350;
     public int minimumExtensionBeforeRaisingLiftInTicks = -120;
+
+    // robot hanger positions
+    public double leftHangServoPosition = .53;
+    public double rigfhtHangServoPosition = .51;
+    public int hangMotorStorePosition = 0;
+    public int hangMotorLowDropOffPosition = 0;
+    public int hangMotorHighDropOffPosition = 0;
+    public int hangMotorHangPosition = 200;
+
 
     public double minimumHeightToTwistServoInInches = 12.0;
 

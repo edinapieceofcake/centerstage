@@ -86,6 +86,9 @@ public class RobotHardware {
         droneLaunchServo = hardwareMap.get(Servo.class, "droneLaunchServo");
 
         robotHangerMotor = hardwareMap.get(DcMotorEx.class, "robotHangerMotor");
+        robotHangerMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robotHangerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robotHangerMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         topLiftMotor = hardwareMap.get(DcMotorEx.class, "topLiftMotor");
         bottomLiftMotor = hardwareMap.get(DcMotorEx.class, "bottomLiftMotor");
