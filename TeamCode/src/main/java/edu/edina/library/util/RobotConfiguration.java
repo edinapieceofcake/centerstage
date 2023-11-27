@@ -37,8 +37,8 @@ public class RobotConfiguration {
     public double liftServoPositionAtBottomOfHubs = 0.29;
 
     // motor powers
-    public double hangerRetractingPower = -0.5;
-    public double hangerExtendingPower = 0.5;
+    public double hangerRetractingPower = -0.75;
+    public double hangerExtendingPower = 0.75;
     public double liftRetractingPower = -.75;
     public double liftExtendingPower = 1;
     public double slowLiftRetractingPower = .3;
@@ -56,11 +56,12 @@ public class RobotConfiguration {
 
     // robot hanger positions
     public double leftHangServoPosition = .53;
-    public double rigfhtHangServoPosition = .51;
+    public double rightHangServoPosition = .51;
+    public int hangMotorInitPosition = -260;
     public int hangMotorStorePosition = 0;
-    public int hangMotorLowDropOffPosition = 0;
-    public int hangMotorHighDropOffPosition = 0;
-    public int hangMotorHangPosition = 200;
+    public int hangMotorLowDropOffPosition = -900;
+    public int hangMotorHighDropOffPosition = -1300;
+    public int hangMotorHangPosition = -3000;
 
 
     public double minimumHeightToTwistServoInInches = 12.0;

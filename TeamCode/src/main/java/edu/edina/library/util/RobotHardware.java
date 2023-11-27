@@ -12,8 +12,10 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
 public class RobotHardware {
@@ -30,7 +32,7 @@ public class RobotHardware {
 
     public final Servo leftClawServo, rightClawServo, twistClawServo, angleClawServo;
 
-    public final Servo leftLiftServo, rightLiftServo;
+    public final ServoImplEx leftLiftServo, rightLiftServo;
 
     public final Servo droneLaunchServo;
 
@@ -82,8 +84,8 @@ public class RobotHardware {
         twistClawServo = hardwareMap.get(Servo.class, "twistClawServo");
         angleClawServo = hardwareMap.get(Servo.class, "angleClawServo");
 
-        leftLiftServo = hardwareMap.get(Servo.class, "rightLiftServo");
-        rightLiftServo = hardwareMap.get(Servo.class, "leftLiftServo");
+        leftLiftServo = hardwareMap.get(ServoImplEx.class, "rightLiftServo");
+        rightLiftServo = hardwareMap.get(ServoImplEx.class, "leftLiftServo");
 
         droneLaunchServo = hardwareMap.get(Servo.class, "droneLaunchServo");
 
@@ -98,6 +100,7 @@ public class RobotHardware {
         huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
 
         liftSwitch = hardwareMap.get(DigitalChannel.class, "liftSwitch");
+        liftSwitch.setMode(DigitalChannel.Mode.INPUT);
 
         topLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         topLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -120,6 +123,7 @@ public class RobotHardware {
         rightClawGreen.setMode(DigitalChannel.Mode.OUTPUT);
 
         hangSwitch = hardwareMap.get(DigitalChannel.class, "hangSwitch");
+        hangSwitch.setMode(DigitalChannel.Mode.INPUT);
     }
 
     public void liftServosForTeleop() {
@@ -138,23 +142,40 @@ public class RobotHardware {
         perpServo.setPosition(config.perpDownPosition);
     }
 
-    public void homeHangMotor() {
-        robotHangerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robotHangerMotor.setPower(-.1);
+    public void homeHangMotor(Telemetry telemetry) {
+//        robotHangerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        robotHangerMotor.setPower(.1);
+//
+//        while (!hangSwitch.getState()) {
+//            telemetry.addData("Hang Switch", hangSwitch.getState());
+//            telemetry.addData("Mode", robotHangerMotor.getMode());
+//            telemetry.addData("Target Position", robotHangerMotor.getTargetPosition());
+//            telemetry.addData("Current Position", robotHangerMotor.getCurrentPosition());
+//            telemetry.update();
+//            Thread.yield();
+//        }
 
-        while (hangSwitch.getState()) {
-            Thread.yield();
-        }
-
+        robotHangerMotor.setPower(0);
         robotHangerMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robotHangerMotor.setTargetPosition(RobotConfiguration.getInstance().hangMotorStorePosition);
         robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robotHangerMotor.setPower(.5);
+        robotHangerMotor.setTargetPosition(RobotConfiguration.getInstance().hangMotorInitPosition);
+        robotHangerMotor.setPower(.1);
 
         while (robotHangerMotor.isBusy()) {
+            telemetry.addData("Mode", robotHangerMotor.getMode());
+            telemetry.addData("Target Position", robotHangerMotor.getTargetPosition());
+            telemetry.addData("Current Position", robotHangerMotor.getCurrentPosition());
+            telemetry.update();
             Thread.yield();
         }
+//
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException ex) {
+//
+//        }
 
-        robotHangerMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robotHangerMotor.setPower(0);
+//        robotHangerMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 }

@@ -96,6 +96,7 @@ public class RobotState {
             telemetry.addData("Bottom Front Power, Current", "%f %f", hardware.bottomLiftMotor.getPower(), hardware.bottomLiftMotor.getCurrent(CurrentUnit.MILLIAMPS));
 
             telemetry.addData("Lift Switch", hardware.liftSwitch.getState());
+            telemetry.addData("Hanger Motor Position", hardware.robotHangerMotor.getCurrentPosition());
         }
     }
 }

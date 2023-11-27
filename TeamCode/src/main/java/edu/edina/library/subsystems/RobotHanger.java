@@ -42,7 +42,10 @@ public class RobotHanger implements Subsystem {
                     hardware.robotHangerMotor.setPower(RobotConfiguration.getInstance().hangerExtendingPower);
                     break;
                 case Idle:
-                    hardware.robotHangerMotor.setPower(0);
+                    if (hardware.robotHangerMotor.getMode() == DcMotor.RunMode.RUN_USING_ENCODER) {
+                        hardware.robotHangerMotor.setPower(0);
+                    }
+
                     break;
             }
 
@@ -64,13 +67,13 @@ public class RobotHanger implements Subsystem {
         }
 
         if (hangServo) {
-            state.currentLeftLiftServoPosition = config.leftHangServoPosition;
-            state.currentRightLiftServoPosition = config.rigfhtHangServoPosition;
-            state.currentLiftServoState = LiftServoState.Hang;
+            state.currentLeftLiftServoPosition = config.leftLowDropOffServoPosition;
+            state.currentRightLiftServoPosition = config.rightLowDropOffServoPosition;
+            state.currentLiftServoState = LiftServoState.Medium;
         } else if (latchServo) {
-            state.currentLeftLiftServoPosition = config.leftHighDropOffServoPosition;
-            state.currentRightLiftServoPosition = config.rightHighDropOffServoPosition;
-            state.currentLiftServoState = LiftServoState.High;
+            state.currentLeftLiftServoPosition = config.startingLeftLiftServoPosition;
+            state.currentRightLiftServoPosition = config.startingRightLiftServoPosition;
+            state.currentLiftServoState = LiftServoState.Start;
         }
     }
 }
