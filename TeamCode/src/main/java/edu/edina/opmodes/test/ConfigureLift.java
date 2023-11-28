@@ -15,7 +15,7 @@ import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.SmartGamepad;
 
 @TeleOp
-//@Disabled
+@Disabled
 public class ConfigureLift extends LinearOpMode {
 
     @Override
@@ -100,16 +100,16 @@ public class ConfigureLift extends LinearOpMode {
 
             if (pad1.right_bumper) {
                 // moving up
-//                rightLiftServo.setPosition(rightLiftServo.getPosition() - .01);
+                rightLiftServo.setPosition(rightLiftServo.getPosition() - .01);
 //                leftLiftServo.setPosition(leftLiftServo.getPosition() + .01);
-                leftLiftServo.setPosition(.53);
-                rightLiftServo.setPosition(.51);
+//                leftLiftServo.setPosition(.53);
+//                rightLiftServo.setPosition(.51);
             } else if (pad1.left_bumper) {
                 // intake
-//                rightLiftServo.setPosition(rightLiftServo.getPosition() + .01);
+                rightLiftServo.setPosition(rightLiftServo.getPosition() + .01);
 //                leftLiftServo.setPosition(leftLiftServo.getPosition() - .01);
-                leftLiftServo.setPosition(.96);
-                rightLiftServo.setPosition(.1);
+//                leftLiftServo.setPosition(.96);
+//                rightLiftServo.setPosition(.1);
             }
 
             if (pad1.dpad_left) {

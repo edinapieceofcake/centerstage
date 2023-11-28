@@ -16,7 +16,7 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @TeleOp
-//@Disabled
+@Disabled
 public class TestHangMotor extends LinearOpMode {
 
     @Override

@@ -155,7 +155,7 @@ public class RobotHardware {
     public void homeHangMotor(Telemetry telemetry) {
         hangMotorHoming = true;
         robotHangerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robotHangerMotor.setPower(.5);
+        robotHangerMotor.setPower(.75);
 
         while (!hangSwitch.getState()) {
             if (telemetry != null) {

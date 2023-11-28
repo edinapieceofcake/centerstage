@@ -4,5 +4,6 @@ public enum LiftServoState {
     Start,
     Medium,
     High,
-    Hang
+    Hang,
+    Hung
 }

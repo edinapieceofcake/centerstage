@@ -159,6 +159,18 @@ public class Lift implements Subsystem, Action {
                     }
 
                     if (state.dropOffState == DropOffState.FirstExtension) {
+                        if (state.lastKnownLiftState == LowDropOff || state.lastKnownLiftState == HighDropOff) {
+                            // switch the robot hanger position if we are transitioning from low to high or high to low
+                            if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {
+                                hardware.robotHangerMotor.setTargetPosition(config.hangMotorLowDropOffPosition);
+                            } else {
+                                hardware.robotHangerMotor.setTargetPosition(config.hangMotorHighDropOffPosition);
+                            }
+
+                            hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
+                        }
+
                         if (hardware.topLiftMotor.getCurrentPosition() < (config.minimumExtensionBeforeRaisingLiftInTicks + 10)) {
                             state.dropOffState = DropOffState.LiftArm;
                             if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {
@@ -329,8 +341,21 @@ public class Lift implements Subsystem, Action {
             }
 
             if (state.currentLiftServoState == LiftServoState.Hang) {
-                ((PwmControl)hardware.leftLiftServo).setPwmDisable();
-                ((PwmControl)hardware.rightLiftServo).setPwmDisable();
+                hardware.leftLiftServo.setPosition(state.currentLeftLiftServoPosition);
+                hardware.rightLiftServo.setPosition(state.currentRightLiftServoPosition);
+
+                try {
+                    Thread.sleep(30);
+                } catch (InterruptedException ex) {
+
+                }
+
+                ((PwmControl) hardware.leftLiftServo).setPwmDisable();
+                ((PwmControl) hardware.rightLiftServo).setPwmDisable();
+                state.currentLiftServoState = LiftServoState.Hung;
+            } else if (state.currentLiftServoState == LiftServoState.Hung) {
+                ((PwmControl) hardware.leftLiftServo).setPwmDisable();
+                ((PwmControl) hardware.rightLiftServo).setPwmDisable();
             } else {
                 hardware.leftLiftServo.setPosition(state.currentLeftLiftServoPosition);
                 hardware.rightLiftServo.setPosition(state.currentRightLiftServoPosition);
