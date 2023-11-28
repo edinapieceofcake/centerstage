@@ -39,7 +39,7 @@ public class BlueAudience extends LinearOpMode {
         // test hardware construction and use in an empty action
         hardware = new RobotHardware(hardwareMap);
 
-        Pose2d startPose = new Pose2d(-32, 64, Math.toRadians(270));
+        Pose2d startPose = new Pose2d(-32, 62.25, Math.toRadians(270));
 
         // use out version of the drive based off the hardware that we created above.
         drive = new MecanumDrive(hardware.leftFront,
@@ -67,7 +67,7 @@ public class BlueAudience extends LinearOpMode {
             case Left:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(-33, 30), Math.toRadians(0))
+                                .splineTo(new Vector2d(-34, 33), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1)));
                 break;

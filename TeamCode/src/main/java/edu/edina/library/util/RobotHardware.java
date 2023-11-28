@@ -65,8 +65,8 @@ public class RobotHardware {
 
         imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
+                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP));
         imu.initialize(parameters);
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
@@ -143,17 +143,17 @@ public class RobotHardware {
     }
 
     public void homeHangMotor(Telemetry telemetry) {
-//        robotHangerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        robotHangerMotor.setPower(.1);
-//
-//        while (!hangSwitch.getState()) {
-//            telemetry.addData("Hang Switch", hangSwitch.getState());
-//            telemetry.addData("Mode", robotHangerMotor.getMode());
-//            telemetry.addData("Target Position", robotHangerMotor.getTargetPosition());
-//            telemetry.addData("Current Position", robotHangerMotor.getCurrentPosition());
-//            telemetry.update();
-//            Thread.yield();
-//        }
+        robotHangerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robotHangerMotor.setPower(.1);
+
+        while (!hangSwitch.getState()) {
+            telemetry.addData("Hang Switch", hangSwitch.getState());
+            telemetry.addData("Mode", robotHangerMotor.getMode());
+            telemetry.addData("Target Position", robotHangerMotor.getTargetPosition());
+            telemetry.addData("Current Position", robotHangerMotor.getCurrentPosition());
+            telemetry.update();
+            Thread.yield();
+        }
 
         robotHangerMotor.setPower(0);
         robotHangerMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
