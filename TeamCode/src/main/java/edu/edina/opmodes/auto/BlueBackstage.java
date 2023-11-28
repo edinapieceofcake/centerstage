@@ -247,7 +247,7 @@ public class BlueBackstage extends LinearOpMode {
             telemetry.addData("Current Park Location", parkLocation);
             poCHuskyLens.update();
 
-            propLocation = PropLocation.Left;//poCHuskyLens.getPropLocation();
+            propLocation = poCHuskyLens.getPropLocation();
             telemetry.addData("Location", propLocation);
 
             telemetry.update();
