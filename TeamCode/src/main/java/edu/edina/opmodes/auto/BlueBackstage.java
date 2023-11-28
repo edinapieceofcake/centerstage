@@ -66,7 +66,7 @@ public class BlueBackstage extends LinearOpMode {
 
         hardware.dropServosForAutonomous();
         hardware.droneLaunchServo.setPosition(RobotConfiguration.getInstance().droneLauncherArmedPosition);
-        hardware.homeHangMotor(telemetry);
+        hardware.homeHangMotorAsync();
     }
 
     protected void runPaths(ParkLocation parkLocation) {
@@ -77,14 +77,14 @@ public class BlueBackstage extends LinearOpMode {
             case Left:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(22, 34), Math.toRadians(270))
+                                .splineTo(new Vector2d(22, 34), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Center:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(14, 29), Math.toRadians(270))
+                                .splineTo(new Vector2d(4, 34), Math.toRadians(270))
                                 .build(),
                         new SleepAction(1)));
                 break;
@@ -118,7 +118,7 @@ public class BlueBackstage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(36,36), Math.toRadians(0))
+                                .splineTo(new Vector2d(36,32), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1))
                 );
@@ -138,7 +138,7 @@ public class BlueBackstage extends LinearOpMode {
 
         Actions.runBlocking(new SequentialAction(
                 drive.actionBuilder(drive.pose)
-                        .turnTo(Math.toRadians(180))
+                        .turnTo(Math.toRadians(0))
                         .build()));
 
         state.lastKnownLiftState = LiftDriveState.Drive;
@@ -247,10 +247,9 @@ public class BlueBackstage extends LinearOpMode {
             telemetry.addData("Current Park Location", parkLocation);
             poCHuskyLens.update();
 
-            propLocation = PropLocation.Right;//poCHuskyLens.getPropLocation();
+            propLocation = PropLocation.Left;//poCHuskyLens.getPropLocation();
             telemetry.addData("Location", propLocation);
 
-            state.telemetry(telemetry, hardware);
             telemetry.update();
         }
 
