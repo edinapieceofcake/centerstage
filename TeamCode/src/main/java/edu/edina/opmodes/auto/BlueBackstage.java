@@ -53,7 +53,7 @@ public class BlueBackstage extends LinearOpMode {
                 hardware.imu, hardware.voltageSensor, startPose);
 
         // Heartbeat Red to signify Red alliance
-        pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
+        pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
         hardware.blinkinLedDriver.setPattern(pattern);
 
         // HuskyLens Init

@@ -11,6 +11,7 @@ import com.acmerobotics.dashboard.canvas.Canvas;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.PwmControl;
 
 import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 
@@ -104,7 +105,7 @@ public class Lift implements Subsystem, Action {
                         hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         hardware.topLiftMotor.setPower(config.liftExtendingPower);
                         hardware.bottomLiftMotor.setPower(config.liftExtendingPower);
-                        hardware.robotHangerMotor.setTargetPosition(config.hangMotorHighDropOffPosition);
+                        hardware.robotHangerMotor.setTargetPosition(config.hangMotorLowDropOffPosition);
                         hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
                         state.twistServoState = TwistServoState.Pickup;
@@ -117,13 +118,13 @@ public class Lift implements Subsystem, Action {
                             state.hangState = HangState.LiftArm;
                             state.currentLeftLiftServoPosition = config.leftLowDropOffServoPosition;
                             state.currentRightLiftServoPosition = config.rightLowDropOffServoPosition;
-                            state.currentLiftServoState = LiftServoState.Medium;
                             highLiftDelay.reset();
                         }
                     }
 
                     if (state.hangState == HangState.LiftArm) {
                         if (highLiftDelay.hasExpired()) {
+                            state.currentLiftServoState = LiftServoState.Medium;
                             hardware.robotHangerMotor.setTargetPosition(config.hangMotorHangPosition);
                             hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
@@ -163,12 +164,10 @@ public class Lift implements Subsystem, Action {
                             if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {
                                 state.currentLeftLiftServoPosition = config.leftLowDropOffServoPosition;
                                 state.currentRightLiftServoPosition = config.rightLowDropOffServoPosition;
-                                state.currentLiftServoState = LiftServoState.Medium;
                                 lowLiftDelay.reset();
                             } else {
                                 state.currentLeftLiftServoPosition = config.leftHighDropOffServoPosition;
                                 state.currentRightLiftServoPosition = config.rightHighDropOffServoPosition;
-                                state.currentLiftServoState = LiftServoState.High;
                                 highLiftDelay.reset();
                             }
                         }
@@ -177,6 +176,7 @@ public class Lift implements Subsystem, Action {
                     if (state.dropOffState == DropOffState.LiftArm) {
                         if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {
                             if (lowLiftDelay.hasExpired()) {
+                                state.currentLiftServoState = LiftServoState.Medium;
                                 hardware.topLiftMotor.setTargetPosition(config.liftLowDropOffPosition);
                                 hardware.bottomLiftMotor.setTargetPosition(config.liftLowDropOffPosition);
                                 hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -186,6 +186,7 @@ public class Lift implements Subsystem, Action {
                             }
                         } else {
                             if (highLiftDelay.hasExpired()) {
+                                state.currentLiftServoState = LiftServoState.High;
                                 hardware.topLiftMotor.setTargetPosition(config.liftHighDropOffPosition);
                                 hardware.bottomLiftMotor.setTargetPosition(config.liftHighDropOffPosition);
                                 hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -327,8 +328,13 @@ public class Lift implements Subsystem, Action {
                 }
             }
 
-            hardware.leftLiftServo.setPosition(state.currentLeftLiftServoPosition);
-            hardware.rightLiftServo.setPosition(state.currentRightLiftServoPosition);
+            if (state.currentLiftServoState == LiftServoState.Hang) {
+                ((PwmControl)hardware.leftLiftServo).setPwmDisable();
+                ((PwmControl)hardware.rightLiftServo).setPwmDisable();
+            } else {
+                hardware.leftLiftServo.setPosition(state.currentLeftLiftServoPosition);
+                hardware.rightLiftServo.setPosition(state.currentRightLiftServoPosition);
+            }
         }
     }
 
