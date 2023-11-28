@@ -66,6 +66,8 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
         claw = new Claw(hardware);
         lift = new Lift(hardware, false);
         hardware.dropServosForAutonomous();
+        hardware.droneLaunchServo.setPosition(RobotConfiguration.getInstance().droneLauncherArmedPosition);
+        hardware.homeHangMotor(telemetry);
     }
 
     protected void runPaths(ParkLocation parkLocation) {
@@ -248,7 +250,6 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
             telemetry.addData("Location", propLocation);
 
             telemetry.update();
-            sleep(2000);
         }
 
         if (opModeIsActive()) {

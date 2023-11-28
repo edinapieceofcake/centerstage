@@ -24,7 +24,9 @@ public class RobotHanger implements Subsystem {
     }
 
     @Override
-    public void start() {}
+    public void start() {
+        robot.RobotHardware.homeHangMotorAsync();
+    }
 
     @Override
     public void update() {
@@ -33,28 +35,27 @@ public class RobotHanger implements Subsystem {
         RobotHardware hardware = robot.RobotHardware;
 
         if (robot.Started) {
-            switch (hangerState) {
-                case Retracting:
-                    hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                    hardware.robotHangerMotor.setPower(RobotConfiguration.getInstance().hangerRetractingPower);
-                    break;
-                case Extending:
-                    hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                    hardware.robotHangerMotor.setPower(RobotConfiguration.getInstance().hangerExtendingPower);
-                    break;
-                case Idle:
-                    if (hardware.robotHangerMotor.getMode() == DcMotor.RunMode.RUN_USING_ENCODER) {
-                        hardware.robotHangerMotor.setPower(0);
-                    }
-
-                    break;
+            if (!hardware.hangMotorHoming) {
+                switch (hangerState) {
+                    case Retracting:
+                        hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        hardware.robotHangerMotor.setPower(RobotConfiguration.getInstance().hangerRetractingPower);
+                        break;
+                    case Extending:
+                        hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        hardware.robotHangerMotor.setPower(RobotConfiguration.getInstance().hangerExtendingPower);
+                        break;
+                    case Idle:
+                        if (hardware.robotHangerMotor.getMode() == DcMotor.RunMode.RUN_USING_ENCODER) {
+                            hardware.robotHangerMotor.setPower(0);
+                        }
+                        break;
+                }
             }
-
-
         }
     }
     public void setProperties(boolean toggleExtend, boolean toggleRetract,
-                              boolean hangServo, boolean latchServo) {
+                              boolean hangServo, boolean latchServo, boolean resetLift) {
         RobotState state = RobotState.getInstance();
         RobotConfiguration config = RobotConfiguration.getInstance();
         RobotHardware hardware = robot.RobotHardware;
@@ -75,6 +76,10 @@ public class RobotHanger implements Subsystem {
             state.currentLeftLiftServoPosition = config.startingLeftLiftServoPosition;
             state.currentRightLiftServoPosition = config.startingRightLiftServoPosition;
             state.currentLiftServoState = LiftServoState.Hang;
+        }
+
+        if (resetLift) {
+            hardware.homeHangMotorAsync();
         }
     }
 }

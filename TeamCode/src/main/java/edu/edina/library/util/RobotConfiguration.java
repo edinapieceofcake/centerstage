@@ -22,7 +22,7 @@ public class RobotConfiguration {
     // odo pod servo positions
     public double par0UpPosition = 0.0;
     public double par0DownPosition = 0.5;
-    public double par1DownPosition = 0.0;
+    public double par1DownPosition = 0.39;
     public double par1UpPosition = 1.0;
     public double perpUpPosition = 0.0;
     public double perpDownPosition = 0.39;
@@ -60,8 +60,8 @@ public class RobotConfiguration {
     public int hangMotorInitPosition = -260;
     public int hangMotorStorePosition = 0;
     public int hangMotorLowDropOffPosition = -900;
-    public int hangMotorHighDropOffPosition = -1300;
-    public int hangMotorHangPosition = -3000;
+    public int hangMotorHighDropOffPosition = -1500;
+    public int hangMotorHangPosition = -4000;
 
 
     public double minimumHeightToTwistServoInInches = 12.0;

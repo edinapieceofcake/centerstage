@@ -24,6 +24,7 @@ import edu.edina.library.util.PoCHuskyLens;
 import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.RobotState;
+import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
 public class RedAudienceWithBackStage extends LinearOpMode {
@@ -60,7 +61,10 @@ public class RedAudienceWithBackStage extends LinearOpMode {
 
         claw = new Claw(hardware);
         lift = new Lift(hardware, false);
+
         hardware.dropServosForAutonomous();
+        hardware.droneLaunchServo.setPosition(RobotConfiguration.getInstance().droneLauncherArmedPosition);
+        hardware.homeHangMotor(telemetry);
     }
 
     protected void runPaths(ParkLocation parkLocation) {
@@ -211,6 +215,9 @@ public class RedAudienceWithBackStage extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         RobotState state = RobotState.getInstance();
+        ParkLocation parkLocation = ParkLocation.Corner;
+        SmartGamepad pad1 = new SmartGamepad(gamepad1);
+        long delayTime = 0;
         initHardware();
 
         claw.init();
@@ -223,13 +230,30 @@ public class RedAudienceWithBackStage extends LinearOpMode {
         claw.update();
 
         while (!isStarted()) {
+            pad1.update();
+
+            telemetry.addData("Press A for corner, Y for center park", "");
+            if (pad1.a) {
+                parkLocation = ParkLocation.Corner;
+            } else if (pad1.y) {
+                parkLocation = ParkLocation.Center;
+            }
+
+            telemetry.addData("Current Park Location", parkLocation);
+            telemetry.addData("Press left bumper to increase delay, right number to decrease delay.", "");
+            if (pad1.left_bumper) {
+                delayTime += 1000;
+            } else if (pad1.right_bumper) {
+                delayTime -= 1000;
+            }
+
+            telemetry.addData("Delay in seconds", delayTime / 1000);
             poCHuskyLens.update();
 
             propLocation = poCHuskyLens.getPropLocation();
             telemetry.addData("Location", propLocation);
 
             telemetry.update();
-            sleep(2000);
         }
 
         if (opModeIsActive()) {
@@ -237,7 +261,11 @@ public class RedAudienceWithBackStage extends LinearOpMode {
             pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
             hardware.blinkinLedDriver.setPattern(pattern);
 
-            runPaths(ParkLocation.Corner);
+            if (delayTime > 0) {
+                sleep(delayTime);
+            }
+
+            runPaths(parkLocation);
         }
 
     }

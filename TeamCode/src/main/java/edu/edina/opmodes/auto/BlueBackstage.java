@@ -65,36 +65,81 @@ public class BlueBackstage extends LinearOpMode {
         lift = new Lift(hardware, false);
 
         hardware.dropServosForAutonomous();
+        hardware.droneLaunchServo.setPosition(RobotConfiguration.getInstance().droneLauncherArmedPosition);
+        hardware.homeHangMotor(telemetry);
     }
 
     protected void runPaths(ParkLocation parkLocation) {
         RobotState state = RobotState.getInstance();
 
+        // drop off purple pixel
         switch(propLocation) {
             case Left:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(36,42), Math.toRadians(0))
+                                .splineTo(new Vector2d(22, 34), Math.toRadians(270))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Center:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(36,36), Math.toRadians(0))
+                                .splineTo(new Vector2d(14, 29), Math.toRadians(270))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Right:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(36,28), Math.toRadians(0))
+                                .splineTo(new Vector2d(2, 34), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1)));
                 break;
             default:
                 break;
         }
+
+        state.leftClawState = ClawState.Opened;
+        claw.update();
+        sleep(1000);
+
+        // drop off yellow pixel
+        switch (propLocation) {
+            case Left:
+                Actions.runBlocking(new SequentialAction(
+                        drive.actionBuilder(drive.pose)
+                                .setReversed(true)
+                                .splineTo(new Vector2d(36,42), Math.toRadians(0))
+                                .build(),
+                        sleep1sAction)
+                );
+                break;
+            case Center:
+                Actions.runBlocking(new SequentialAction(
+                        drive.actionBuilder(drive.pose)
+                                .setReversed(true)
+                                .splineTo(new Vector2d(36,36), Math.toRadians(0))
+                                .build(),
+                        new SleepAction(1))
+                );
+                break;
+            case Right:
+                Actions.runBlocking(new SequentialAction(
+                        drive.actionBuilder(drive.pose)
+                                .setReversed(true)
+                                .splineTo(new Vector2d(36,28), Math.toRadians(0))
+                                .build(),
+                        new SleepAction(1))
+                );
+                break;
+            default:
+                break;
+        }
+
+        Actions.runBlocking(new SequentialAction(
+                drive.actionBuilder(drive.pose)
+                        .turnTo(Math.toRadians(180))
+                        .build()));
 
         state.lastKnownLiftState = LiftDriveState.Drive;
         state.currentLiftDriveState = LiftDriveState.LowDropOff;
@@ -131,50 +176,9 @@ public class BlueBackstage extends LinearOpMode {
         }
 
         state.lastKnownLiftState = LiftDriveState.Drive;
-
-        Actions.runBlocking(new SequentialAction(
-            drive.actionBuilder(drive.pose)
-                    .turnTo(Math.toRadians(180))
-                    .build()));
-
         RobotConfiguration.getInstance().liftLowDropOffPosition = -600;
-        // where to put the purple pixel?
-        switch (propLocation) {
-            case Left:
-                Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
-                                //.setReversed(true)
-                                .splineTo(new Vector2d(22, 34), Math.toRadians(180))
-                                .build(),
-                        sleep1sAction)
-                );
-                break;
-            case Center:
-                Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
-                                //.setReversed(true)
-                                .splineTo(new Vector2d(14, 29), Math.toRadians(180))
-                                .build(),
-                        new SleepAction(1))
-                );
-                break;
-            case Right:
-                Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
-                                //.setReversed(true)
-                                .splineTo(new Vector2d(2, 34), Math.toRadians(180))
-                                .build(),
-                        new SleepAction(1))
-                );
-                break;
-            default:
-                break;
-        }
 
-        state.leftClawState = ClawState.Opened;
-        claw.update();
-        sleep(1000);
-
+        /*
         Actions.runBlocking(new SequentialAction(
                 drive.actionBuilder(drive.pose)
                         .setReversed(true)
@@ -192,7 +196,7 @@ public class BlueBackstage extends LinearOpMode {
 
         state.currentLiftDriveState = LiftDriveState.Drive;
         sleep(500);
-/*
+*/
         // where to park?
         switch (parkLocation) {
             case Center:
@@ -212,7 +216,6 @@ public class BlueBackstage extends LinearOpMode {
             default:
                 break;
         }
- */
     }
 
     @Override
@@ -258,6 +261,5 @@ public class BlueBackstage extends LinearOpMode {
 
             runPaths(parkLocation);
         }
-
     }
 }

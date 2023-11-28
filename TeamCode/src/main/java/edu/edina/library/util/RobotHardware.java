@@ -14,9 +14,12 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
+import com.qualcomm.robotcore.util.ThreadPool;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+
+import java.util.concurrent.ExecutorService;
 
 public class RobotHardware {
 
@@ -50,6 +53,13 @@ public class RobotHardware {
 
     public final DigitalChannel hangSwitch;
 
+    private ExecutorService homeHangMotorExecutor;
+
+    private Runnable homeHangMotorRunnable = () -> {
+        homeHangMotor(null);
+    };
+
+    public boolean hangMotorHoming = false;
 
     public RobotHardware(HardwareMap hardwareMap) {
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
@@ -143,15 +153,19 @@ public class RobotHardware {
     }
 
     public void homeHangMotor(Telemetry telemetry) {
+        hangMotorHoming = true;
         robotHangerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robotHangerMotor.setPower(.1);
+        robotHangerMotor.setPower(.5);
 
         while (!hangSwitch.getState()) {
-            telemetry.addData("Hang Switch", hangSwitch.getState());
-            telemetry.addData("Mode", robotHangerMotor.getMode());
-            telemetry.addData("Target Position", robotHangerMotor.getTargetPosition());
-            telemetry.addData("Current Position", robotHangerMotor.getCurrentPosition());
-            telemetry.update();
+            if (telemetry != null) {
+                telemetry.addData("Hang Switch", hangSwitch.getState());
+                telemetry.addData("Mode", robotHangerMotor.getMode());
+                telemetry.addData("Target Position", robotHangerMotor.getTargetPosition());
+                telemetry.addData("Current Position", robotHangerMotor.getCurrentPosition());
+                telemetry.update();
+            }
+
             Thread.yield();
         }
 
@@ -159,23 +173,30 @@ public class RobotHardware {
         robotHangerMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robotHangerMotor.setTargetPosition(RobotConfiguration.getInstance().hangMotorInitPosition);
-        robotHangerMotor.setPower(.1);
+        robotHangerMotor.setPower(.75);
 
         while (robotHangerMotor.isBusy()) {
-            telemetry.addData("Mode", robotHangerMotor.getMode());
-            telemetry.addData("Target Position", robotHangerMotor.getTargetPosition());
-            telemetry.addData("Current Position", robotHangerMotor.getCurrentPosition());
-            telemetry.update();
+            if (telemetry != null) {
+                telemetry.addData("Hang Switch", hangSwitch.getState());
+                telemetry.addData("Mode", robotHangerMotor.getMode());
+                telemetry.addData("Target Position", robotHangerMotor.getTargetPosition());
+                telemetry.addData("Current Position", robotHangerMotor.getCurrentPosition());
+                telemetry.update();
+            }
+
             Thread.yield();
         }
-//
-//        try {
-//            Thread.sleep(2000);
-//        } catch (InterruptedException ex) {
-//
-//        }
 
         robotHangerMotor.setPower(0);
-//        robotHangerMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robotHangerMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        hangMotorHoming = false;
+    }
+
+    public void homeHangMotorAsync() {
+        if (!hangMotorHoming) {
+            homeHangMotorExecutor = ThreadPool.newSingleThreadExecutor("home hang motor");
+            homeHangMotorExecutor.submit(homeHangMotorRunnable);
+            hangMotorHoming = true;
+        }
     }
 }

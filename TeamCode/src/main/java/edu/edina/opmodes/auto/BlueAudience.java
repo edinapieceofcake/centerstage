@@ -12,11 +12,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 import edu.edina.library.enums.ClawState;
+import edu.edina.library.enums.DroneLauncherState;
 import edu.edina.library.enums.ParkLocation;
 import edu.edina.library.enums.PropLocation;
 import edu.edina.library.subsystems.Claw;
 import edu.edina.library.subsystems.Lift;
 import edu.edina.library.util.PoCHuskyLens;
+import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.RobotState;
 
@@ -58,6 +60,8 @@ public class BlueAudience extends LinearOpMode {
         claw = new Claw(hardware);
         lift = new Lift(hardware, false);
         hardware.dropServosForAutonomous();
+        hardware.droneLaunchServo.setPosition(RobotConfiguration.getInstance().droneLauncherArmedPosition);
+        hardware.homeHangMotor(telemetry);
     }
 
     protected void runPaths(ParkLocation parkLocation) {
@@ -117,7 +121,6 @@ public class BlueAudience extends LinearOpMode {
             telemetry.addData("Location", propLocation);
 
             telemetry.update();
-            sleep(2000);
         }
 
         if (opModeIsActive()) {

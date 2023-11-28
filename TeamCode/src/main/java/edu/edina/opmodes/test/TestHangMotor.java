@@ -43,11 +43,11 @@ public class TestHangMotor extends LinearOpMode {
 
             if (gamepad1.left_trigger != 0) {
                 hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                hardware.robotHangerMotor.setPower(Math.abs(motorPower));
+                hardware.robotHangerMotor.setPower(-Math.abs(motorPower));
             } else if (gamepad1.right_trigger != 0) {
                 hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                hardware.robotHangerMotor.setPower(-Math.abs(motorPower));
-            } else if (hardware.robotHangerMotor.getMode() == DcMotor.RunMode.RUN_USING_ENCODER) {
+                hardware.robotHangerMotor.setPower(Math.abs(motorPower));
+            } else if (!hardware.hangMotorHoming && hardware.robotHangerMotor.getMode() == DcMotor.RunMode.RUN_USING_ENCODER) {
                 hardware.robotHangerMotor.setPower(0);
             }
 
@@ -77,6 +77,10 @@ public class TestHangMotor extends LinearOpMode {
             }
 
             if (pad1.y) {
+                hardware.homeHangMotorAsync();
+            }
+
+            if (pad1.b) {
                 hardware.homeHangMotor(telemetry);
             }
 
@@ -88,7 +92,8 @@ public class TestHangMotor extends LinearOpMode {
             telemetry.addData("Triggers control the hang motor", "");
             telemetry.addData("Press the bumpers to increase and decrease the motor power", "");
             telemetry.addData("Press the dpad up to high servo position, down to store, left or right to middle position", "");
-            telemetry.addData("Press the y button to home the hanger motor", "");
+            telemetry.addData("Press the y button to home the hanger motor async", "");
+            telemetry.addData("Press the b button to home the hanger motor", "");
             telemetry.addData("Press a to kill the PWM signal", "");
             telemetry.addData("Hanger switch", hardware.hangSwitch.getState());
             telemetry.addData("Triggers", "%f %f", gamepad1.left_trigger, gamepad1.right_trigger);
