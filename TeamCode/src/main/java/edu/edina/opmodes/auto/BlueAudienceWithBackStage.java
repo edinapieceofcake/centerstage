@@ -24,6 +24,7 @@ import edu.edina.library.util.PoCHuskyLens;
 import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.RobotState;
+import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
 public class BlueAudienceWithBackStage extends LinearOpMode {
@@ -206,6 +207,9 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         RobotState state = RobotState.getInstance();
+        ParkLocation parkLocation = ParkLocation.Corner;
+        SmartGamepad pad1 = new SmartGamepad(gamepad1);
+        long delayTime = 0;
         initHardware();
 
         claw.init();
@@ -218,6 +222,21 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
         claw.update();
 
         while (!isStarted()) {
+            telemetry.addData("Press A for corner, Y for center park", "");
+            telemetry.addData("Current Park Location", parkLocation);
+            if (pad1.a) {
+                parkLocation = ParkLocation.Corner;
+            } else if (pad1.y) {
+                parkLocation = ParkLocation.Center;
+            }
+            telemetry.addData("Press left bumper to increase delay, right number to decrease delay.", "");
+            telemetry.addData("Delay in seconds", delayTime / 1000);
+            if (pad1.left_bumper) {
+                delayTime += 1000;
+            } else if (pad1.right_bumper) {
+                delayTime -= 1000;
+            }
+
             poCHuskyLens.update();
 
             propLocation = poCHuskyLens.getPropLocation();
@@ -232,7 +251,11 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
             pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
             hardware.blinkinLedDriver.setPattern(pattern);
 
-            runPaths(ParkLocation.Corner);
+            if (delayTime > 0) {
+                sleep(delayTime);
+            }
+
+            runPaths(parkLocation);
         }
 
     }
