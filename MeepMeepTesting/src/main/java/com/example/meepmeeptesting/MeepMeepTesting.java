@@ -197,6 +197,8 @@ public class MeepMeepTesting {
                 .splineTo(new Vector2d(0, -55), Math.toRadians(0))
                 .splineTo(new Vector2d(40, -55), Math.toRadians(0))
                 .splineTo(new Vector2d(45, -40), Math.toRadians(180))
+                .setReversed(true)
+                .splineTo(new Vector2d(55, -64), Math.toRadians(0))
                 .build());
 
         RoadRunnerBotEntity audienceRedCenter = new DefaultBotBuilder(meepMeep)
@@ -227,6 +229,8 @@ public class MeepMeepTesting {
                 .splineTo(new Vector2d(0, -55), Math.toRadians(0))
                 .splineTo(new Vector2d(28, -55), Math.toRadians(0))
                 .splineTo(new Vector2d(30, -40), Math.toRadians(180))
+                .setReversed(true)
+                .splineTo(new Vector2d(54, -14), Math.toRadians(0))
                 .build());
 
         RoadRunnerBotEntity audienceRedLeft = new DefaultBotBuilder(meepMeep)
@@ -270,6 +274,8 @@ public class MeepMeepTesting {
                 .splineTo(new Vector2d(-30, 10), Math.toRadians(0))
                 .splineTo(new Vector2d(35, 10), Math.toRadians(0))
                 .splineTo(new Vector2d(45, 40), Math.toRadians(180))
+                .setReversed(true)
+                .splineTo(new Vector2d(54, 60), Math.toRadians(0))
                 .build());
 
         RoadRunnerBotEntity audienceBlueLeftWall = new DefaultBotBuilder(meepMeep)
@@ -299,6 +305,8 @@ public class MeepMeepTesting {
                 .splineTo(new Vector2d(-45, 10), Math.toRadians(0))
                 .splineTo(new Vector2d(35, 10), Math.toRadians(0))
                 .splineTo(new Vector2d(45, 40), Math.toRadians(180))
+                .setReversed(true)
+                .splineTo(new Vector2d(54, 14), Math.toRadians(0))
                 .build());
 
         RoadRunnerBotEntity audienceBlueCenterWall = new DefaultBotBuilder(meepMeep)
@@ -423,20 +431,20 @@ public class MeepMeepTesting {
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_OFFICIAL)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-//                .addEntity(audienceBlueLeft)
+                .addEntity(audienceBlueLeft)
 //                .addEntity(audienceBlueLeftWall)
-//                .addEntity(audienceBlueCenter)
+                .addEntity(audienceBlueCenter)
 //                .addEntity(audienceBlueCenterWall)
-//                .addEntity(audienceBlueRight)
+                .addEntity(audienceBlueRight)
 //                .addEntity(audienceBlueRightWall)
 //                .addEntity(audienceRedLeft)
-//                .addEntity(audienceRedLeftWall)
-//                .addEntity(audienceRedCenterWall)
+                .addEntity(audienceRedLeftWall)
+                .addEntity(audienceRedCenterWall)
 //                .addEntity(audienceRedRight)
-//                .addEntity(audienceRedRightWall)
-//                .addEntity(backstageBlueLeft)
-//                .addEntity(backstageBlueCenter)
-//                .addEntity(backstageBlueRight)
+                .addEntity(audienceRedRightWall)
+                .addEntity(backstageBlueLeft)
+                .addEntity(backstageBlueCenter)
+                .addEntity(backstageBlueRight)
                 .addEntity(backstageRedLeft)
                 .addEntity(backstageRedCenter)
                 .addEntity(backstageRedRight)
