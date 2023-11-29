@@ -12,12 +12,12 @@ public class RobotConfiguration {
     public double clawLeftClosedPosition = 0.75;
     public double clawRightClosedPosition = 0.25;
     public double clawRightOpenPosition = 0.08;
-    public double twistClawServoPickUpPosition = 0.96;
+    public double twistClawServoPickUpPosition = 0.97;
     public double twistClawServoDropOffPosition = 0.28;
-    public double angleClawPickupPosition = 0.37;
-    public double angleClawDrivePosition = 0.23;
-    public double angleClawLowDropOffPosition = .77;
-    public double angleClawHighDropOffPosition = .85;
+    public double angleClawPickupPosition = 1 - 0.42;
+    public double angleClawDrivePosition = 1 - 0.23;
+    public double angleClawLowDropOffPosition = 1 - .77;
+    public double angleClawHighDropOffPosition = 1 - .85;
 
     // odo pod servo positions
     public double par0UpPosition = 0.0;
