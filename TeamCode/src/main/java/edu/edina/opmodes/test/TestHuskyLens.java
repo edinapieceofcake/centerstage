@@ -1,5 +1,6 @@
 package edu.edina.opmodes.test;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -8,6 +9,7 @@ import edu.edina.library.util.PoCHuskyLens;
 import edu.edina.library.util.RobotHardware;
 
 @TeleOp
+@Disabled
 public class TestHuskyLens extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

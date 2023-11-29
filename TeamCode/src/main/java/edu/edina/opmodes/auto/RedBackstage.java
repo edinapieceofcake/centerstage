@@ -24,6 +24,7 @@ import edu.edina.library.util.PoCHuskyLens;
 import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.RobotState;
+import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
 public class RedBackstage extends LinearOpMode {
@@ -44,7 +45,7 @@ public class RedBackstage extends LinearOpMode {
         // test hardware construction and use in an empty action
         hardware = new RobotHardware(hardwareMap);
 
-        Pose2d startPose = new Pose2d(9, -64, Math.toRadians(90));
+        Pose2d startPose = new Pose2d(9, -62.5, Math.toRadians(90));
 
         // use out version of the drive based off the hardware that we created above.
         drive = new org.firstinspires.ftc.teamcode.MecanumDrive(hardware.leftFront,
@@ -66,37 +67,82 @@ public class RedBackstage extends LinearOpMode {
 
         claw = new Claw(hardware);
         lift = new Lift(hardware, false);
+
         hardware.dropServosForAutonomous();
+        hardware.droneLaunchServo.setPosition(RobotConfiguration.getInstance().droneLauncherArmedPosition);
+        hardware.homeHangMotor(telemetry);
     }
 
     protected void runPaths(ParkLocation parkLocation) {
         RobotState state = RobotState.getInstance();
 
+        // where to put the purple pixel?
         switch(propLocation) {
             case Left:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(44,-30), Math.toRadians(0))
+                                .splineTo(new Vector2d(10, -34), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Center:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(44,-38), Math.toRadians(0))
+                                .splineTo(new Vector2d(16, -25), Math.toRadians(90))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Right:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(44,-45), Math.toRadians(0))
+                                .splineTo(new Vector2d(20, -34), Math.toRadians(90))
                                 .build(),
                         new SleepAction(1)));
                 break;
             default:
                 break;
         }
+
+        state.leftClawState = ClawState.Opened;
+        claw.update();
+        sleep(1000);
+
+        switch (propLocation) {
+            case Left:
+                Actions.runBlocking(new SequentialAction(
+                        drive.actionBuilder(drive.pose)
+                                .setReversed(true)
+                                .splineTo(new Vector2d(44,-30), Math.toRadians(0))
+                                .build(),
+                        sleep1sAction)
+                );
+                break;
+            case Center:
+                Actions.runBlocking(new SequentialAction(
+                        drive.actionBuilder(drive.pose)
+                                .setReversed(true)
+                                .splineTo(new Vector2d(44,-38), Math.toRadians(0))
+                                .build(),
+                        new SleepAction(1))
+                );
+                break;
+            case Right:
+                Actions.runBlocking(new SequentialAction(
+                        drive.actionBuilder(drive.pose)
+                                .setReversed(true)
+                                .splineTo(new Vector2d(44,-45), Math.toRadians(0))
+                                .build(),
+                        new SleepAction(1))
+                );
+                break;
+            default:
+                break;
+        }
+
+        Actions.runBlocking(new SequentialAction(
+                drive.actionBuilder(drive.pose)
+                        .turnTo(Math.toRadians(180))
+                        .build()));
 
         state.currentLiftDriveState = LiftDriveState.LowDropOff;
         state.currentLiftSlideState = LiftSlideState.Extending;
@@ -127,48 +173,7 @@ public class RedBackstage extends LinearOpMode {
             idle();
         }
 
-        Actions.runBlocking(new SequentialAction(
-            drive.actionBuilder(drive.pose)
-                    .turnTo(Math.toRadians(180))
-                    .build()));
-
         RobotConfiguration.getInstance().liftLowDropOffPosition = -600;
-        // where to put the purple pixel?
-        switch (propLocation) {
-            case Left:
-                Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
-                                //.setReversed(true)
-                                .splineTo(new Vector2d(10, -34), Math.toRadians(180))
-                                .build(),
-                        sleep1sAction)
-                );
-                break;
-            case Center:
-                Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
-                                //.setReversed(true)
-                                .splineTo(new Vector2d(24, -23), Math.toRadians(180))
-                                .build(),
-                        new SleepAction(1))
-                );
-                break;
-            case Right:
-                Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
-                                //.setReversed(true)
-                                .splineTo(new Vector2d(34, -34), Math.toRadians(180))
-                                .build(),
-                        new SleepAction(1))
-                );
-                break;
-            default:
-                break;
-        }
-
-        state.leftClawState = ClawState.Opened;
-        claw.update();
-        sleep(1000);
 
         // where to park?
         switch (parkLocation) {
@@ -195,6 +200,8 @@ public class RedBackstage extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         RobotState state = RobotState.getInstance();
+        ParkLocation parkLocation = ParkLocation.Corner;
+        SmartGamepad pad1 = new SmartGamepad(gamepad1);
         initHardware();
 
         claw.init();
@@ -206,15 +213,23 @@ public class RedBackstage extends LinearOpMode {
         state.rightClawState = ClawState.Closed;
         claw.update();
 
-        sleep(2000);
         while (!isStarted()) {
+            pad1.update();
+
+            telemetry.addData("Press A for corner, Y for center park", "");
+            if (pad1.a) {
+                parkLocation = ParkLocation.Corner;
+            } else if (pad1.y) {
+                parkLocation = ParkLocation.Center;
+            }
+
+            telemetry.addData("Current Park Location", parkLocation);
             poCHuskyLens.update();
 
             propLocation = poCHuskyLens.getPropLocation();
             telemetry.addData("Location", propLocation);
 
             telemetry.update();
-            sleep(2000);
         }
 
         if (opModeIsActive()) {
@@ -222,7 +237,7 @@ public class RedBackstage extends LinearOpMode {
             pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
             hardware.blinkinLedDriver.setPattern(pattern);
 
-            runPaths(ParkLocation.Corner);
+            runPaths(parkLocation);
         }
 
     }

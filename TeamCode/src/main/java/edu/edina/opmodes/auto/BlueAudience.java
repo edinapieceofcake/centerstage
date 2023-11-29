@@ -12,11 +12,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 import edu.edina.library.enums.ClawState;
+import edu.edina.library.enums.DroneLauncherState;
 import edu.edina.library.enums.ParkLocation;
 import edu.edina.library.enums.PropLocation;
 import edu.edina.library.subsystems.Claw;
 import edu.edina.library.subsystems.Lift;
 import edu.edina.library.util.PoCHuskyLens;
+import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.RobotState;
 
@@ -39,7 +41,7 @@ public class BlueAudience extends LinearOpMode {
         // test hardware construction and use in an empty action
         hardware = new RobotHardware(hardwareMap);
 
-        Pose2d startPose = new Pose2d(-32, 64, Math.toRadians(270));
+        Pose2d startPose = new Pose2d(-32, 62.25, Math.toRadians(270));
 
         // use out version of the drive based off the hardware that we created above.
         drive = new MecanumDrive(hardware.leftFront,
@@ -48,16 +50,18 @@ public class BlueAudience extends LinearOpMode {
                 hardware.imu, hardware.voltageSensor, startPose);
 
         // Heartbeat Red to signify Red alliance
-        pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
+        pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
         hardware.blinkinLedDriver.setPattern(pattern);
 
         // HuskyLens Init
-        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, 2);
+        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, 1);
         poCHuskyLens.init();
 
         claw = new Claw(hardware);
         lift = new Lift(hardware, false);
         hardware.dropServosForAutonomous();
+        hardware.droneLaunchServo.setPosition(RobotConfiguration.getInstance().droneLauncherArmedPosition);
+        hardware.homeHangMotor(telemetry);
     }
 
     protected void runPaths(ParkLocation parkLocation) {
@@ -67,7 +71,7 @@ public class BlueAudience extends LinearOpMode {
             case Left:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(-33, 30), Math.toRadians(0))
+                                .splineTo(new Vector2d(-34, 33), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1)));
                 break;
@@ -117,7 +121,6 @@ public class BlueAudience extends LinearOpMode {
             telemetry.addData("Location", propLocation);
 
             telemetry.update();
-            sleep(2000);
         }
 
         if (opModeIsActive()) {

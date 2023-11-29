@@ -188,7 +188,8 @@ public final class MecanumDrive {
 
         this.voltageSensor = voltageSensor;
 
-        localizer = new ThreeDeadWheelLocalizer(par0, par1, perp, PARAMS.inPerTick);
+        localizer = new TwoDeadWheelLocalizer(par0, perp, imu, PARAMS.inPerTick);
+//        localizer = new ThreeDeadWheelLocalizer(par0, par1, perp, PARAMS.inPerTick);
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }

@@ -5,5 +5,6 @@ public enum LiftDriveState {
     Drive,
     Pickup,
     LowDropOff,
-    HighDropOff
+    HighDropOff,
+    Hang
 }

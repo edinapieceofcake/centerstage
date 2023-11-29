@@ -1,5 +1,7 @@
 package edu.edina.opmodes.auto;
 
+import android.transition.Transition;
+
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
@@ -45,7 +47,7 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
         // test hardware construction and use in an empty action
         hardware = new RobotHardware(hardwareMap);
 
-        Pose2d startPose = new Pose2d(-32, 64, Math.toRadians(270));
+        Pose2d startPose = new Pose2d(-32, 62.25, Math.toRadians(270));
 
         // use out version of the drive based off the hardware that we created above.
         drive = new MecanumDrive(hardware.leftFront,
@@ -54,16 +56,18 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                 hardware.imu, hardware.voltageSensor, startPose);
 
         // Heartbeat Red to signify Red alliance
-        pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
+        pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
         hardware.blinkinLedDriver.setPattern(pattern);
 
         // HuskyLens Init
-        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, 2);
+        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, 1);
         poCHuskyLens.init();
 
         claw = new Claw(hardware);
         lift = new Lift(hardware, false);
         hardware.dropServosForAutonomous();
+        hardware.droneLaunchServo.setPosition(RobotConfiguration.getInstance().droneLauncherArmedPosition);
+        hardware.homeHangMotor(telemetry);
     }
 
     protected void runPaths(ParkLocation parkLocation) {
@@ -73,7 +77,7 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
             case Left:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(-33, 30), Math.toRadians(0))
+                                .splineTo(new Vector2d(-34, 33), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1)));
                 break;
@@ -108,7 +112,7 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                                 .setReversed(true)
                                 .splineTo(new Vector2d(-30, 12), Math.toRadians(0))
                                 .splineTo(new Vector2d(35, 12), Math.toRadians(0))
-                                .splineTo(new Vector2d(44, 43), Math.toRadians(180))
+                                .splineTo(new Vector2d(40, 44), Math.toRadians(180))
                                 .build(),
                         sleep1sAction)
                 );
@@ -120,7 +124,7 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                                 .splineTo(new Vector2d(-55, 35), Math.toRadians(270))
                                 .splineTo(new Vector2d(-45, 12), Math.toRadians(0))
                                 .splineTo(new Vector2d(35, 12), Math.toRadians(0))
-                                .splineTo(new Vector2d(44, 30), Math.toRadians(180))
+                                .splineTo(new Vector2d(40, 35), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1))
                 );
@@ -131,7 +135,7 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                                 .setReversed(true)
                                 .splineTo(new Vector2d(-30, 12), Math.toRadians(0))
                                 .splineTo(new Vector2d(35, 12), Math.toRadians(0))
-                                .splineTo(new Vector2d(44, 22.5), Math.toRadians(180))
+                                .splineTo(new Vector2d(40, 28.5), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1))
                 );
@@ -167,7 +171,7 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
         claw.update();
         sleep(2000);
 
-        Actions.runBlocking(drive.actionBuilder(drive.pose).lineToX(44).build());
+        Actions.runBlocking(drive.actionBuilder(drive.pose).lineToX(40).build());
 
         state.pickUpState = PickUpState.Start;
         state.lastKnownLiftState = LiftDriveState.LowDropOff;
@@ -196,7 +200,7 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(60, 58), Math.toRadians(0))
+                                .splineTo(new Vector2d(60, 61), Math.toRadians(0))
                                 .build()));
                 break;
             default:
@@ -222,28 +226,30 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
         claw.update();
 
         while (!isStarted()) {
+            pad1.update();
+
             telemetry.addData("Press A for corner, Y for center park", "");
-            telemetry.addData("Current Park Location", parkLocation);
             if (pad1.a) {
                 parkLocation = ParkLocation.Corner;
             } else if (pad1.y) {
                 parkLocation = ParkLocation.Center;
             }
+
+            telemetry.addData("Current Park Location", parkLocation);
             telemetry.addData("Press left bumper to increase delay, right number to decrease delay.", "");
-            telemetry.addData("Delay in seconds", delayTime / 1000);
             if (pad1.left_bumper) {
                 delayTime += 1000;
             } else if (pad1.right_bumper) {
                 delayTime -= 1000;
             }
 
+            telemetry.addData("Delay in seconds", delayTime / 1000);
             poCHuskyLens.update();
 
             propLocation = poCHuskyLens.getPropLocation();
             telemetry.addData("Location", propLocation);
 
             telemetry.update();
-            sleep(2000);
         }
 
         if (opModeIsActive()) {

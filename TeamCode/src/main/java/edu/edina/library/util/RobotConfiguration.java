@@ -22,14 +22,14 @@ public class RobotConfiguration {
     // odo pod servo positions
     public double par0UpPosition = 0.0;
     public double par0DownPosition = 0.5;
-    public double par1DownPosition = 0.0;
+    public double par1DownPosition = 0.39;
     public double par1UpPosition = 1.0;
     public double perpUpPosition = 0.0;
     public double perpDownPosition = 0.39;
 
     // lift servo positions
     public double startingLeftLiftServoPosition = 0.96;
-    public double startingRightLiftServoPosition = 0.1;
+    public double startingRightLiftServoPosition = 0.13;
     public double leftLowDropOffServoPosition = .53;
     public double rightLowDropOffServoPosition = .51;
     public double leftHighDropOffServoPosition = .33;
@@ -37,10 +37,11 @@ public class RobotConfiguration {
     public double liftServoPositionAtBottomOfHubs = 0.29;
 
     // motor powers
-    public double hangerRetractingPower = -0.5;
-    public double hangerExtendingPower = 0.5;
+    public double hangerRetractingPower = -1;
+    public double hangerExtendingPower = 1;
     public double liftRetractingPower = -.75;
     public double liftExtendingPower = 1;
+    public double slowLiftRetractingPower = .3;
 
     // lift encoder positions
     public int liftDrivePosition = 50;
@@ -52,6 +53,16 @@ public class RobotConfiguration {
     public int liftTwistPosition = -300;
     public int minimumExtensionBeforeTwistingInTicks = -350;
     public int minimumExtensionBeforeRaisingLiftInTicks = -120;
+
+    // robot hanger positions
+    public double leftHangServoPosition = .53;
+    public double rightHangServoPosition = .51;
+    public int hangMotorInitPosition = -260;
+    public int hangMotorStorePosition = 0;
+    public int hangMotorLowDropOffPosition = -850;
+    public int hangMotorHighDropOffPosition = -1500;
+    public int hangMotorHangPosition = -4000;
+
 
     public double minimumHeightToTwistServoInInches = 12.0;
 

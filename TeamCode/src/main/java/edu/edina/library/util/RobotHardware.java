@@ -12,9 +12,14 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
+import com.qualcomm.robotcore.util.ThreadPool;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+
+import java.util.concurrent.ExecutorService;
 
 public class RobotHardware {
 
@@ -30,7 +35,7 @@ public class RobotHardware {
 
     public final Servo leftClawServo, rightClawServo, twistClawServo, angleClawServo;
 
-    public final Servo leftLiftServo, rightLiftServo;
+    public final ServoImplEx leftLiftServo, rightLiftServo;
 
     public final Servo droneLaunchServo;
 
@@ -46,6 +51,15 @@ public class RobotHardware {
     public final DigitalChannel leftClawRed, leftClawGreen;
     public final DigitalChannel rightClawRed, rightClawGreen;
 
+    public final DigitalChannel hangSwitch;
+
+    private ExecutorService homeHangMotorExecutor;
+
+    private Runnable homeHangMotorRunnable = () -> {
+        homeHangMotor(null);
+    };
+
+    public boolean hangMotorHoming = false;
 
     public RobotHardware(HardwareMap hardwareMap) {
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
@@ -61,8 +75,8 @@ public class RobotHardware {
 
         imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
+                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP));
         imu.initialize(parameters);
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
@@ -80,12 +94,15 @@ public class RobotHardware {
         twistClawServo = hardwareMap.get(Servo.class, "twistClawServo");
         angleClawServo = hardwareMap.get(Servo.class, "angleClawServo");
 
-        leftLiftServo = hardwareMap.get(Servo.class, "rightLiftServo");
-        rightLiftServo = hardwareMap.get(Servo.class, "leftLiftServo");
+        leftLiftServo = hardwareMap.get(ServoImplEx.class, "rightLiftServo");
+        rightLiftServo = hardwareMap.get(ServoImplEx.class, "leftLiftServo");
 
         droneLaunchServo = hardwareMap.get(Servo.class, "droneLaunchServo");
 
         robotHangerMotor = hardwareMap.get(DcMotorEx.class, "robotHangerMotor");
+        robotHangerMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robotHangerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robotHangerMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         topLiftMotor = hardwareMap.get(DcMotorEx.class, "topLiftMotor");
         bottomLiftMotor = hardwareMap.get(DcMotorEx.class, "bottomLiftMotor");
@@ -93,6 +110,7 @@ public class RobotHardware {
         huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
 
         liftSwitch = hardwareMap.get(DigitalChannel.class, "liftSwitch");
+        liftSwitch.setMode(DigitalChannel.Mode.INPUT);
 
         topLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         topLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -113,6 +131,9 @@ public class RobotHardware {
         rightClawGreen = hardwareMap.get(DigitalChannel.class, "rightClawGreen");
         rightClawRed.setMode(DigitalChannel.Mode.OUTPUT);
         rightClawGreen.setMode(DigitalChannel.Mode.OUTPUT);
+
+        hangSwitch = hardwareMap.get(DigitalChannel.class, "hangSwitch");
+        hangSwitch.setMode(DigitalChannel.Mode.INPUT);
     }
 
     public void liftServosForTeleop() {
@@ -129,5 +150,53 @@ public class RobotHardware {
         par0Servo.setPosition(config.par0DownPosition);
         par1Servo.setPosition(config.par1DownPosition);
         perpServo.setPosition(config.perpDownPosition);
+    }
+
+    public void homeHangMotor(Telemetry telemetry) {
+        hangMotorHoming = true;
+        robotHangerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robotHangerMotor.setPower(.75);
+
+        while (!hangSwitch.getState()) {
+            if (telemetry != null) {
+                telemetry.addData("Hang Switch", hangSwitch.getState());
+                telemetry.addData("Mode", robotHangerMotor.getMode());
+                telemetry.addData("Target Position", robotHangerMotor.getTargetPosition());
+                telemetry.addData("Current Position", robotHangerMotor.getCurrentPosition());
+                telemetry.update();
+            }
+
+            Thread.yield();
+        }
+
+        robotHangerMotor.setPower(0);
+        robotHangerMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robotHangerMotor.setTargetPosition(RobotConfiguration.getInstance().hangMotorInitPosition);
+        robotHangerMotor.setPower(.75);
+
+        while (robotHangerMotor.isBusy()) {
+            if (telemetry != null) {
+                telemetry.addData("Hang Switch", hangSwitch.getState());
+                telemetry.addData("Mode", robotHangerMotor.getMode());
+                telemetry.addData("Target Position", robotHangerMotor.getTargetPosition());
+                telemetry.addData("Current Position", robotHangerMotor.getCurrentPosition());
+                telemetry.update();
+            }
+
+            Thread.yield();
+        }
+
+        robotHangerMotor.setPower(0);
+        robotHangerMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        hangMotorHoming = false;
+    }
+
+    public void homeHangMotorAsync() {
+        if (!hangMotorHoming) {
+            homeHangMotorExecutor = ThreadPool.newSingleThreadExecutor("home hang motor");
+            homeHangMotorExecutor.submit(homeHangMotorRunnable);
+            hangMotorHoming = true;
+        }
     }
 }
