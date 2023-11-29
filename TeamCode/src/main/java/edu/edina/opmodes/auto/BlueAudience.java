@@ -54,7 +54,7 @@ public class BlueAudience extends LinearOpMode {
         hardware.blinkinLedDriver.setPattern(pattern);
 
         // HuskyLens Init
-        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, 2);
+        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, 1);
         poCHuskyLens.init();
 
         claw = new Claw(hardware);

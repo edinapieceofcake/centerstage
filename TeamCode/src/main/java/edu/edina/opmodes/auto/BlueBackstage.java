@@ -91,7 +91,7 @@ public class BlueBackstage extends LinearOpMode {
             case Right:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(2, 34), Math.toRadians(180))
+                                .splineTo(new Vector2d(0, 34), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1)));
                 break;
