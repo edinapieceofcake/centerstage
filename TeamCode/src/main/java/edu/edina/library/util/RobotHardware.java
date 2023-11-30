@@ -33,7 +33,7 @@ public class RobotHardware {
 
     public final Servo par0Servo, par1Servo, perpServo;
 
-    public final Servo leftClawServo, rightClawServo, twistClawServo, angleClawServo;
+    public final ServoImplEx leftClawServo, rightClawServo, twistClawServo, angleClawServo;
 
     public final ServoImplEx leftLiftServo, rightLiftServo;
 
@@ -79,6 +79,12 @@ public class RobotHardware {
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
         imu.initialize(parameters);
 
+//        imu = hardwareMap.get(IMU.class, "imu1");
+//        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+//                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+//                RevHubOrientationOnRobot.UsbFacingDirection.UP));
+//        imu.initialize(parameters);
+
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
         par0 = hardwareMap.get(DcMotorEx.class, "rightFront");
@@ -89,10 +95,10 @@ public class RobotHardware {
         par1Servo = hardwareMap.get(Servo.class, "par1Servo");
         perpServo = hardwareMap.get(Servo.class, "perpServo");
 
-        leftClawServo = hardwareMap.get(Servo.class, "leftClawServo");
-        rightClawServo = hardwareMap.get(Servo.class, "rightClawServo");
-        twistClawServo = hardwareMap.get(Servo.class, "twistClawServo");
-        angleClawServo = hardwareMap.get(Servo.class, "angleClawServo");
+        leftClawServo = hardwareMap.get(ServoImplEx.class, "leftClawServo");
+        rightClawServo = hardwareMap.get(ServoImplEx.class, "rightClawServo");
+        twistClawServo = hardwareMap.get(ServoImplEx.class, "twistClawServo");
+        angleClawServo = hardwareMap.get(ServoImplEx.class, "angleClawServo");
 
         leftLiftServo = hardwareMap.get(ServoImplEx.class, "rightLiftServo");
         rightLiftServo = hardwareMap.get(ServoImplEx.class, "leftLiftServo");

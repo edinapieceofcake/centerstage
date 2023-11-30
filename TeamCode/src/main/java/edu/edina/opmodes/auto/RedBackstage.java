@@ -8,6 +8,8 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.PWMOutput;
+import com.qualcomm.robotcore.hardware.PwmControl;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
@@ -45,7 +47,7 @@ public class RedBackstage extends LinearOpMode {
         // test hardware construction and use in an empty action
         hardware = new RobotHardware(hardwareMap);
 
-        Pose2d startPose = new Pose2d(9, -62.5, Math.toRadians(90));
+        Pose2d startPose = new Pose2d(2, -62.5, Math.toRadians(90));
 
         // use out version of the drive based off the hardware that we created above.
         drive = new org.firstinspires.ftc.teamcode.MecanumDrive(hardware.leftFront,
@@ -81,21 +83,21 @@ public class RedBackstage extends LinearOpMode {
             case Left:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(10, -34), Math.toRadians(180))
+                                .splineTo(new Vector2d(4, -32), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Center:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(16, -25), Math.toRadians(90))
+                                .splineTo(new Vector2d(9, -36), Math.toRadians(90))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Right:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(20, -34), Math.toRadians(90))
+                                .splineTo(new Vector2d(26, -32), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1)));
                 break;
@@ -112,7 +114,7 @@ public class RedBackstage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(44,-30), Math.toRadians(0))
+                                .splineTo(new Vector2d(37,-32), Math.toRadians(0))
                                 .build(),
                         sleep1sAction)
                 );
@@ -121,7 +123,7 @@ public class RedBackstage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(44,-38), Math.toRadians(0))
+                                .splineTo(new Vector2d(37,-38), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1))
                 );
@@ -130,7 +132,7 @@ public class RedBackstage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(44,-45), Math.toRadians(0))
+                                .splineTo(new Vector2d(37,-47), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1))
                 );
@@ -141,13 +143,13 @@ public class RedBackstage extends LinearOpMode {
 
         Actions.runBlocking(new SequentialAction(
                 drive.actionBuilder(drive.pose)
-                        .turnTo(Math.toRadians(180))
+                        .turnTo(Math.toRadians(0))
                         .build()));
 
         state.currentLiftDriveState = LiftDriveState.LowDropOff;
         state.currentLiftSlideState = LiftSlideState.Extending;
         state.dropOffState = DropOffState.Start;
-        RobotConfiguration.getInstance().liftLowDropOffPosition = -500;
+        RobotConfiguration.getInstance().liftLowDropOffPosition = -450;
 
         while (state.dropOffState != DropOffState.Finished) {
             lift.update();
@@ -155,13 +157,13 @@ public class RedBackstage extends LinearOpMode {
             idle();
         }
 
-        Actions.runBlocking(drive.actionBuilder(drive.pose).lineToX(51).build());
+        Actions.runBlocking(drive.actionBuilder(drive.pose).lineToX(47).build());
 
         state.rightClawState = ClawState.Opened;
         claw.update();
         sleep(2000);
 
-        Actions.runBlocking(drive.actionBuilder(drive.pose).lineToX(44).build());
+        Actions.runBlocking(drive.actionBuilder(drive.pose).lineToX(37).build());
 
         state.pickUpState = PickUpState.Start;
         state.currentLiftDriveState = LiftDriveState.Drive;
@@ -181,14 +183,14 @@ public class RedBackstage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                         .setReversed(true)
-                        .splineTo(new Vector2d(60, -14), Math.toRadians(0))
+                        .splineTo(new Vector2d(53, -14), Math.toRadians(0))
                         .build()));
                 break;
             case Corner:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                         .setReversed(true)
-                        .splineTo(new Vector2d(60, -60), Math.toRadians(0))
+                        .splineTo(new Vector2d(53, -60), Math.toRadians(0))
                         .build()));
                 break;
             default:
@@ -238,6 +240,8 @@ public class RedBackstage extends LinearOpMode {
             hardware.blinkinLedDriver.setPattern(pattern);
 
             runPaths(parkLocation);
+
+            ((PwmControl)hardware.angleClawServo).setPwmDisable();
         }
 
     }
