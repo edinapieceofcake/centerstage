@@ -114,7 +114,7 @@ public class RedBackstage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(37,-32), Math.toRadians(0))
+                                .splineTo(new Vector2d(37,-28), Math.toRadians(0))
                                 .build(),
                         sleep1sAction)
                 );
@@ -123,7 +123,7 @@ public class RedBackstage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(37,-38), Math.toRadians(0))
+                                .splineTo(new Vector2d(37,-36), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1))
                 );
@@ -132,7 +132,7 @@ public class RedBackstage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(37,-47), Math.toRadians(0))
+                                .splineTo(new Vector2d(37,-44), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1))
                 );
@@ -149,7 +149,7 @@ public class RedBackstage extends LinearOpMode {
         state.currentLiftDriveState = LiftDriveState.LowDropOff;
         state.currentLiftSlideState = LiftSlideState.Extending;
         state.dropOffState = DropOffState.Start;
-        RobotConfiguration.getInstance().liftLowDropOffPosition = -450;
+        RobotConfiguration.getInstance().liftLowDropOffPosition = -425;
 
         while (state.dropOffState != DropOffState.Finished) {
             lift.update();

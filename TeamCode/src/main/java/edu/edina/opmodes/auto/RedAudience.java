@@ -85,7 +85,7 @@ public class RedAudience extends LinearOpMode {
             case Right:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(-36, -36), Math.toRadians(0))
+                                .splineTo(new Vector2d(-36, -38), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1)));
                 break;

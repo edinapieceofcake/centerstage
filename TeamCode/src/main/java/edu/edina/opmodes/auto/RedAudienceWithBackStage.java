@@ -134,7 +134,7 @@ public class RedAudienceWithBackStage extends LinearOpMode {
                                 .splineTo(new Vector2d(-30, -60), Math.toRadians(0))
                                 .splineTo(new Vector2d(0, -60), Math.toRadians(0))
                                 .splineTo(new Vector2d(38, -60), Math.toRadians(0))
-                                .splineTo(new Vector2d(40, -46), Math.toRadians(180))
+                                .splineTo(new Vector2d(40, -49), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1))
                 );
