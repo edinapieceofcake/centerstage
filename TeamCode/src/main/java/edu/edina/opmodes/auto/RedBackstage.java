@@ -90,7 +90,7 @@ public class RedBackstage extends LinearOpMode {
             case Center:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(9, -36), Math.toRadians(90))
+                                .splineTo(new Vector2d(9, -35), Math.toRadians(90))
                                 .build(),
                         new SleepAction(1)));
                 break;
@@ -228,7 +228,7 @@ public class RedBackstage extends LinearOpMode {
             telemetry.addData("Current Park Location", parkLocation);
             poCHuskyLens.update();
 
-            propLocation = poCHuskyLens.getPropLocation();
+            propLocation = PropLocation.Right;//poCHuskyLens.getPropLocation();
             telemetry.addData("Location", propLocation);
 
             telemetry.update();

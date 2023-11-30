@@ -74,21 +74,21 @@ public class RedAudienceWithBackStage extends LinearOpMode {
             case Left:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(-39, -30), Math.toRadians(180))
+                                .splineTo(new Vector2d(-37, -30), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Center:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(-35, -33), Math.toRadians(90))
+                                .splineTo(new Vector2d(-35, -35), Math.toRadians(90))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Right:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(-34, -30), Math.toRadians(0))
+                                .splineTo(new Vector2d(-36, -36), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1)));
                 break;
@@ -107,9 +107,9 @@ public class RedAudienceWithBackStage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(-30, -57), Math.toRadians(0))
-                                .splineTo(new Vector2d(0, -57), Math.toRadians(0))
-                                .splineTo(new Vector2d(38, -57), Math.toRadians(0))
+                                .splineTo(new Vector2d(-30, -60), Math.toRadians(0))
+                                .splineTo(new Vector2d(0, -60), Math.toRadians(0))
+                                .splineTo(new Vector2d(38, -60), Math.toRadians(0))
                                 .splineTo(new Vector2d(40, -32), Math.toRadians(180))
                                 .build(),
                         sleep1sAction)
@@ -119,10 +119,10 @@ public class RedAudienceWithBackStage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(-30, -57), Math.toRadians(0))
-                                .splineTo(new Vector2d(0, -57), Math.toRadians(0))
-                                .splineTo(new Vector2d(38, -57), Math.toRadians(0))
-                                .splineTo(new Vector2d(40, -38), Math.toRadians(180))
+                                .splineTo(new Vector2d(-30, -60), Math.toRadians(0))
+                                .splineTo(new Vector2d(0, -60), Math.toRadians(0))
+                                .splineTo(new Vector2d(38, -60), Math.toRadians(0))
+                                .splineTo(new Vector2d(40, -38.5), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1))
                 );
@@ -131,10 +131,10 @@ public class RedAudienceWithBackStage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(-30, -58), Math.toRadians(0))
-                                .splineTo(new Vector2d(0, -58), Math.toRadians(0))
-                                .splineTo(new Vector2d(38, -58), Math.toRadians(0))
-                                .splineTo(new Vector2d(40, -48), Math.toRadians(180))
+                                .splineTo(new Vector2d(-30, -60), Math.toRadians(0))
+                                .splineTo(new Vector2d(0, -60), Math.toRadians(0))
+                                .splineTo(new Vector2d(38, -60), Math.toRadians(0))
+                                .splineTo(new Vector2d(40, -46), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1))
                 );
@@ -197,14 +197,14 @@ public class RedAudienceWithBackStage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(54, -14), Math.toRadians(0))
+                                .splineTo(new Vector2d(60, -14), Math.toRadians(0))
                                 .build()));
                 break;
             case Corner:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(55, -64), Math.toRadians(0))
+                                .splineTo(new Vector2d(60, -64), Math.toRadians(0))
                                 .build()));
                 break;
             default:
@@ -250,7 +250,7 @@ public class RedAudienceWithBackStage extends LinearOpMode {
             telemetry.addData("Delay in seconds", delayTime / 1000);
             poCHuskyLens.update();
 
-            propLocation = poCHuskyLens.getPropLocation();
+            propLocation = PropLocation.Right;//poCHuskyLens.getPropLocation();
             telemetry.addData("Location", propLocation);
 
             telemetry.update();

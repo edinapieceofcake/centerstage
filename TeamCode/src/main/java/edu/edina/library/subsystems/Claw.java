@@ -1,5 +1,6 @@
 package edu.edina.library.subsystems;
 
+import edu.edina.library.enums.AngleClawState;
 import edu.edina.library.enums.ClawState;
 import edu.edina.library.enums.TwistServoState;
 import edu.edina.library.util.Robot;
@@ -25,10 +26,12 @@ public class Claw implements Subsystem {
 
         state.rightClawState = ClawState.Opened;
         state.leftClawState = ClawState.Opened;
+        state.angleClawState = AngleClawState.Drive;
+        state.twistServoState = TwistServoState.Pickup;
         hardware.leftClawServo.setPosition(RobotConfiguration.getInstance().clawLeftOpenPosition);
         hardware.rightClawServo.setPosition(RobotConfiguration.getInstance().clawRightOpenPosition);
         hardware.twistClawServo.setPosition(RobotConfiguration.getInstance().twistClawServoPickUpPosition);
-        hardware.angleClawServo.setPosition(RobotConfiguration.getInstance().angleClawPickupPosition);
+        hardware.angleClawServo.setPosition(RobotConfiguration.getInstance().angleClawDrivePosition);
     }
 
     @Override

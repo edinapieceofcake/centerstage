@@ -71,21 +71,21 @@ public class RedAudience extends LinearOpMode {
             case Left:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(-39, -30), Math.toRadians(180))
+                                .splineTo(new Vector2d(-37, -30), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Center:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(-35, -33), Math.toRadians(90))
+                                .splineTo(new Vector2d(-35, -35), Math.toRadians(90))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Right:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(-33, -30), Math.toRadians(0))
+                                .splineTo(new Vector2d(-36, -36), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1)));
                 break;
@@ -116,7 +116,7 @@ public class RedAudience extends LinearOpMode {
         while (!isStarted()) {
             poCHuskyLens.update();
 
-            propLocation = poCHuskyLens.getPropLocation();
+            propLocation = PropLocation.Right;//poCHuskyLens.getPropLocation();
             telemetry.addData("Location", propLocation);
 
             telemetry.update();
