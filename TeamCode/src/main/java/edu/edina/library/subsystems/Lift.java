@@ -38,6 +38,7 @@ public class Lift implements Subsystem, Action {
     private Deadline lowLiftDelay = new Deadline(300, TimeUnit.MILLISECONDS);
     private Deadline highLiftDelay = new Deadline(500, TimeUnit.MILLISECONDS);
     private Deadline secondExtensionTimeout = new Deadline(1000, TimeUnit.MILLISECONDS);
+    private Deadline zeroSwitchTimeout = new Deadline(2000, TimeUnit.MILLISECONDS);
 
     public Lift(RobotHardware hardware, boolean isTeleop) {
         this.hardware = hardware;
@@ -298,10 +299,11 @@ public class Lift implements Subsystem, Action {
                         hardware.topLiftMotor.setTargetPosition(config.liftDrivePosition);
                         hardware.bottomLiftMotor.setTargetPosition(config.liftDrivePosition);
                         state.pickUpState = PickUpState.WaitForSecondRetraction;
+                        zeroSwitchTimeout.reset();
                     }
 
                     if (state.pickUpState == PickUpState.WaitForSecondRetraction) {
-                        if (!hardware.liftSwitch.getState()) {
+                        if (!hardware.liftSwitch.getState() || zeroSwitchTimeout.hasExpired()) {
                             if (state.currentLiftDriveState == LiftDriveState.Drive) {
                                 state.angleClawState = AngleClawState.Drive;
                                 state.lastKnownLiftState = LiftDriveState.Drive;
