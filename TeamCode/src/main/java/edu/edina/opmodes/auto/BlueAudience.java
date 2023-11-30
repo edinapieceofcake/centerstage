@@ -85,7 +85,7 @@ public class BlueAudience extends LinearOpMode {
             case Right:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(-38, 30), Math.toRadians(180))
+                                .splineTo(new Vector2d(-50, 36), Math.toRadians(270))
                                 .build(),
                         new SleepAction(1)));
                 break;

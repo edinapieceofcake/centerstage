@@ -91,7 +91,7 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
             case Right:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(-38, 27), Math.toRadians(180))
+                                .splineTo(new Vector2d(-48, 38), Math.toRadians(270))
                                 .build(),
                         new SleepAction(1)));
                 break;
@@ -133,9 +133,10 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(-30, 12), Math.toRadians(0))
+                                .splineTo(new Vector2d(-55, 35), Math.toRadians(270))
+                                .splineTo(new Vector2d(-45, 12), Math.toRadians(0))
                                 .splineTo(new Vector2d(35, 12), Math.toRadians(0))
-                                .splineTo(new Vector2d(40, 28.5), Math.toRadians(180))
+                                .splineTo(new Vector2d(45, 31), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1))
                 );
