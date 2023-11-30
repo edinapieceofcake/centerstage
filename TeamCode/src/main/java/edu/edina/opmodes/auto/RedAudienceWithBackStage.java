@@ -250,7 +250,7 @@ public class RedAudienceWithBackStage extends LinearOpMode {
             telemetry.addData("Delay in seconds", delayTime / 1000);
             poCHuskyLens.update();
 
-            propLocation = PropLocation.Right;//poCHuskyLens.getPropLocation();
+            propLocation = poCHuskyLens.getPropLocation();
             telemetry.addData("Location", propLocation);
 
             telemetry.update();

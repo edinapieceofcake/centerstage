@@ -228,7 +228,7 @@ public class RedBackstage extends LinearOpMode {
             telemetry.addData("Current Park Location", parkLocation);
             poCHuskyLens.update();
 
-            propLocation = PropLocation.Right;//poCHuskyLens.getPropLocation();
+            propLocation = poCHuskyLens.getPropLocation();
             telemetry.addData("Location", propLocation);
 
             telemetry.update();
@@ -240,8 +240,6 @@ public class RedBackstage extends LinearOpMode {
             hardware.blinkinLedDriver.setPattern(pattern);
 
             runPaths(parkLocation);
-
-            ((PwmControl)hardware.angleClawServo).setPwmDisable();
         }
 
     }

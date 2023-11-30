@@ -64,7 +64,7 @@ public class RedAudience extends LinearOpMode {
         hardware.homeHangMotor(telemetry);
     }
 
-    protected void runPaths(ParkLocation parkLocation) {
+    protected void runPaths() {
         RobotState state = RobotState.getInstance();
 
         switch(propLocation) {
@@ -116,7 +116,7 @@ public class RedAudience extends LinearOpMode {
         while (!isStarted()) {
             poCHuskyLens.update();
 
-            propLocation = PropLocation.Right;//poCHuskyLens.getPropLocation();
+            propLocation = poCHuskyLens.getPropLocation();
             telemetry.addData("Location", propLocation);
 
             telemetry.update();
@@ -127,7 +127,7 @@ public class RedAudience extends LinearOpMode {
             pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
             hardware.blinkinLedDriver.setPattern(pattern);
 
-            runPaths(ParkLocation.Corner);
+            runPaths();
         }
 
     }
