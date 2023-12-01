@@ -60,9 +60,9 @@ public final class TuningOpModes {
                 if (md.localizer instanceof MecanumDrive.DriveLocalizer) {
                     MecanumDrive.DriveLocalizer dl = (MecanumDrive.DriveLocalizer) md.localizer;
                     leftEncs.add(dl.leftFront);
-                    leftEncs.add(dl.leftRear);
+                    leftEncs.add(dl.leftBack);
                     rightEncs.add(dl.rightFront);
-                    rightEncs.add(dl.rightRear);
+                    rightEncs.add(dl.rightBack);
                 } else if (md.localizer instanceof ThreeDeadWheelLocalizer) {
                     ThreeDeadWheelLocalizer dl = (ThreeDeadWheelLocalizer) md.localizer;
                     parEncs.add(dl.par0);
@@ -77,7 +77,7 @@ public final class TuningOpModes {
                 }
 
                 return new DriveView(
-                        DriveType.MECANUM,
+                    DriveType.MECANUM,
                         MecanumDrive.PARAMS.inPerTick,
                         MecanumDrive.PARAMS.maxWheelVel,
                         MecanumDrive.PARAMS.minProfileAccel,
@@ -126,7 +126,7 @@ public final class TuningOpModes {
                 }
 
                 return new DriveView(
-                        DriveType.TANK,
+                    DriveType.TANK,
                         TankDrive.PARAMS.inPerTick,
                         TankDrive.PARAMS.maxWheelVel,
                         TankDrive.PARAMS.minProfileAccel,
@@ -149,18 +149,17 @@ public final class TuningOpModes {
             throw new AssertionError();
         }
 
-//        manager.register(metaForClass(LocalizationTest.class), LocalizationTest.class);
-//        manager.register(metaForClass(MecanumMotorDirectionDebugger.class), new MecanumMotorDirectionDebugger(dvf));
-//        manager.register(metaForClass(AngularRampLogger.class), new AngularRampLogger(dvf));
-//        manager.register(metaForClass(ForwardPushTest.class), new ForwardPushTest(dvf));
-//        manager.register(metaForClass(ForwardRampLogger.class), new ForwardRampLogger(dvf));
-//        manager.register(metaForClass(LateralPushTest.class), new LateralPushTest(dvf));
-//        manager.register(metaForClass(LateralRampLogger.class), new LateralRampLogger(dvf));
-//        manager.register(metaForClass(ManualFeedforwardTuner.class), new ManualFeedforwardTuner(dvf));
-//
-//        manager.register(metaForClass(ManualFeedbackTuner.class), ManualFeedbackTuner.class);
-//        manager.register(metaForClass(SplineTest.class), SplineTest.class);
-//        manager.register(metaForClass(LocalizationTest.class), LocalizationTest.class);
+        manager.register(metaForClass(AngularRampLogger.class), new AngularRampLogger(dvf));
+        manager.register(metaForClass(ForwardPushTest.class), new ForwardPushTest(dvf));
+        manager.register(metaForClass(ForwardRampLogger.class), new ForwardRampLogger(dvf));
+        manager.register(metaForClass(LateralPushTest.class), new LateralPushTest(dvf));
+        manager.register(metaForClass(LateralRampLogger.class), new LateralRampLogger(dvf));
+        manager.register(metaForClass(ManualFeedforwardTuner.class), new ManualFeedforwardTuner(dvf));
+        manager.register(metaForClass(MecanumMotorDirectionDebugger.class), new MecanumMotorDirectionDebugger(dvf));
+
+        manager.register(metaForClass(ManualFeedbackTuner.class), ManualFeedbackTuner.class);
+        manager.register(metaForClass(SplineTest.class), SplineTest.class);
+        manager.register(metaForClass(LocalizationTest.class), LocalizationTest.class);
 
         FtcDashboard.getInstance().withConfigRoot(configRoot -> {
             for (Class<?> c : Arrays.asList(
@@ -174,5 +173,5 @@ public final class TuningOpModes {
                 configRoot.putVariable(c.getSimpleName(), ReflectionConfig.createVariableFromClass(c));
             }
         });
-  }
+    }
 }
