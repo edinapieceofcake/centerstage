@@ -76,21 +76,21 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
         switch(propLocation) {
             case Left:
                 Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
+                        drive.actionBuilder(drive.getPose())
                                 .splineTo(new Vector2d(-34, 33), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Center:
                 Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
+                        drive.actionBuilder(drive.getPose())
                                 .splineTo(new Vector2d(-37, 33), Math.toRadians(270))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Right:
                 Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
+                        drive.actionBuilder(drive.getPose())
                                 .splineTo(new Vector2d(-48, 38), Math.toRadians(270))
                                 .build(),
                         new SleepAction(1)));
@@ -108,7 +108,7 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
         switch (propLocation) {
             case Left:
                 Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
+                        drive.actionBuilder(drive.getPose())
                                 .setReversed(true)
                                 .splineTo(new Vector2d(-30, 12), Math.toRadians(0))
                                 .splineTo(new Vector2d(35, 12), Math.toRadians(0))
@@ -119,7 +119,7 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                 break;
             case Center:
                 Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
+                        drive.actionBuilder(drive.getPose())
                                 .setReversed(true)
                                 .splineTo(new Vector2d(-55, 35), Math.toRadians(270))
                                 .splineTo(new Vector2d(-45, 12), Math.toRadians(0))
@@ -131,7 +131,7 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                 break;
             case Right:
                 Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
+                        drive.actionBuilder(drive.getPose())
                                 .setReversed(true)
                                 .splineTo(new Vector2d(-55, 35), Math.toRadians(270))
                                 .splineTo(new Vector2d(-45, 12), Math.toRadians(0))
@@ -146,7 +146,7 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
         }
 
         Actions.runBlocking(new SequentialAction(
-                drive.actionBuilder(drive.pose)
+                drive.actionBuilder(drive.getPose())
                         .turnTo(Math.toRadians(0))
                         .build()));
 
@@ -166,13 +166,13 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
         state.telemetry(telemetry, hardware);
         telemetry.update();
 
-        Actions.runBlocking(drive.actionBuilder(drive.pose).lineToX(52).build());
+        Actions.runBlocking(drive.actionBuilder(drive.getPose()).lineToX(52).build());
 
         state.rightClawState = ClawState.Opened;
         claw.update();
         sleep(2000);
 
-        Actions.runBlocking(drive.actionBuilder(drive.pose).lineToX(40).build());
+        Actions.runBlocking(drive.actionBuilder(drive.getPose()).lineToX(40).build());
 
         state.pickUpState = PickUpState.Start;
         state.lastKnownLiftState = LiftDriveState.LowDropOff;
@@ -192,14 +192,14 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
         switch (parkLocation) {
             case Center:
                 Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
+                        drive.actionBuilder(drive.getPose())
                                 .setReversed(true)
                                 .splineTo(new Vector2d(60, 14), Math.toRadians(0))
                                 .build()));
                 break;
             case Corner:
                 Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
+                        drive.actionBuilder(drive.getPose())
                                 .setReversed(true)
                                 .splineTo(new Vector2d(60, 61), Math.toRadians(0))
                                 .build()));

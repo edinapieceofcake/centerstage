@@ -49,7 +49,7 @@ public class MecanumDrive implements Subsystem {
                 (-rightStickX/1.5)
         ));
 
-        drive.updatePoseEstimate();
+        //drive.updatePoseEstimate();
     }
 
     public static double ScaleMotorCube(double joyStickPosition) {

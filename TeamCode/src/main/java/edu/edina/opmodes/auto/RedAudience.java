@@ -70,21 +70,21 @@ public class RedAudience extends LinearOpMode {
         switch(propLocation) {
             case Left:
                 Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
+                        drive.actionBuilder(drive.getPose())
                                 .splineTo(new Vector2d(-37, -30), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Center:
                 Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
+                        drive.actionBuilder(drive.getPose())
                                 .splineTo(new Vector2d(-35, -35), Math.toRadians(90))
                                 .build(),
                         new SleepAction(1)));
                 break;
             case Right:
                 Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
+                        drive.actionBuilder(drive.getPose())
                                 .splineTo(new Vector2d(-36, -36), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1)));

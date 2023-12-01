@@ -294,15 +294,18 @@ public class Lift implements Subsystem, Action {
                     }
 
                     if (state.pickUpState == PickUpState.SecondRetraction) {
+                        // slow down the retraction so we don't kill the bot
                         hardware.topLiftMotor.setPower(config.slowLiftRetractingPower);
                         hardware.bottomLiftMotor.setPower(config.slowLiftRetractingPower);
                         hardware.topLiftMotor.setTargetPosition(config.liftDrivePosition);
                         hardware.bottomLiftMotor.setTargetPosition(config.liftDrivePosition);
                         state.pickUpState = PickUpState.WaitForSecondRetraction;
+                        // set a timeout to prevent deadlock/over current draw on retraction of lift
                         zeroSwitchTimeout.reset();
                     }
 
                     if (state.pickUpState == PickUpState.WaitForSecondRetraction) {
+                        // check switch and timeout
                         if (!hardware.liftSwitch.getState() || zeroSwitchTimeout.hasExpired()) {
                             if (state.currentLiftDriveState == LiftDriveState.Drive) {
                                 state.angleClawState = AngleClawState.Drive;
@@ -312,6 +315,7 @@ public class Lift implements Subsystem, Action {
                                 state.lastKnownLiftState = LiftDriveState.Pickup;
                             }
 
+                            // all done so shut it all down
                             hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                             hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                             hardware.topLiftMotor.setPower(0);
