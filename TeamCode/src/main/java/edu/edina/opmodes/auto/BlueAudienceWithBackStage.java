@@ -91,7 +91,7 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
             case Right:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(-48, 38), Math.toRadians(270))
+                                .splineTo(new Vector2d(-49, 38), Math.toRadians(270))
                                 .build(),
                         new SleepAction(1)));
                 break;
@@ -103,6 +103,8 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
         state.leftClawState = ClawState.Opened;
         claw.update();
         sleep(1000);
+        state.leftClawState = ClawState.Closed;
+        claw.update();
 
         // where to put the yellow pixel?
         switch (propLocation) {
@@ -112,7 +114,7 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                                 .setReversed(true)
                                 .splineTo(new Vector2d(-30, 12), Math.toRadians(0))
                                 .splineTo(new Vector2d(35, 12), Math.toRadians(0))
-                                .splineTo(new Vector2d(40, 41), Math.toRadians(180))
+                                .splineTo(new Vector2d(40, 37), Math.toRadians(180))
                                 .build(),
                         sleep1sAction)
                 );
@@ -124,7 +126,7 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                                 .splineTo(new Vector2d(-55, 35), Math.toRadians(270))
                                 .splineTo(new Vector2d(-45, 12), Math.toRadians(0))
                                 .splineTo(new Vector2d(35, 12), Math.toRadians(0))
-                                .splineTo(new Vector2d(40, 32), Math.toRadians(180))
+                                .splineTo(new Vector2d(40, 26), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1))
                 );
@@ -136,7 +138,7 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                                 .splineTo(new Vector2d(-55, 35), Math.toRadians(270))
                                 .splineTo(new Vector2d(-45, 12), Math.toRadians(0))
                                 .splineTo(new Vector2d(35, 12), Math.toRadians(0))
-                                .splineTo(new Vector2d(45, 24), Math.toRadians(180))
+                                .splineTo(new Vector2d(40, 19), Math.toRadians(180))
                                 .build(),
                         new SleepAction(1))
                 );
@@ -201,7 +203,7 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(60, 61), Math.toRadians(0))
+                                .splineTo(new Vector2d(60, 51), Math.toRadians(0))
                                 .build()));
                 break;
             default:

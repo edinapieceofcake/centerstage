@@ -100,6 +100,8 @@ public class RedAudienceWithBackStage extends LinearOpMode {
         state.leftClawState = ClawState.Opened;
         claw.update();
         sleep(1000);
+        state.leftClawState = ClawState.Closed;
+        claw.update();
 
         // where to put the yellow pixel?
         switch (propLocation) {
@@ -110,7 +112,7 @@ public class RedAudienceWithBackStage extends LinearOpMode {
                                 .splineTo(new Vector2d(-30, -60), Math.toRadians(0))
                                 .splineTo(new Vector2d(0, -60), Math.toRadians(0))
                                 .splineTo(new Vector2d(38, -60), Math.toRadians(0))
-                                .splineTo(new Vector2d(40, -32), Math.toRadians(180))
+                                .splineTo(new Vector2d(40, -37), Math.toRadians(180))
                                 .build(),
                         sleep1sAction)
                 );

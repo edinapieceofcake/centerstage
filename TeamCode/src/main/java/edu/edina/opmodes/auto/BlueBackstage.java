@@ -102,6 +102,8 @@ public class BlueBackstage extends LinearOpMode {
         state.leftClawState = ClawState.Opened;
         claw.update();
         sleep(1000);
+        state.leftClawState = ClawState.Closed;
+        claw.update();
 
         // drop off yellow pixel
         switch (propLocation) {
@@ -127,7 +129,7 @@ public class BlueBackstage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(36,26), Math.toRadians(0))
+                                .splineTo(new Vector2d(36,25), Math.toRadians(0))
                                 .build(),
                         new SleepAction(1))
                 );

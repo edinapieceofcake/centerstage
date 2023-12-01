@@ -108,6 +108,8 @@ public class RedBackstage extends LinearOpMode {
         state.leftClawState = ClawState.Opened;
         claw.update();
         sleep(1000);
+        state.leftClawState = ClawState.Closed;
+        claw.update();
 
         switch (propLocation) {
             case Left:
