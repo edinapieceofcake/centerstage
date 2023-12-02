@@ -21,7 +21,7 @@ public class PoCHuskyLens {
 
     private Deadline rateLimit = new Deadline(READ_PERIOD, TimeUnit.SECONDS);
 
-    private PropLocation propLocation = PropLocation.Left;
+    public PropLocation propLocation = PropLocation.Left;
 
     public PoCHuskyLens(HuskyLens huskyLens, Telemetry telemetry, int blockId){
         this.huskyLens = huskyLens;
