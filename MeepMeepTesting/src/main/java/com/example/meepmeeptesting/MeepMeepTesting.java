@@ -469,7 +469,9 @@ public class MeepMeepTesting {
                 .build();
 
         backstageDoublePickupSpline.runAction(backstageDoublePickupSpline.getDrive().actionBuilder(new Pose2d(12.5, -64, Math.toRadians(90)))
-                .splineTo(new Vector2d(48, -35), Math.toRadians(0))
+                .splineTo(new Vector2d(14, -29), Math.toRadians(90))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(48, -35, Math.toRadians(0)), Math.toRadians(0))
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(0, -58, Math.toRadians(-180)), Math.toRadians(180))
                 .setReversed(false)
