@@ -89,22 +89,19 @@ public class RedBackstage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .splineTo(new Vector2d(4, -32), Math.toRadians(180))
-                                .build(),
-                        new SleepAction(1)));
+                                .build()));
                 break;
             case Center:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .splineTo(new Vector2d(9, -35), Math.toRadians(90))
-                                .build(),
-                        new SleepAction(1)));
+                                .build()));
                 break;
             case Right:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .splineTo(new Vector2d(26, -32), Math.toRadians(180))
-                                .build(),
-                        new SleepAction(1)));
+                                .build()));
                 break;
             default:
                 break;
@@ -112,7 +109,7 @@ public class RedBackstage extends LinearOpMode {
 
         state.leftClawState = ClawState.Opened;
         claw.update();
-        sleep(1000);
+        sleep(500);
         state.leftClawState = ClawState.Closed;
         claw.update();
 
@@ -122,8 +119,7 @@ public class RedBackstage extends LinearOpMode {
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
                                 .splineTo(new Vector2d(37,-28), Math.toRadians(0))
-                                .build(),
-                        sleep1sAction)
+                                .build())
                 );
                 break;
             case Center:
@@ -131,8 +127,7 @@ public class RedBackstage extends LinearOpMode {
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
                                 .splineTo(new Vector2d(37,-36), Math.toRadians(0))
-                                .build(),
-                        new SleepAction(1))
+                                .build())
                 );
                 break;
             case Right:
@@ -140,8 +135,7 @@ public class RedBackstage extends LinearOpMode {
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
                                 .splineTo(new Vector2d(37,-44), Math.toRadians(0))
-                                .build(),
-                        new SleepAction(1))
+                                .build())
                 );
                 break;
             default:
@@ -168,7 +162,7 @@ public class RedBackstage extends LinearOpMode {
 
         state.rightClawState = ClawState.Opened;
         claw.update();
-        sleep(2000);
+        sleep(1000);
 
         Actions.runBlocking(drive.actionBuilder(drive.pose).lineToX(37).build());
 

@@ -44,8 +44,6 @@ public class PoCHuskyLens {
     }
 
     public void update() {
-        double smallestRatio = 9999.0;
-        int smallestBlockLocation = -1;
 
         if (!rateLimit.hasExpired()) {
             return;
@@ -57,31 +55,22 @@ public class PoCHuskyLens {
         telemetry.addData("Block count", blocks.length);
 
         for (int i = 0; i < blocks.length; i++) {
-            double ratio = (1.0 - (blocks[i].x / blocks[i].y));
-            telemetry.addData("Block", blocks[i].toString());
-            telemetry.addData("Ratio, Picked Location", "%f %d %d", ratio, smallestBlockLocation, blockId);
+            HuskyLens.Block currentBlock = blocks[i];
+            telemetry.addData("Block", currentBlock.toString());
 
-            if (blocks[i].id == blockId) {
+            if (currentBlock.id == blockId) {
                 telemetry.addData("Matched block", "");
-                if (ratio < smallestRatio) {
-                    smallestRatio = ratio;
-                    smallestBlockLocation = i;
+                if (currentBlock.x < 100) {
+                    propLocation = PropLocation.Left;
+                } else if (currentBlock.x >= 100 && currentBlock.x <= 220) {
+                    propLocation = PropLocation.Center;
+                } else if (currentBlock.x > 220) {
+                    propLocation = PropLocation.Right;
+                } else {
+                    propLocation = PropLocation.None;
                 }
             } else {
                 telemetry.addData("Skipped block", "");
-            }
-        }
-
-        if (smallestBlockLocation != -1) {
-            HuskyLens.Block propBlock = blocks[smallestBlockLocation];
-
-            if (propBlock.x < 100) {
-                propLocation = PropLocation.Left;
-            } else if (propBlock.x >= 100 && propBlock.x <= 220) {
-                propLocation = PropLocation.Center;
-            } else if (propBlock.x > 220) {
-                propLocation = PropLocation.Right;
-            } else {
                 propLocation = PropLocation.None;
             }
         }

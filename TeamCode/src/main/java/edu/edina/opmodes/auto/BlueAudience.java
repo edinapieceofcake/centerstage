@@ -77,22 +77,19 @@ public class BlueAudience extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .splineTo(new Vector2d(-34, 31), Math.toRadians(0))
-                                .build(),
-                        new SleepAction(1)));
+                                .build()));
                 break;
             case Center:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .splineTo(new Vector2d(-37, 33), Math.toRadians(270))
-                                .build(),
-                        new SleepAction(1)));
+                                .build()));
                 break;
             case Right:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .splineTo(new Vector2d(-50, 36), Math.toRadians(270))
-                                .build(),
-                        new SleepAction(1)));
+                                .build()));
                 break;
             default:
                 break;
@@ -101,7 +98,7 @@ public class BlueAudience extends LinearOpMode {
         // place purple on the ground
         state.leftClawState = ClawState.Opened;
         claw.update();
-        sleep(1000);
+        sleep(500);
 
     }
 
