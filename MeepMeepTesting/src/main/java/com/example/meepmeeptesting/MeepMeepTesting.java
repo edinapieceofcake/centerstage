@@ -462,6 +462,21 @@ public class MeepMeepTesting {
                 .splineTo(new Vector2d(48, -35), Math.toRadians(180))
                 .build());
 
+        RoadRunnerBotEntity backstageDoublePickupMT = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(50, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        backstageDoublePickupMT.runAction(backstageDoublePickup.getDrive().actionBuilder(new Pose2d(12.5, -64, Math.toRadians(90)))
+                .splineTo(new Vector2d(48, -35), Math.toRadians(0))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(0, -60, Math.toRadians(-180)), Math.toRadians(180))
+                .setReversed(false)
+                .splineTo(new Vector2d(-30, -60), Math.toRadians(180))
+                .splineTo(new Vector2d(-60,-36), Math.toRadians(180))
+                .build());
+
         RoadRunnerBotEntity audienceOnePickup = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(50, 40, Math.toRadians(180), Math.toRadians(180), 12)
@@ -505,8 +520,9 @@ public class MeepMeepTesting {
 //                .addEntity(backstageRedLeft)
 //                .addEntity(backstageRedCenter)
 //                .addEntity(backstageRedRight)
-                .addEntity(backstageDoublePickup)
-                .addEntity(audienceOnePickup)
+//                .addEntity(backstageDoublePickup)
+//                .addEntity(audienceOnePickup)
+                .addEntity(backstageDoublePickupMT)
                 .start();
     }
 }
