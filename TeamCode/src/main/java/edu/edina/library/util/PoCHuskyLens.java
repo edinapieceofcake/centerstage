@@ -53,26 +53,32 @@ public class PoCHuskyLens {
         rateLimit.reset();
 
         HuskyLens.Block[] blocks = huskyLens.blocks();
-        telemetry.addData("Block count", blocks.length);
 
-        for (int i = 0; i < blocks.length; i++) {
-            HuskyLens.Block currentBlock = blocks[i];
-            telemetry.addData("Block", currentBlock.toString());
+        if (blocks.length == 0) {
+            propLocation = PropLocation.None;
+            telemetry.addData("No blocks", "");
+        } else {
+            telemetry.addData("Block count", blocks.length);
 
-            if (currentBlock.id == alliance.value) {
-                telemetry.addData("Matched block", "");
-                if (currentBlock.x < 100) {
-                    propLocation = PropLocation.Left;
-                } else if (currentBlock.x >= 100 && currentBlock.x <= 220) {
-                    propLocation = PropLocation.Center;
-                } else if (currentBlock.x > 220) {
-                    propLocation = PropLocation.Right;
+            for (int i = 0; i < blocks.length; i++) {
+                HuskyLens.Block currentBlock = blocks[i];
+                telemetry.addData("Block", currentBlock.toString());
+
+                if (currentBlock.id == alliance.value) {
+                    telemetry.addData("Matched block", "");
+                    if (currentBlock.x < 100) {
+                        propLocation = PropLocation.Left;
+                    } else if (currentBlock.x >= 100 && currentBlock.x <= 220) {
+                        propLocation = PropLocation.Center;
+                    } else if (currentBlock.x > 220) {
+                        propLocation = PropLocation.Right;
+                    } else {
+                        propLocation = PropLocation.None;
+                    }
                 } else {
+                    telemetry.addData("Skipped block", "");
                     propLocation = PropLocation.None;
                 }
-            } else {
-                telemetry.addData("Skipped block", "");
-                propLocation = PropLocation.None;
             }
         }
     }
