@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
+import edu.edina.library.enums.Alliance;
 import edu.edina.library.enums.ClawState;
 import edu.edina.library.enums.DropOffState;
 import edu.edina.library.enums.LiftDriveState;
@@ -58,7 +59,7 @@ public class BlueBackstage extends LinearOpMode {
         hardware.blinkinLedDriver.setPattern(pattern);
 
         // HuskyLens Init
-        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, 1);
+        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, Alliance.Blue);
         poCHuskyLens.init();
 
         claw = new Claw(hardware);

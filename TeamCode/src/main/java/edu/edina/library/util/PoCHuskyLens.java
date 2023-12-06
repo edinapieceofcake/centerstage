@@ -8,12 +8,13 @@ import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 
 import java.util.concurrent.TimeUnit;
 
+import edu.edina.library.enums.Alliance;
 import edu.edina.library.enums.PropLocation;
 
 public class PoCHuskyLens {
     private final int READ_PERIOD = 1;
 
-    private int blockId;
+    private Alliance alliance;
 
     private HuskyLens huskyLens;
 
@@ -23,10 +24,10 @@ public class PoCHuskyLens {
 
     public PropLocation propLocation = PropLocation.None;
 
-    public PoCHuskyLens(HuskyLens huskyLens, Telemetry telemetry, int blockId){
+    public PoCHuskyLens(HuskyLens huskyLens, Telemetry telemetry, Alliance alliance){
         this.huskyLens = huskyLens;
         this.telemetry = telemetry;
-        this.blockId = blockId;
+        this.alliance = alliance;
     }
 
     public void init() {
@@ -58,7 +59,7 @@ public class PoCHuskyLens {
             HuskyLens.Block currentBlock = blocks[i];
             telemetry.addData("Block", currentBlock.toString());
 
-            if (currentBlock.id == blockId) {
+            if (currentBlock.id == alliance.value) {
                 telemetry.addData("Matched block", "");
                 if (currentBlock.x < 100) {
                     propLocation = PropLocation.Left;

@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.hardware.PwmControl;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
+import edu.edina.library.enums.Alliance;
 import edu.edina.library.enums.ClawState;
 import edu.edina.library.enums.DropOffState;
 import edu.edina.library.enums.LiftDriveState;
@@ -64,7 +65,7 @@ public class RedBackstage extends LinearOpMode {
 
         // HuskyLens Init
         PropLocation lastLocation = PropLocation.Idle;
-        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, 2);
+        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, Alliance.Red);
         poCHuskyLens.init();
 
         claw = new Claw(hardware);
