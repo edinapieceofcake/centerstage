@@ -49,7 +49,7 @@ public class BlueAudience extends LinearOpMode {
                 hardware.par0, hardware.par1, hardware.perp,
                 hardware.imu, hardware.voltageSensor, startPose);
 
-        // Heartbeat Red to signify Red alliance
+        // Heartbeat Blue to signify Blue alliance
         pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
         hardware.blinkinLedDriver.setPattern(pattern);
 
@@ -66,6 +66,11 @@ public class BlueAudience extends LinearOpMode {
 
     protected void runPaths(ParkLocation parkLocation) {
         RobotState state = RobotState.getInstance();
+
+//        We want to detect if we don't have a block, but still need to default
+        if (propLocation == PropLocation.None) {
+            propLocation = PropLocation.Right;
+        }
 
         switch(propLocation) {
             case Left:
@@ -121,6 +126,11 @@ public class BlueAudience extends LinearOpMode {
             telemetry.addData("Location", propLocation);
 
             telemetry.update();
+
+            if (propLocation != PropLocation.None) {
+                pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+                hardware.blinkinLedDriver.setPattern(pattern);
+            }
         }
 
         if (opModeIsActive()) {

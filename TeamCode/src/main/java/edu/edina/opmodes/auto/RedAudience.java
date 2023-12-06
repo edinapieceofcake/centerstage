@@ -67,6 +67,11 @@ public class RedAudience extends LinearOpMode {
     protected void runPaths() {
         RobotState state = RobotState.getInstance();
 
+//        We want to detect if we don't have a block, but still need to default
+        if (propLocation == PropLocation.None) {
+            propLocation = PropLocation.Right;
+        }
+
         switch(propLocation) {
             case Left:
                 Actions.runBlocking(new SequentialAction(
@@ -118,6 +123,11 @@ public class RedAudience extends LinearOpMode {
 
             propLocation = poCHuskyLens.getPropLocation();
             telemetry.addData("Location", propLocation);
+
+            if (propLocation != PropLocation.None) {
+                pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+                hardware.blinkinLedDriver.setPattern(pattern);
+            }
 
             telemetry.update();
         }

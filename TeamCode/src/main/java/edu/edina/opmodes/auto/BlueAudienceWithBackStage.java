@@ -21,6 +21,7 @@ import edu.edina.library.enums.ParkLocation;
 import edu.edina.library.enums.PickUpState;
 import edu.edina.library.enums.PropLocation;
 import edu.edina.library.subsystems.Claw;
+import edu.edina.library.subsystems.HuskyLensSubsystem;
 import edu.edina.library.subsystems.Lift;
 import edu.edina.library.util.PoCHuskyLens;
 import edu.edina.library.util.RobotConfiguration;
@@ -33,9 +34,11 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
     private RobotHardware hardware;
     private Claw claw;
     private Lift lift;
+
     protected MecanumDrive drive;
     RevBlinkinLedDriver.BlinkinPattern pattern;
     PoCHuskyLens poCHuskyLens;
+    HuskyLensSubsystem huskyLensSubsystem;
     PropLocation propLocation;
 
     double delta1 = 9;
@@ -55,7 +58,7 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                 hardware.par0, hardware.par1, hardware.perp,
                 hardware.imu, hardware.voltageSensor, startPose);
 
-        // Heartbeat Red to signify Red alliance
+        // Heartbeat Blue to signify Blue alliance
         pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
         hardware.blinkinLedDriver.setPattern(pattern);
 
@@ -72,6 +75,11 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
 
     protected void runPaths(ParkLocation parkLocation) {
         RobotState state = RobotState.getInstance();
+
+//        We want to detect if we don't have a block, but still need to default
+        if (propLocation == PropLocation.None) {
+            propLocation = PropLocation.Right;
+        }
 
         switch(propLocation) {
             case Left:
@@ -251,6 +259,11 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
 
             propLocation = poCHuskyLens.getPropLocation();
             telemetry.addData("Location", propLocation);
+
+            if (propLocation != PropLocation.None) {
+                pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+                hardware.blinkinLedDriver.setPattern(pattern);
+            }
 
             telemetry.update();
         }

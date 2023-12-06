@@ -21,7 +21,7 @@ public class PoCHuskyLens {
 
     private Deadline rateLimit = new Deadline(READ_PERIOD, TimeUnit.SECONDS);
 
-    public PropLocation propLocation = PropLocation.Left;
+    public PropLocation propLocation = PropLocation.None;
 
     public PoCHuskyLens(HuskyLens huskyLens, Telemetry telemetry, int blockId){
         this.huskyLens = huskyLens;
@@ -75,12 +75,14 @@ public class PoCHuskyLens {
         if (smallestBlockLocation != -1) {
             HuskyLens.Block propBlock = blocks[smallestBlockLocation];
 
-            if (propBlock.x <= 100) {
+            if (propBlock.x < 100) {
                 propLocation = PropLocation.Left;
             } else if (propBlock.x >= 100 && propBlock.x <= 220) {
                 propLocation = PropLocation.Center;
-            } else {
+            } else if (propBlock.x > 220) {
                 propLocation = PropLocation.Right;
+            } else {
+                propLocation = PropLocation.None;
             }
         }
     }

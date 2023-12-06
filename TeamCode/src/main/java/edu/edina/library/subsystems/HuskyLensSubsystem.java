@@ -3,6 +3,7 @@ package edu.edina.library.subsystems;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
 import com.qualcomm.hardware.dfrobot.HuskyLens;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 
 import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 
@@ -19,6 +20,7 @@ public class HuskyLensSubsystem implements Subsystem{
     private Robot robot;
     private HuskyLens.Block propBlock;
     private Deadline rateLimit;
+    HuskyLens.Block[] blocks = robot.RobotHardware.huskyLens.blocks();
 
     public HuskyLensSubsystem(Robot robot) {
         this.robot = robot;
@@ -49,7 +51,6 @@ public class HuskyLensSubsystem implements Subsystem{
 //        while (!rateLimit.hasExpired())
 //        rateLimit.reset();
 
-        HuskyLens.Block[] blocks = robot.RobotHardware.huskyLens.blocks();
         telemetry.addData("Block count", blocks.length);
         for (int i = 0; i < blocks.length; i++) {
             propBlock = blocks[i];
