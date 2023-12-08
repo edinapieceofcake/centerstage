@@ -21,6 +21,7 @@ import edu.edina.library.enums.AngleClawState;
 import edu.edina.library.enums.DropOffState;
 import edu.edina.library.enums.HangState;
 import edu.edina.library.enums.LiftDriveState;
+import edu.edina.library.enums.LiftServoRange;
 import edu.edina.library.enums.LiftServoState;
 import edu.edina.library.enums.LiftSlideState;
 import edu.edina.library.enums.PickUpState;
@@ -173,10 +174,18 @@ public class Lift implements Subsystem, Action {
                         if (hardware.topLiftMotor.getCurrentPosition() < (config.minimumExtensionBeforeRaisingLiftInTicks + 10)) {
                             state.dropOffState = DropOffState.LiftArm;
                             if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {
-                                state.currentLiftServoState = LiftServoState.Low;
+                                if (state.liftServoRange == LiftServoRange.Low) {
+                                    state.currentLiftServoState = LiftServoState.RealLow;
+                                } else {
+                                    state.currentLiftServoState = LiftServoState.Medium;
+                                }
                                 lowLiftDelay.reset();
                             } else {
-                                state.currentLiftServoState = LiftServoState.High;
+                                if (state.liftServoRange == LiftServoRange.Low) {
+                                    state.currentLiftServoState = LiftServoState.Low;
+                                } else {
+                                    state.currentLiftServoState = LiftServoState.High;
+                                }
                                 highLiftDelay.reset();
                             }
                         }
@@ -185,17 +194,26 @@ public class Lift implements Subsystem, Action {
                     if (state.dropOffState == DropOffState.LiftArm) {
                         if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {
                             if (lowLiftDelay.hasExpired()) {
-                                state.currentLiftServoState = LiftServoState.Low;
+                                if (state.liftServoRange == LiftServoRange.Low) {
+                                    state.currentLiftServoState = LiftServoState.RealLow;
+                                } else {
+                                    state.currentLiftServoState = LiftServoState.Medium;
+                                }
                                 hardware.topLiftMotor.setTargetPosition(config.liftLowDropOffPosition);
                                 hardware.bottomLiftMotor.setTargetPosition(config.liftLowDropOffPosition);
                                 hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                                 hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                                 state.dropOffState = DropOffState.SecondExtension;
-                                secondExtensionTimeout.reset();;
+
+                                secondExtensionTimeout.reset();
                             }
                         } else {
                             if (highLiftDelay.hasExpired()) {
-                                state.currentLiftServoState = LiftServoState.High;
+                                if (state.liftServoRange == LiftServoRange.Low) {
+                                    state.currentLiftServoState = LiftServoState.Low;
+                                } else {
+                                    state.currentLiftServoState = LiftServoState.High;
+                                }
                                 hardware.topLiftMotor.setTargetPosition(config.liftHighDropOffPosition);
                                 hardware.bottomLiftMotor.setTargetPosition(config.liftHighDropOffPosition);
                                 hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -342,9 +360,17 @@ public class Lift implements Subsystem, Action {
                     hardware.leftLiftServo.setPosition(config.startingLeftLiftServoPosition);
                     hardware.rightLiftServo.setPosition(config.startingRightLiftServoPosition);
                     break;
+                case RealLow:
+                    hardware.leftLiftServo.setPosition(config.leftRealLowDropOffServoPosition);
+                    hardware.rightLiftServo.setPosition(config.rightRealLowDropOffServoPosition);
+                    break;
                 case Low:
                     hardware.leftLiftServo.setPosition(config.leftLowDropOffServoPosition);
                     hardware.rightLiftServo.setPosition(config.rightLowDropOffServoPosition);
+                    break;
+                case Medium:
+                    hardware.leftLiftServo.setPosition(config.leftMediumDropOffServoPosition);
+                    hardware.rightLiftServo.setPosition(config.rightMediumDropOffServoPosition);
                     break;
                 case High:
                     hardware.leftLiftServo.setPosition(config.leftHighDropOffServoPosition);
@@ -372,7 +398,8 @@ public class Lift implements Subsystem, Action {
         }
     }
 
-    public void setProperties(double rightTrigger, double leftTrigger, boolean a, boolean x, boolean y, boolean b, boolean gm2y) {
+    public void setProperties(double rightTrigger, double leftTrigger, boolean a, boolean x, boolean y, boolean b, boolean gm2y,
+                              boolean gm2dpadLeft, boolean gm2dpadRight) {
         RobotState state = RobotState.getInstance();
         RobotConfiguration config = RobotConfiguration.getInstance();
 
@@ -447,6 +474,14 @@ public class Lift implements Subsystem, Action {
             state.currentLiftDriveState = Hang;
             state.hangState = HangState.Start;
             state.currentLiftSlideState = LiftSlideState.Extending;
+        }
+
+        if (gm2dpadLeft) {
+            state.liftServoRange = LiftServoRange.Low;
+        }
+
+        if (gm2dpadRight) {
+            state.liftServoRange = LiftServoRange.High;
         }
     }
 

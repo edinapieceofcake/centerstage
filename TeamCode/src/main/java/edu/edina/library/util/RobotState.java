@@ -9,6 +9,7 @@ import edu.edina.library.enums.DropOffState;
 import edu.edina.library.enums.HangState;
 import edu.edina.library.enums.HangerState;
 import edu.edina.library.enums.LiftDriveState;
+import edu.edina.library.enums.LiftServoRange;
 import edu.edina.library.enums.LiftServoState;
 import edu.edina.library.enums.LiftSlideState;
 import edu.edina.library.enums.PickUpState;
@@ -29,6 +30,7 @@ public class RobotState {
     public DropOffState dropOffState;
     public PickUpState pickUpState;
     public HangState hangState;
+    public LiftServoRange liftServoRange;
 
     // claw properties
     public TwistServoState twistServoState;
@@ -48,6 +50,7 @@ public class RobotState {
         lastKnownLiftState = LiftDriveState.Drive;
         rightClawState = ClawState.Opened;
         leftClawState = ClawState.Opened;
+        liftServoRange = LiftServoRange.Low;
     }
 
     public static synchronized RobotState getInstance()
