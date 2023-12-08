@@ -22,8 +22,6 @@ public class RobotState {
     public int currentBottomMotorPosition;
     public double currentLiftSlidePower;
     public LiftServoState currentLiftServoState;
-    public double currentLeftLiftServoPosition;
-    public double currentRightLiftServoPosition;
     public LiftDriveState currentLiftDriveState;
     public LiftSlideState currentLiftSlideState;
     public LiftDriveState lastKnownLiftState;
@@ -70,8 +68,6 @@ public class RobotState {
         telemetry.addData("LastKnownLiftDriveState", lastKnownLiftState);
         telemetry.addData("PickUpState", pickUpState);
         telemetry.addData("DropOffState", dropOffState);
-        telemetry.addData("Current Left Lift Servo Position", currentLeftLiftServoPosition);
-        telemetry.addData("Current Right Servo Position", currentRightLiftServoPosition);
         telemetry.addData("liftTargetPosition", liftTargetPosition);
         telemetry.addData("Twist Servo State: ", twistServoState);
         telemetry.addData("AngleClawState", angleClawState);

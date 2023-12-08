@@ -57,10 +57,9 @@ public class Lift implements Subsystem, Action {
 
         state.currentLiftDriveState = LiftDriveState.Manual;
         state.currentLiftSlidePower = 0;
-        state.currentLeftLiftServoPosition = config.startingLeftLiftServoPosition;
-        state.currentRightLiftServoPosition = config.startingRightLiftServoPosition;
-        hardware.leftLiftServo.setPosition(state.currentLeftLiftServoPosition);
-        hardware.rightLiftServo.setPosition(state.currentRightLiftServoPosition);
+        state.currentLiftServoState = LiftServoState.Start;
+        hardware.leftLiftServo.setPosition(config.startingLeftLiftServoPosition);
+        hardware.rightLiftServo.setPosition(config.startingRightLiftServoPosition);
     }
 
     @Override
@@ -117,15 +116,14 @@ public class Lift implements Subsystem, Action {
                     if (state.hangState == HangState.FirstExtension) {
                         if (hardware.topLiftMotor.getCurrentPosition() < (config.minimumExtensionBeforeRaisingLiftInTicks + 10)) {
                             state.hangState = HangState.LiftArm;
-                            state.currentLeftLiftServoPosition = config.leftLowDropOffServoPosition;
-                            state.currentRightLiftServoPosition = config.rightLowDropOffServoPosition;
+                            state.currentLiftServoState = LiftServoState.Low;
                             highLiftDelay.reset();
                         }
                     }
 
                     if (state.hangState == HangState.LiftArm) {
                         if (highLiftDelay.hasExpired()) {
-                            state.currentLiftServoState = LiftServoState.Medium;
+                            state.currentLiftServoState = LiftServoState.Low;
                             hardware.robotHangerMotor.setTargetPosition(config.hangMotorHangPosition);
                             hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                             hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
@@ -175,12 +173,10 @@ public class Lift implements Subsystem, Action {
                         if (hardware.topLiftMotor.getCurrentPosition() < (config.minimumExtensionBeforeRaisingLiftInTicks + 10)) {
                             state.dropOffState = DropOffState.LiftArm;
                             if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {
-                                state.currentLeftLiftServoPosition = config.leftLowDropOffServoPosition;
-                                state.currentRightLiftServoPosition = config.rightLowDropOffServoPosition;
+                                state.currentLiftServoState = LiftServoState.Low;
                                 lowLiftDelay.reset();
                             } else {
-                                state.currentLeftLiftServoPosition = config.leftHighDropOffServoPosition;
-                                state.currentRightLiftServoPosition = config.rightHighDropOffServoPosition;
+                                state.currentLiftServoState = LiftServoState.High;
                                 highLiftDelay.reset();
                             }
                         }
@@ -189,7 +185,7 @@ public class Lift implements Subsystem, Action {
                     if (state.dropOffState == DropOffState.LiftArm) {
                         if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {
                             if (lowLiftDelay.hasExpired()) {
-                                state.currentLiftServoState = LiftServoState.Medium;
+                                state.currentLiftServoState = LiftServoState.Low;
                                 hardware.topLiftMotor.setTargetPosition(config.liftLowDropOffPosition);
                                 hardware.bottomLiftMotor.setTargetPosition(config.liftLowDropOffPosition);
                                 hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -266,8 +262,7 @@ public class Lift implements Subsystem, Action {
                     if (state.pickUpState == PickUpState.FirstRetraction) {
                         if (hardware.topLiftMotor.getCurrentPosition() > (config.minimumExtensionBeforeRaisingLiftInTicks - 10)) {
                             state.pickUpState = PickUpState.DropArm;
-                            state.currentLeftLiftServoPosition = config.startingLeftLiftServoPosition;
-                            state.currentRightLiftServoPosition = config.startingRightLiftServoPosition;
+                            state.currentLiftServoState = LiftServoState.Start;
                             highLiftDelay.reset();
                             lowLiftDelay.reset();
                         }
@@ -342,25 +337,37 @@ public class Lift implements Subsystem, Action {
                 }
             }
 
-            if (state.currentLiftServoState == LiftServoState.Hang) {
-                hardware.leftLiftServo.setPosition(state.currentLeftLiftServoPosition);
-                hardware.rightLiftServo.setPosition(state.currentRightLiftServoPosition);
+            switch (state.currentLiftServoState) {
+                case Start:
+                    hardware.leftLiftServo.setPosition(config.startingLeftLiftServoPosition);
+                    hardware.rightLiftServo.setPosition(config.startingRightLiftServoPosition);
+                    break;
+                case Low:
+                    hardware.leftLiftServo.setPosition(config.leftLowDropOffServoPosition);
+                    hardware.rightLiftServo.setPosition(config.rightLowDropOffServoPosition);
+                    break;
+                case High:
+                    hardware.leftLiftServo.setPosition(config.leftHighDropOffServoPosition);
+                    hardware.rightLiftServo.setPosition(config.rightHighDropOffServoPosition);
+                    break;
+                case Hang:
+                    hardware.leftLiftServo.setPosition(config.leftHighDropOffServoPosition);
+                    hardware.rightLiftServo.setPosition(config.rightHighDropOffServoPosition);
 
-                try {
-                    Thread.sleep(30);
-                } catch (InterruptedException ex) {
+                    try {
+                        Thread.sleep(30);
+                    } catch (InterruptedException ex) {
 
-                }
+                    }
 
-                ((PwmControl) hardware.leftLiftServo).setPwmDisable();
-                ((PwmControl) hardware.rightLiftServo).setPwmDisable();
-                state.currentLiftServoState = LiftServoState.Hung;
-            } else if (state.currentLiftServoState == LiftServoState.Hung) {
-                ((PwmControl) hardware.leftLiftServo).setPwmDisable();
-                ((PwmControl) hardware.rightLiftServo).setPwmDisable();
-            } else {
-                hardware.leftLiftServo.setPosition(state.currentLeftLiftServoPosition);
-                hardware.rightLiftServo.setPosition(state.currentRightLiftServoPosition);
+                    ((PwmControl) hardware.leftLiftServo).setPwmDisable();
+                    ((PwmControl) hardware.rightLiftServo).setPwmDisable();
+                    state.currentLiftServoState = LiftServoState.Hung;
+                    break;
+                case Hung:
+                    ((PwmControl) hardware.leftLiftServo).setPwmDisable();
+                    ((PwmControl) hardware.rightLiftServo).setPwmDisable();
+                    break;
             }
         }
     }
