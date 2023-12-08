@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
+import edu.edina.library.enums.Alliance;
 import edu.edina.library.enums.ClawState;
 import edu.edina.library.enums.ParkLocation;
 import edu.edina.library.enums.PropLocation;
@@ -53,7 +54,7 @@ public class RedAudience extends LinearOpMode {
         hardware.blinkinLedDriver.setPattern(pattern);
 
         // HuskyLens Init
-        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, 2);
+        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, Alliance.Red);
         poCHuskyLens.init();
 
         claw = new Claw(hardware);
@@ -67,27 +68,29 @@ public class RedAudience extends LinearOpMode {
     protected void runPaths() {
         RobotState state = RobotState.getInstance();
 
+//        We want to detect if we don't have a block, but still need to default
+        if (propLocation == PropLocation.None) {
+            propLocation = PropLocation.Right;
+        }
+
         switch(propLocation) {
             case Left:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .splineTo(new Vector2d(-37, -30), Math.toRadians(180))
-                                .build(),
-                        new SleepAction(1)));
+                                .build()));
                 break;
             case Center:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .splineTo(new Vector2d(-35, -35), Math.toRadians(90))
-                                .build(),
-                        new SleepAction(1)));
+                                .build()));
                 break;
             case Right:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(-36, -36), Math.toRadians(0))
-                                .build(),
-                        new SleepAction(1)));
+                                .splineTo(new Vector2d(-36, -38), Math.toRadians(0))
+                                .build()));
                 break;
             default:
                 break;
@@ -96,7 +99,7 @@ public class RedAudience extends LinearOpMode {
         // place purple on the ground
         state.leftClawState = ClawState.Opened;
         claw.update();
-        sleep(1000);
+        sleep(500);
     }
 
     @Override
@@ -118,6 +121,11 @@ public class RedAudience extends LinearOpMode {
 
             propLocation = poCHuskyLens.getPropLocation();
             telemetry.addData("Location", propLocation);
+
+            if (propLocation != PropLocation.None) {
+                pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+                hardware.blinkinLedDriver.setPattern(pattern);
+            }
 
             telemetry.update();
         }

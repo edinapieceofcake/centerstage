@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
+import edu.edina.library.enums.Alliance;
 import edu.edina.library.enums.ClawState;
 import edu.edina.library.enums.DroneLauncherState;
 import edu.edina.library.enums.ParkLocation;
@@ -49,12 +50,12 @@ public class BlueAudience extends LinearOpMode {
                 hardware.par0, hardware.par1, hardware.perp,
                 hardware.imu, hardware.voltageSensor, startPose);
 
-        // Heartbeat Red to signify Red alliance
+        // Heartbeat Blue to signify Blue alliance
         pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
         hardware.blinkinLedDriver.setPattern(pattern);
 
         // HuskyLens Init
-        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, 1);
+        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, Alliance.Blue);
         poCHuskyLens.init();
 
         claw = new Claw(hardware);
@@ -67,27 +68,29 @@ public class BlueAudience extends LinearOpMode {
     protected void runPaths(ParkLocation parkLocation) {
         RobotState state = RobotState.getInstance();
 
+//        We want to detect if we don't have a block, but still need to default
+        if (propLocation == PropLocation.None) {
+            propLocation = PropLocation.Right;
+        }
+
         switch(propLocation) {
             case Left:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(-34, 33), Math.toRadians(0))
-                                .build(),
-                        new SleepAction(1)));
+                                .splineTo(new Vector2d(-34, 31), Math.toRadians(0))
+                                .build()));
                 break;
             case Center:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .splineTo(new Vector2d(-37, 33), Math.toRadians(270))
-                                .build(),
-                        new SleepAction(1)));
+                                .build()));
                 break;
             case Right:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .splineTo(new Vector2d(-50, 36), Math.toRadians(270))
-                                .build(),
-                        new SleepAction(1)));
+                                .build()));
                 break;
             default:
                 break;
@@ -96,7 +99,7 @@ public class BlueAudience extends LinearOpMode {
         // place purple on the ground
         state.leftClawState = ClawState.Opened;
         claw.update();
-        sleep(1000);
+        sleep(500);
 
     }
 
@@ -121,6 +124,11 @@ public class BlueAudience extends LinearOpMode {
             telemetry.addData("Location", propLocation);
 
             telemetry.update();
+
+            if (propLocation != PropLocation.None) {
+                pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+                hardware.blinkinLedDriver.setPattern(pattern);
+            }
         }
 
         if (opModeIsActive()) {

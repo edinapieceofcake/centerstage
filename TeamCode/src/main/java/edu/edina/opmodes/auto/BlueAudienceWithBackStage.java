@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
+import edu.edina.library.enums.Alliance;
 import edu.edina.library.enums.ClawState;
 import edu.edina.library.enums.DropOffState;
 import edu.edina.library.enums.LiftDriveState;
@@ -21,6 +22,7 @@ import edu.edina.library.enums.ParkLocation;
 import edu.edina.library.enums.PickUpState;
 import edu.edina.library.enums.PropLocation;
 import edu.edina.library.subsystems.Claw;
+import edu.edina.library.subsystems.HuskyLensSubsystem;
 import edu.edina.library.subsystems.Lift;
 import edu.edina.library.util.PoCHuskyLens;
 import edu.edina.library.util.RobotConfiguration;
@@ -33,9 +35,11 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
     private RobotHardware hardware;
     private Claw claw;
     private Lift lift;
+
     protected MecanumDrive drive;
     RevBlinkinLedDriver.BlinkinPattern pattern;
     PoCHuskyLens poCHuskyLens;
+    HuskyLensSubsystem huskyLensSubsystem;
     PropLocation propLocation;
 
     double delta1 = 9;
@@ -55,12 +59,12 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                 hardware.par0, hardware.par1, hardware.perp,
                 hardware.imu, hardware.voltageSensor, startPose);
 
-        // Heartbeat Red to signify Red alliance
+        // Heartbeat Blue to signify Blue alliance
         pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
         hardware.blinkinLedDriver.setPattern(pattern);
 
         // HuskyLens Init
-        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, 1);
+        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, Alliance.Blue);
         poCHuskyLens.init();
 
         claw = new Claw(hardware);
@@ -73,27 +77,29 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
     protected void runPaths(ParkLocation parkLocation) {
         RobotState state = RobotState.getInstance();
 
+//        We want to detect if we don't have a block, but still need to default
+        if (propLocation == PropLocation.None) {
+            propLocation = PropLocation.Right;
+        }
+
         switch(propLocation) {
             case Left:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(-34, 33), Math.toRadians(0))
-                                .build(),
-                        new SleepAction(1)));
+                                .splineTo(new Vector2d(-34, 31), Math.toRadians(0))
+                                .build()));
                 break;
             case Center:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .splineTo(new Vector2d(-37, 33), Math.toRadians(270))
-                                .build(),
-                        new SleepAction(1)));
+                                .build()));
                 break;
             case Right:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(-48, 38), Math.toRadians(270))
-                                .build(),
-                        new SleepAction(1)));
+                                .splineTo(new Vector2d(-49, 38), Math.toRadians(270))
+                                .build()));
                 break;
             default:
                 break;
@@ -102,7 +108,9 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
         // place purple on the ground
         state.leftClawState = ClawState.Opened;
         claw.update();
-        sleep(1000);
+        sleep(500);
+        state.leftClawState = ClawState.Closed;
+        claw.update();
 
         // where to put the yellow pixel?
         switch (propLocation) {
@@ -112,9 +120,8 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                                 .setReversed(true)
                                 .splineTo(new Vector2d(-30, 12), Math.toRadians(0))
                                 .splineTo(new Vector2d(35, 12), Math.toRadians(0))
-                                .splineTo(new Vector2d(40, 44), Math.toRadians(180))
-                                .build(),
-                        sleep1sAction)
+                                .splineTo(new Vector2d(40, 37), Math.toRadians(180))
+                                .build())
                 );
                 break;
             case Center:
@@ -124,9 +131,8 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                                 .splineTo(new Vector2d(-55, 35), Math.toRadians(270))
                                 .splineTo(new Vector2d(-45, 12), Math.toRadians(0))
                                 .splineTo(new Vector2d(35, 12), Math.toRadians(0))
-                                .splineTo(new Vector2d(40, 35), Math.toRadians(180))
-                                .build(),
-                        new SleepAction(1))
+                                .splineTo(new Vector2d(40, 26), Math.toRadians(180))
+                                .build())
                 );
                 break;
             case Right:
@@ -136,9 +142,8 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                                 .splineTo(new Vector2d(-55, 35), Math.toRadians(270))
                                 .splineTo(new Vector2d(-45, 12), Math.toRadians(0))
                                 .splineTo(new Vector2d(35, 12), Math.toRadians(0))
-                                .splineTo(new Vector2d(45, 31), Math.toRadians(180))
-                                .build(),
-                        new SleepAction(1))
+                                .splineTo(new Vector2d(40, 19), Math.toRadians(180))
+                                .build())
                 );
                 break;
             default:
@@ -170,7 +175,7 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
 
         state.rightClawState = ClawState.Opened;
         claw.update();
-        sleep(2000);
+        sleep(1000);
 
         Actions.runBlocking(drive.actionBuilder(drive.pose).lineToX(40).build());
 
@@ -201,7 +206,7 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(60, 61), Math.toRadians(0))
+                                .splineTo(new Vector2d(60, 51), Math.toRadians(0))
                                 .build()));
                 break;
             default:
@@ -249,6 +254,11 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
 
             propLocation = poCHuskyLens.getPropLocation();
             telemetry.addData("Location", propLocation);
+
+            if (propLocation != PropLocation.None) {
+                pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+                hardware.blinkinLedDriver.setPattern(pattern);
+            }
 
             telemetry.update();
         }

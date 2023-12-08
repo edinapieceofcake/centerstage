@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.hardware.PwmControl;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
+import edu.edina.library.enums.Alliance;
 import edu.edina.library.enums.ClawState;
 import edu.edina.library.enums.DropOffState;
 import edu.edina.library.enums.LiftDriveState;
@@ -64,7 +65,7 @@ public class RedBackstage extends LinearOpMode {
 
         // HuskyLens Init
         PropLocation lastLocation = PropLocation.Idle;
-        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, 2);
+        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, Alliance.Red);
         poCHuskyLens.init();
 
         claw = new Claw(hardware);
@@ -78,28 +79,30 @@ public class RedBackstage extends LinearOpMode {
     protected void runPaths(ParkLocation parkLocation) {
         RobotState state = RobotState.getInstance();
 
+//        We want to detect if we don't have a block, but still need to default
+        if (propLocation == PropLocation.None) {
+            propLocation = PropLocation.Right;
+        }
+
         // where to put the purple pixel?
         switch(propLocation) {
             case Left:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .splineTo(new Vector2d(4, -32), Math.toRadians(180))
-                                .build(),
-                        new SleepAction(1)));
+                                .build()));
                 break;
             case Center:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .splineTo(new Vector2d(9, -35), Math.toRadians(90))
-                                .build(),
-                        new SleepAction(1)));
+                                .build()));
                 break;
             case Right:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .splineTo(new Vector2d(26, -32), Math.toRadians(180))
-                                .build(),
-                        new SleepAction(1)));
+                                .build()));
                 break;
             default:
                 break;
@@ -107,34 +110,33 @@ public class RedBackstage extends LinearOpMode {
 
         state.leftClawState = ClawState.Opened;
         claw.update();
-        sleep(1000);
+        sleep(500);
+        state.leftClawState = ClawState.Closed;
+        claw.update();
 
         switch (propLocation) {
             case Left:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(37,-32), Math.toRadians(0))
-                                .build(),
-                        sleep1sAction)
+                                .splineTo(new Vector2d(37,-28), Math.toRadians(0))
+                                .build())
                 );
                 break;
             case Center:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(37,-38), Math.toRadians(0))
-                                .build(),
-                        new SleepAction(1))
+                                .splineTo(new Vector2d(37,-36), Math.toRadians(0))
+                                .build())
                 );
                 break;
             case Right:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(37,-47), Math.toRadians(0))
-                                .build(),
-                        new SleepAction(1))
+                                .splineTo(new Vector2d(37,-44), Math.toRadians(0))
+                                .build())
                 );
                 break;
             default:
@@ -149,7 +151,7 @@ public class RedBackstage extends LinearOpMode {
         state.currentLiftDriveState = LiftDriveState.LowDropOff;
         state.currentLiftSlideState = LiftSlideState.Extending;
         state.dropOffState = DropOffState.Start;
-        RobotConfiguration.getInstance().liftLowDropOffPosition = -450;
+        RobotConfiguration.getInstance().liftLowDropOffPosition = -425;
 
         while (state.dropOffState != DropOffState.Finished) {
             lift.update();
@@ -161,7 +163,7 @@ public class RedBackstage extends LinearOpMode {
 
         state.rightClawState = ClawState.Opened;
         claw.update();
-        sleep(2000);
+        sleep(1000);
 
         Actions.runBlocking(drive.actionBuilder(drive.pose).lineToX(37).build());
 
@@ -230,6 +232,11 @@ public class RedBackstage extends LinearOpMode {
 
             propLocation = poCHuskyLens.getPropLocation();
             telemetry.addData("Location", propLocation);
+
+            if (propLocation != PropLocation.None) {
+                pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+                hardware.blinkinLedDriver.setPattern(pattern);
+            }
 
             telemetry.update();
         }

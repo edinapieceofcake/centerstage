@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
+import edu.edina.library.enums.Alliance;
 import edu.edina.library.enums.ParkLocation;
 import edu.edina.library.enums.PropLocation;
 import edu.edina.library.util.PoCHuskyLens;
@@ -52,7 +53,7 @@ public class RedBackstageStack extends LinearOpMode {
 
         // HuskyLens Init
         PropLocation lastLocation = PropLocation.Idle;
-        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, 2);
+        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, Alliance.Red);
         poCHuskyLens.init();
 
         sleep(2000);

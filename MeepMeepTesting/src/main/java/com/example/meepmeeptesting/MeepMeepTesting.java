@@ -414,7 +414,7 @@ public class MeepMeepTesting {
                 .build();
 
         backstageRedCenter.runAction(backstageRedCenter.getDrive().actionBuilder(new Pose2d(9, -62.5, Math.toRadians(90)))
-                .splineTo(new Vector2d(16, -25), Math.toRadians(90))
+                .splineTo(new Vector2d(14, 29), Math.toRadians(270))
                 .setReversed(true)
                 .splineTo(new Vector2d(44,-38), Math.toRadians(0))
                 .turn(Math.toRadians(180))
@@ -433,14 +433,117 @@ public class MeepMeepTesting {
                 .turn(Math.toRadians(180))
                 .build());
 
+        RoadRunnerBotEntity backstageDoublePickup = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(50, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        backstageDoublePickup.runAction(backstageDoublePickup.getDrive().actionBuilder(new Pose2d(12.5, -64, Math.toRadians(90)))
+                .splineTo(new Vector2d(48, -35), Math.toRadians(0))
+                .setReversed(true)
+                .splineTo(new Vector2d(20, -42), Math.toRadians(-135))
+                .splineTo(new Vector2d(5, -58), Math.toRadians(180))
+                .splineTo(new Vector2d(-25, -58), Math.toRadians(180))
+                .splineTo(new Vector2d(-55, -35), Math.toRadians(0))
+                .lineToX(-63)
+                .lineToX(-55)
+                .splineTo(new Vector2d(-40, -58), Math.toRadians(0))
+                .splineTo(new Vector2d(35, -58), Math.toRadians(0))
+                .splineTo(new Vector2d(48, -35), Math.toRadians(180))
+                .splineTo(new Vector2d(20, -42), Math.toRadians(-135))
+                .splineTo(new Vector2d(5, -58), Math.toRadians(180))
+                .splineTo(new Vector2d(-25, -58), Math.toRadians(180))
+                .splineTo(new Vector2d(-55, -35), Math.toRadians(0))
+                .lineToX(-63)
+                .lineToX(-55)
+                .splineTo(new Vector2d(-40, -58), Math.toRadians(0))
+                .splineTo(new Vector2d(35, -58), Math.toRadians(0))
+                .splineTo(new Vector2d(48, -35), Math.toRadians(180))
+                .build());
+
+        RoadRunnerBotEntity backstageDoublePickupSpline = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(50, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        backstageDoublePickupSpline.runAction(backstageDoublePickupSpline.getDrive().actionBuilder(new Pose2d(12.5, -64, Math.toRadians(90)))
+                .splineTo(new Vector2d(14, -29), Math.toRadians(90))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(48, -35, Math.toRadians(0)), Math.toRadians(0))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(0, -58, Math.toRadians(-180)), Math.toRadians(180))
+                .setReversed(false)
+                .splineTo(new Vector2d(-30, -58), Math.toRadians(180))
+                .splineTo(new Vector2d(-60,-36), Math.toRadians(180))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -58), Math.toRadians(0)), Math.toRadians(0))
+                .splineTo(new Vector2d(0, -58), Math.toRadians(0))
+                .splineTo(new Vector2d(48, -35), Math.toRadians(0))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(0, -58, Math.toRadians(-180)), Math.toRadians(180))
+                .setReversed(false)
+                .splineTo(new Vector2d(-30, -58), Math.toRadians(180))
+                .splineTo(new Vector2d(-60,-36), Math.toRadians(180))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -58), Math.toRadians(0)), Math.toRadians(0))
+                .splineTo(new Vector2d(0, -58), Math.toRadians(0))
+                .splineTo(new Vector2d(48, -35), Math.toRadians(0))
+                .build());
+
+        RoadRunnerBotEntity backstageDoublePickupMT = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(50, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        backstageDoublePickupMT.runAction(backstageDoublePickup.getDrive().actionBuilder(new Pose2d(12.5, -64, Math.toRadians(90)))
+                .splineTo(new Vector2d(14, -29), Math.toRadians(90))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(48, -35, Math.toRadians(0)), Math.toRadians(0))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(0, -60, Math.toRadians(-180)), Math.toRadians(180))
+                .setReversed(false)
+                .splineTo(new Vector2d(-30, -60), Math.toRadians(180))
+                .splineTo(new Vector2d(-60,-36), Math.toRadians(180))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(-30, -60, Math.toRadians(0)), Math.toRadians(0))
+                .splineTo(new Vector2d(0,-60), Math.toRadians(0))
+                .splineTo(new Vector2d(48, -35), Math.toRadians(0))
+                .build());
+
+        RoadRunnerBotEntity audienceOnePickup = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(50, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        audienceOnePickup.runAction(audienceOnePickup.getDrive().actionBuilder(new Pose2d(-32, 64, Math.toRadians(270)))
+                .splineTo(new Vector2d(-30, 25), Math.toRadians(0))
+                .splineTo(new Vector2d(-55, 12), Math.toRadians(180))
+                .lineToX(-63)
+                .setReversed(true)
+                .splineTo(new Vector2d(35, 12), Math.toRadians(0))
+                .splineTo(new Vector2d(45, 40), Math.toRadians(180))
+                .setReversed(false)
+                .splineTo(new Vector2d(35, 12), Math.toRadians(180))
+                .splineTo(new Vector2d(-63, 12), Math.toRadians(180))
+                .setReversed(true)
+                .splineTo(new Vector2d(35, 12), Math.toRadians(0))
+                .splineTo(new Vector2d(45, 40), Math.toRadians(180))
+                .setReversed(true)
+                .splineTo(new Vector2d(54, 60), Math.toRadians(0))
+                .build());
+
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_OFFICIAL)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
 //                .addEntity(audienceBlueLeft)
 //                .addEntity(audienceBlueLeftWall)
-                .addEntity(audienceBlueCenter)
+//                .addEntity(audienceBlueCenter)
 //                .addEntity(audienceBlueCenterWall)
-                .addEntity(audienceBlueRight)
+//                .addEntity(audienceBlueRight)
 //                .addEntity(audienceBlueRightWall)
 //                .addEntity(audienceRedLeft)
 //                .addEntity(audienceRedLeftWall)
@@ -453,6 +556,10 @@ public class MeepMeepTesting {
 //                .addEntity(backstageRedLeft)
 //                .addEntity(backstageRedCenter)
 //                .addEntity(backstageRedRight)
+//                .addEntity(backstageDoublePickup)
+//                .addEntity(audienceOnePickup)
+//                .addEntity(backstageDoublePickupMT)
+                .addEntity(backstageDoublePickupSpline)
                 .start();
     }
 }
