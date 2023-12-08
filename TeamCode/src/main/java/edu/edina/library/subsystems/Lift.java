@@ -85,7 +85,7 @@ public class Lift implements Subsystem, Action {
             if (state.currentLiftDriveState == Manual) {
                 if (state.currentLiftSlideState == LiftSlideState.Retracting) {
                     if (!hardware.liftSwitch.getState()) {
-                        state.currentLiftSlidePower = .1;
+                        state.currentLiftSlidePower = config.superSlowLiftRetractingPower;
                     } else {
                         if ((state.currentLiftServoState != LiftServoState.Start) &&
                                 (state.currentTopMotorPosition > config.minimumExtensionBeforeRaisingLiftInTicks)) {
@@ -94,38 +94,26 @@ public class Lift implements Subsystem, Action {
                             state.currentLiftSlideState = LiftSlideState.Idle;
                         } else {
                             int currentPosition = state.currentTopMotorPosition;
-                            int newPosition = currentPosition + 100;
+                            int newPosition = currentPosition + (int)(config.liftRetractingStep * state.currentTriggerStrength);
 
-                            hardware.topLiftMotor.setTargetPosition(newPosition);
-                            hardware.bottomLiftMotor.setTargetPosition(newPosition);
                             state.currentTopMotorTargetPosition = newPosition;
                             state.currentBottomMotorTargetPosition = newPosition;
-                            state.currentLiftSlidePower = 1;
+                            state.currentLiftSlidePower = config.liftExtendingPower;
                         }
                     }
                 } else if (state.currentLiftSlideState == LiftSlideState.Extending) {
                     int currentPosition = state.currentTopMotorPosition;
-                    int newPosition = currentPosition - 150;
+                    int newPosition = currentPosition - (int)(config.liftExtenstionStep * state.currentTriggerStrength);
 
-                    hardware.topLiftMotor.setTargetPosition(newPosition);
-                    hardware.bottomLiftMotor.setTargetPosition(newPosition);
                     state.currentTopMotorTargetPosition = newPosition;
                     state.currentBottomMotorTargetPosition = newPosition;
-                    state.currentLiftSlidePower = 1;
+                    state.currentLiftSlidePower = config.liftExtendingPower;
                 }
-
-                hardware.topLiftMotor.setPower(state.currentLiftSlidePower);
-                hardware.bottomLiftMotor.setPower(state.currentLiftSlidePower);
             } else {
                 if (state.currentLiftDriveState == LiftDriveState.Hang) {
                     if (state.hangState == HangState.Start) {
-                        hardware.topLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks);
-                        hardware.bottomLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks);
                         state.currentTopMotorTargetPosition = config.minimumExtensionBeforeRaisingLiftInTicks;
                         state.currentBottomMotorTargetPosition = config.minimumExtensionBeforeRaisingLiftInTicks;
-
-                        hardware.topLiftMotor.setPower(config.liftExtendingPower);
-                        hardware.bottomLiftMotor.setPower(config.liftExtendingPower);
                         state.currentLiftSlidePower = config.liftExtendingPower;
 
                         hardware.robotHangerMotor.setTargetPosition(config.hangMotorLowDropOffPosition);
@@ -166,13 +154,8 @@ public class Lift implements Subsystem, Action {
                 } else if ((state.currentLiftDriveState == LiftDriveState.LowDropOff) ||
                         (state.currentLiftDriveState == LiftDriveState.HighDropOff)) {
                     if (state.dropOffState == DropOffState.Start) {
-                        hardware.topLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks);
-                        hardware.bottomLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks);
                         state.currentTopMotorTargetPosition = config.minimumExtensionBeforeRaisingLiftInTicks;
                         state.currentBottomMotorTargetPosition = config.minimumExtensionBeforeRaisingLiftInTicks;
-
-                        hardware.topLiftMotor.setPower(config.liftExtendingPower);
-                        hardware.bottomLiftMotor.setPower(config.liftExtendingPower);
                         state.currentLiftSlidePower = config.liftExtendingPower;
 
                         if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {
@@ -225,14 +208,13 @@ public class Lift implements Subsystem, Action {
                             if (lowLiftDelay.hasExpired()) {
                                 if (state.liftServoRange == LiftServoRange.Low) {
                                     state.currentLiftServoState = LiftServoState.Low;
+                                    state.currentTopMotorTargetPosition = config.liftLowDropOffPosition;
+                                    state.currentBottomMotorTargetPosition = config.liftLowDropOffPosition;
                                 } else {
                                     state.currentLiftServoState = LiftServoState.Medium;
+                                    state.currentTopMotorTargetPosition = config.liftLowDropOffPosition;
+                                    state.currentBottomMotorTargetPosition = config.liftLowDropOffPosition;
                                 }
-
-                                hardware.topLiftMotor.setTargetPosition(config.liftLowDropOffPosition);
-                                hardware.bottomLiftMotor.setTargetPosition(config.liftLowDropOffPosition);
-                                state.currentTopMotorTargetPosition = config.liftLowDropOffPosition;
-                                state.currentBottomMotorTargetPosition = config.liftLowDropOffPosition;
 
                                 state.dropOffState = DropOffState.SecondExtension;
 
@@ -242,14 +224,13 @@ public class Lift implements Subsystem, Action {
                             if (highLiftDelay.hasExpired()) {
                                 if (state.liftServoRange == LiftServoRange.Low) {
                                     state.currentLiftServoState = LiftServoState.Medium;
+                                    state.currentTopMotorTargetPosition = config.liftLowDropOffPosition;
+                                    state.currentBottomMotorTargetPosition = config.liftLowDropOffPosition;
                                 } else {
                                     state.currentLiftServoState = LiftServoState.High;
+                                    state.currentTopMotorTargetPosition = config.liftHighDropOffPosition;
+                                    state.currentBottomMotorTargetPosition = config.liftHighDropOffPosition;
                                 }
-
-                                hardware.topLiftMotor.setTargetPosition(config.liftHighDropOffPosition);
-                                hardware.bottomLiftMotor.setTargetPosition(config.liftHighDropOffPosition);
-                                state.currentTopMotorTargetPosition = config.liftHighDropOffPosition;
-                                state.currentBottomMotorTargetPosition = config.liftHighDropOffPosition;
 
                                 state.dropOffState = DropOffState.SecondExtension;
 
@@ -300,13 +281,8 @@ public class Lift implements Subsystem, Action {
                 } else if ((state.currentLiftDriveState == LiftDriveState.Pickup) ||
                         (state.currentLiftDriveState == LiftDriveState.Drive)) {
                     if (state.pickUpState == PickUpState.Start) {
-                        hardware.topLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks);
-                        hardware.bottomLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks);
                         state.currentTopMotorTargetPosition = config.minimumExtensionBeforeRaisingLiftInTicks;
                         state.currentBottomMotorTargetPosition = config.minimumExtensionBeforeRaisingLiftInTicks;
-
-                        hardware.topLiftMotor.setPower(config.liftRetractingPower);
-                        hardware.bottomLiftMotor.setPower(config.liftRetractingPower);
                         state.currentLiftSlidePower = config.liftRetractingPower;
 
                         state.pickUpState = PickUpState.FirstRetraction;
@@ -342,12 +318,7 @@ public class Lift implements Subsystem, Action {
                     }
 
                     if (state.pickUpState == PickUpState.SecondRetraction) {
-                        hardware.topLiftMotor.setPower(config.slowLiftRetractingPower);
-                        hardware.bottomLiftMotor.setPower(config.slowLiftRetractingPower);
                         state.currentLiftSlidePower = config.slowLiftRetractingPower;
-
-                        hardware.topLiftMotor.setTargetPosition(config.liftDrivePosition);
-                        hardware.bottomLiftMotor.setTargetPosition(config.liftDrivePosition);
                         state.currentTopMotorTargetPosition = config.liftDrivePosition;
                         state.currentBottomMotorTargetPosition = config.liftDrivePosition;
 
@@ -364,9 +335,6 @@ public class Lift implements Subsystem, Action {
                                 state.angleClawState = AngleClawState.Pickup;
                                 state.lastKnownLiftState = LiftDriveState.Pickup;
                             }
-
-                            hardware.topLiftMotor.setPower(0);
-                            hardware.bottomLiftMotor.setPower(0);
 
                             state.pickUpState = PickUpState.Finished;
                             state.currentLiftSlideState = LiftSlideState.Idle;
@@ -419,10 +387,10 @@ public class Lift implements Subsystem, Action {
                     break;
             }
 
-//            hardware.topLiftMotor.setPower(state.currentLiftSlidePower);
-//            hardware.bottomLiftMotor.setPower(state.currentLiftSlidePower);
-//            hardware.topLiftMotor.setTargetPosition(state.currentTopMotorTargetPosition);
-//            hardware.bottomLiftMotor.setTargetPosition(state.currentBottomMotorTargetPosition);
+            hardware.topLiftMotor.setPower(state.currentLiftSlidePower);
+            hardware.bottomLiftMotor.setPower(state.currentLiftSlidePower);
+            hardware.topLiftMotor.setTargetPosition(state.currentTopMotorTargetPosition);
+            hardware.bottomLiftMotor.setTargetPosition(state.currentBottomMotorTargetPosition);
         }
     }
 
@@ -434,9 +402,11 @@ public class Lift implements Subsystem, Action {
         if (leftTrigger != 0) {
             state.currentLiftDriveState = Manual;
             state.currentLiftSlideState = LiftSlideState.Retracting;
+            state.currentTriggerStrength = Math.abs(leftTrigger);
         } else if (rightTrigger != 0) {
             state.currentLiftDriveState = Manual;
             state.currentLiftSlideState = LiftSlideState.Extending;
+            state.currentTriggerStrength = Math.abs(rightTrigger);
         } else {
             state.currentLiftSlideState = LiftSlideState.Idle;
         }

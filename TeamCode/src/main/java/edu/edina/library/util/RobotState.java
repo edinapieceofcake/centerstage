@@ -32,6 +32,7 @@ public class RobotState {
     public PickUpState pickUpState;
     public HangState hangState;
     public LiftServoRange liftServoRange;
+    public double currentTriggerStrength;
 
     // claw properties
     public TwistServoState twistServoState;
@@ -75,6 +76,7 @@ public class RobotState {
         telemetry.addData("currentTopMotorTargetPosition", currentTopMotorTargetPosition);
         telemetry.addData("Twist Servo State: ", twistServoState);
         telemetry.addData("AngleClawState", angleClawState);
+        telemetry.addData("liftServoRange", liftServoRange);
 //        telemetry.addData("Current Lift Angle, Length, Height: ", "%f %f %f", currentLiftAngle, currentLiftLength, currentLiftHeight);
 //        telemetry.addData("Sin Current Lift Angle", Math.sin(Math.toRadians(currentLiftAngle)));
 
