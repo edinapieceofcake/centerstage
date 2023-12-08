@@ -500,26 +500,44 @@ public class MeepMeepTesting {
 
         backstageDoublePickupSplineMTLeft.runAction(backstageDoublePickupSpline.getDrive().actionBuilder(new Pose2d(12.5, -64, Math.toRadians(90)))
                 .splineToSplineHeading(new Pose2d(12.5, -18, Math.toRadians(270)), Math.toRadians(90))
+                .waitSeconds(0.5)
+
+                // Head to Backboard
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(48, -35, Math.toRadians(0)), Math.toRadians(0))
+                .waitSeconds(0.5)
+
+                // Head to Stacks VIA A-Row
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(0, -58, Math.toRadians(-180)), Math.toRadians(180))
                 .setReversed(false)
                 .splineTo(new Vector2d(-30, -58), Math.toRadians(180))
                 .splineTo(new Vector2d(-60,-36), Math.toRadians(180))
+                .waitSeconds(0.5)
+
+                // Return to Backboard
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -58), Math.toRadians(0)), Math.toRadians(0))
                 .splineTo(new Vector2d(0, -58), Math.toRadians(0))
                 .splineTo(new Vector2d(48, -35), Math.toRadians(0))
+                .waitSeconds(0.5)
+
+                // Head to Stacks VIA A-Row
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(0, -58, Math.toRadians(-180)), Math.toRadians(180))
                 .setReversed(false)
                 .splineTo(new Vector2d(-30, -58), Math.toRadians(180))
                 .splineTo(new Vector2d(-60,-36), Math.toRadians(180))
+                .waitSeconds(0.5)
+
+                // Return to Backboard
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -58), Math.toRadians(0)), Math.toRadians(0))
                 .splineTo(new Vector2d(0, -58), Math.toRadians(0))
                 .splineTo(new Vector2d(48, -35), Math.toRadians(0))
+                .waitSeconds(0.5)
+
+                // Park
                 .setReversed(true)
                 .splineTo(new Vector2d(53, -60), Math.toRadians(0))
                 .build());
@@ -532,26 +550,44 @@ public class MeepMeepTesting {
 
         backstageDoublePickupSplineMTCenter.runAction(backstageDoublePickupSpline.getDrive().actionBuilder(new Pose2d(12.5, -64, Math.toRadians(90)))
                 .splineToSplineHeading(new Pose2d(12.5, -18, Math.toRadians(270)), Math.toRadians(90))
+                .waitSeconds(0.5)
+
+                // Head to Backboard
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(48, -35, Math.toRadians(0)), Math.toRadians(0))
+                .waitSeconds(0.5)
+
+                // Head to Stacks VIA A-Row
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(0, -58, Math.toRadians(-180)), Math.toRadians(180))
                 .setReversed(false)
                 .splineTo(new Vector2d(-30, -58), Math.toRadians(180))
                 .splineTo(new Vector2d(-60,-36), Math.toRadians(180))
+                .waitSeconds(0.5)
+
+                // Return to Backboard
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -58), Math.toRadians(0)), Math.toRadians(0))
                 .splineTo(new Vector2d(0, -58), Math.toRadians(0))
                 .splineTo(new Vector2d(48, -35), Math.toRadians(0))
+                .waitSeconds(0.5)
+
+                // Head to Stacks VIA A-Row
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(0, -58, Math.toRadians(-180)), Math.toRadians(180))
                 .setReversed(false)
                 .splineTo(new Vector2d(-30, -58), Math.toRadians(180))
                 .splineTo(new Vector2d(-60,-36), Math.toRadians(180))
+                .waitSeconds(0.5)
+
+                // Return to Backboard
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -58), Math.toRadians(0)), Math.toRadians(0))
                 .splineTo(new Vector2d(0, -58), Math.toRadians(0))
                 .splineTo(new Vector2d(48, -35), Math.toRadians(0))
+                .waitSeconds(0.5)
+
+                // Park
                 .setReversed(true)
                 .splineTo(new Vector2d(53, -60), Math.toRadians(0))
                 .build());
@@ -563,27 +599,46 @@ public class MeepMeepTesting {
                 .build();
 
         backstageDoublePickupSplineMTRight.runAction(backstageDoublePickupSpline.getDrive().actionBuilder(new Pose2d(12.5, -64, Math.toRadians(90)))
+                // Drop Purple
                 .splineToSplineHeading(new Pose2d(24, -36, Math.toRadians(90)), Math.toRadians(90))
+                .waitSeconds(0.5)
+
+                // Head to Backboard
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(48, -35, Math.toRadians(0)), Math.toRadians(0))
+                .waitSeconds(0.5)
+
+                // Head to Stacks VIA A-Row
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(0, -58, Math.toRadians(-180)), Math.toRadians(180))
                 .setReversed(false)
                 .splineTo(new Vector2d(-30, -58), Math.toRadians(180))
                 .splineTo(new Vector2d(-60,-36), Math.toRadians(180))
+                .waitSeconds(0.5)
+
+                // Return to Backboard
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -58), Math.toRadians(0)), Math.toRadians(0))
                 .splineTo(new Vector2d(0, -58), Math.toRadians(0))
                 .splineTo(new Vector2d(48, -35), Math.toRadians(0))
+                .waitSeconds(0.5)
+
+                // Head to Stacks VIA A-Row
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(0, -58, Math.toRadians(-180)), Math.toRadians(180))
                 .setReversed(false)
                 .splineTo(new Vector2d(-30, -58), Math.toRadians(180))
                 .splineTo(new Vector2d(-60,-36), Math.toRadians(180))
+                .waitSeconds(0.5)
+
+                // Return to Backboard
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -58), Math.toRadians(0)), Math.toRadians(0))
                 .splineTo(new Vector2d(0, -58), Math.toRadians(0))
                 .splineTo(new Vector2d(48, -35), Math.toRadians(0))
+                .waitSeconds(0.5)
+
+                // Park
                 .setReversed(true)
                 .splineTo(new Vector2d(53, -60), Math.toRadians(0))
                 .build());
@@ -633,9 +688,9 @@ public class MeepMeepTesting {
 //                .addEntity(backstageRedRight)
 //                .addEntity(backstageDoublePickup)
 //                .addEntity(audienceOnePickup)
-//                .addEntity(backstageDoublePickupSplineMTLeft)
+                .addEntity(backstageDoublePickupSplineMTLeft)
 //                .addEntity(backstageDoublePickupSplineMTCenter)
-                .addEntity(backstageDoublePickupSplineMTRight)
+//                .addEntity(backstageDoublePickupSplineMTRight)
 //                .addEntity(backstageDoublePickupSpline)
                 .start();
     }

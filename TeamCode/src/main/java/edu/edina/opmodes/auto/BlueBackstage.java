@@ -37,15 +37,11 @@ public class BlueBackstage extends LinearOpMode {
     PoCHuskyLens poCHuskyLens;
     PropLocation propLocation;
 
-    double delta1 = 9;
-
-    private SleepAction sleep1sAction = new SleepAction(1);
-
-
     protected void initHardware() {
         // test hardware construction and use in an empty action
         hardware = new RobotHardware(hardwareMap);
 
+        // Start Position
         Pose2d startPose = new Pose2d(8, 62.5, Math.toRadians(270));
 
         // use out version of the drive based off the hardware that we created above.
@@ -65,6 +61,7 @@ public class BlueBackstage extends LinearOpMode {
         claw = new Claw(hardware);
         lift = new Lift(hardware, false);
 
+        // Initialize Odo Wheels, Drone Launcher, and Hanger
         hardware.dropServosForAutonomous();
         hardware.droneLaunchServo.setPosition(RobotConfiguration.getInstance().droneLauncherArmedPosition);
         hardware.homeHangMotorAsync();
@@ -73,7 +70,7 @@ public class BlueBackstage extends LinearOpMode {
     protected void runPaths(ParkLocation parkLocation) {
         RobotState state = RobotState.getInstance();
 
-//        We want to detect if we don't have a block, but still need to default
+        // We want to detect if we don't have a block, but still need to default
         if (propLocation == PropLocation.None) {
             propLocation = PropLocation.Right;
         }
@@ -102,6 +99,7 @@ public class BlueBackstage extends LinearOpMode {
                 break;
         }
 
+        // Drop Purple Pixel
         state.leftClawState = ClawState.Opened;
         claw.update();
         sleep(500);
@@ -138,47 +136,32 @@ public class BlueBackstage extends LinearOpMode {
                 break;
         }
 
+        // Straighten out Robot after travel
         Actions.runBlocking(new SequentialAction(
                 drive.actionBuilder(drive.pose)
                         .turnTo(Math.toRadians(0))
                         .build()));
 
-        state.lastKnownLiftState = LiftDriveState.Drive;
-        state.currentLiftDriveState = LiftDriveState.LowDropOff;
-        state.currentLiftSlideState = LiftSlideState.Extending;
-        state.dropOffState = DropOffState.Start;
-        RobotConfiguration.getInstance().liftLowDropOffPosition = -475;
+        // Extend and prepare lift
+        extendLift(state);
 
-        while (state.dropOffState != DropOffState.Finished) {
-            lift.update();
-            claw.update();
-            idle();
-        }
-
+        // Update Telemetry
         state.telemetry(telemetry, hardware);
         telemetry.update();
 
+        // Move forward to drop
         Actions.runBlocking(drive.actionBuilder(drive.pose).lineToX(42).build());
 
+        // Open Claw
         state.rightClawState = ClawState.Opened;
         claw.update();
-        sleep(1000);
+        sleep(500);
 
+        // Back away from board
         Actions.runBlocking(drive.actionBuilder(drive.pose).lineToX(34).build());
 
-        state.pickUpState = PickUpState.Start;
-        state.lastKnownLiftState = LiftDriveState.LowDropOff;
-        state.currentLiftDriveState = LiftDriveState.Drive;
-        state.currentLiftSlideState = LiftSlideState.Retracting;
-
-        while (state.pickUpState != PickUpState.Finished) {
-            lift.update();
-            claw.update();
-            idle();
-        }
-
-        state.lastKnownLiftState = LiftDriveState.Drive;
-        RobotConfiguration.getInstance().liftLowDropOffPosition = -600;
+        // Retract Lift
+        retractLift(state);
 
         /*
         Actions.runBlocking(new SequentialAction(
@@ -220,6 +203,38 @@ public class BlueBackstage extends LinearOpMode {
         }
     }
 
+    private void extendLift (RobotState state) {
+        state.lastKnownLiftState = LiftDriveState.Drive;
+        state.currentLiftDriveState = LiftDriveState.LowDropOff;
+        state.currentLiftSlideState = LiftSlideState.Extending;
+        state.dropOffState = DropOffState.Start;
+        RobotConfiguration.getInstance().liftLowDropOffPosition = -475;
+
+        // Update lift until done  TODO: Make this Parallel with drive code
+        while (state.dropOffState != DropOffState.Finished) {
+            lift.update();
+            claw.update();
+            idle();
+        }
+    }
+
+    private void retractLift (RobotState state) {
+        // Retract lift
+        state.pickUpState = PickUpState.Start;
+        state.lastKnownLiftState = LiftDriveState.LowDropOff;
+        state.currentLiftDriveState = LiftDriveState.Drive;
+        state.currentLiftSlideState = LiftSlideState.Retracting;
+
+        while (state.pickUpState != PickUpState.Finished) {
+            lift.update();
+            claw.update();
+            idle();
+        }
+
+        state.lastKnownLiftState = LiftDriveState.Drive;
+        RobotConfiguration.getInstance().liftLowDropOffPosition = -600;
+    }
+
     @Override
     public void runOpMode() throws InterruptedException {
         RobotState state = RobotState.getInstance();
@@ -227,6 +242,7 @@ public class BlueBackstage extends LinearOpMode {
         SmartGamepad pad1 = new SmartGamepad(gamepad1);
         initHardware();
 
+        // Initialize claw and lift
         claw.init();
         claw.start();
         lift.init();
@@ -249,15 +265,19 @@ public class BlueBackstage extends LinearOpMode {
             telemetry.addData("Current Park Location", parkLocation);
             poCHuskyLens.update();
 
+            // Find Prop Location
             propLocation = poCHuskyLens.getPropLocation();
-            telemetry.addData("Location", propLocation);
 
+            telemetry.addData("Location", propLocation);
+            telemetry.update();
+
+            // Show solid pattern if block seen, otherwise heartbeat
             if (propLocation != PropLocation.None) {
                 pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
-                hardware.blinkinLedDriver.setPattern(pattern);
+            } else {
+                pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
             }
-
-            telemetry.update();
+            hardware.blinkinLedDriver.setPattern(pattern);
         }
 
         if (opModeIsActive()) {
@@ -266,6 +286,9 @@ public class BlueBackstage extends LinearOpMode {
             hardware.blinkinLedDriver.setPattern(pattern);
 
             runPaths(parkLocation);
+
+            pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_WHITE;
+            hardware.blinkinLedDriver.setPattern(pattern);
         }
     }
 }

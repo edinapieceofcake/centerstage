@@ -121,13 +121,16 @@ public class RedAudience extends LinearOpMode {
 
             propLocation = poCHuskyLens.getPropLocation();
             telemetry.addData("Location", propLocation);
+            telemetry.update();
 
+            // Show solid pattern if block seen, otherwise heartbeat
             if (propLocation != PropLocation.None) {
                 pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
-                hardware.blinkinLedDriver.setPattern(pattern);
+            } else {
+                pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
             }
+            hardware.blinkinLedDriver.setPattern(pattern);
 
-            telemetry.update();
         }
 
         if (opModeIsActive()) {
@@ -136,6 +139,10 @@ public class RedAudience extends LinearOpMode {
             hardware.blinkinLedDriver.setPattern(pattern);
 
             runPaths();
+
+            pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_WHITE;
+            hardware.blinkinLedDriver.setPattern(pattern);
+
         }
 
     }

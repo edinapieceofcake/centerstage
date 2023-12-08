@@ -1,5 +1,6 @@
 package edu.edina.opmodes.teleop;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import edu.edina.library.util.Robot;
@@ -36,6 +37,10 @@ public class TeleopOpMode extends OpMode {
 
     @Override
     public void start() {
+
+        // Set Lights to Green
+        robot.RobotHardware.blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+
         robot.start();
     }
 
@@ -63,6 +68,10 @@ public class TeleopOpMode extends OpMode {
 
     @Override
     public  void stop() {
+
+        // Set Lights to Green
+        robot.RobotHardware.blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+
         robot.stop();
     }
 }

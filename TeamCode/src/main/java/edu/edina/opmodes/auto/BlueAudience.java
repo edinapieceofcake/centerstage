@@ -120,15 +120,19 @@ public class BlueAudience extends LinearOpMode {
         while (!isStarted()) {
             poCHuskyLens.update();
 
+            // Find Prop Location
             propLocation = poCHuskyLens.getPropLocation();
-            telemetry.addData("Location", propLocation);
 
+            telemetry.addData("Location", propLocation);
             telemetry.update();
 
+            // Show solid pattern if block seen, otherwise heartbeat
             if (propLocation != PropLocation.None) {
                 pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
-                hardware.blinkinLedDriver.setPattern(pattern);
+            } else {
+                pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
             }
+            hardware.blinkinLedDriver.setPattern(pattern);
         }
 
         if (opModeIsActive()) {
@@ -137,6 +141,9 @@ public class BlueAudience extends LinearOpMode {
             hardware.blinkinLedDriver.setPattern(pattern);
 
             runPaths(ParkLocation.Corner);
+
+            pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_WHITE;
+            hardware.blinkinLedDriver.setPattern(pattern);
         }
 
     }
