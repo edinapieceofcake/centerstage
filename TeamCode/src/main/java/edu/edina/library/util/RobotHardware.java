@@ -119,11 +119,13 @@ public class RobotHardware {
         liftSwitch.setMode(DigitalChannel.Mode.INPUT);
 
         topLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        topLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        topLiftMotor.setTargetPosition(0);
+        topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         topLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         bottomLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        bottomLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bottomLiftMotor.setTargetPosition(0);
+        bottomLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         bottomLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");

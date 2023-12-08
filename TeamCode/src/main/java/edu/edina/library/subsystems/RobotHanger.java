@@ -56,7 +56,6 @@ public class RobotHanger implements Subsystem {
     public void setProperties(boolean toggleExtend, boolean toggleRetract,
                               boolean hangServo, boolean latchServo, boolean resetLift) {
         RobotState state = RobotState.getInstance();
-        RobotConfiguration config = RobotConfiguration.getInstance();
         RobotHardware hardware = robot.RobotHardware;
 
         if (toggleExtend) {
