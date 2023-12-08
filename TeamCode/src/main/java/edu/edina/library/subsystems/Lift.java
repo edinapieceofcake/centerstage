@@ -116,7 +116,7 @@ public class Lift implements Subsystem, Action {
                         state.currentBottomMotorTargetPosition = config.minimumExtensionBeforeRaisingLiftInTicks;
                         state.currentLiftSlidePower = config.liftExtendingPower;
 
-                        hardware.robotHangerMotor.setTargetPosition(config.hangMotorLowDropOffPosition);
+                        hardware.robotHangerMotor.setTargetPosition(config.hangMotorHangPosition);
                         hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
 
@@ -136,11 +136,6 @@ public class Lift implements Subsystem, Action {
                     if (state.hangState == HangState.LiftArm) {
                         if (highLiftDelay.hasExpired()) {
                             state.currentLiftServoState = LiftServoState.Low;
-
-                            hardware.robotHangerMotor.setTargetPosition(config.hangMotorHangPosition);
-                            hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                            hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
-
                             state.hangState = HangState.RaiseHanger;
                         }
                     }
@@ -303,14 +298,18 @@ public class Lift implements Subsystem, Action {
                         if (state.lastKnownLiftState == HighDropOff) {
                             if (highLiftDelay.hasExpired()) {
                                 hardware.robotHangerMotor.setTargetPosition(config.hangMotorStorePosition);
+                                hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                                 hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
+
                                 state.currentLiftServoState = LiftServoState.Start;
                                 state.pickUpState = PickUpState.SecondRetraction;
                             }
                         } else {
                             if (lowLiftDelay.hasExpired()) {
                                 hardware.robotHangerMotor.setTargetPosition(config.hangMotorStorePosition);
+                                hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                                 hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
+
                                 state.currentLiftServoState = LiftServoState.Start;
                                 state.pickUpState = PickUpState.SecondRetraction;
                             }
