@@ -60,6 +60,10 @@ public class HuskyLensSubsystem implements Subsystem{
         telemetry.update();
     }
 
+    public HuskyLens.Block getPropBlock() {
+        return propBlock;
+    }
+
     public PropLocation getPropLocation() {
         if (propBlock.x < 100) {
             propLocation = PropLocation.Left;
