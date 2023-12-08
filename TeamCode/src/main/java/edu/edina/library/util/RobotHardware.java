@@ -28,6 +28,7 @@ public class RobotHardware {
     public final VoltageSensor voltageSensor;
 
     public final IMU imu;
+    public final IMU externalImu;
 
     public final DcMotorEx par0, par1, perp;
 
@@ -84,6 +85,15 @@ public class RobotHardware {
 //                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
 //                RevHubOrientationOnRobot.UsbFacingDirection.UP));
 //        imu.initialize(parameters);
+
+        externalImu = hardwareMap.get(IMU.class, "externalImu");
+        IMU.Parameters externalImuParameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+//                RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD));
+//                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
+                RevHubOrientationOnRobot.UsbFacingDirection.RIGHT));
+//                RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
+        externalImu.initialize(externalImuParameters);
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
