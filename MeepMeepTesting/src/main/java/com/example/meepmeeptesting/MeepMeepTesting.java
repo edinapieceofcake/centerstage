@@ -540,12 +540,11 @@ public class MeepMeepTesting {
                         .splineTo(new Vector2d(30, -12), Math.toRadians(0))
                         .build());
 
-                RoadRunnerBotEntity backstageDoublePickupMT = new DefaultBotBuilder(meepMeep)
+        RoadRunnerBotEntity backstageDoublePickupSplineMTLeft = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(50, 40, Math.toRadians(180), Math.toRadians(180), 12)
                 .setDimensions(12, 12)
                 .build();
-        RoadRunnerBotEntity backstageDoublePickupSplineMTLeft = new DefaultBotBuilder(meepMeep)
 
         backstageDoublePickupSplineMTLeft.runAction(backstageDoublePickupSpline.getDrive().actionBuilder(new Pose2d(12.5, -64, Math.toRadians(90)))
                 .splineToSplineHeading(new Pose2d(12.5, -18, Math.toRadians(270)), Math.toRadians(90))
