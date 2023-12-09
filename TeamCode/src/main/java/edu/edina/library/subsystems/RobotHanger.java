@@ -1,7 +1,6 @@
 package edu.edina.library.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.PwmControl;
 
 import edu.edina.library.enums.HangerState;
 import edu.edina.library.enums.LiftServoState;
@@ -57,7 +56,6 @@ public class RobotHanger implements Subsystem {
     public void setProperties(boolean toggleExtend, boolean toggleRetract,
                               boolean hangServo, boolean latchServo, boolean resetLift) {
         RobotState state = RobotState.getInstance();
-        RobotConfiguration config = RobotConfiguration.getInstance();
         RobotHardware hardware = robot.RobotHardware;
 
         if (toggleExtend) {
@@ -69,12 +67,8 @@ public class RobotHanger implements Subsystem {
         }
 
         if (hangServo) {
-            state.currentLeftLiftServoPosition = config.leftLowDropOffServoPosition;
-            state.currentRightLiftServoPosition = config.rightLowDropOffServoPosition;
-            state.currentLiftServoState = LiftServoState.Medium;
+            state.currentLiftServoState = LiftServoState.Low;
         } else if (latchServo) {
-            state.currentLeftLiftServoPosition = config.startingLeftLiftServoPosition;
-            state.currentRightLiftServoPosition = config.startingRightLiftServoPosition;
             state.currentLiftServoState = LiftServoState.Hang;
         }
 

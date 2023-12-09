@@ -28,6 +28,7 @@ public class RobotHardware {
     public final VoltageSensor voltageSensor;
 
     public final IMU imu;
+    public final IMU externalImu;
 
     public final DcMotorEx par0, par1, perp;
 
@@ -85,6 +86,15 @@ public class RobotHardware {
 //                RevHubOrientationOnRobot.UsbFacingDirection.UP));
 //        imu.initialize(parameters);
 
+        externalImu = hardwareMap.get(IMU.class, "externalImu");
+        IMU.Parameters externalImuParameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+//                RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD));
+//                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
+                RevHubOrientationOnRobot.UsbFacingDirection.RIGHT));
+//                RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
+        externalImu.initialize(externalImuParameters);
+
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
         par0 = hardwareMap.get(DcMotorEx.class, "rightFront");
@@ -119,11 +129,13 @@ public class RobotHardware {
         liftSwitch.setMode(DigitalChannel.Mode.INPUT);
 
         topLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        topLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        topLiftMotor.setTargetPosition(0);
+        topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         topLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         bottomLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        bottomLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bottomLiftMotor.setTargetPosition(0);
+        bottomLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         bottomLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");

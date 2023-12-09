@@ -24,15 +24,7 @@ public class TeleopOpMode extends OpMode {
     // great place to put vision code to detect where to go for autonomous
     @Override
     public void init_loop() {
-        RobotState state = RobotState.getInstance();
-        RobotHardware hardware = robot.RobotHardware;
-        RobotConfiguration config = RobotConfiguration.getInstance();
-
-        telemetry.addData("Current Left Lift Servo Position", state.currentLeftLiftServoPosition);
-        telemetry.addData("Current Right Servo Position", state.currentRightLiftServoPosition);
-
         telemetry.update();
-
     }
 
     @Override
@@ -55,7 +47,7 @@ public class TeleopOpMode extends OpMode {
         robot.Claw.setProperties(driver1Gamepad.left_bumper, driver1Gamepad.right_bumper, false, false);
 
         robot.Lift.setProperties(gamepad1.right_trigger, gamepad1.left_trigger, driver1Gamepad.a,
-                driver1Gamepad.x, driver1Gamepad.y, driver1Gamepad.b, driver2Gamepad.y);
+                driver1Gamepad.x, driver1Gamepad.y, driver1Gamepad.b, driver2Gamepad.y, driver2Gamepad.dpad_left, driver2Gamepad.dpad_right);
 
         robot.RobotHanger.setProperties(gamepad2.left_trigger != 0, gamepad2.right_trigger != 0,
                 driver2Gamepad.dpad_up, driver2Gamepad.dpad_down, driver2Gamepad.left_bumper);
