@@ -1,7 +1,5 @@
 package edu.edina.opmodes.auto;
 
-import android.transition.Transition;
-
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
@@ -22,7 +20,6 @@ import edu.edina.library.enums.ParkLocation;
 import edu.edina.library.enums.PickUpState;
 import edu.edina.library.enums.PropLocation;
 import edu.edina.library.subsystems.Claw;
-import edu.edina.library.subsystems.HuskyLensSubsystem;
 import edu.edina.library.subsystems.Lift;
 import edu.edina.library.util.PoCHuskyLens;
 import edu.edina.library.util.RobotConfiguration;
@@ -39,7 +36,6 @@ public class BlueAudienceWithBackStage extends LinearOpMode {
     protected MecanumDrive drive;
     RevBlinkinLedDriver.BlinkinPattern pattern;
     PoCHuskyLens poCHuskyLens;
-    HuskyLensSubsystem huskyLensSubsystem;
     PropLocation propLocation;
 
     double delta1 = 9;
