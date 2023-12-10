@@ -59,8 +59,9 @@ public class RedBackstage extends LinearOpMode {
         pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
         hardware.blinkinLedDriver.setPattern(pattern);
 
-        // HuskyLens Init
         PropLocation lastLocation = PropLocation.Idle;
+
+        // HuskyLens Init
         poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, Alliance.Red);
         poCHuskyLens.init();
 
@@ -174,16 +175,16 @@ public class RedBackstage extends LinearOpMode {
             case Center:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                        .setReversed(true)
-                        .splineTo(new Vector2d(53, -14), Math.toRadians(0))
-                        .build()));
+                            .setReversed(true)
+                            .splineTo(new Vector2d(53, -14), Math.toRadians(0))
+                            .build()));
                 break;
             case Corner:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                        .setReversed(true)
-                        .splineTo(new Vector2d(53, -60), Math.toRadians(0))
-                        .build()));
+                            .setReversed(true)
+                            .splineTo(new Vector2d(53, -60), Math.toRadians(0))
+                            .build()));
                 break;
             default:
                 break;

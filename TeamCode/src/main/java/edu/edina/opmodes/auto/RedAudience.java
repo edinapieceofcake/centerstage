@@ -32,15 +32,11 @@ public class RedAudience extends LinearOpMode {
     PoCHuskyLens poCHuskyLens;
     PropLocation propLocation;
 
-    double delta1 = 9;
-
-    private SleepAction sleep1sAction = new SleepAction(1);
-
-
     protected void initHardware() {
         // test hardware construction and use in an empty action
         hardware = new RobotHardware(hardwareMap);
 
+        // Start Position
         Pose2d startPose = new Pose2d(-42, -64, Math.toRadians(90));
 
         // use out version of the drive based off the hardware that we created above.
@@ -53,6 +49,8 @@ public class RedAudience extends LinearOpMode {
         pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
         hardware.blinkinLedDriver.setPattern(pattern);
 
+        PropLocation lastLocation = PropLocation.Idle;
+
         // HuskyLens Init
         poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, Alliance.Red);
         poCHuskyLens.init();
@@ -60,6 +58,7 @@ public class RedAudience extends LinearOpMode {
         claw = new Claw(hardware);
         lift = new Lift(hardware, false);
 
+        // Initialize Odo Wheels, Drone Launcher, and Hanger
         hardware.dropServosForAutonomous();
         hardware.droneLaunchServo.setPosition(RobotConfiguration.getInstance().droneLauncherArmedPosition);
         hardware.homeHangMotor(telemetry);
@@ -68,7 +67,7 @@ public class RedAudience extends LinearOpMode {
     protected void runPaths() {
         RobotState state = RobotState.getInstance();
 
-//        We want to detect if we don't have a block, but still need to default
+        // We want to detect if we don't have a block, but still need to default
         if (propLocation == PropLocation.None) {
             propLocation = PropLocation.Right;
         }
