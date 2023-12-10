@@ -32,6 +32,7 @@ public class RedAudienceWithBackStage extends LinearOpMode {
     private RobotHardware hardware;
     private Claw claw;
     private Lift lift;
+
     protected MecanumDrive drive;
     RevBlinkinLedDriver.BlinkinPattern pattern;
     PoCHuskyLens poCHuskyLens;
@@ -166,7 +167,7 @@ public class RedAudienceWithBackStage extends LinearOpMode {
         // Open Claw
         state.rightClawState = ClawState.Opened;
         claw.update();
-        sleep(1000);
+        sleep(500);
 
         // Back away from board
         Actions.runBlocking(drive.actionBuilder(drive.pose).lineToX(40).build());
