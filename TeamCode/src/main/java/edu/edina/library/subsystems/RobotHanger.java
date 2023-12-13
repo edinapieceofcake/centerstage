@@ -49,6 +49,26 @@ public class RobotHanger implements Subsystem {
                             hardware.robotHangerMotor.setPower(0);
                         }
                         break;
+                    case Hang:
+                        hardware.robotHangerMotor.setTargetPosition(config.hangMotorHangPosition);
+                        hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
+                        break;
+                    case LowDrop:
+                        hardware.robotHangerMotor.setTargetPosition(config.hangMotorLowDropOffPosition);
+                        hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
+                        break;
+                    case HighDrop:
+                        hardware.robotHangerMotor.setTargetPosition(config.hangMotorHighDropOffPosition);
+                        hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
+                        break;
+                    case Store:
+                        hardware.robotHangerMotor.setTargetPosition(config.hangMotorStorePosition);
+                        hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
+                        break;
                 }
             }
         }
