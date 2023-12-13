@@ -1,70 +1,20 @@
 package edu.edina.opmodes.auto;
 
-import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
-import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 import edu.edina.library.enums.Alliance;
 import edu.edina.library.enums.ClawState;
-import edu.edina.library.enums.DroneLauncherState;
 import edu.edina.library.enums.ParkLocation;
 import edu.edina.library.enums.PropLocation;
-import edu.edina.library.subsystems.Claw;
-import edu.edina.library.subsystems.Lift;
-import edu.edina.library.util.PoCHuskyLens;
-import edu.edina.library.util.RobotConfiguration;
-import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.RobotState;
 
 @Autonomous
-public class BlueAudience extends LinearOpMode {
-    private RobotHardware hardware;
-    private Claw claw;
-    private Lift lift;
-    protected MecanumDrive drive;
-    RevBlinkinLedDriver.BlinkinPattern pattern;
-    PoCHuskyLens poCHuskyLens;
-    PropLocation propLocation;
-
-    double delta1 = 9;
-
-    private SleepAction sleep1sAction = new SleepAction(1);
-
-
-    protected void initHardware() {
-        // test hardware construction and use in an empty action
-        hardware = new RobotHardware(hardwareMap);
-
-        Pose2d startPose = new Pose2d(-32, 62.25, Math.toRadians(270));
-
-        // use out version of the drive based off the hardware that we created above.
-        drive = new MecanumDrive(hardware.leftFront,
-                hardware.leftBack, hardware.rightBack, hardware.rightFront,
-                hardware.par0, hardware.par1, hardware.perp,
-                hardware.imu, hardware.voltageSensor, startPose);
-
-        // Heartbeat Blue to signify Blue alliance
-        pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
-        hardware.blinkinLedDriver.setPattern(pattern);
-
-        // HuskyLens Init
-        poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, Alliance.Blue);
-        poCHuskyLens.init();
-
-        claw = new Claw(hardware);
-        lift = new Lift(hardware, false);
-        hardware.dropServosForAutonomous();
-        hardware.droneLaunchServo.setPosition(RobotConfiguration.getInstance().droneLauncherArmedPosition);
-        hardware.homeHangMotor(telemetry);
-    }
-
+public class BlueAudience extends BaseAutonomous {
+    @Override
     protected void runPaths(ParkLocation parkLocation) {
         RobotState state = RobotState.getInstance();
 
@@ -104,47 +54,17 @@ public class BlueAudience extends LinearOpMode {
     }
 
     @Override
-    public void runOpMode() throws InterruptedException {
-        RobotState state = RobotState.getInstance();
-        initHardware();
+    protected RevBlinkinLedDriver.BlinkinPattern getUnsuccessfulPropMatchColor() {
+        return RevBlinkinLedDriver.BlinkinPattern.BLUE;
+    }
 
-        claw.init();
-        claw.start();
-        lift.init();
-        lift.start();
+    @Override
+    protected RevBlinkinLedDriver.BlinkinPattern getSuccessfulPropMatchColor() {
+        return RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
+    }
 
-        state.leftClawState = ClawState.Closed;
-        state.rightClawState = ClawState.Closed;
-        claw.update();
-
-        while (!isStarted()) {
-            poCHuskyLens.update();
-
-            // Find Prop Location
-            propLocation = poCHuskyLens.getPropLocation();
-
-            telemetry.addData("Location", propLocation);
-            telemetry.update();
-
-            // Show solid pattern if block seen, otherwise heartbeat
-            if (propLocation != PropLocation.None) {
-                pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
-            } else {
-                pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
-            }
-            hardware.blinkinLedDriver.setPattern(pattern);
-        }
-
-        if (opModeIsActive()) {
-            // Signal GREEN for successful run
-            pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
-            hardware.blinkinLedDriver.setPattern(pattern);
-
-            runPaths(ParkLocation.Corner);
-
-            pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_WHITE;
-            hardware.blinkinLedDriver.setPattern(pattern);
-        }
-
+    @Override
+    protected Alliance getAlliance() {
+        return Alliance.Blue;
     }
 }

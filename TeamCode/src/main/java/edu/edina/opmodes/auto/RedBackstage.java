@@ -1,37 +1,19 @@
 package edu.edina.opmodes.auto;
 
-import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.PWMOutput;
-import com.qualcomm.robotcore.hardware.PwmControl;
-
-import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 import edu.edina.library.enums.Alliance;
 import edu.edina.library.enums.ClawState;
-import edu.edina.library.enums.DropOffState;
-import edu.edina.library.enums.LiftDriveState;
-import edu.edina.library.enums.LiftSlideState;
 import edu.edina.library.enums.ParkLocation;
-import edu.edina.library.enums.PickUpState;
 import edu.edina.library.enums.PropLocation;
-import edu.edina.library.subsystems.Claw;
-import edu.edina.library.subsystems.Lift;
-import edu.edina.library.util.PoCHuskyLens;
-import edu.edina.library.util.RobotConfiguration;
-import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.RobotState;
-import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
 public class RedBackstage extends BaseAutonomous {
-
+    @Override
     protected void runPaths(ParkLocation parkLocation) {
         RobotState state = RobotState.getInstance();
 
