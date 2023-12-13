@@ -36,11 +36,11 @@ public class BaseAutonomous extends LinearOpMode {
     }
 
     protected RevBlinkinLedDriver.BlinkinPattern getUnsuccessfulPropMatchColor() {
-        return RevBlinkinLedDriver.BlinkinPattern.RED;
+        return RevBlinkinLedDriver.BlinkinPattern.GREEN;
     }
 
     protected RevBlinkinLedDriver.BlinkinPattern getSuccessfulPropMatchColor() {
-        return RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
+        return RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_GRAY;
     }
 
     protected void initHardware() {
@@ -60,7 +60,7 @@ public class BaseAutonomous extends LinearOpMode {
         //drive = new MecanumDrive(hardwareMap, startPose);
 
         // Heartbeat Red to signify Red alliance
-        pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
+        pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_GRAY;
         hardware.blinkinLedDriver.setPattern(pattern);
 
         PropLocation lastLocation = PropLocation.Idle;

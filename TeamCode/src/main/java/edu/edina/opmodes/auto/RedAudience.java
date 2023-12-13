@@ -3,16 +3,14 @@ package edu.edina.opmodes.auto;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import edu.edina.library.enums.Alliance;
 import edu.edina.library.enums.ClawState;
 import edu.edina.library.enums.PropLocation;
 import edu.edina.library.util.RobotState;
 
 @Autonomous
-public class RedAudience extends BaseAutonomous {
+public class RedAudience extends RedBaseAutonomous {
     protected void runPaths() {
         RobotState state = RobotState.getInstance();
 
@@ -48,20 +46,5 @@ public class RedAudience extends BaseAutonomous {
         state.leftClawState = ClawState.Opened;
         claw.update();
         sleep(500);
-    }
-
-    @Override
-    protected RevBlinkinLedDriver.BlinkinPattern getUnsuccessfulPropMatchColor() {
-        return RevBlinkinLedDriver.BlinkinPattern.RED;
-    }
-
-    @Override
-    protected RevBlinkinLedDriver.BlinkinPattern getSuccessfulPropMatchColor() {
-        return RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
-    }
-
-    @Override
-    protected Alliance getAlliance() {
-        return Alliance.Red;
     }
 }

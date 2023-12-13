@@ -5,14 +5,13 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import edu.edina.library.enums.Alliance;
 import edu.edina.library.enums.ClawState;
 import edu.edina.library.enums.ParkLocation;
 import edu.edina.library.enums.PropLocation;
 import edu.edina.library.util.RobotState;
 
 @Autonomous
-public class RedBackstage extends BaseAutonomous {
+public class RedBackstage extends RedBaseAutonomous {
     @Override
     protected void runPaths(ParkLocation parkLocation) {
         RobotState state = RobotState.getInstance();
@@ -129,10 +128,5 @@ public class RedBackstage extends BaseAutonomous {
             default:
                 break;
         }
-    }
-
-    @Override
-    protected Alliance getAlliance() {
-        return Alliance.Red;
     }
 }
