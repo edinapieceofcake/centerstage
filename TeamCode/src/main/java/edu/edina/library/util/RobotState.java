@@ -34,6 +34,7 @@ public class RobotState {
     public DropOffState dropOffState;
     public PickUpState pickUpState;
     public HangState hangState;
+    public HangerState hangerState;
     public LiftServoRange liftServoRange;
     public double currentTriggerStrength;
 
