@@ -43,18 +43,21 @@ public class BaseAutonomous extends LinearOpMode {
         return RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_GRAY;
     }
 
+    protected Pose2d getStartPose() {
+        return new Pose2d(2, -62.5, Math.toRadians(90));
+    }
+
     protected void initHardware() {
         // test hardware construction and use in an empty action
         hardware = new RobotHardware(hardwareMap);
 
         // Start Position
-        Pose2d startPose = new Pose2d(2, -62.5, Math.toRadians(90));
 
         // use out version of the drive based off the hardware that we created above.
         drive = new org.firstinspires.ftc.teamcode.MecanumDrive(hardware.leftFront,
                 hardware.leftBack, hardware.rightBack, hardware.rightFront,
                 hardware.par0, hardware.par1, hardware.perp,
-                hardware.imu, hardware.voltageSensor, startPose);
+                hardware.imu, hardware.voltageSensor, getStartPose());
 
         // uncomment this and comment out the above if it doesn't work right
         //drive = new MecanumDrive(hardwareMap, startPose);

@@ -14,6 +14,7 @@ public class BlueBaseAutonomous extends BaseAutonomous {
     protected RevBlinkinLedDriver.BlinkinPattern getSuccessfulPropMatchColor() {
         return RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
     }
+
     @Override
     protected Alliance getAlliance() {
         return Alliance.Blue;

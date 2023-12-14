@@ -1,5 +1,6 @@
 package edu.edina.opmodes.auto;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
@@ -12,6 +13,12 @@ import edu.edina.library.util.RobotState;
 
 @Autonomous
 public class BlueBackstage extends BlueBaseAutonomous {
+
+    @Override
+    protected Pose2d getStartPose() {
+        return new Pose2d(8, 62.5, Math.toRadians(270));
+    }
+
     @Override
     protected void runPaths(ParkLocation parkLocation) {
         RobotState state = RobotState.getInstance();
