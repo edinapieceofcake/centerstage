@@ -298,7 +298,7 @@ public class Lift implements Subsystem, Action {
         }
 
         if (state.hangState == HangState.RaiseHanger) {
-            if (hardware.robotHangerMotor.getCurrentPosition() < (config.hangMotorHangPosition + 10)) {
+            if (state.currentHangerPosition < (config.hangMotorHangPosition + 10)) {
                 state.hangState = HangState.Finished;
                 state.lastKnownLiftState = Hang;
             }
@@ -320,9 +320,6 @@ public class Lift implements Subsystem, Action {
                 state.hangerState = HangerState.HighDrop;
             }
 
-            hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
-
             state.dropOffState = DropOffState.FirstExtension;
         }
 
@@ -334,9 +331,6 @@ public class Lift implements Subsystem, Action {
                 } else {
                     state.hangerState = HangerState.HighDrop;
                 }
-
-                hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
             }
 
             if (state.currentTopMotorPosition < (config.minimumExtensionBeforeRaisingLiftInTicks + 10)) {
@@ -347,6 +341,7 @@ public class Lift implements Subsystem, Action {
                     } else {
                         state.currentLiftServoState = LiftServoState.Medium;
                     }
+
                     lowLiftDelay.reset();
                 } else {
                     if (state.liftServoRange == LiftServoRange.Low) {
@@ -354,6 +349,7 @@ public class Lift implements Subsystem, Action {
                     } else {
                         state.currentLiftServoState = LiftServoState.High;
                     }
+
                     highLiftDelay.reset();
                 }
             }

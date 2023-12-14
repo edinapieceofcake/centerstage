@@ -11,7 +11,6 @@ import edu.edina.library.util.RobotState;
 
 public class RobotHanger implements Subsystem {
     private Robot robot;
-    private HangerState hangerState;
 
     public RobotHanger(Robot robot) {
         this.robot = robot;
@@ -19,7 +18,7 @@ public class RobotHanger implements Subsystem {
 
     @Override
     public void init() {
-        hangerState = HangerState.Idle;
+        RobotState.getInstance().hangerState = HangerState.Idle;
     }
 
     @Override
@@ -34,8 +33,10 @@ public class RobotHanger implements Subsystem {
         RobotHardware hardware = robot.RobotHardware;
 
         if (robot.Started) {
+            state.currentHangerPosition = hardware.robotHangerMotor.getCurrentPosition();
+
             if (!hardware.hangMotorHoming) {
-                switch (hangerState) {
+                switch (state.hangerState) {
                     case Retracting:
                         hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                         hardware.robotHangerMotor.setPower(RobotConfiguration.getInstance().hangerRetractingPower);
@@ -79,11 +80,11 @@ public class RobotHanger implements Subsystem {
         RobotHardware hardware = robot.RobotHardware;
 
         if (toggleExtend) {
-            hangerState = HangerState.Extending;
+            state.hangerState = HangerState.Extending;
         } else if (toggleRetract) {
-            hangerState = HangerState.Retracting;
+            state.hangerState = HangerState.Retracting;
         } else {
-            hangerState = HangerState.Idle;
+            state.hangerState = HangerState.Idle;
         }
 
         if (hangServo) {

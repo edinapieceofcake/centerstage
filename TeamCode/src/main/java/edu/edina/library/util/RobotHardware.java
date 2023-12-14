@@ -88,11 +88,8 @@ public class RobotHardware {
 
         externalImu = hardwareMap.get(IMU.class, "externalImu");
         IMU.Parameters externalImuParameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-//                RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD));
-//                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
-                RevHubOrientationOnRobot.UsbFacingDirection.RIGHT));
-//                RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
+                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP));
         externalImu.initialize(externalImuParameters);
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
