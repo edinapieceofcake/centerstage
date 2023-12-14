@@ -36,6 +36,20 @@ public final class TwoDeadWheelLocalizer implements Localizer {
 
     private double lastRawHeadingVel, headingVelOffset;
 
+    public TwoDeadWheelLocalizer(DcMotorEx par, DcMotorEx perp, IMU imu, double inPerTick) {
+        this.par = new RawEncoder(par);
+        this.perp = new RawEncoder(perp);
+        this.imu = imu;
+
+        lastParPos = this.par.getPositionAndVelocity().position;
+        lastPerpPos = this.perp.getPositionAndVelocity().position;
+        lastHeading = Rotation2d.exp(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+
+        this.inPerTick = inPerTick;
+
+        FlightRecorder.write("TWO_DEAD_WHEEL_PARAMS", PARAMS);
+    }
+
     public TwoDeadWheelLocalizer(HardwareMap hardwareMap, IMU imu, double inPerTick) {
         par = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "par")));
         perp = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "perp")));
