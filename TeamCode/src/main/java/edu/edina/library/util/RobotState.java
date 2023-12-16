@@ -46,6 +46,7 @@ public class RobotState {
     public double currentLiftHeight;
     public ClawState leftClawState;
     public ClawState rightClawState;
+    public ClawState autoClawState;
 
     public RobotState() {
         currentLiftSlidePower = 0.0;
@@ -56,6 +57,7 @@ public class RobotState {
         lastKnownLiftState = LiftDriveState.Drive;
         rightClawState = ClawState.Opened;
         leftClawState = ClawState.Opened;
+        autoClawState = ClawState.Opened;
         liftServoRange = LiftServoRange.Low;
     }
 

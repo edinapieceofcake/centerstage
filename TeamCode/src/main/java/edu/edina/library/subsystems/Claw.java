@@ -26,10 +26,12 @@ public class Claw implements Subsystem {
 
         state.rightClawState = ClawState.Opened;
         state.leftClawState = ClawState.Opened;
+        state.autoClawState = ClawState.Opened;
         state.angleClawState = AngleClawState.Drive;
         state.twistServoState = TwistServoState.Pickup;
         hardware.leftClawServo.setPosition(RobotConfiguration.getInstance().clawLeftOpenPosition);
         hardware.rightClawServo.setPosition(RobotConfiguration.getInstance().clawRightOpenPosition);
+        hardware.autoClawServo.setPosition(RobotConfiguration.getInstance().autoClawServoOpenPosition);
         hardware.twistClawServo.setPosition(RobotConfiguration.getInstance().twistClawServoPickUpPosition);
         hardware.angleClawServo.setPosition(RobotConfiguration.getInstance().angleClawDrivePosition);
     }
@@ -88,6 +90,15 @@ public class Claw implements Subsystem {
                     break;
             }
 
+            switch(state.autoClawState){
+                case Opened:
+                    hardware.autoClawServo.setPosition(config.autoClawServoOpenPosition);
+                    break;
+                case Closed:
+                    hardware.autoClawServo.setPosition(config.autoClawServoClosePosition);
+                    break;
+            }
+
             switch (state.twistServoState) {
                 case Pickup:
                     hardware.twistClawServo.setPosition(config.twistClawServoPickUpPosition);
@@ -118,7 +129,7 @@ public class Claw implements Subsystem {
         }
     }
 
-    public void setProperties(boolean toggleLeftClaw, boolean toggleRightClaw, boolean leftDpad, boolean rightDpad) {
+    public void setProperties(boolean toggleLeftClaw, boolean toggleRightClaw, boolean toggleAutoClaw, boolean leftDpad, boolean rightDpad) {
         RobotState state = RobotState.getInstance();
 
         if (toggleLeftClaw) {
@@ -134,6 +145,14 @@ public class Claw implements Subsystem {
                 state.rightClawState = ClawState.Closed;
             } else {
                 state.rightClawState = ClawState.Opened;
+            }
+        }
+
+        if (toggleAutoClaw) {
+            if (state.autoClawState == ClawState.Opened) {
+                state.autoClawState = ClawState.Closed;
+            } else {
+                state.autoClawState = ClawState.Opened;
             }
         }
 
