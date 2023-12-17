@@ -34,7 +34,7 @@ public class RobotHardware {
 
     public final Servo par0Servo, par1Servo, perpServo;
 
-    public final ServoImplEx leftClawServo, rightClawServo, twistClawServo, angleClawServo;
+    public final ServoImplEx leftClawServo, rightClawServo, twistClawServo, autoClawServo, angleClawServo;
 
     public final ServoImplEx leftLiftServo, rightLiftServo;
 
@@ -109,6 +109,7 @@ public class RobotHardware {
         rightClawServo = hardwareMap.get(ServoImplEx.class, "rightClawServo");
         twistClawServo = hardwareMap.get(ServoImplEx.class, "twistClawServo");
         angleClawServo = hardwareMap.get(ServoImplEx.class, "angleClawServo");
+        autoClawServo = hardwareMap.get(ServoImplEx.class, "autoClawServo");
 
         leftLiftServo = hardwareMap.get(ServoImplEx.class, "rightLiftServo");
         rightLiftServo = hardwareMap.get(ServoImplEx.class, "leftLiftServo");
