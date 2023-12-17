@@ -34,9 +34,7 @@ public class MecanumDrive implements Subsystem {
 
     @Override
     public void start() {
-        robot.RobotHardware.par0Servo.setPosition(RobotConfiguration.getInstance().par0UpPosition);
-        robot.RobotHardware.par1Servo.setPosition(RobotConfiguration.getInstance().par1UpPosition);
-        robot.RobotHardware.perpServo.setPosition(RobotConfiguration.getInstance().perpUpPosition);
+        robot.RobotHardware.liftServosForTeleop();
     }
 
     @Override

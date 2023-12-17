@@ -35,6 +35,7 @@ public class RobotState {
     public PickUpState pickUpState;
     public HangState hangState;
     public HangerState hangerState;
+    public int currentHangerPosition;
     public LiftServoRange liftServoRange;
     public double currentTriggerStrength;
 
@@ -92,10 +93,10 @@ public class RobotState {
 //            telemetry.addData("Left Rear Power, Current", "%f %f", hardware.leftBack.getPower(), hardware.leftFront.getCurrent(CurrentUnit.MILLIAMPS));
 //            telemetry.addData("Right Rear Power, Current", "%f %f", hardware.rightBack.getPower(), hardware.leftFront.getCurrent(CurrentUnit.MILLIAMPS));
 
-            telemetry.addData("ImuInfo CHUB angle", hardware.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
-            telemetry.addData("ImuInfo CHUB velocity", hardware.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);
-            telemetry.addData("ImuInfo External angle", hardware.externalImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
-            telemetry.addData("ImuInfo External velocity", hardware.externalImu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);
+//            telemetry.addData("ImuInfo CHUB angle", hardware.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
+//            telemetry.addData("ImuInfo CHUB velocity", hardware.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);
+//            telemetry.addData("ImuInfo External angle", hardware.externalImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
+//            telemetry.addData("ImuInfo External velocity", hardware.externalImu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);
 
             Log.d("Imu CHUB, External angle, velocity", String.format("%.4f %.4f %.4f %.4f", hardware.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES),
                     hardware.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate, hardware.externalImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES),
