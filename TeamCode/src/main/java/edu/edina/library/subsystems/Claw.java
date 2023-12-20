@@ -148,7 +148,7 @@ public class Claw implements Subsystem {
             }
         }
 
-        if (toggleAutoClaw) {
+        if (toggleLeftClaw) {
             if (state.autoClawState == ClawState.Opened) {
                 state.autoClawState = ClawState.Closed;
             } else {

@@ -17,7 +17,7 @@ import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.SmartGamepad;
 
 @TeleOp
-//@Disabled
+@Disabled
 public class ConfigureLift extends LinearOpMode {
 
     @Override
@@ -55,8 +55,8 @@ public class ConfigureLift extends LinearOpMode {
 
         droneLauncher.setPosition(droneStart);
 
-        rightLiftServo.setPosition(0.1);
-        leftLiftServo.setPosition(0.96);
+        //rightLiftServo.setPosition(0.1);
+        //leftLiftServo.setPosition(0.96);
 
         twistClawServo.setPosition(.96);
         angleClawServo.setPosition(.42);
@@ -113,16 +113,16 @@ public class ConfigureLift extends LinearOpMode {
 
             if (pad1.right_bumper) {
                 // moving up
-                rightLiftServo.setPosition(rightLiftServo.getPosition() - .01);
+               // rightLiftServo.setPosition(rightLiftServo.getPosition() - .01);
 //                leftLiftServo.setPosition(leftLiftServo.getPosition() + .01);
-//                leftLiftServo.setPosition(.53);
-//                rightLiftServo.setPosition(.51);
+                leftLiftServo.setPosition(config.startingLeftLiftServoPosition);
+                rightLiftServo.setPosition(config.startingRightLiftServoPosition);
             } else if (pad1.left_bumper) {
                 // intake
-                rightLiftServo.setPosition(rightLiftServo.getPosition() + .01);
+              //  rightLiftServo.setPosition(rightLiftServo.getPosition() + .01);
 //                leftLiftServo.setPosition(leftLiftServo.getPosition() - .01);
-//                leftLiftServo.setPosition(.96);
-//                rightLiftServo.setPosition(.1);
+                leftLiftServo.setPosition(config.leftLowDropOffServoPosition);
+                rightLiftServo.setPosition(config.rightLowDropOffServoPosition);
             }
 
             if (pad1.dpad_left) {
@@ -177,8 +177,8 @@ public class ConfigureLift extends LinearOpMode {
             telemetry.addData("Bottom Lift Motor Current Position: ", bottomLiftMotor.getCurrentPosition());
             telemetry.addData("Left Lift Position: ", leftLiftServo.getPosition());
             telemetry.addData("Right Lift Position: ", rightLiftServo.getPosition());
-//            telemetry.addData("Twist Claw Position: ", twistClawServo.getPosition());
-//            telemetry.addData("Angle Claw Position: ", angleClawServo.getPosition());
+            telemetry.addData("Twist Claw Position: ", twistClawServo.getPosition());
+            telemetry.addData("Angle Claw Position: ", angleClawServo.getPosition());
 //            telemetry.addData("Lift Switch: ", liftSwitch.getState());
 //            telemetry.addData("Servo Manufacturer", leftLiftServo.getManufacturer().name());
 //            telemetry.addData("Par0 (rightFront)(0)", par0.getCurrentPosition());

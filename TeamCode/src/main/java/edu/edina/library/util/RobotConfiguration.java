@@ -14,8 +14,8 @@ public class RobotConfiguration {
     public double clawRightOpenPosition = 0.36;//0.08;
     public double autoClawServoOpenPosition = 0.70;
     public double autoClawServoClosePosition = 1.0;
-    public double twistClawServoPickUpPosition = 0.97;
-    public double twistClawServoDropOffPosition = 0.28;
+    public double twistClawServoPickUpPosition = 0.87;//0.97;
+    public double twistClawServoDropOffPosition = 0.98;//0.28;
     public double angleClawPickupPosition = 1 - 0.42;
     public double angleClawDrivePosition = 1 - 0.23;
     public double angleClawLowDropOffPosition = 1 - .77;
@@ -67,8 +67,8 @@ public class RobotConfiguration {
     public int hangMotorInitPosition = -260;
     public int hangMotorStorePosition = 0;
     public int hangMotorLowDropOffPosition = -850;
-    public int hangMotorHighDropOffPosition = -1500;
-    public int hangMotorHangPosition = -4000;
+    public int hangMotorHighDropOffPosition = -1100;
+    public int hangMotorHangPosition = -2800;
 
     public double minimumHeightToTwistServoInInches = 12.0;
 

@@ -27,7 +27,7 @@ public class TestHangMotor extends LinearOpMode {
 
         hardware.rightLiftServo.setPosition(0.1);
         hardware.leftLiftServo.setPosition(0.96);
-
+        hardware.robotHangerMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         waitForStart();
 
         while (opModeIsActive()) {
