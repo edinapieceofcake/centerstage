@@ -3,10 +3,12 @@ package edu.edina.opmodes.test;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
@@ -15,13 +17,14 @@ import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.SmartGamepad;
 
 @TeleOp
-@Disabled
+//@Disabled
 public class ConfigureLift extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
         final double droneStart = 0.7;
         SmartGamepad pad1 = new SmartGamepad(gamepad1);
+        RobotConfiguration config = RobotConfiguration.getInstance();
 
         DcMotorEx par0 = hardwareMap.get(DcMotorEx.class, "rightFront");
         DcMotorEx par1 = hardwareMap.get(DcMotorEx.class, "rightBack");
@@ -35,6 +38,7 @@ public class ConfigureLift extends LinearOpMode {
 
         ServoImplEx leftClawServo = hardwareMap.get(ServoImplEx.class, "leftClawServo");
         ServoImplEx rightClawServo = hardwareMap.get(ServoImplEx.class, "rightClawServo");
+        ServoImplEx autoClawServo = hardwareMap.get(ServoImplEx.class, "autoClawServo");
 
         ServoImplEx twistClawServo = hardwareMap.get(ServoImplEx.class, "twistClawServo");
         ServoImplEx angleClawServo = hardwareMap.get(ServoImplEx.class, "angleClawServo");
@@ -42,6 +46,12 @@ public class ConfigureLift extends LinearOpMode {
         DigitalChannel liftSwitch =hardwareMap.get(DigitalChannel.class, "liftSwitch");
 
         ServoImplEx droneLauncher = hardwareMap.get(ServoImplEx.class, "droneLaunchServo");
+
+        AnalogInput leftClawInput = hardwareMap.get(AnalogInput.class, "leftClawInput");
+
+        DigitalChannel beamBreak = hardwareMap.get(DigitalChannel.class, "beamBreak");
+        beamBreak.setMode(DigitalChannel.Mode.INPUT);
+
 
         droneLauncher.setPosition(droneStart);
 
@@ -53,8 +63,9 @@ public class ConfigureLift extends LinearOpMode {
 
 //        left claw closed position is 0.83
 //        right claw closed position is 0.25
-        leftClawServo.setPosition(.92);
-        rightClawServo.setPosition(.08);
+        leftClawServo.setPosition(config.clawLeftOpenPosition);
+        rightClawServo.setPosition(config.clawRightOpenPosition);
+        autoClawServo.setPosition(config.autoClawServoOpenPosition);
 
         topLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         topLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -72,10 +83,12 @@ public class ConfigureLift extends LinearOpMode {
 
             if (pad1.dpad_up) {
                 leftClawServo.setPosition(leftClawServo.getPosition() + .01);
+//                autoClawServo.setPosition(autoClawServo.getPosition() + .01);
             }
 
             if (pad1.dpad_down) {
                 leftClawServo.setPosition(leftClawServo.getPosition() - .01);
+//                autoClawServo.setPosition(autoClawServo.getPosition() - .01);
             }
 
             if (pad1.y) {
@@ -114,16 +127,16 @@ public class ConfigureLift extends LinearOpMode {
 
             if (pad1.dpad_left) {
 //                DropOff
-//                twistClawServo.setPosition(twistClawServo.getPosition() + .01);
-                twistClawServo.setPosition(0.28);
-                angleClawServo.setPosition(.77);
+                twistClawServo.setPosition(twistClawServo.getPosition() + .01);
+//                twistClawServo.setPosition(0.28);
+//                angleClawServo.setPosition(.77);
             }
 
             if (pad1.dpad_right) {
 //                Pick Up
-//                twistClawServo.setPosition(twistClawServo.getPosition() - .01);
-                twistClawServo.setPosition(0.96);
-                angleClawServo.setPosition(0.37);
+                twistClawServo.setPosition(twistClawServo.getPosition() - .01);
+//                twistClawServo.setPosition(0.96);
+//                angleClawServo.setPosition(0.37);
             }
 
             if (pad1.x) {
@@ -155,6 +168,9 @@ public class ConfigureLift extends LinearOpMode {
 
             telemetry.addData("=======================================================", "");
 
+            telemetry.addData("beamBreak", beamBreak.getState());
+            telemetry.addData("leftClawInput", leftClawInput.getVoltage() / 3.3 * 360);
+            telemetry.addData("Auto Claw Position: ", autoClawServo.getPosition());
             telemetry.addData("Left Claw Position: ", leftClawServo.getPosition());
             telemetry.addData("Right Claw Position: ", rightClawServo.getPosition());
             telemetry.addData("Top Lift Motor Current Position: ", topLiftMotor.getCurrentPosition());
@@ -171,5 +187,8 @@ public class ConfigureLift extends LinearOpMode {
 
             telemetry.update();
         }
+
+//        ((PwmControl) leftClawServo).setPwmDisable();
+//        ((PwmControl) rightClawServo).setPwmDisable();
     }
 }
