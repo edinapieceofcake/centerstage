@@ -72,49 +72,49 @@ public class RobotState {
     }
 
     public void telemetry(Telemetry telemetry, RobotHardware hardware) {
-//        telemetry.addData("Top Motor LiftPosition", currentTopMotorPosition);
-//        telemetry.addData("Bottom Motor LiftPosition", currentBottomMotorPosition);
-//        telemetry.addData("LiftSlidePower", currentLiftSlidePower);
-//        telemetry.addData("LiftServoState", currentLiftServoState);
-//        telemetry.addData("LiftDriveState", currentLiftDriveState);
-//        telemetry.addData("LastKnownLiftDriveState", lastKnownLiftState);
-//        telemetry.addData("PickUpState", pickUpState);
-//        telemetry.addData("DropOffState", dropOffState);
-//        telemetry.addData("currentTopMotorTargetPosition", currentTopMotorTargetPosition);
-//        telemetry.addData("Twist Servo State: ", twistServoState);
-//        telemetry.addData("AngleClawState", angleClawState);
-//        telemetry.addData("liftServoRange", liftServoRange);
-//        telemetry.addData("Current Lift Angle, Length, Height: ", "%f %f %f", currentLiftAngle, currentLiftLength, currentLiftHeight);
-//        telemetry.addData("Sin Current Lift Angle", Math.sin(Math.toRadians(currentLiftAngle)));
+        telemetry.addData("Top Motor LiftPosition", currentTopMotorPosition);
+        telemetry.addData("Bottom Motor LiftPosition", currentBottomMotorPosition);
+        telemetry.addData("LiftSlidePower", currentLiftSlidePower);
+        telemetry.addData("LiftServoState", currentLiftServoState);
+        telemetry.addData("LiftDriveState", currentLiftDriveState);
+        telemetry.addData("LastKnownLiftDriveState", lastKnownLiftState);
+        telemetry.addData("PickUpState", pickUpState);
+        telemetry.addData("DropOffState", dropOffState);
+        telemetry.addData("currentTopMotorTargetPosition", currentTopMotorTargetPosition);
+        telemetry.addData("Twist Servo State: ", twistServoState);
+        telemetry.addData("AngleClawState", angleClawState);
+        telemetry.addData("liftServoRange", liftServoRange);
+        telemetry.addData("Current Lift Angle, Length, Height: ", "%f %f %f", currentLiftAngle, currentLiftLength, currentLiftHeight);
+        telemetry.addData("Sin Current Lift Angle", Math.sin(Math.toRadians(currentLiftAngle)));
 
         if (hardware != null) {
-//            telemetry.addData("Left Front Power, Current", "%f %f", hardware.leftFront.getPower(), hardware.leftFront.getCurrent(CurrentUnit.MILLIAMPS));
-//            telemetry.addData("Right Front Power, Current", "%f %f", hardware.rightFront.getPower(), hardware.leftFront.getCurrent(CurrentUnit.MILLIAMPS));
-//            telemetry.addData("Left Rear Power, Current", "%f %f", hardware.leftBack.getPower(), hardware.leftFront.getCurrent(CurrentUnit.MILLIAMPS));
-//            telemetry.addData("Right Rear Power, Current", "%f %f", hardware.rightBack.getPower(), hardware.leftFront.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Left Front Power, Current", "%f %f", hardware.leftFront.getPower(), hardware.leftFront.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Right Front Power, Current", "%f %f", hardware.rightFront.getPower(), hardware.leftFront.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Left Rear Power, Current", "%f %f", hardware.leftBack.getPower(), hardware.leftFront.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Right Rear Power, Current", "%f %f", hardware.rightBack.getPower(), hardware.leftFront.getCurrent(CurrentUnit.MILLIAMPS));
 
-//            telemetry.addData("ImuInfo CHUB angle", hardware.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
-//            telemetry.addData("ImuInfo CHUB velocity", hardware.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);
-//            telemetry.addData("ImuInfo External angle", hardware.externalImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
-//            telemetry.addData("ImuInfo External velocity", hardware.externalImu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);
+            telemetry.addData("ImuInfo CHUB angle", hardware.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
+            telemetry.addData("ImuInfo CHUB velocity", hardware.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);
+            telemetry.addData("ImuInfo External angle", hardware.externalImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
+            telemetry.addData("ImuInfo External velocity", hardware.externalImu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);
 
-            Log.d("Imu CHUB, External angle, velocity", String.format("%.4f %.4f %.4f %.4f", hardware.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES),
-                    hardware.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate, hardware.externalImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES),
-                    hardware.externalImu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate));
+//            Log.d("Imu CHUB, External angle, velocity", String.format("%.4f %.4f %.4f %.4f", hardware.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES),
+//                    hardware.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate, hardware.externalImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES),
+//                    hardware.externalImu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate));
 
-//            telemetry.addData("Top Target", hardware.topLiftMotor.getTargetPosition());
-//            telemetry.addData("Bottom Target", hardware.bottomLiftMotor.getTargetPosition());
-//
-//            telemetry.addData("Left Lift Servo Position", hardware.leftLiftServo.getPosition());
-//            telemetry.addData("Right Lift Servo Position", hardware.rightLiftServo.getPosition());
-//
-//            telemetry.addData("Top Motor Mode", hardware.topLiftMotor.getMode());
-//            telemetry.addData("Bottom Motor Mode", hardware.bottomLiftMotor.getMode());
-//            telemetry.addData("Top Power, Current", "%f %f", hardware.topLiftMotor.getPower(), hardware.topLiftMotor.getCurrent(CurrentUnit.MILLIAMPS));
-//            telemetry.addData("Bottom Front Power, Current", "%f %f", hardware.bottomLiftMotor.getPower(), hardware.bottomLiftMotor.getCurrent(CurrentUnit.MILLIAMPS));
-//
-//            telemetry.addData("Lift Switch", hardware.liftSwitch.getState());
-//            telemetry.addData("Hanger Motor Position", hardware.robotHangerMotor.getCurrentPosition());
+            telemetry.addData("Top Target", hardware.topLiftMotor.getTargetPosition());
+            telemetry.addData("Bottom Target", hardware.bottomLiftMotor.getTargetPosition());
+
+            telemetry.addData("Left Lift Servo Position", hardware.leftLiftServo.getPosition());
+            telemetry.addData("Right Lift Servo Position", hardware.rightLiftServo.getPosition());
+
+            telemetry.addData("Top Motor Mode", hardware.topLiftMotor.getMode());
+            telemetry.addData("Bottom Motor Mode", hardware.bottomLiftMotor.getMode());
+            telemetry.addData("Top Power, Current", "%f %f", hardware.topLiftMotor.getPower(), hardware.topLiftMotor.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Bottom Front Power, Current", "%f %f", hardware.bottomLiftMotor.getPower(), hardware.bottomLiftMotor.getCurrent(CurrentUnit.MILLIAMPS));
+
+            telemetry.addData("Lift Switch", hardware.liftSwitch.getState());
+            telemetry.addData("Hanger Motor Position", hardware.robotHangerMotor.getCurrentPosition());
         }
     }
 }

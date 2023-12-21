@@ -18,6 +18,7 @@ import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 import java.util.concurrent.TimeUnit;
 
 import edu.edina.library.enums.AngleClawState;
+import edu.edina.library.enums.ClawState;
 import edu.edina.library.enums.DropOffState;
 import edu.edina.library.enums.HangState;
 import edu.edina.library.enums.HangerState;
@@ -197,26 +198,34 @@ public class Lift implements Subsystem, Action {
 
         if (y) {
             // low
-            state.currentLiftDriveState = LiftDriveState.LowDropOff;
-            if (state.lastKnownLiftState == LiftDriveState.LowDropOff  || state.lastKnownLiftState == HighDropOff) {
-                state.dropOffState = DropOffState.FirstExtension;
+            if (state.lastKnownLiftState == LowDropOff) {
+                state.currentLiftDriveState = Manual;
             } else {
-                state.dropOffState = DropOffState.Start;
-            }
+                state.currentLiftDriveState = LiftDriveState.LowDropOff;
+                if (state.lastKnownLiftState == HighDropOff) {
+                    state.dropOffState = DropOffState.FirstExtension;
+                } else {
+                    state.dropOffState = DropOffState.Start;
+                }
 
-            state.currentLiftSlideState = LiftSlideState.Extending;
+                state.currentLiftSlideState = LiftSlideState.Extending;
+            }
         }
 
         if (b) {
             // high
-            state.currentLiftDriveState = LiftDriveState.HighDropOff;
-            if (state.lastKnownLiftState == LiftDriveState.LowDropOff  || state.lastKnownLiftState == LiftDriveState.HighDropOff) {
-                state.dropOffState = DropOffState.FirstExtension;
+            if (state.lastKnownLiftState == LiftDriveState.HighDropOff) {
+                state.currentLiftDriveState = Manual;
             } else {
-                state.dropOffState = DropOffState.Start;
-            }
+                state.currentLiftDriveState = LiftDriveState.HighDropOff;
+                if (state.lastKnownLiftState == LiftDriveState.LowDropOff) {
+                    state.dropOffState = DropOffState.FirstExtension;
+                } else {
+                    state.dropOffState = DropOffState.Start;
+                }
 
-            state.currentLiftSlideState = LiftSlideState.Extending;
+                state.currentLiftSlideState = LiftSlideState.Extending;
+            }
         }
 
         if (gm2y) {
@@ -360,14 +369,12 @@ public class Lift implements Subsystem, Action {
                 if (lowLiftDelay.hasExpired()) {
                     if (state.liftServoRange == LiftServoRange.Low) {
                         state.currentLiftServoState = LiftServoState.Low;
-                        state.currentTopMotorTargetPosition = config.liftLowDropOffPosition;
-                        state.currentBottomMotorTargetPosition = config.liftLowDropOffPosition;
                     } else {
                         state.currentLiftServoState = LiftServoState.Medium;
-                        state.currentTopMotorTargetPosition = config.liftLowDropOffPosition;
-                        state.currentBottomMotorTargetPosition = config.liftLowDropOffPosition;
                     }
 
+                    state.currentTopMotorTargetPosition = config.liftLowDropOffPosition;
+                    state.currentBottomMotorTargetPosition = config.liftLowDropOffPosition;
                     state.dropOffState = DropOffState.SecondExtension;
 
                     secondExtensionTimeout.reset();
@@ -376,14 +383,12 @@ public class Lift implements Subsystem, Action {
                 if (highLiftDelay.hasExpired()) {
                     if (state.liftServoRange == LiftServoRange.Low) {
                         state.currentLiftServoState = LiftServoState.Medium;
-                        state.currentTopMotorTargetPosition = config.liftLowDropOffPosition;
-                        state.currentBottomMotorTargetPosition = config.liftLowDropOffPosition;
                     } else {
                         state.currentLiftServoState = LiftServoState.High;
-                        state.currentTopMotorTargetPosition = config.liftHighDropOffPosition;
-                        state.currentBottomMotorTargetPosition = config.liftHighDropOffPosition;
                     }
 
+                    state.currentTopMotorTargetPosition = config.liftHighDropOffPosition;
+                    state.currentBottomMotorTargetPosition = config.liftHighDropOffPosition;
                     state.dropOffState = DropOffState.SecondExtension;
 
                     secondExtensionTimeout.reset();
@@ -492,6 +497,9 @@ public class Lift implements Subsystem, Action {
                     state.lastKnownLiftState = LiftDriveState.Pickup;
                 }
 
+                state.leftClawState = ClawState.Opened;
+                state.rightClawState = ClawState.Opened;
+                state.autoClawState = ClawState.Opened;
                 state.pickUpState = PickUpState.Finished;
                 state.currentLiftSlideState = LiftSlideState.Idle;
                 state.currentLiftDriveState = Manual;
