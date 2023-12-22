@@ -497,9 +497,6 @@ public class Lift implements Subsystem, Action {
                     state.lastKnownLiftState = LiftDriveState.Pickup;
                 }
 
-                state.leftClawState = ClawState.Opened;
-                state.rightClawState = ClawState.Opened;
-                state.autoClawState = ClawState.Opened;
                 state.pickUpState = PickUpState.Finished;
                 state.currentLiftSlideState = LiftSlideState.Idle;
                 state.currentLiftDriveState = Manual;

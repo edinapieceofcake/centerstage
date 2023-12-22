@@ -8,7 +8,7 @@ public class RobotConfiguration {
     public double droneLauncherLaunchedPosition = 0.1;
 
     // claw servo positions
-    public double clawLeftOpenPosition = 0.51;// 0.92;
+    public double clawLeftOpenPosition = 0.53;// 0.92;
     public double clawLeftClosedPosition = 0.73;//0.75;
     public double clawRightClosedPosition = 0.2;//0.25;
     public double clawRightOpenPosition = 0.36;//0.08;
