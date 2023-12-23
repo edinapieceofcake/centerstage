@@ -32,6 +32,8 @@ public class RobotHardware {
 
     public final DcMotorEx par0, par1, perp;
 
+    public final DcMotorEx lights;
+
     public final Servo par0Servo, par1Servo, perpServo;
 
     public final ServoImplEx leftClawServo, rightClawServo, twistClawServo, autoClawServo, angleClawServo;
@@ -153,6 +155,8 @@ public class RobotHardware {
 
         hangSwitch = hardwareMap.get(DigitalChannel.class, "hangSwitch");
         hangSwitch.setMode(DigitalChannel.Mode.INPUT);
+
+        lights = hardwareMap.get(DcMotorEx.class, "lights");
     }
 
     public void liftServosForTeleop() {

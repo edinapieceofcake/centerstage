@@ -133,6 +133,8 @@ public class BaseAutonomous extends LinearOpMode {
         state.rightClawState = ClawState.Closed;
         claw.update();
 
+        hardware.lights.setPower(1);
+
         while (!isStarted()) {
             pad1.update();
 
@@ -170,6 +172,8 @@ public class BaseAutonomous extends LinearOpMode {
 
             hardware.blinkinLedDriver.setPattern(pattern);
         }
+
+        hardware.lights.setPower(0);
 
         if (opModeIsActive()) {
             // Signal GREEN for successful run
