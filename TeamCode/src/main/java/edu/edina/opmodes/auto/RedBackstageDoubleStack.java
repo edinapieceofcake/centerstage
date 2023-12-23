@@ -16,7 +16,7 @@ public class RedBackstageDoubleStack extends RedBaseAutonomous {
 
     @Override
     protected Pose2d getStartPose() {
-        return new Pose2d(12.5, -64, Math.toRadians(90)));
+        return new Pose2d(12.5, -64, Math.toRadians(90));
     }
 
     @Override
