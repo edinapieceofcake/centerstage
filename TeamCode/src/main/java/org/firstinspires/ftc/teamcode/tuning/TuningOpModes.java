@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotHardware;
 
 public final class TuningOpModes {
@@ -60,6 +61,12 @@ public final class TuningOpModes {
                 RobotHardware hardware = new RobotHardware(hardwareMap);
 
                 hardware.dropServosForAutonomous();
+
+                hardware.leftClawServo.setPosition(RobotConfiguration.getInstance().clawLeftOpenPosition);
+                hardware.rightClawServo.setPosition(RobotConfiguration.getInstance().clawRightOpenPosition);
+                hardware.autoClawServo.setPosition(RobotConfiguration.getInstance().autoClawServoOpenPosition);
+                hardware.twistClawServo.setPosition(RobotConfiguration.getInstance().twistClawServoPickUpPosition);
+                hardware.angleClawServo.setPosition(RobotConfiguration.getInstance().angleClawDrivePosition);
 
                 List<Encoder> leftEncs = new ArrayList<>(), rightEncs = new ArrayList<>();
                 List<Encoder> parEncs = new ArrayList<>(), perpEncs = new ArrayList<>();
