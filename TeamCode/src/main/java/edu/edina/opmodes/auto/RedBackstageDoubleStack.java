@@ -49,8 +49,8 @@ public class RedBackstageDoubleStack extends RedBaseAutonomous {
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(new Vector2d(-12, -12), Math.toRadians(0)), Math.toRadians(0))
                 .setReversed(false)
-                .splineTo(new Vector2d(24, -12), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(48, -35, Math.toRadians(0)), Math.toRadians(0))
+                .splineTo(new Vector2d(48, -12), Math.toRadians(0))
+//                .splineToSplineHeading(new Pose2d(48, -35, Math.toRadians(0)), Math.toRadians(0))
                 .waitSeconds(0.5)
 
                 // Head to Stacks VIA A-Row
@@ -64,8 +64,8 @@ public class RedBackstageDoubleStack extends RedBaseAutonomous {
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(new Vector2d(-12, -12), Math.toRadians(0)), Math.toRadians(0))
                 .setReversed(false)
-                .splineTo(new Vector2d(24, -12), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(48, -35, Math.toRadians(0)), Math.toRadians(0))
+                .splineTo(new Vector2d(48, -12), Math.toRadians(0))
+  //              .splineToSplineHeading(new Pose2d(48, -35, Math.toRadians(0)), Math.toRadians(0))
                 .waitSeconds(0.5)
 
                 // Park
