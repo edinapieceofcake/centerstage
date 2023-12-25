@@ -10,10 +10,15 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.RobotState;
 
 public class RobotHanger implements Subsystem {
-    private Robot robot;
+    private RobotHardware hardware;
+    private boolean started = false;
+
+    public RobotHanger(RobotHardware hardware) {
+        this.hardware = hardware;
+    }
 
     public RobotHanger(Robot robot) {
-        this.robot = robot;
+        this.hardware = robot.RobotHardware;
     }
 
     @Override
@@ -23,16 +28,16 @@ public class RobotHanger implements Subsystem {
 
     @Override
     public void start() {
-        robot.RobotHardware.homeHangMotorAsync();
+        hardware.homeHangMotorAsync();
+        started = true;
     }
 
     @Override
     public void update() {
         RobotState state = RobotState.getInstance();
         RobotConfiguration config = RobotConfiguration.getInstance();
-        RobotHardware hardware = robot.RobotHardware;
 
-        if (robot.Started) {
+        if (started) {
             state.currentHangerPosition = hardware.robotHangerMotor.getCurrentPosition();
 
             if (!hardware.hangMotorHoming) {
@@ -77,7 +82,6 @@ public class RobotHanger implements Subsystem {
     public void setProperties(boolean toggleExtend, boolean toggleRetract,
                               boolean hangServo, boolean latchServo, boolean resetLift) {
         RobotState state = RobotState.getInstance();
-        RobotHardware hardware = robot.RobotHardware;
 
         if (toggleExtend) {
             state.hangerState = HangerState.Extending;

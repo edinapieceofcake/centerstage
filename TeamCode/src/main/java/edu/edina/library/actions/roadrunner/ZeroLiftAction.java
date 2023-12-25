@@ -31,13 +31,15 @@ public class ZeroLiftAction implements Action {
             zeroSwitchTimeout.reset();
         } else {
             if (hardware.topLiftMotor.getCurrentPosition() > -50) {
-                // cur the power as we get closer
+                // cut the power as we get closer
                 hardware.topLiftMotor.setPower(.3);
                 hardware.bottomLiftMotor.setPower(.3);
             }
 
             if (!hardware.liftSwitch.getState() || zeroSwitchTimeout.hasExpired()) {
                 // hit zero switch or timed out
+                hardware.topLiftMotor.setPower(0);
+                hardware.bottomLiftMotor.setPower(0);
                 return false;
             }
         }
