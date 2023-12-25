@@ -104,7 +104,9 @@ public class TestActions extends LinearOpMode  {
 
             if (pad1.dpad_up) {
                 Actions.runBlocking(new SequentialAction(
-                        manager.getDropPixelAction()
+                        manager.getCloseRightClawAction(),
+                        manager.getDropPixelAction(),
+                        manager.getOpenRightClawAction()
                 ));
             }
 
