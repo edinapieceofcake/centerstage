@@ -10,14 +10,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.checkerframework.checker.units.qual.A;
 
 import edu.edina.library.actions.roadrunner.ActionManager;
-import edu.edina.library.actions.roadrunner.AngleClawAction;
-import edu.edina.library.actions.roadrunner.AutoClawAction;
 import edu.edina.library.actions.roadrunner.DropOffPixelAction;
-import edu.edina.library.actions.roadrunner.LeftClawAction;
 import edu.edina.library.actions.roadrunner.RetractLiftAction;
-import edu.edina.library.actions.roadrunner.RightClawAction;
 import edu.edina.library.actions.roadrunner.RunLiftToPositionAction;
-import edu.edina.library.actions.roadrunner.TwistClawAction;
 import edu.edina.library.actions.roadrunner.ZeroLiftAction;
 import edu.edina.library.enums.AngleClawState;
 import edu.edina.library.enums.ClawState;
@@ -62,22 +57,16 @@ public class TestActions extends LinearOpMode  {
 
             if (pad1.y) {
                 Actions.runBlocking(new SequentialAction(
-                        new ParallelAction(manager.getOpenLeftClawAction(), manager.getOpenAutoClawAction()),
+                        new ParallelAction(manager.getOpenLeftClawAction()), // add in auto claw
                         new SleepAction(2),
-                        new ParallelAction(manager.getCloseLeftClawAction(), manager.getCloseAutoClawAction()),
+                        new ParallelAction(manager.getCloseLeftClawAction()),  // add in auto claw
                         new SleepAction(2),
-                        new ParallelAction(manager.getOpenLeftClawAction(), manager.getOpenAutoClawAction())
+                        new ParallelAction(manager.getOpenLeftClawAction())  // add in auto claw
                         ));
             }
 
             if (pad1.a) {
-                Actions.runBlocking(new SequentialAction(
-                        manager.getOpenRightClawAction(),
-                        new SleepAction(2),
-                        manager.getCloseRightClawAction(),
-                        new SleepAction(2),
-                        manager.getOpenRightClawAction()
-                ));
+                // add right claw
             }
 
             if (pad1.b) {
@@ -106,7 +95,10 @@ public class TestActions extends LinearOpMode  {
                 Actions.runBlocking(new SequentialAction(
                         manager.getCloseRightClawAction(),
                         manager.getDropPixelAction(),
-                        manager.getOpenRightClawAction()
+                        new SleepAction(.2),
+                        manager.getOpenRightClawAction(),
+                        new SleepAction(.5),
+                        manager.getRetractLiftAction()
                 ));
             }
 

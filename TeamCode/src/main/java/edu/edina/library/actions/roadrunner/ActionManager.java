@@ -44,22 +44,6 @@ public class ActionManager {
         return new LeftClawAction(claw, ClawState.Closed);
     }
 
-    public Action getOpenRightClawAction() {
-        return new RightClawAction(claw, ClawState.Opened);
-    }
-
-    public Action getCloseRightClawAction() {
-        return new RightClawAction(claw, ClawState.Closed);
-    }
-
-    public Action getOpenAutoClawAction() {
-        return new AutoClawAction(claw, ClawState.Opened);
-    }
-
-    public Action getCloseAutoClawAction() {
-        return new AutoClawAction(claw, ClawState.Closed);
-    }
-
     public Action getDriveAngleClawAction() {
         return new AngleClawAction(claw, AngleClawState.Drive);
     }
