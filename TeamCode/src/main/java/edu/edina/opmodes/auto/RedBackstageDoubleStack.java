@@ -3,7 +3,6 @@ package edu.edina.opmodes.auto;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -13,13 +12,11 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 import edu.edina.library.actions.roadrunner.ActionManager;
 import edu.edina.library.enums.Alliance;
-import edu.edina.library.enums.ClawState;
 import edu.edina.library.enums.ParkLocation;
 import edu.edina.library.enums.PropLocation;
 import edu.edina.library.util.PoCHuskyLens;
 import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotHardware;
-import edu.edina.library.util.RobotState;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
@@ -86,8 +83,8 @@ public class RedBackstageDoubleStack extends LinearOpMode {
         initHardware();
 
         Actions.runBlocking(new ParallelAction(
-                manager.getCloseRightClawAction(),
-                manager.getCloseLeftClawAction()
+                manager.closeRightClaw(),
+                manager.closeLeftClaw()
         ));
 
         hardware.lights.setPower(1);
@@ -151,7 +148,7 @@ public class RedBackstageDoubleStack extends LinearOpMode {
         Actions.runBlocking(new SequentialAction(
                 drive.actionBuilder(drive.pose)
                         .splineToSplineHeading(new Pose2d(12.5, -17, Math.toRadians(270)), Math.toRadians(90))
-                        .afterDisp(0, manager.getOpenLeftClawAction())
+                        .afterDisp(0, manager.openLeftClaw())
 
                 // Head to Backboard
                 .setReversed(true)

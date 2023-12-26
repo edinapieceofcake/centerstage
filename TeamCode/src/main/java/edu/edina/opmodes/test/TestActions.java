@@ -7,16 +7,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.checkerframework.checker.units.qual.A;
-
 import edu.edina.library.actions.roadrunner.ActionManager;
-import edu.edina.library.actions.roadrunner.DropOffPixelAction;
-import edu.edina.library.actions.roadrunner.RetractLiftAction;
-import edu.edina.library.actions.roadrunner.RunLiftToPositionAction;
-import edu.edina.library.actions.roadrunner.ZeroLiftAction;
-import edu.edina.library.enums.AngleClawState;
-import edu.edina.library.enums.ClawState;
-import edu.edina.library.enums.TwistServoState;
 import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.RobotState;
 import edu.edina.library.util.SmartGamepad;
@@ -47,21 +38,21 @@ public class TestActions extends LinearOpMode  {
 
             if (pad1.x) {
                 Actions.runBlocking(new SequentialAction(
-                        manager.getDriveAngleClawAction(),
+                        manager.positionTheClawToDriveWithPixels(),
                         new SleepAction(2),
-                        manager.getPickupAngleClawAction(),
+                        manager.positionTheClawToPickupPixels(),
                         new SleepAction(2),
-                        manager.getDriveAngleClawAction()
+                        manager.positionTheClawToDriveWithPixels()
                 ));
             }
 
             if (pad1.y) {
                 Actions.runBlocking(new SequentialAction(
-                        new ParallelAction(manager.getOpenLeftClawAction()), // add in auto claw
+                        new ParallelAction(manager.openLeftClaw()), // add in auto claw
                         new SleepAction(2),
-                        new ParallelAction(manager.getCloseLeftClawAction()),  // add in auto claw
+                        new ParallelAction(manager.closeLeftClaw()),  // add in auto claw
                         new SleepAction(2),
-                        new ParallelAction(manager.getOpenLeftClawAction())  // add in auto claw
+                        new ParallelAction(manager.openLeftClaw())  // add in auto claw
                         ));
             }
 
@@ -71,40 +62,40 @@ public class TestActions extends LinearOpMode  {
 
             if (pad1.b) {
                 Actions.runBlocking(new SequentialAction(
-                        manager.getPickupTwistClawAction(),
+                        manager.twistClawForPickup(),
                         new SleepAction(2),
-                        manager.getDropOffTwistClawAction(),
+                        manager.twistClawForDropOff(),
                         new SleepAction(2),
-                        manager.getPickupTwistClawAction()
+                        manager.twistClawForPickup()
                 ));
             }
 
             if (pad1.left_bumper) {
                 Actions.runBlocking(new SequentialAction(
-                manager.getRunLiftToPositionAction(-600)
+                manager.runLiftToPosition(-600)
                 ));
             }
 
             if (pad1.right_bumper) {
                 Actions.runBlocking(new SequentialAction(
-                        manager.getZeroLiftAction()
+                        manager.zeroLift()
                 ));
             }
 
             if (pad1.dpad_up) {
                 Actions.runBlocking(new SequentialAction(
-                        manager.getCloseRightClawAction(),
-                        manager.getDropPixelAction(),
+                        manager.closeRightClaw(),
+                        manager.getLiftReadyToDropThePixelOnTheWall(),
                         new SleepAction(.2),
-                        manager.getOpenRightClawAction(),
+                        manager.openRightClaw(),
                         new SleepAction(.5),
-                        manager.getRetractLiftAction()
+                        manager.getLiftReadyToDrive()
                 ));
             }
 
             if (pad1.dpad_down) {
                 Actions.runBlocking(new SequentialAction(
-                        manager.getRetractLiftAction()
+                        manager.getLiftReadyToDrive()
                 ));
             }
 

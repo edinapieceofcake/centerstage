@@ -8,7 +8,6 @@ import edu.edina.library.enums.TwistServoState;
 import edu.edina.library.subsystems.Claw;
 import edu.edina.library.subsystems.Lift;
 import edu.edina.library.subsystems.RobotHanger;
-import edu.edina.library.util.Robot;
 import edu.edina.library.util.RobotHardware;
 
 public class ActionManager {
@@ -36,43 +35,59 @@ public class ActionManager {
         robotHanger.start();
     }
 
-    public Action getOpenLeftClawAction() {
+    public Action openLeftClaw() {
         return new LeftClawAction(claw, ClawState.Opened);
     }
 
-    public Action getCloseLeftClawAction() {
+    public Action closeLeftClaw() {
         return new LeftClawAction(claw, ClawState.Closed);
     }
 
-    public Action getDriveAngleClawAction() {
+    public Action openRightClaw() {
+        return new RightClawAction(claw, ClawState.Opened);
+    }
+
+    public Action closeRightClaw() {
+        return null; // replace with the right action
+    }
+
+    public Action openAutoClaw() {
+        return null; // replace with the right action
+    }
+
+    public Action closeAutoClaw() {
+        return null; // replace with the right action
+    }
+
+    public Action positionTheClawToDriveWithPixels() {
         return new AngleClawAction(claw, AngleClawState.Drive);
     }
 
-    public Action getPickupAngleClawAction() {
+    public Action positionTheClawToPickupPixels() {
         return new AngleClawAction(claw, AngleClawState.Pickup);
     }
 
-    public Action getPickupTwistClawAction() {
+    public Action twistClawForPickup() {
         return new TwistClawAction(claw, TwistServoState.Pickup);
     }
 
-    public Action getDropOffTwistClawAction() {
+    public Action twistClawForDropOff() {
         return new TwistClawAction(claw, TwistServoState.DropOff);
     }
 
-    public Action getRunLiftToPositionAction(int liftPosition) {
+    public Action runLiftToPosition(int liftPosition) {
         return new RunLiftToPositionAction(hardware, liftPosition);
     }
 
-    public Action getZeroLiftAction() {
+    public Action zeroLift() {
         return new ZeroLiftAction(hardware);
     }
 
-    public Action getDropPixelAction() {
+    public Action getLiftReadyToDropThePixelOnTheWall() {
         return new DropOffPixelAction(claw, lift, robotHanger);
     }
 
-    public Action getRetractLiftAction() {
+    public Action getLiftReadyToDrive() {
         return new RetractLiftAction(claw, lift, robotHanger);
     }
 }
