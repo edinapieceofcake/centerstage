@@ -13,10 +13,12 @@ public class AutoClawAction extends ClawAction {
 
     public AutoClawAction(Claw claw, ClawState clawState) {
         super(claw);
+        this.clawState = clawState;
     }
 
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+        RobotState.getInstance().autoClawState = clawState;
         return super.run(telemetryPacket);
     }
 }

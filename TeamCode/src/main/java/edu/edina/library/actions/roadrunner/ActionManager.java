@@ -52,11 +52,11 @@ public class ActionManager {
     }
 
     public Action openAutoClaw() {
-        return null; // replace with the right action
+        return new AutoClawAction(claw, ClawState.Opened); // replace with the right action
     }
 
     public Action closeAutoClaw() {
-        return null; // replace with the right action
+        return new AutoClawAction(claw, ClawState.Closed) ; // replace with the right action
     }
 
     public Action positionTheClawToDriveWithPixels() {
