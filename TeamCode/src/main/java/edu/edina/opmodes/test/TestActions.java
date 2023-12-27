@@ -53,14 +53,24 @@ public class TestActions extends LinearOpMode  {
                                 manager.openAutoClaw()
                         ), // add in auto claw
                         new SleepAction(2),
-                        new ParallelAction(manager.closeLeftClaw()),  // add in auto claw
+                        new ParallelAction(
+                                manager.closeLeftClaw(),
+                                manager.closeAutoClaw()),
                         new SleepAction(2),
-                        new ParallelAction(manager.openLeftClaw())  // add in auto claw
+                        new ParallelAction(
+                                manager.openLeftClaw(),
+                                manager.openAutoClaw())
                         ));
             }
 
             if (pad1.a) {
-                // add right claw
+                Actions.runBlocking(new SequentialAction(
+                                manager.openRightClaw(),
+                        new SleepAction(2),
+                                manager.closeRightClaw(),
+                        new SleepAction(2),
+                                manager.openRightClaw()
+                ));
             }
 
             if (pad1.b) {
@@ -102,7 +112,7 @@ public class TestActions extends LinearOpMode  {
                 ));
             }
 
-            telemetry.addData("Press left bumper to run lift to -200", "");
+            telemetry.addData("Press left bumper to run lift to -600", "");
             telemetry.addData("Press right bumper to run lift home", "");
             telemetry.addData("Press x to lift and lower angle claw", "");
             telemetry.addData("Press y to open and close the left claw", "");
@@ -110,7 +120,9 @@ public class TestActions extends LinearOpMode  {
             telemetry.addData("Press b to twist and return twist claw. Make sure lift is out!!!", "");
             telemetry.addData("Dpad up to extend and get lift ready to drop", "");
             telemetry.addData("Dpad down to retract lift and get ready to drive", "");
-            state.telemetry(telemetry, hardware);
+            telemetry.addData("Dpad left to raise the lift a bit", "");
+            telemetry.addData("Dpad right to lower the lift a bit", "");
+            telemetry.addData("Top Motor Lift Position", hardware.topLiftMotor.getCurrentPosition());
             telemetry.update();
         }
     }

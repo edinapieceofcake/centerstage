@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.Action;
 
 import edu.edina.library.enums.AngleClawState;
 import edu.edina.library.enums.ClawState;
+import edu.edina.library.enums.LiftServoState;
 import edu.edina.library.enums.TwistServoState;
 import edu.edina.library.subsystems.Claw;
 import edu.edina.library.subsystems.Lift;
@@ -52,11 +53,11 @@ public class ActionManager {
     }
 
     public Action openAutoClaw() {
-        return new AutoClawAction(claw, ClawState.Opened); // replace with the right action
+        return new AutoClawAction(claw, ClawState.Opened);
     }
 
     public Action closeAutoClaw() {
-        return new AutoClawAction(claw, ClawState.Closed) ; // replace with the right action
+        return new AutoClawAction(claw, ClawState.Closed);
     }
 
     public Action positionTheClawToDriveWithPixels() {
@@ -89,5 +90,13 @@ public class ActionManager {
 
     public Action getLiftReadyToDrive() {
         return new RetractLiftAction(claw, lift, robotHanger);
+    }
+
+    public Action raiseLiftAfterStackPickup() {
+        return new LiftServoAction(hardware, LiftServoState.StackPickup);
+    }
+
+    public Action lowerLiftForDriving() {
+        return new LiftServoAction(hardware, LiftServoState.Start);
     }
 }

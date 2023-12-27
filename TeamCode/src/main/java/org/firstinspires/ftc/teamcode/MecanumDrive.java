@@ -126,7 +126,7 @@ public final class MecanumDrive {
     private final DownsampledWriter targetPoseWriter = new DownsampledWriter("TARGET_POSE", 50_000_000);
     private final DownsampledWriter driveCommandWriter = new DownsampledWriter("DRIVE_COMMAND", 50_000_000);
     private final DownsampledWriter mecanumCommandWriter = new DownsampledWriter("MECANUM_COMMAND", 50_000_000);
-
+    
     public class DriveLocalizer implements Localizer {
         public final Encoder leftFront, leftBack, rightBack, rightFront;
 
@@ -214,8 +214,8 @@ public final class MecanumDrive {
 
         this.voltageSensor = voltageSensor;
 
-//        localizer = new TwoDeadWheelLocalizer(par0, perp, imu, PARAMS.inPerTick);
-        localizer = new ThreeDeadWheelLocalizer(par0, par1, perp, PARAMS.inPerTick);
+        localizer = new TwoDeadWheelLocalizer(par0, perp, imu, PARAMS.inPerTick);
+//        localizer = new ThreeDeadWheelLocalizer(par0, par1, perp, PARAMS.inPerTick);
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
@@ -250,7 +250,8 @@ public final class MecanumDrive {
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
 //        localizer = new DriveLocalizer();
-        localizer = new ThreeDeadWheelLocalizer(hardwareMap, PARAMS.inPerTick);
+        localizer = new TwoDeadWheelLocalizer(hardwareMap, imu, PARAMS.inPerTick);
+//        localizer = new ThreeDeadWheelLocalizer(hardwareMap, PARAMS.inPerTick);
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }

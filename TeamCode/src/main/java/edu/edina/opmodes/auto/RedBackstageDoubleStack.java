@@ -3,6 +3,8 @@ package edu.edina.opmodes.auto;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -35,7 +37,7 @@ public class RedBackstageDoubleStack extends LinearOpMode {
         drive = new org.firstinspires.ftc.teamcode.MecanumDrive(hardware.leftFront,
                 hardware.leftBack, hardware.rightBack, hardware.rightFront,
                 hardware.par0, hardware.par1, hardware.perp,
-                hardware.imu, hardware.voltageSensor, getStartPose());
+                hardware.externalImu, hardware.voltageSensor, getStartPose());
 
         // uncomment this and comment out the above if it doesn't work right
         //drive = new MecanumDrive(hardwareMap, startPose);
@@ -52,7 +54,6 @@ public class RedBackstageDoubleStack extends LinearOpMode {
 
         hardware.dropServosForAutonomous();
         hardware.droneLaunchServo.setPosition(RobotConfiguration.getInstance().droneLauncherArmedPosition);
-        hardware.homeHangMotor(telemetry);
 
         manager.init();
         manager.start();
@@ -139,34 +140,89 @@ public class RedBackstageDoubleStack extends LinearOpMode {
 
             runPaths(parkLocation);
 
+            while (opModeIsActive()) {
+                telemetry.addData("Mode executed", "");
+                telemetry.update();
+                idle();
+            }
+
             pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_WHITE;
             hardware.blinkinLedDriver.setPattern(pattern);
         }
     }
 
     protected void runPaths(ParkLocation parkLocation) {
-        Actions.runBlocking(new SequentialAction(
-                drive.actionBuilder(drive.pose)
-                        .splineToSplineHeading(new Pose2d(12.5, -17, Math.toRadians(270)), Math.toRadians(90))
-                        .afterDisp(0, manager.openLeftClaw())
+        Actions.runBlocking(
+                new ParallelAction(
+                    new SequentialAction(
+                            new SleepAction(2.5),
+                            manager.openLeftClaw() // drop first pixel
+                        ),
+                    drive.actionBuilder(drive.pose)
+                            .splineToSplineHeading(new Pose2d(12.5, -17, Math.toRadians(270)), Math.toRadians(90))
+                             // Head to Backboard
+                            .setReversed(true)
+                            .splineToSplineHeading(new Pose2d(48, -35, Math.toRadians(0)), Math.toRadians(0))
+                            .build()
+               )
+        );
 
-                // Head to Backboard
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(48, -35, Math.toRadians(0)), Math.toRadians(0))
-                .waitSeconds(0.5)
-/*
+        // drop pixel on wall
+//        Actions.runBlocking(
+//                new SequentialAction(
+//                    new ParallelAction(
+//                            drive.actionBuilder(drive.pose)
+//                                    .lineToY(-50)
+//                                    .build(),
+//                            manager.getLiftReadyToDropThePixelOnTheWall()),
+//                    new SleepAction(.5),
+//                    manager.openLeftClaw() // add in auto claw
+//                )
+//        );
+//
+//        Actions.runBlocking(
+//                new ParallelAction(
+//                        drive.actionBuilder(drive.pose)
+//                                .lineToY(-64)
+//                                .build(),
+//                        manager.getLiftReadyToDrive())
+//        );
+
+        // drive to stack
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
                 // Head to Stacks VIA A-Row
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(12, -12, Math.toRadians(-180)), Math.toRadians(180))
                 .setReversed(false)
                 .splineTo(new Vector2d(-58, -12), Math.toRadians(180))
-                .waitSeconds(0.5)
+                .build());
 
-                // Return to Backboard
+        Actions.runBlocking(
+                new SequentialAction(
+                    new ParallelAction(
+                            manager.positionTheClawToPickupPixels(),
+                            manager.runLiftToPosition(-200)
+                    ),
+                    new ParallelAction(
+                            manager.closeAutoClaw(),
+                            manager.closeLeftClaw()
+                    ),
+                    new ParallelAction(
+                        manager.positionTheClawToDriveWithPixels(),
+                        manager.zeroLift()
+                    )
+                )
+        );
+
+        // Return to Backboard
+        Actions.runBlocking(drive.actionBuilder(drive.pose)
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(new Vector2d(-12, -12), Math.toRadians(0)), Math.toRadians(0))
                 .setReversed(false)
                 .splineTo(new Vector2d(48, -12), Math.toRadians(0))
+                .build());
+        /*
 //                .splineToSplineHeading(new Pose2d(48, -35, Math.toRadians(0)), Math.toRadians(0))
                 .waitSeconds(0.5)
 
@@ -188,6 +244,6 @@ public class RedBackstageDoubleStack extends LinearOpMode {
                 // Park
                 //.setReversed(true)
                 //.splineTo(new Vector2d(53, -60), Math.toRadians(0))
-                .build()));
+//                .build()));
     }
 }

@@ -721,7 +721,8 @@ public class MeepMeepTesting {
                 .build();
 
         backstageCRowMTCenter.runAction(backstageCRowMTCenter.getDrive().actionBuilder(new Pose2d(12.5, -64, Math.toRadians(90)))
-                .splineToSplineHeading(new Pose2d(12.5, -17, Math.toRadians(270)), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(12.5, -20, Math.toRadians(270)), Math.toRadians(90))
+                        .lineToY(-17)
                 .waitSeconds(0.5)
 
                 // Head to Backboard
