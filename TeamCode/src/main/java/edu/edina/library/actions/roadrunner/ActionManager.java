@@ -48,7 +48,7 @@ public class ActionManager {
     }
 
     public Action closeRightClaw() {
-        return null; // replace with the right action
+        return new RightClawAction(claw, ClawState.Closed);
     }
 
     public Action openAutoClaw() {

@@ -48,7 +48,10 @@ public class TestActions extends LinearOpMode  {
 
             if (pad1.y) {
                 Actions.runBlocking(new SequentialAction(
-                        new ParallelAction(manager.openLeftClaw()), // add in auto claw
+                        new ParallelAction(
+                                manager.openLeftClaw(),
+                                manager.openAutoClaw()
+                        ), // add in auto claw
                         new SleepAction(2),
                         new ParallelAction(manager.closeLeftClaw()),  // add in auto claw
                         new SleepAction(2),
