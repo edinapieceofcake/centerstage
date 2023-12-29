@@ -154,23 +154,61 @@ public class RedBackstageDoubleStack extends LinearOpMode {
 
     protected void runPaths(ParkLocation parkLocation) {
 
-        // Drive to pixel drop
+        // Comment out when actually using camera!!
+        propLocation = PropLocation.Center;
+        Vector2d propDropLocation;
+        Pose2d backdropDropLocation;
+
+        // drop off purple pixel
+        switch(propLocation) {
+            case Left:
+                propDropLocation = new Vector2d(4, -32);
+                break;
+            case Center:
+                propDropLocation = new Vector2d(16.5, -35.5);
+                break;
+            case Right:
+                propDropLocation = new Vector2d(26, -32);
+                break;
+            default:
+                propDropLocation = new Vector2d(16.5, -35.5);  // default to Center if all goes bad
+                break;
+        }
+
+        // Execute drive to prop drop spot and drop
         Actions.runBlocking(
                 new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(19.5, -35.5), Math.toRadians(90))
+                                .splineTo(propDropLocation, Math.toRadians(90))
                                 .build(),
                         manager.openLeftClaw()
                 )
         );
 
+        // Determine location for yellow pixel
+        switch (propLocation) {
+            case Left:
+                backdropDropLocation = new Pose2d(48,-32, Math.toRadians(0));
+                break;
+            case Center:
+                backdropDropLocation = new Pose2d(48,-38, Math.toRadians(0));
+                break;
+            case Right:
+                backdropDropLocation = new Pose2d(48,-44, Math.toRadians(0));
+                break;
+            default:
+                backdropDropLocation = new Pose2d(48,-38, Math.toRadians(0)); // default to center if all goes bad
+                break;
+        }
+
         // Drive to backdrop
-        Actions.runBlocking(new SequentialAction(
-                drive.actionBuilder(drive.pose)
-                        .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(48,-33, Math.toRadians(0)), Math.toRadians(0))
-                        .waitSeconds(0.5)
-                        .build())
+        Actions.runBlocking(
+                new SequentialAction(
+                        drive.actionBuilder(drive.pose)
+                                .setReversed(true)
+                                .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
+                                .build()
+                )
         );
 
         // drop pixel on wall
