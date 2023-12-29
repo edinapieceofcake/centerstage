@@ -68,6 +68,10 @@ public class ActionManager {
         return new AngleClawAction(claw, AngleClawState.Pickup);
     }
 
+    public Action positionTheClawToDropPixels() {
+        return new AngleClawAction(claw, AngleClawState.DropOff);
+    }
+
     public Action twistClawForPickup() {
         return new TwistClawAction(claw, TwistServoState.Pickup);
     }

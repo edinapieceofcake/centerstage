@@ -158,7 +158,7 @@ public class RedBackstageDoubleStack extends LinearOpMode {
         Actions.runBlocking(
                 new SequentialAction(
                         drive.actionBuilder(drive.pose)
-                                .splineTo(new Vector2d(19.5, -35), Math.toRadians(90))
+                                .splineTo(new Vector2d(19.5, -35.5), Math.toRadians(90))
                                 .build(),
                         manager.openLeftClaw()
                 )
@@ -168,7 +168,7 @@ public class RedBackstageDoubleStack extends LinearOpMode {
         Actions.runBlocking(new SequentialAction(
                 drive.actionBuilder(drive.pose)
                         .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(48,-35, Math.toRadians(0)), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(48,-33, Math.toRadians(0)), Math.toRadians(0))
                         .waitSeconds(0.5)
                         .build())
         );
@@ -178,19 +178,25 @@ public class RedBackstageDoubleStack extends LinearOpMode {
                 new SequentialAction(
                     manager.getLiftReadyToDropThePixelOnTheWall(),
                     drive.actionBuilder(drive.pose)
-                            .lineToX(58.5)
+                            .lineToX(59.5)
                             .build(),
-                   // new SleepAction(.5),
-                    manager.openRightClaw()// add in auto claw
+                    manager.positionTheClawToDropPixels(),
+                    manager.openRightClaw(), // add in auto claw
+                    new SleepAction(.5)
             )
         );
 
+        // back away and pack up
         Actions.runBlocking(
-                new ParallelAction(
+                new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .lineToX(52)
                                 .build(),
-                        manager.getLiftReadyToDrive())
+                        new ParallelAction(
+                            manager.positionTheClawToDriveWithPixels(),
+                            manager.getLiftReadyToDrive()
+                        )
+                )
         );
 
         // drive to stack
@@ -200,7 +206,7 @@ public class RedBackstageDoubleStack extends LinearOpMode {
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(20, -12, Math.toRadians(-180)), Math.toRadians(180))
                 .setReversed(false)
-                .splineTo(new Vector2d(-50, -9.5), Math.toRadians(180))
+                .splineTo(new Vector2d(-51, -11), Math.toRadians(180))
                 .build());
 
         // Extend and pick up two pixels
@@ -233,9 +239,11 @@ public class RedBackstageDoubleStack extends LinearOpMode {
                             //.setReversed(true)
                             .splineToSplineHeading(new Pose2d(-12, -12, Math.toRadians(0)), Math.toRadians(0))
                             .setReversed(false)
-                            .splineTo(new Vector2d(40,-12), Math.toRadians(0))
+                            .splineTo(new Vector2d(40, -12), Math.toRadians(0))
+                            .splineTo(new Vector2d(64,-14), Math.toRadians(0))
                             .build());
 
+        // drop pixels backstage
         Actions.runBlocking(
                 new SequentialAction(
                     //manager.runLiftToPosition(-900),
@@ -246,6 +254,69 @@ public class RedBackstageDoubleStack extends LinearOpMode {
                    // ),
                     //manager.zeroLift(),
                     //manager.positionTheClawToDriveWithPixels()
+                )
+        );
+
+        // drive to stack
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        // Head to Stacks VIA A-Row
+                        .lineToX(60)
+                        .setReversed(true)
+                        .splineToSplineHeading(new Pose2d(24, -16, Math.toRadians(-180)), Math.toRadians(-180))
+                        .setReversed(false)
+                        .splineTo(new Vector2d(-50, -11.5), Math.toRadians(180))
+                        .build());
+
+        // Extend and pick up two pixels
+        Actions.runBlocking(
+                new SequentialAction(
+                        new ParallelAction(
+                                //manager.runLiftToPosition(-70),
+                                manager.positionTheClawToPickupPixels()
+                        ),
+                        drive.actionBuilder(drive.pose)
+                                .lineToX(-54)
+                                .build(),
+                        new ParallelAction(
+                                manager.closeAutoClaw(),
+                                manager.closeLeftClaw()
+                        )
+                        //manager.raiseLiftAfterStackPickup()
+                )
+        );
+
+
+        // drive to backstage
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        // Head to Stacks VIA A-Row
+                        //                  .setReversed(true)
+                        .lineToX(-48)
+                        .afterDisp(0,
+                                new ParallelAction(
+                                        manager.lowerLiftForDriving(),
+                                        manager.zeroLift(),
+                                        manager.positionTheClawToDriveWithPixels()
+                                ))
+                        //.setReversed(true)
+                        .splineToSplineHeading(new Pose2d(-12, -12, Math.toRadians(0)), Math.toRadians(0))
+                        .setReversed(false)
+                        .splineTo(new Vector2d(40, -12), Math.toRadians(0))
+                        .splineTo(new Vector2d(64,-12), Math.toRadians(-45))
+                        .build());
+
+        // drop pixels backstage
+        Actions.runBlocking(
+                new SequentialAction(
+                        //manager.runLiftToPosition(-900),
+                        //manager.positionTheClawToPickupPixels(),
+                        //new ParallelAction(
+                        manager.openAutoClaw(),
+                        manager.openLeftClaw()
+                        // ),
+                        //manager.zeroLift(),
+                        //manager.positionTheClawToDriveWithPixels()
                 )
         );
 
