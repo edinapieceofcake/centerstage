@@ -154,24 +154,41 @@ public class RedBackstageDoubleStack extends LinearOpMode {
 
     protected void runPaths(ParkLocation parkLocation) {
 
-        // Comment out when actually using camera!!
-        propLocation = PropLocation.Center;
         Vector2d propDropLocation;
         Pose2d backdropDropLocation;
 
-        // drop off purple pixel
+        // Comment out when actually using camera!!
+        propLocation = PropLocation.Left;
+
+        // Determine location for purple pixel
         switch(propLocation) {
             case Left:
-                propDropLocation = new Vector2d(4, -32);
+                propDropLocation = new Vector2d(10, -43);
                 break;
             case Center:
                 propDropLocation = new Vector2d(16.5, -35.5);
                 break;
             case Right:
-                propDropLocation = new Vector2d(26, -32);
+                propDropLocation = new Vector2d(31.5, -43);
                 break;
             default:
                 propDropLocation = new Vector2d(16.5, -35.5);  // default to Center if all goes bad
+                break;
+        }
+
+        // Determine location for yellow pixel
+        switch (propLocation) {
+            case Left:
+                backdropDropLocation = new Pose2d(48,-32, Math.toRadians(0));
+                break;
+            case Center:
+                backdropDropLocation = new Pose2d(48,-38, Math.toRadians(0));
+                break;
+            case Right:
+                backdropDropLocation = new Pose2d(48,-45, Math.toRadians(0));
+                break;
+            default:
+                backdropDropLocation = new Pose2d(48,-38, Math.toRadians(0)); // default to center if all goes bad
                 break;
         }
 
@@ -184,22 +201,6 @@ public class RedBackstageDoubleStack extends LinearOpMode {
                         manager.openLeftClaw()
                 )
         );
-
-        // Determine location for yellow pixel
-        switch (propLocation) {
-            case Left:
-                backdropDropLocation = new Pose2d(48,-32, Math.toRadians(0));
-                break;
-            case Center:
-                backdropDropLocation = new Pose2d(48,-38, Math.toRadians(0));
-                break;
-            case Right:
-                backdropDropLocation = new Pose2d(48,-44, Math.toRadians(0));
-                break;
-            default:
-                backdropDropLocation = new Pose2d(48,-38, Math.toRadians(0)); // default to center if all goes bad
-                break;
-        }
 
         // Drive to backdrop
         Actions.runBlocking(
@@ -312,11 +313,11 @@ public class RedBackstageDoubleStack extends LinearOpMode {
         Actions.runBlocking(
                 new SequentialAction(
                         new ParallelAction(
-                                manager.runLiftToPosition(-120),
+                                manager.runLiftToPosition(-100),
                                 manager.positionTheClawToPickupPixels()
                         ),
                         drive.actionBuilder(drive.pose)
-                                .lineToX(-53)
+                                .lineToX(-54)
                                 .build(),
                         new ParallelAction(
                                 manager.closeAutoClaw(),
