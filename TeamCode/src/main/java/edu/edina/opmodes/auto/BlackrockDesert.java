@@ -233,36 +233,30 @@ public class BlackrockDesert extends LinearOpMode {
         // drive to stack - 1st trip
         Actions.runBlocking(
                 drive.actionBuilder(drive.pose)
-                // Head to Stacks VIA A-Row
-                    .setReversed(true)
-                    .splineToSplineHeading(new Pose2d(20, -12, Math.toRadians(-180)), Math.toRadians(180))
-                    .setReversed(false)
-                    .splineTo(new Vector2d(-44, -11), Math.toRadians(180))
-                    .build());
-
-        // Extend, drive forward, and pick up two pixels.  Raise when done
-        Actions.runBlocking(
-                new SequentialAction(
-                        new ParallelAction(
-                                manager.runLiftToPosition(-160),
-                                manager.positionTheClawToPickupPixels()
-                        ),
-                        drive.actionBuilder(drive.pose)
-                                .lineToX(-51)
-                                .build(),
-                        new ParallelAction(
-                                manager.closeAutoClaw(),
-                                manager.closeLeftClaw()
-                        ),
-                        manager.raiseLiftAfterStackPickup()
-                )
-        );
+                        // Head to Stacks VIA A-Row
+                        .setReversed(true)
+                        .splineToSplineHeading(new Pose2d(20, -12, Math.toRadians(-180)), Math.toRadians(180))
+                        .setReversed(false)
+                        .splineTo(new Vector2d(-44, -11), Math.toRadians(180))
+                        .afterDisp(0,
+                                new ParallelAction(
+                                        manager.runLiftToPosition(-160),
+                                        manager.positionTheClawToPickupPixels()
+                                )
+                        )
+                        .lineToX(-51)
+                        .afterDisp(0,
+                                new ParallelAction(
+                                        manager.closeAutoClaw(),
+                                        manager.closeLeftClaw()
+                                )
+                        )
+                        .build());
 
         // drive to backstage - 1st trip
         Actions.runBlocking(
                     drive.actionBuilder(drive.pose)
-                            // Head to Stacks VIA A-Row
-          //                  .setReversed(true)
+                            // Head to Stacks VIA C-Row
                             .lineToX(-44)
                             .afterDisp(0,
                                     new ParallelAction(
