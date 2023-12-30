@@ -178,16 +178,16 @@ public class BlackrockDesert extends LinearOpMode {
         // Determine location for yellow pixel
         switch (propLocation) {
             case Left:
-                backdropDropLocation = new Pose2d(48,-32, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(58.25,-32, Math.toRadians(0));
                 break;
             case Center:
-                backdropDropLocation = new Pose2d(48,-38, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(58.25,-39, Math.toRadians(0));
                 break;
             case Right:
-                backdropDropLocation = new Pose2d(48,-45, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(58.25,-45, Math.toRadians(0));
                 break;
             default:
-                backdropDropLocation = new Pose2d(48,-38, Math.toRadians(0)); // default to center if all goes bad
+                backdropDropLocation = new Pose2d(58.25,-38, Math.toRadians(0)); // default to center if all goes bad
                 break;
         }
 
@@ -208,7 +208,6 @@ public class BlackrockDesert extends LinearOpMode {
                         drive.actionBuilder(drive.pose)
                                     .setReversed(true)
                                     .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
-                                    .lineToX(59.5)
                                     .build(),
                         new SequentialAction(
                                 manager.getLiftReadyToDropThePixelOnTheWall(),
@@ -225,9 +224,11 @@ public class BlackrockDesert extends LinearOpMode {
                         drive.actionBuilder(drive.pose)
                                 .lineToX(52)
                                 .build(),
+                        new SequentialAction(
                             manager.positionTheClawToDriveWithPixels(),
                             manager.getLiftReadyToDrive()
                         )
+                )
         );
 
         // drive to stack - 1st trip
@@ -235,7 +236,7 @@ public class BlackrockDesert extends LinearOpMode {
                 drive.actionBuilder(drive.pose)
                         // Head to Stacks VIA A-Row
                         .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(20, -12, Math.toRadians(-180)), Math.toRadians(180))
+                        .splineToSplineHeading(new Pose2d(20, -11.5, Math.toRadians(-180)), Math.toRadians(180))
                         .setReversed(false)
                         .splineTo(new Vector2d(-44, -11), Math.toRadians(180))
                         .afterDisp(0,
@@ -244,12 +245,14 @@ public class BlackrockDesert extends LinearOpMode {
                                         manager.positionTheClawToPickupPixels()
                                 )
                         )
-                        .lineToX(-51)
+                        .lineToX(-51.75)
                         .afterDisp(0,
-                                new ParallelAction(
-                                        manager.closeAutoClaw(),
-                                        manager.closeLeftClaw()
-                                )
+                                new SequentialAction(
+                                    new ParallelAction(
+                                           manager.closeAutoClaw(),
+                                           manager.closeLeftClaw()
+                                    ),
+                                    manager.raiseLiftAfterStackPickup())
                         )
                         .build());
 
@@ -292,7 +295,7 @@ public class BlackrockDesert extends LinearOpMode {
                         .setReversed(true)
                         .splineToSplineHeading(new Pose2d(24, -16, Math.toRadians(-180)), Math.toRadians(-180))
                         .setReversed(false)
-                        .splineTo(new Vector2d(-44, -11.5), Math.toRadians(180))
+                        .splineTo(new Vector2d(-44, -12), Math.toRadians(180))
                         .build());
 
         // Extend and pick up two pixels

@@ -39,7 +39,7 @@ public class DropOffPixelAction implements Action {
             state.currentLiftDriveState = LiftDriveState.LowDropOff;
             state.currentLiftSlideState = LiftSlideState.Extending;
             state.dropOffState = DropOffState.Start;
-            config.liftLowDropOffPosition = -600;
+            config.liftLowDropOffPosition = -500;
         }
 
         if (state.dropOffState != DropOffState.Finished) {
