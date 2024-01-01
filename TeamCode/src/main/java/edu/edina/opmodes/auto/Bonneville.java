@@ -22,7 +22,7 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
-public class BlackrockDesert extends LinearOpMode {
+public class Bonneville extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;
     protected MecanumDrive drive;
@@ -72,7 +72,7 @@ public class BlackrockDesert extends LinearOpMode {
     }
 
     protected Pose2d getStartPose() {
-        return new Pose2d(14.5, -64, Math.toRadians(90));
+        return new Pose2d(-42, -64, Math.toRadians(90));
     }
 
     @Override
@@ -155,201 +155,150 @@ public class BlackrockDesert extends LinearOpMode {
 
         Vector2d propDropLocation;
         Pose2d backdropDropLocation;
-        double propDropAngle = 90.0;
 
         // Comment out when actually using camera!!
-        propLocation = PropLocation.Left;
+        propLocation = PropLocation.Center;
 
         // Determine location for purple pixel
         switch(propLocation) {
             case Left:
-                propDropLocation = new Vector2d(15.5, -43);
-                propDropAngle = 135.0;
+                propDropLocation = new Vector2d(43, -39);
                 break;
             case Center:
-                propDropLocation = new Vector2d(16.5, -35.5);
+                propDropLocation = new Vector2d(-38, -35);
                 break;
             case Right:
-                propDropLocation = new Vector2d(31.5, -43);
+                propDropLocation = new Vector2d(-25, -39);
                 break;
             default:
-                propDropLocation = new Vector2d(16.5, -35.5);  // default to Center if all goes bad
+                propDropLocation = new Vector2d(-38, -33);  // default to Center if all goes bad
                 break;
         }
 
         // Determine location for yellow pixel
         switch (propLocation) {
             case Left:
-                backdropDropLocation = new Pose2d(48,-32, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(50.5,-32, Math.toRadians(0));
                 break;
             case Center:
-                backdropDropLocation = new Pose2d(48,-38, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(50.5,-38, Math.toRadians(0));
                 break;
             case Right:
-                backdropDropLocation = new Pose2d(48,-47, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(50.5,-45, Math.toRadians(0));
                 break;
             default:
-                backdropDropLocation = new Pose2d(48,-38, Math.toRadians(0)); // default to center if all goes bad
+                backdropDropLocation = new Pose2d(50.5,-38, Math.toRadians(0)); // default to center if all goes bad
                 break;
         }
 
-        switch (propLocation) {
-            case Right:
-                // Execute drive to prop drop spot and drop
-                Actions.runBlocking(
-                        new SequentialAction(
-                                drive.actionBuilder(drive.pose)
-                                        .lineToY(-50) // temporary add for right
-                                        .splineTo(propDropLocation, Math.toRadians(propDropAngle))
-                                        .build(),
-                                manager.openLeftClaw()
-                        )
-                );
-                break;
-            default:
-                // Execute drive to prop drop spot and drop
-                Actions.runBlocking(
-                        new SequentialAction(
-                                drive.actionBuilder(drive.pose)
-                                        .splineTo(propDropLocation, Math.toRadians(propDropAngle))
-                                        .build(),
-                                manager.openLeftClaw()
-                        )
-                );
-                break;
-        }
-
-        // Drive to backdrop
+        // Execute drive to prop drop spot and drop
         Actions.runBlocking(
                 new SequentialAction(
-                        new ParallelAction(
-                                drive.actionBuilder(drive.pose)
-                                        .setReversed(true)
-                                        .waitSeconds(.5)
-                                        .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
-                                        .lineToX(53.5)
-                                        .build(),
-                                new SequentialAction(
-                                        manager.getLiftReadyToDropThePixelOnTheWall()
-                                )
-                        ),
-                        manager.openRightClaw()
-                )
-        );
-
-        // back away and pack up
-        Actions.runBlocking(
-                new ParallelAction(
                         drive.actionBuilder(drive.pose)
-                                .lineToX(52)
+                                .splineTo(propDropLocation, Math.toRadians(90))
                                 .build(),
-                        manager.getLiftReadyToDrive()
-                )
-        );
-
-        // drive to stack - 1st trip
-        Actions.runBlocking(
-                drive.actionBuilder(drive.pose)
-                        // Head to Stacks VIA A-Row
-                        .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(20, -12, Math.toRadians(-180)), Math.toRadians(180))
-                        .setReversed(false)
-                        .splineTo(new Vector2d(-44, -11), Math.toRadians(180))
-                        .afterDisp(0, new ParallelAction(
-                                        manager.runLiftToPosition(-160),
-                                        manager.positionTheClawToPickupPixels()
-                                )
-                        )
-                        .lineToX(-51)
-                        .afterDisp(0, new SequentialAction(
-                                new ParallelAction(
-                                        manager.closeAutoClaw(),
-                                        manager.closeLeftClaw()
-                                ),
-                                manager.raiseLiftAfterStackPickup()
-                        ))
-                        .build());
-
-        // drive to backstage - 1st trip
-        Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
-                                .lineToX(-44)
-                                .afterDisp(0,
-                                        new ParallelAction(
-                                                manager.lowerLiftForDriving(),
-                                                manager.zeroLift(),
-                                                manager.positionTheClawToDriveWithPixels()
-                                        ))
-                                .splineToSplineHeading(new Pose2d(-12, -12, Math.toRadians(0)), Math.toRadians(0))
-                                .setReversed(false)
-                                .splineTo(new Vector2d(40, -12), Math.toRadians(0))
-                                .splineTo(new Vector2d(64,-14), Math.toRadians(0))
-                                .build(),
-                        manager.openAutoClaw(),
                         manager.openLeftClaw()
                 )
         );
 
-        // drive to stack - 2nd trip
+        // Drive to Stack Pick up 2nd white
         Actions.runBlocking(
-                drive.actionBuilder(drive.pose)
-                        // Head to Stacks VIA A-Row
-                        .lineToX(60)
-                        .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(24, -16, Math.toRadians(-180)), Math.toRadians(-180))
-                        .setReversed(false)
-                        .splineTo(new Vector2d(-44, -11.5), Math.toRadians(180))
-                        .build());
+                    drive.actionBuilder(drive.pose)
+                            // Head to Stacks
+                            .setReversed(true)
+                            .splineToSplineHeading(new Pose2d(-52, -36, Math.toRadians(180)), Math.toRadians(180))
+                            .build()
+        );
 
-        // Extend and pick up two pixels
         Actions.runBlocking(
                 new SequentialAction(
-                        new ParallelAction(
-                                manager.runLiftToPosition(-100),
-                                manager.positionTheClawToPickupPixels()
-                        ),
+                    new ParallelAction(
                         drive.actionBuilder(drive.pose)
-                                .lineToX(-54)
+                                // Head to Stacks
+                                .lineToX(-57)
                                 .build(),
-                        new ParallelAction(
-                                manager.closeAutoClaw(),
-                                manager.closeLeftClaw()
-                        ),
-                        manager.raiseLiftAfterStackPickup()
+                        manager.runLiftToPosition(-200),
+                        manager.positionTheClawToPickupPixels()
+                    ),
+                    manager.closeLeftClaw(),
+                    manager.raiseLiftAfterStackPickup()
                 )
         );
-/*
-        // drive to backstage - 2nd trip
+
+        // drive to backstage - 1st trip
         Actions.runBlocking(
                 drive.actionBuilder(drive.pose)
                         // Head to Stacks VIA A-Row
-                        //                  .setReversed(true)
-                        .lineToX(-44)
+                        .lineToX(-48)
                         .afterDisp(0,
                                 new ParallelAction(
                                         manager.lowerLiftForDriving(),
                                         manager.zeroLift(),
                                         manager.positionTheClawToDriveWithPixels()
                                 ))
-                        .splineToSplineHeading(new Pose2d(-12, -12, Math.toRadians(0)), Math.toRadians(0))
-                        .setReversed(false)
-                        .splineTo(new Vector2d(40, -12), Math.toRadians(0))
-                        .splineTo(new Vector2d(64,-12), Math.toRadians(-45))
+
+                        .setReversed(true)
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -58), Math.toRadians(0)), Math.toRadians(0))
+                        .splineTo(new Vector2d(24, -58), Math.toRadians(0))
                         .build());
 
-        // drop pixels backstage - 2nd drop
+
+        // Drive to backdrop
         Actions.runBlocking(
                 new SequentialAction(
-                        //manager.runLiftToPosition(-900),
-                        //manager.positionTheClawToPickupPixels(),
-                        //new ParallelAction(
-                        manager.openAutoClaw(),
+                        new ParallelAction(
+                                drive.actionBuilder(drive.pose)
+                                        .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
+                                        .build(),
+                                new SequentialAction(
+                                        manager.getLiftReadyToDropThePixelOnTheWall(),
+                                        manager.positionTheClawToDropPixels()
+                                )
+                        ),
+                        manager.openRightClaw(),
+                        new SleepAction(.5),
                         manager.openLeftClaw()
-                        // ),
-                        //manager.zeroLift(),
-                        //manager.positionTheClawToDriveWithPixels()
                 )
         );
-*/
+
+        // back away and pack up
+        Actions.runBlocking(
+                new SequentialAction(
+                        drive.actionBuilder(drive.pose)
+                                .lineToX(44)
+                                .build(),
+                        manager.positionTheClawToDriveWithPixels(),
+                        manager.getLiftReadyToDrive()
+                )
+        );
+
+        // back away and pack up
+        Actions.runBlocking(
+            drive.actionBuilder(drive.pose)
+                    .setReversed(true)
+                    .splineToSplineHeading(new Pose2d(0, -58, Math.toRadians(-180)), Math.toRadians(180))
+                    .splineTo(new Vector2d(-40, -58), Math.toRadians(180))
+                    .splineTo(new Vector2d(-52,-34), Math.toRadians(180))
+                    .build()
+        );
+
+        Actions.runBlocking(
+                new SequentialAction(
+                        new ParallelAction(
+                                drive.actionBuilder(drive.pose)
+                                        // Head to Stacks
+                                        .lineToX(-61)
+                                        .build(),
+                                manager.runLiftToPosition(-100),
+                                manager.positionTheClawToPickupPixels()
+                        ),
+                        new ParallelAction(
+                        manager.closeLeftClaw(),
+                        manager.closeAutoClaw()
+                        ),
+                        manager.raiseLiftAfterStackPickup()
+                )
+        );
+
     }
 }
