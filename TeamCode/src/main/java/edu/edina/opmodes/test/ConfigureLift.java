@@ -17,7 +17,7 @@ import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.SmartGamepad;
 
 @TeleOp
-@Disabled
+//@Disabled
 public class ConfigureLift extends LinearOpMode {
 
     @Override

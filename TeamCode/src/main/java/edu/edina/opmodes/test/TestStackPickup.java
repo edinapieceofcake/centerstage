@@ -73,10 +73,10 @@ public class TestStackPickup extends LinearOpMode  {
                 Actions.runBlocking(
                         new SequentialAction(
                                 new ParallelAction(
-                                        manager.runLiftToPosition(-160),
+                                        manager.runLiftToPosition(-90),
                                         manager.positionTheClawToPickupPixels(),
                                         drive.actionBuilder(drive.pose)
-                                                .lineToY(-48)
+                                                .lineToY(-46)
                                                 .build()
                                 ),
                                 new ParallelAction(

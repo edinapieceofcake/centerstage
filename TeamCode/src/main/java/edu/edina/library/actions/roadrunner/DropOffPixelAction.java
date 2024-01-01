@@ -39,6 +39,8 @@ public class DropOffPixelAction implements Action {
             state.currentLiftDriveState = LiftDriveState.LowDropOff;
             state.currentLiftSlideState = LiftSlideState.Extending;
             state.dropOffState = DropOffState.Start;
+            config.leftLowDropOffServoPosition = .7;
+            config.rightLowDropOffServoPosition = .39;
             config.liftLowDropOffPosition = -600;
         }
 
@@ -49,6 +51,8 @@ public class DropOffPixelAction implements Action {
             return true;
         } else {
             state.lastKnownLiftState = LiftDriveState.LowDropOff;
+            config.leftLowDropOffServoPosition = .53;
+            config.rightLowDropOffServoPosition = .51;
 
             return false;
         }
