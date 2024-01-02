@@ -199,7 +199,7 @@ public class BlackrockDesert extends LinearOpMode {
                 Actions.runBlocking(
                         new SequentialAction(
                                 drive.actionBuilder(drive.pose)
-                                        .lineToY(-50) // temporary add for right
+                                        .lineToY(-50)
                                         .splineTo(propDropLocation, Math.toRadians(propDropAngle))
                                         .build(),
                                 manager.openLeftClaw()
@@ -230,7 +230,7 @@ public class BlackrockDesert extends LinearOpMode {
                                         .lineToX(53.5)
                                         .build(),
                                 new SequentialAction(
-                                        manager.getLiftReadyToDropThePixelOnTheWall()
+                                        manager.getLiftReadyToDropThePixelLowOnTheWall()
                                 )
                         ),
                         manager.openRightClaw()
@@ -252,26 +252,31 @@ public class BlackrockDesert extends LinearOpMode {
                 drive.actionBuilder(drive.pose)
                         // Head to Stacks VIA A-Row
                         .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(20, -12, Math.toRadians(-180)), Math.toRadians(180))
+                        .splineToSplineHeading(new Pose2d(20, -11, Math.toRadians(-180)), Math.toRadians(180))
                         .setReversed(false)
                         .splineTo(new Vector2d(-44, -11), Math.toRadians(180))
-                        .afterDisp(0, new ParallelAction(
-                                        manager.runLiftToPosition(-160),
-                                        manager.positionTheClawToPickupPixels()
-                                )
-                        )
-                        .lineToX(-51)
-                        .afterDisp(0, new SequentialAction(
-                                new ParallelAction(
-                                        manager.closeAutoClaw(),
-                                        manager.closeLeftClaw()
-                                ),
-                                manager.raiseLiftAfterStackPickup()
-                        ))
                         .build());
 
+        Actions.runBlocking(
+                new SequentialAction(
+                        new ParallelAction(
+                                manager.runLiftToPosition(-163),
+                                manager.positionTheClawToPickupPixels()
+                        ),
+                        drive.actionBuilder(drive.pose)
+                                .lineToX(-51.25)
+                                .build(),
+                        new ParallelAction(
+                                manager.closeAutoClaw(),
+                                manager.closeLeftClaw()
+                        ),
+                        manager.raiseLiftAfterStackPickup()
+                )
+        );
+
         // drive to backstage - 1st trip
-        Actions.runBlocking(new SequentialAction(
+        Actions.runBlocking(
+                new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .lineToX(-44)
                                 .afterDisp(0,
@@ -280,13 +285,15 @@ public class BlackrockDesert extends LinearOpMode {
                                                 manager.zeroLift(),
                                                 manager.positionTheClawToDriveWithPixels()
                                         ))
-                                .splineToSplineHeading(new Pose2d(-12, -12, Math.toRadians(0)), Math.toRadians(0))
+                                .splineToSplineHeading(new Pose2d(-11, -11, Math.toRadians(0)), Math.toRadians(0))
                                 .setReversed(false)
                                 .splineTo(new Vector2d(40, -12), Math.toRadians(0))
                                 .splineTo(new Vector2d(64,-14), Math.toRadians(0))
                                 .build(),
-                        manager.openAutoClaw(),
-                        manager.openLeftClaw()
+                        new ParallelAction(
+                            manager.openAutoClaw(),
+                            manager.openLeftClaw()
+                        )
                 )
         );
 
@@ -298,18 +305,18 @@ public class BlackrockDesert extends LinearOpMode {
                         .setReversed(true)
                         .splineToSplineHeading(new Pose2d(24, -16, Math.toRadians(-180)), Math.toRadians(-180))
                         .setReversed(false)
-                        .splineTo(new Vector2d(-44, -11.5), Math.toRadians(180))
+                        .splineTo(new Vector2d(-44, -11), Math.toRadians(180))
                         .build());
 
         // Extend and pick up two pixels
         Actions.runBlocking(
                 new SequentialAction(
                         new ParallelAction(
-                                manager.runLiftToPosition(-100),
+                                manager.runLiftToPosition(-90),
                                 manager.positionTheClawToPickupPixels()
                         ),
                         drive.actionBuilder(drive.pose)
-                                .lineToX(-54)
+                                .lineToX(-53)
                                 .build(),
                         new ParallelAction(
                                 manager.closeAutoClaw(),
@@ -318,38 +325,29 @@ public class BlackrockDesert extends LinearOpMode {
                         manager.raiseLiftAfterStackPickup()
                 )
         );
-/*
+
         // drive to backstage - 2nd trip
         Actions.runBlocking(
-                drive.actionBuilder(drive.pose)
-                        // Head to Stacks VIA A-Row
-                        //                  .setReversed(true)
-                        .lineToX(-44)
-                        .afterDisp(0,
-                                new ParallelAction(
-                                        manager.lowerLiftForDriving(),
-                                        manager.zeroLift(),
-                                        manager.positionTheClawToDriveWithPixels()
-                                ))
-                        .splineToSplineHeading(new Pose2d(-12, -12, Math.toRadians(0)), Math.toRadians(0))
-                        .setReversed(false)
-                        .splineTo(new Vector2d(40, -12), Math.toRadians(0))
-                        .splineTo(new Vector2d(64,-12), Math.toRadians(-45))
-                        .build());
-
-        // drop pixels backstage - 2nd drop
-        Actions.runBlocking(
                 new SequentialAction(
-                        //manager.runLiftToPosition(-900),
-                        //manager.positionTheClawToPickupPixels(),
-                        //new ParallelAction(
-                        manager.openAutoClaw(),
-                        manager.openLeftClaw()
-                        // ),
-                        //manager.zeroLift(),
-                        //manager.positionTheClawToDriveWithPixels()
+                    drive.actionBuilder(drive.pose)
+                            // Head to Stacks VIA A-Row
+                            .lineToX(-44)
+                            .afterDisp(0,
+                                    new ParallelAction(
+                                            manager.lowerLiftForDriving(),
+                                            manager.zeroLift(),
+                                            manager.positionTheClawToDriveWithPixels()
+                                    ))
+                            .splineToSplineHeading(new Pose2d(-12, -14, Math.toRadians(0)), Math.toRadians(0))
+                            .setReversed(false)
+                            .splineTo(new Vector2d(40, -14), Math.toRadians(0))
+                            .splineTo(new Vector2d(64,-14), Math.toRadians(-45))
+                            .build(),
+                    new ParallelAction(
+                            manager.openAutoClaw(),
+                            manager.openLeftClaw()
+                    )
                 )
         );
-*/
     }
 }

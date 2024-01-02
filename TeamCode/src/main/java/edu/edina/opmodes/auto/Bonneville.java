@@ -251,7 +251,7 @@ public class Bonneville extends LinearOpMode {
                                         .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
                                         .build(),
                                 new SequentialAction(
-                                        manager.getLiftReadyToDropThePixelOnTheWall(),
+                                        manager.getLiftReadyToDropThePixelHighOnTheWall(),
                                         manager.positionTheClawToDropPixels()
                                 )
                         ),

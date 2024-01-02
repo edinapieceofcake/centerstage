@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import edu.edina.library.enums.ClawState;
 import edu.edina.library.enums.ParkLocation;
@@ -12,6 +13,7 @@ import edu.edina.library.enums.PropLocation;
 import edu.edina.library.util.RobotState;
 
 @Autonomous
+@Disabled
 public class RedBackstage extends RedBaseAutonomous {
 
     @Override

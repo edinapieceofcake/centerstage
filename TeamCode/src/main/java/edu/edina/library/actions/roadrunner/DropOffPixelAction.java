@@ -17,14 +17,16 @@ import edu.edina.library.util.RobotState;
 
 public class DropOffPixelAction implements Action {
     private boolean started = false;
+    private boolean isBackstage = false;
     private Claw claw;
     private Lift lift;
     private RobotHanger robotHanger;
 
-    public DropOffPixelAction(Claw claw, Lift lift, RobotHanger robotHanger) {
+    public DropOffPixelAction(Claw claw, Lift lift, RobotHanger robotHanger, boolean isBackstage) {
         this.claw = claw;
         this.lift = lift;
         this.robotHanger = robotHanger;
+        this.isBackstage = isBackstage;
     }
 
     @Override
@@ -39,8 +41,11 @@ public class DropOffPixelAction implements Action {
             state.currentLiftDriveState = LiftDriveState.LowDropOff;
             state.currentLiftSlideState = LiftSlideState.Extending;
             state.dropOffState = DropOffState.Start;
-            config.leftLowDropOffServoPosition = .7;
-            config.rightLowDropOffServoPosition = .39;
+            if (isBackstage) {
+                config.leftLowDropOffServoPosition = .7;
+                config.rightLowDropOffServoPosition = .39;
+            }
+
             config.liftLowDropOffPosition = -600;
         }
 
@@ -51,8 +56,10 @@ public class DropOffPixelAction implements Action {
             return true;
         } else {
             state.lastKnownLiftState = LiftDriveState.LowDropOff;
-            config.leftLowDropOffServoPosition = .53;
-            config.rightLowDropOffServoPosition = .51;
+            if (isBackstage) {
+                config.leftLowDropOffServoPosition = .53;
+                config.rightLowDropOffServoPosition = .51;
+            }
 
             return false;
         }

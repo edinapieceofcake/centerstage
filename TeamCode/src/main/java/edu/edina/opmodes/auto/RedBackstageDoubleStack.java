@@ -9,6 +9,7 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
@@ -23,6 +24,7 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
+@Disabled
 public class RedBackstageDoubleStack extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;
@@ -215,7 +217,7 @@ public class RedBackstageDoubleStack extends LinearOpMode {
         // drop pixel on wall
         Actions.runBlocking(
                 new SequentialAction(
-                    manager.getLiftReadyToDropThePixelOnTheWall(),
+                    manager.getLiftReadyToDropThePixelLowOnTheWall(),
                     drive.actionBuilder(drive.pose)
                             .lineToX(59.5)
                             .build(),
