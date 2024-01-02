@@ -3,7 +3,6 @@ package edu.edina.opmodes.test;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -34,6 +33,8 @@ public class TestStackPickup extends LinearOpMode  {
         // use out version of the drive based off the hardware that we created above.
 
         manager.init();
+
+        hardware.dropServosForAutonomous();
 
         waitForStart();
 
