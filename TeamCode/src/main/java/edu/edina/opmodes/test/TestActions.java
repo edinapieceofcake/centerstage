@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.ftc.Actions;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -13,6 +14,7 @@ import edu.edina.library.util.RobotState;
 import edu.edina.library.util.SmartGamepad;
 
 @TeleOp
+@Disabled
 public class TestActions extends LinearOpMode  {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -98,7 +100,7 @@ public class TestActions extends LinearOpMode  {
             if (pad1.dpad_up) {
                 Actions.runBlocking(new SequentialAction(
                         manager.closeRightClaw(),
-                        manager.getLiftReadyToDropThePixelOnTheWall(),
+                        manager.getLiftReadyToDropThePixelLowOnTheWall(),
                         new SleepAction(.2),
                         manager.openRightClaw(),
                         new SleepAction(.5),

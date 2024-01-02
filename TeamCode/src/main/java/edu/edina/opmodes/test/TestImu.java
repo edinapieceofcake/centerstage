@@ -2,6 +2,7 @@ package edu.edina.opmodes.test;
 
 import android.util.Log;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -14,6 +15,7 @@ import java.util.concurrent.ExecutorService;
 import edu.edina.library.util.RobotHardware;
 
 @TeleOp
+@Disabled
 public class TestImu extends LinearOpMode {
     RobotHardware hardware;
     IMU imu;

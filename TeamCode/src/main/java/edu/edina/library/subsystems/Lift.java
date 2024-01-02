@@ -41,7 +41,7 @@ public class Lift implements Subsystem, Action {
     private Deadline lowLiftDelay = new Deadline(300, TimeUnit.MILLISECONDS);
     private Deadline highLiftDelay = new Deadline(500, TimeUnit.MILLISECONDS);
     private Deadline secondExtensionTimeout = new Deadline(1000, TimeUnit.MILLISECONDS);
-    private Deadline zeroSwitchTimeout = new Deadline(2000, TimeUnit.MILLISECONDS);
+    private Deadline zeroSwitchTimeout = new Deadline(1000, TimeUnit.MILLISECONDS);
 
     public Lift(RobotHardware hardware, boolean isTeleop) {
         this.hardware = hardware;

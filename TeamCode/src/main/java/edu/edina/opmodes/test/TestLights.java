@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import edu.edina.library.util.SmartGamepad;
 
 @TeleOp
-//@Disabled
+@Disabled
 public class TestLights extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

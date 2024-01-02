@@ -88,8 +88,12 @@ public class ActionManager {
         return new ZeroLiftAction(hardware);
     }
 
-    public Action getLiftReadyToDropThePixelOnTheWall() {
-        return new DropOffPixelAction(claw, lift, robotHanger);
+    public Action getLiftReadyToDropThePixelLowOnTheWall() {
+        return new DropOffPixelAction(claw, lift, robotHanger, true);
+    }
+
+    public Action getLiftReadyToDropThePixelHighOnTheWall() {
+        return new DropOffPixelAction(claw, lift, robotHanger, false);
     }
 
     public Action getLiftReadyToDrive() {
