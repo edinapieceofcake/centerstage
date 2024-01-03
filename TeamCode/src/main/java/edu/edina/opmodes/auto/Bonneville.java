@@ -215,9 +215,9 @@ public class Bonneville extends LinearOpMode {
                     new ParallelAction(
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks
-                                .lineToX(-57)
+                                .lineToX(-55)
                                 .build(),
-                        manager.runLiftToPosition(-200),
+                        manager.runLiftToPosition(-255),
                         manager.positionTheClawToPickupPixels()
                     ),
                     manager.closeLeftClaw(),
@@ -236,7 +236,6 @@ public class Bonneville extends LinearOpMode {
                                         manager.zeroLift(),
                                         manager.positionTheClawToDriveWithPixels()
                                 ))
-
                         .setReversed(true)
                         .splineToSplineHeading(new Pose2d(new Vector2d(-35, -58), Math.toRadians(0)), Math.toRadians(0))
                         .splineTo(new Vector2d(24, -58), Math.toRadians(0))
@@ -250,10 +249,7 @@ public class Bonneville extends LinearOpMode {
                                 drive.actionBuilder(drive.pose)
                                         .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
                                         .build(),
-                                new SequentialAction(
-                                        manager.getLiftReadyToDropThePixelHighOnTheWall(),
-                                        manager.positionTheClawToDropPixels()
-                                )
+                                manager.getLiftReadyToDropThePixelHighOnTheWall()
                         ),
                         manager.openRightClaw(),
                         new SleepAction(.5),
@@ -267,7 +263,6 @@ public class Bonneville extends LinearOpMode {
                         drive.actionBuilder(drive.pose)
                                 .lineToX(44)
                                 .build(),
-                        manager.positionTheClawToDriveWithPixels(),
                         manager.getLiftReadyToDrive()
                 )
         );
@@ -287,18 +282,72 @@ public class Bonneville extends LinearOpMode {
                         new ParallelAction(
                                 drive.actionBuilder(drive.pose)
                                         // Head to Stacks
-                                        .lineToX(-61)
+                                        .lineToX(-60)
                                         .build(),
-                                manager.runLiftToPosition(-100),
+                                manager.runLiftToPosition(-145),
                                 manager.positionTheClawToPickupPixels()
                         ),
                         new ParallelAction(
-                        manager.closeLeftClaw(),
-                        manager.closeAutoClaw()
+                            manager.closeLeftClaw(),
+                            manager.closeAutoClaw()
                         ),
                         manager.raiseLiftAfterStackPickup()
                 )
         );
 
+        // drive to backstage - 2nd trip
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        // Head to Stacks VIA A-Row
+                        .lineToX(-48)
+                        .afterDisp(0,
+                                new ParallelAction(
+                                        manager.lowerLiftForDriving(),
+                                        manager.zeroLift(),
+                                        manager.positionTheClawToDriveWithPixels()
+                                ))
+                        .setReversed(true)
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -58), Math.toRadians(0)), Math.toRadians(0))
+//                        .splineTo(new Vector2d(24, -58), Math.toRadians(0))
+                        .splineTo(new Vector2d(50, -58), Math.toRadians(0))
+                        .build());
+
+        Actions.runBlocking(
+                new SequentialAction(
+                        new ParallelAction(
+                                manager.openLeftClaw(),
+                                manager.openAutoClaw()
+                        ),
+                        drive.actionBuilder(drive.pose)
+                                .lineToX(45)
+                                .build()
+                )
+        );
+
+//        // Drive to backdrop
+//        Actions.runBlocking(
+//                new SequentialAction(
+//                        new ParallelAction(
+//                                drive.actionBuilder(drive.pose)
+//                                        .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
+//                                        .build(),
+//                                manager.getLiftReadyToDropThePixelHighOnTheWall()
+//                        ),
+//                        new ParallelAction(
+//                            manager.openLeftClaw(),
+//                            manager.openAutoClaw()
+//                        )
+//                )
+//        );
+
+//        // back away and pack up
+//        Actions.runBlocking(
+//                new SequentialAction(
+//                        drive.actionBuilder(drive.pose)
+//                                .lineToX(44)
+//                                .build(),
+//                        manager.getLiftReadyToDrive()
+//                )
+//        );
     }
 }
