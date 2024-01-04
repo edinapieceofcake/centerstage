@@ -29,6 +29,7 @@ public class RobotHardware {
 
     public final IMU imu;
     public final IMU externalImu;
+    public final IMU expansionImu;
 
     public final DcMotorEx par0, par1, perp;
 
@@ -82,11 +83,11 @@ public class RobotHardware {
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
         imu.initialize(parameters);
 
-//        imu = hardwareMap.get(IMU.class, "imu1");
-//        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-//                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
-//                RevHubOrientationOnRobot.UsbFacingDirection.UP));
-//        imu.initialize(parameters);
+        expansionImu = hardwareMap.get(IMU.class, "imu1");
+        IMU.Parameters expansionParameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP));
+        expansionImu.initialize(expansionParameters);
 
         externalImu = hardwareMap.get(IMU.class, "externalImu");
         IMU.Parameters externalImuParameters = new IMU.Parameters(new RevHubOrientationOnRobot(
