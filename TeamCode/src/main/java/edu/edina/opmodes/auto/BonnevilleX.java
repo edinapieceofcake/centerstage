@@ -339,7 +339,7 @@ public class BonnevilleX extends LinearOpMode {
                                     .setReversed(true)
                                     .splineToSplineHeading(new Pose2d(0, -60, Math.toRadians(-180)), Math.toRadians(180))
                                     .splineTo(new Vector2d(-40, -58), Math.toRadians(180))
-                                    .splineTo(new Vector2d(-52, -33), Math.toRadians(180))
+                                    .splineTo(new Vector2d(-52, -34), Math.toRadians(180))
                                     .build()
                     )
             );
