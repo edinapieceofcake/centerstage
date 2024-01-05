@@ -28,6 +28,7 @@ import edu.edina.library.enums.LiftServoState;
 import edu.edina.library.enums.LiftSlideState;
 import edu.edina.library.enums.PickUpState;
 import edu.edina.library.enums.TwistServoState;
+import edu.edina.library.util.PoCMath;
 import edu.edina.library.util.Robot;
 import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotHardware;
@@ -414,7 +415,12 @@ public class Lift implements Subsystem, Action {
                     state.currentLiftSlideState = LiftSlideState.Idle;
                     state.lastKnownLiftState = LowDropOff;
                 } else {
-                    if (state.lastKnownLiftState == HighDropOff) {
+                    if(PoCMath.between(state.currentTopMotorPosition, config.liftLowDropOffPosition - 10, config.liftLowDropOffPosition + 10)){
+                        state.dropOffState = DropOffState.Finished;
+                        state.currentLiftSlideState = LiftSlideState.Idle;
+                        state.lastKnownLiftState = LowDropOff;
+                    }
+                    /*if (state.lastKnownLiftState == HighDropOff) {
                         if (state.currentTopMotorPosition > (config.liftLowDropOffPosition - 10)) {
                             state.dropOffState = DropOffState.Finished;
                             state.currentLiftSlideState = LiftSlideState.Idle;
@@ -426,7 +432,7 @@ public class Lift implements Subsystem, Action {
                             state.currentLiftSlideState = LiftSlideState.Idle;
                             state.lastKnownLiftState = LowDropOff;
                         }
-                    }
+                    }*/
                 }
             } else {
                 if (secondExtensionTimeout.hasExpired()) {
