@@ -303,30 +303,30 @@ public class Bonneville extends LinearOpMode {
                             .splineTo(new Vector2d(24, -60), Math.toRadians(0))
                             .build());
 
-            if (propLocation == PropLocation.Right) {
-                // Drive to backdrop
-                Actions.runBlocking(
-                        new SequentialAction(
-                                new ParallelAction(
-                                        drive.actionBuilder(drive.pose)
-                                                .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
-                                                .build(),
-                                        manager.getLiftReadyToDropThePixelHighOnTheWall()
-                                ),
-                                manager.openRightClaw(),
-                                new SleepAction(.5)
-                        )
-                );
-
-                Actions.runBlocking(
-                        new SequentialAction(
-                                drive.actionBuilder(drive.pose)
-                                        .strafeTo(new Vector2d(50, -40))
-                                        .build(),
-                                manager.openLeftClaw()
-                        )
-                );
-            } else {
+//            if (propLocation == PropLocation.Right) {
+//                // Drive to backdrop
+//                Actions.runBlocking(
+//                        new SequentialAction(
+//                                new ParallelAction(
+//                                        drive.actionBuilder(drive.pose)
+//                                                .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
+//                                                .build(),
+//                                        manager.getLiftReadyToDropThePixelHighOnTheWall()
+//                                ),
+//                                manager.openRightClaw(),
+//                                new SleepAction(.5)
+//                        )
+//                );
+//
+//                Actions.runBlocking(
+//                        new SequentialAction(
+//                                drive.actionBuilder(drive.pose)
+//                                        .strafeTo(new Vector2d(50, -40))
+//                                        .build(),
+//                                manager.openLeftClaw()
+//                        )
+//                );
+//            } else {
                 // Drive to backdrop
                 Actions.runBlocking(
                         new SequentialAction(
@@ -341,7 +341,7 @@ public class Bonneville extends LinearOpMode {
                                 manager.openLeftClaw()
                         )
                 );
-            }
+//            }
 
             if (!makeSecondTrip) {
                 // back away and pack up
