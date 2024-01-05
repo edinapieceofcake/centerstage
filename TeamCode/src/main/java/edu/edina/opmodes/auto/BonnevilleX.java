@@ -299,47 +299,9 @@ public class BonnevilleX extends LinearOpMode {
                                     ))
                             .setReversed(true)
                             .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
-                            .splineTo(new Vector2d(24, -60), Math.toRadians(0))
-                            .build());
-
-//            if (propLocation == PropLocation.Right) {
-//                // Drive to backdrop
-//                Actions.runBlocking(
-//                        new SequentialAction(
-//                                new ParallelAction(
-//                                        drive.actionBuilder(drive.pose)
-//                                                .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
-//                                                .build(),
-//                                        manager.getLiftReadyToDropThePixelHighOnTheWall()
-//                                ),
-//                                manager.openRightClaw(),
-//                                new SleepAction(.5)
-//                        )
-//                );
-//
-//                Actions.runBlocking(
-//                        new SequentialAction(
-//                                drive.actionBuilder(drive.pose)
-//                                        .strafeTo(new Vector2d(50, -40))
-//                                        .build(),
-//                                manager.openLeftClaw()
-//                        )
-//                );
-//            } else {
-                // Drive to backdrop
-            Actions.runBlocking(
-                    drive.actionBuilder(drive.pose)
-                            // Head to Stacks VIA A-Row
-                            .lineToX(-48)
-                            .afterDisp(0,
-                                    new ParallelAction(
-                                            manager.positionTheClawToDriveWithPixels()
-                                    ))
-                            .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
                             .splineTo(new Vector2d(10, -60), Math.toRadians(0))
                             .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                            .splineToSplineHeading(secondBackdropDropLocation, Math.toRadians(0))
+                            .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
                             .afterDisp(0, new SequentialAction(
                                     manager.openRightClaw(),
                                     new SleepAction(0.25),
