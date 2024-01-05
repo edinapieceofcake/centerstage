@@ -141,7 +141,7 @@ public class Lift implements Subsystem, Action {
                     hardware.leftLiftServo.setPosition(config.startingLeftLiftServoPosition);
                     hardware.rightLiftServo.setPosition(config.startingRightLiftServoPosition);
                     try {
-                        Thread.sleep(36);
+                        Thread.sleep(72);
                     } catch (Exception ex) {}
                     ((PwmControl) hardware.leftLiftServo).setPwmDisable();
                     ((PwmControl) hardware.rightLiftServo).setPwmDisable();
