@@ -207,30 +207,15 @@ public class BlackrockDesertBlue extends LinearOpMode {
                 break;
         }
 
-        switch (propLocation) {
-            case Right:
-                // Execute drive to prop drop spot and drop
-                Actions.runBlocking(
-                        new SequentialAction(
-                                drive.actionBuilder(drive.pose)
-                                        .splineTo(propDropLocation, Math.toRadians(propDropAngle))
-                                        .build(),
-                                manager.openLeftClaw()
-                        )
-                );
-                break;
-            default:
-                // Execute drive to prop drop spot and drop
-                Actions.runBlocking(
-                        new SequentialAction(
-                                drive.actionBuilder(drive.pose)
-                                        .splineTo(propDropLocation, Math.toRadians(propDropAngle))
-                                        .build(),
-                                manager.openLeftClaw()
-                        )
-                );
-                break;
-        }
+        // Execute drive to prop drop spot and drop
+        Actions.runBlocking(
+                new SequentialAction(
+                        drive.actionBuilder(drive.pose)
+                                .splineTo(propDropLocation, Math.toRadians(propDropAngle))
+                                .build(),
+                        manager.openLeftClaw()
+                )
+        );
 
         // Drive to backdrop
         Actions.runBlocking(
