@@ -40,7 +40,7 @@ public class BlackrockDesertBlue extends LinearOpMode {
         drive = new MecanumDrive(hardware.leftFront,
                 hardware.leftBack, hardware.rightBack, hardware.rightFront,
                 hardware.par0, hardware.par1, hardware.perp,
-                hardware.externalImu, hardware.voltageSensor, getStartPose());
+                hardware.expansionImu, hardware.voltageSensor, getStartPose());
 
         // uncomment this and comment out the above if it doesn't work right
         //drive = new MecanumDrive(hardwareMap, startPose);
@@ -172,19 +172,19 @@ public class BlackrockDesertBlue extends LinearOpMode {
         double propDropAngle = 270.0;
 
         // Comment out when actually using camera!!
-        propLocation = PropLocation.Center;
+        propLocation = PropLocation.Right;
 
         // Determine location for purple pixel
         switch(propLocation) {
             case Left:
-                propDropLocation = new Vector2d(31.5, 43);
-                propDropAngle = 135.0;
+                propDropLocation = new Vector2d(20.5, 36);
                 break;
             case Center:
-                propDropLocation = new Vector2d(13.5, 35.5);
+                propDropLocation = new Vector2d(13, 35.5);
                 break;
             case Right:
-                propDropLocation = new Vector2d(15.5, 43);
+                propDropLocation = new Vector2d(6, 38);
+                propDropAngle = -135.0;
                 break;
             default:
                 propDropLocation = new Vector2d(16.5, 35.5);  // default to Center if all goes bad
@@ -194,16 +194,16 @@ public class BlackrockDesertBlue extends LinearOpMode {
         // Determine location for yellow pixel
         switch (propLocation) {
             case Left:
-                backdropDropLocation = new Pose2d(48,47, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(46.5,41, Math.toRadians(0));
                 break;
             case Center:
-                backdropDropLocation = new Pose2d(48,38, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(46.5,35, Math.toRadians(0));
                 break;
             case Right:
-                backdropDropLocation = new Pose2d(48,32, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(46.5,28, Math.toRadians(0));
                 break;
             default:
-                backdropDropLocation = new Pose2d(48,38, Math.toRadians(0)); // default to center if all goes bad
+                backdropDropLocation = new Pose2d(46.5,38, Math.toRadians(0)); // default to center if all goes bad
                 break;
         }
 
@@ -213,7 +213,6 @@ public class BlackrockDesertBlue extends LinearOpMode {
                 Actions.runBlocking(
                         new SequentialAction(
                                 drive.actionBuilder(drive.pose)
-                                        .lineToY(50)
                                         .splineTo(propDropLocation, Math.toRadians(propDropAngle))
                                         .build(),
                                 manager.openLeftClaw()
@@ -255,7 +254,7 @@ public class BlackrockDesertBlue extends LinearOpMode {
         Actions.runBlocking(
                 new ParallelAction(
                         drive.actionBuilder(drive.pose)
-                                .lineToX(46)
+                                .lineToX(44 )
                                 .build(),
                         manager.getLiftReadyToDrive()
                 )
@@ -267,19 +266,19 @@ public class BlackrockDesertBlue extends LinearOpMode {
                     drive.actionBuilder(drive.pose)
                             // Head to Stacks VIA A-Row
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(20, 11, Math.toRadians(0)), Math.toRadians(0))
-                            .setReversed(false)
-                            .splineTo(new Vector2d(-44, 11), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(20, 15, Math.toRadians(180)), Math.toRadians(180))
+                            //.setReversed(false)
+                            .splineTo(new Vector2d(-48, 15.5), Math.toRadians(180))
                             .build());
 
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
-                                    manager.runLiftToPosition(-163),
+                                    manager.runLiftToPosition(-180),
                                     manager.positionTheClawToPickupPixels()
                             ),
                             drive.actionBuilder(drive.pose)
-                                    .lineToX(-51.25)
+                                    .lineToX(-56)
                                     .build(),
                             new ParallelAction(
                                     manager.closeAutoClaw(),
@@ -300,10 +299,10 @@ public class BlackrockDesertBlue extends LinearOpMode {
                                                     manager.zeroLift(),
                                                     manager.positionTheClawToDriveWithPixels()
                                             ))
-                                    .splineToSplineHeading(new Pose2d(-11, 11, Math.toRadians(180)), Math.toRadians(180))
+                                    .splineToSplineHeading(new Pose2d(-11, 11, Math.toRadians(0)), Math.toRadians(0))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(40, 12), Math.toRadians(180))
-                                    .splineTo(new Vector2d(64, 14), Math.toRadians(180))
+                                    .splineTo(new Vector2d(40, 12), Math.toRadians(0))
+                                    .splineTo(new Vector2d(58, 12), Math.toRadians(0))
                                     .build(),
                             new ParallelAction(
                                     manager.openAutoClaw(),
@@ -320,9 +319,9 @@ public class BlackrockDesertBlue extends LinearOpMode {
                             // Head to Stacks VIA A-Row
                             .lineToX(60)
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(24, 16, Math.toRadians(0)), Math.toRadians(0))
-                            .setReversed(false)
-                            .splineTo(new Vector2d(-44, 11), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(24, 11, Math.toRadians(180)), Math.toRadians(180))
+                            //.setReversed(false)
+                            .splineTo(new Vector2d(-48, 12.5), Math.toRadians(180))
                             .build());
 
             // Extend and pick up two pixels
@@ -333,7 +332,7 @@ public class BlackrockDesertBlue extends LinearOpMode {
                                     manager.positionTheClawToPickupPixels()
                             ),
                             drive.actionBuilder(drive.pose)
-                                    .lineToX(-53)
+                                    .lineToX(-57.5)
                                     .build(),
                             new ParallelAction(
                                     manager.closeAutoClaw(),
@@ -355,10 +354,10 @@ public class BlackrockDesertBlue extends LinearOpMode {
                                                     manager.zeroLift(),
                                                     manager.positionTheClawToDriveWithPixels()
                                             ))
-                                    .splineToSplineHeading(new Pose2d(-12, 14, Math.toRadians(180)), Math.toRadians(180))
+                                    .splineToSplineHeading(new Pose2d(-12, 11, Math.toRadians(0)), Math.toRadians(0))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(40, 14), Math.toRadians(180))
-                                    .splineTo(new Vector2d(64, 14), Math.toRadians(-135))
+                                    .splineTo(new Vector2d(40, 14), Math.toRadians(0))
+                                    .splineTo(new Vector2d(58, 14), Math.toRadians(45))
                                     .build(),
                             new ParallelAction(
                                     manager.openAutoClaw(),
@@ -374,14 +373,14 @@ public class BlackrockDesertBlue extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(58, 14), Math.toRadians(180))
+                                .splineTo(new Vector2d(58, 14), Math.toRadians(0))
                                 .build()));
                 break;
             case Corner:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(58, 64), Math.toRadians(180))
+                                .splineTo(new Vector2d(58, 64), Math.toRadians(0))
                                 .build()));
                 break;
             default:
