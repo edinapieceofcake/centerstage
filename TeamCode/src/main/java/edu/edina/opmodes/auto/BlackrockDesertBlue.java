@@ -75,7 +75,7 @@ public class BlackrockDesertBlue extends LinearOpMode {
     }
 
     protected Pose2d getStartPose() {
-        return new Pose2d(14.5, 64, Math.toRadians(270));
+        return new Pose2d(17.5, 64, Math.toRadians(270));
     }
 
     @Override
@@ -172,7 +172,7 @@ public class BlackrockDesertBlue extends LinearOpMode {
         double propDropAngle = 270.0;
 
         // Comment out when actually using camera!!
-        propLocation = PropLocation.Left;
+        propLocation = PropLocation.Center;
 
         // Determine location for purple pixel
         switch(propLocation) {
@@ -181,7 +181,7 @@ public class BlackrockDesertBlue extends LinearOpMode {
                 propDropAngle = 135.0;
                 break;
             case Center:
-                propDropLocation = new Vector2d(16.5, 35.5);
+                propDropLocation = new Vector2d(13.5, 35.5);
                 break;
             case Right:
                 propDropLocation = new Vector2d(15.5, 43);
@@ -194,16 +194,16 @@ public class BlackrockDesertBlue extends LinearOpMode {
         // Determine location for yellow pixel
         switch (propLocation) {
             case Left:
-                backdropDropLocation = new Pose2d(48,47, Math.toRadians(180));
+                backdropDropLocation = new Pose2d(48,47, Math.toRadians(0));
                 break;
             case Center:
-                backdropDropLocation = new Pose2d(48,38, Math.toRadians(180));
+                backdropDropLocation = new Pose2d(48,38, Math.toRadians(0));
                 break;
             case Right:
-                backdropDropLocation = new Pose2d(48,32, Math.toRadians(180));
+                backdropDropLocation = new Pose2d(48,32, Math.toRadians(0));
                 break;
             default:
-                backdropDropLocation = new Pose2d(48,38, Math.toRadians(180)); // default to center if all goes bad
+                backdropDropLocation = new Pose2d(48,38, Math.toRadians(0)); // default to center if all goes bad
                 break;
         }
 
@@ -240,8 +240,8 @@ public class BlackrockDesertBlue extends LinearOpMode {
                                 drive.actionBuilder(drive.pose)
                                         .setReversed(true)
                                         .waitSeconds(.5)
-                                        .splineToSplineHeading(backdropDropLocation, Math.toRadians(180))
-                                        .lineToX(53.5)
+                                        .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
+                                        //.lineToX(50)
                                         .build(),
                                 new SequentialAction(
                                         manager.getLiftReadyToDropThePixelLowOnTheWall()
@@ -255,7 +255,7 @@ public class BlackrockDesertBlue extends LinearOpMode {
         Actions.runBlocking(
                 new ParallelAction(
                         drive.actionBuilder(drive.pose)
-                                .lineToX(52)
+                                .lineToX(46)
                                 .build(),
                         manager.getLiftReadyToDrive()
                 )
@@ -269,7 +269,7 @@ public class BlackrockDesertBlue extends LinearOpMode {
                             .setReversed(true)
                             .splineToSplineHeading(new Pose2d(20, 11, Math.toRadians(0)), Math.toRadians(0))
                             .setReversed(false)
-                            .splineTo(new Vector2d(-44, 11), Math.toRadians(0))
+                            .splineTo(new Vector2d(-44, 11), Math.toRadians(180))
                             .build());
 
             Actions.runBlocking(
