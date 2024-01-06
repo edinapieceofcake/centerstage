@@ -166,7 +166,7 @@ public class BonnevilleBlue extends LinearOpMode {
             propLocation = poCHuskyLens.getPropLocation();
 
             // Comment out when actually using camera!!
-            propLocation = PropLocation.Right;
+            propLocation = PropLocation.Left;
 
             telemetry.addData("Location", propLocation);
             telemetry.update();
@@ -207,7 +207,7 @@ public class BonnevilleBlue extends LinearOpMode {
         // Determine location for purple pixel
         switch(propLocation) {
             case Left:
-                propDropLocation = new Vector2d(-30, 35);
+                propDropLocation = new Vector2d(-33, 35);
                 propAngle = 315.0;
                 break;
             case Center:
@@ -215,7 +215,7 @@ public class BonnevilleBlue extends LinearOpMode {
                 propAngle = 270.0;
                 break;
             case Right:
-                propDropLocation = new Vector2d(-48, 36);
+                propDropLocation = new Vector2d(-48, 40);
                 propAngle = 270.0;
                 break;
             default:
@@ -227,17 +227,17 @@ public class BonnevilleBlue extends LinearOpMode {
         // Determine location for yellow pixel
         switch (propLocation) {
             case Left:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(47,41, Math.toRadians(0));
+                backdropDropLocation = secondBackdropDropLocation = new Pose2d(51.5,41, Math.toRadians(0));
                 break;
             case Center:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(47,35, Math.toRadians(0));
+                backdropDropLocation = secondBackdropDropLocation = new Pose2d(51.5,35, Math.toRadians(0));
                 break;
             case Right:
-                backdropDropLocation = new Pose2d(47,28, Math.toRadians(0));
-                secondBackdropDropLocation = new Pose2d(47,28, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(51.5,28, Math.toRadians(0));
+                secondBackdropDropLocation = new Pose2d(51.5,28, Math.toRadians(0));
                 break;
             default:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(47,35, Math.toRadians(0)); // default to center if all goes bad
+                backdropDropLocation = secondBackdropDropLocation = new Pose2d(50,35, Math.toRadians(0)); // default to center if all goes bad
                 break;
         }
 
@@ -267,13 +267,24 @@ public class BonnevilleBlue extends LinearOpMode {
 
         if (yellowPixel) {
             // Drive to Stack Pick up 1st white
-            Actions.runBlocking(
-                    drive.actionBuilder(drive.pose)
-                            // Head to Stacks
-                            .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(-52, 38.5, Math.toRadians(180)), Math.toRadians(180))
-                            .build()
-            );
+            switch (propLocation) {
+                case Right:
+                    Actions.runBlocking(
+                            drive.actionBuilder(drive.pose)
+                                    .turnTo(Math.toRadians(180))
+                                    .build()
+                            );
+                    break;
+                default:
+                    Actions.runBlocking(
+                            drive.actionBuilder(drive.pose)
+                                    // Head to Stacks
+                                    .setReversed(true)
+                                    .splineToSplineHeading(new Pose2d(-52, 38.5, Math.toRadians(180)), Math.toRadians(180))
+                                    .build()
+                    );
+                    break;
+            }
 
             Actions.runBlocking(
                     new SequentialAction(
@@ -283,7 +294,7 @@ public class BonnevilleBlue extends LinearOpMode {
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
-                                    .lineToX(-55.5)
+                                    .lineToX(-55)
                                     .build(),
                             manager.closeLeftClaw(),
                             new SleepAction(.2),
@@ -295,7 +306,7 @@ public class BonnevilleBlue extends LinearOpMode {
             Actions.runBlocking(
                     drive.actionBuilder(drive.pose)
                             // Head to Stacks VIA A-Row
-                            .lineToX(-48)
+                            .lineToX(-50)
                             .afterDisp(0,
                                     new ParallelAction(
                                             manager.lowerLiftForDriving(),
@@ -304,9 +315,10 @@ public class BonnevilleBlue extends LinearOpMode {
                                     ))
                             .setReversed(true)
                             .splineToSplineHeading(new Pose2d(new Vector2d(-30, 60), Math.toRadians(0)), Math.toRadians(0))
-                            .splineTo(new Vector2d(10, 60), Math.toRadians(0))
+                            .splineTo(new Vector2d(0, 60), Math.toRadians(0))
                             .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
                             .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
+                            .lineToX(51.5)
                             .afterDisp(0, new SequentialAction(
                                     manager.openRightClaw(),
                                     new SleepAction(0.25),
@@ -343,7 +355,7 @@ public class BonnevilleBlue extends LinearOpMode {
                                     .lineToX(44)
                                     .splineToSplineHeading(new Pose2d(0, 60, Math.toRadians(180)), Math.toRadians(180))
                                     .splineTo(new Vector2d(-30, 60), Math.toRadians(180))
-                                    .splineTo(new Vector2d(-52, 34), Math.toRadians(180))
+                                    .splineTo(new Vector2d(-52, 37), Math.toRadians(180))
                                     .build()
                     )
             );
@@ -356,7 +368,7 @@ public class BonnevilleBlue extends LinearOpMode {
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
-                                    .lineToX(-60)
+                                    .lineToX(-58)
                                     .build(),
                             new ParallelAction(
                                     manager.closeLeftClaw(),
@@ -380,7 +392,7 @@ public class BonnevilleBlue extends LinearOpMode {
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-30, 60), Math.toRadians(0)), Math.toRadians(0))
                                 .splineTo(new Vector2d(0, 60), Math.toRadians(0))
                                 .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                                .splineToSplineHeading(secondBackdropDropLocation, Math.toRadians(180))
+                                .splineToSplineHeading(secondBackdropDropLocation, Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openAutoClaw(),
                                         manager.openLeftClaw()
