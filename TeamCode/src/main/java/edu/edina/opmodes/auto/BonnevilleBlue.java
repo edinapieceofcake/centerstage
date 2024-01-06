@@ -44,7 +44,7 @@ public class BonnevilleBlue extends LinearOpMode {
         drive = new MecanumDrive(hardware.leftFront,
                 hardware.leftBack, hardware.rightBack, hardware.rightFront,
                 hardware.par0, hardware.par1, hardware.perp,
-                hardware.externalImu, hardware.voltageSensor, getStartPose());
+                hardware.expansionImu, hardware.voltageSensor, getStartPose());
 
         // uncomment this and comment out the above if it doesn't work right
         //drive = new MecanumDrive(hardwareMap, startPose);
@@ -227,7 +227,8 @@ public class BonnevilleBlue extends LinearOpMode {
         // Determine location for yellow pixel
         switch (propLocation) {
             case Left:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(51.5,41, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(51.5,39, Math.toRadians(0));
+                secondBackdropDropLocation = new Pose2d(53,39, Math.toRadians(0));
                 break;
             case Center:
                 backdropDropLocation = secondBackdropDropLocation = new Pose2d(51.5,35, Math.toRadians(0));
@@ -280,7 +281,7 @@ public class BonnevilleBlue extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
                                     .setReversed(true)
-                                    .splineToSplineHeading(new Pose2d(-52, 38.5, Math.toRadians(180)), Math.toRadians(180))
+                                    .splineToSplineHeading(new Pose2d(-52, 39, Math.toRadians(180)), Math.toRadians(180))
                                     .build()
                     );
                     break;
@@ -368,7 +369,7 @@ public class BonnevilleBlue extends LinearOpMode {
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
-                                    .lineToX(-58)
+                                    .lineToX(-57)
                                     .build(),
                             new ParallelAction(
                                     manager.closeLeftClaw(),
@@ -403,7 +404,7 @@ public class BonnevilleBlue extends LinearOpMode {
                 Actions.runBlocking(
                         new SequentialAction(
                                 drive.actionBuilder(drive.pose)
-                                        .lineToX(44)
+                                        .lineToX(48)
                                         .build(),
                                 manager.getLiftReadyToDrive()
                         )
