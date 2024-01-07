@@ -22,7 +22,7 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
-public class BonnevilleBlue extends LinearOpMode {
+public class BlueAudience extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;
     protected MecanumDrive drive;
@@ -300,8 +300,8 @@ public class BonnevilleBlue extends LinearOpMode {
                                             manager.positionTheClawToDriveWithPixels()
                                     ))
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-30, 60), Math.toRadians(0)), Math.toRadians(0))
-                            .splineTo(new Vector2d(0, 60), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-30, 58), Math.toRadians(0)), Math.toRadians(0))
+                            .splineTo(new Vector2d(0, 58), Math.toRadians(0))
                             .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
                             .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
                             .lineToX(51.5)
@@ -339,8 +339,8 @@ public class BonnevilleBlue extends LinearOpMode {
                             ),
                             drive.actionBuilder(drive.pose)
                                     .lineToX(44)
-                                    .splineToSplineHeading(new Pose2d(0, 60, Math.toRadians(180)), Math.toRadians(180))
-                                    .splineTo(new Vector2d(-30, 60), Math.toRadians(180))
+                                    .splineToSplineHeading(new Pose2d(0, 58, Math.toRadians(180)), Math.toRadians(180))
+                                    .splineTo(new Vector2d(-30, 58), Math.toRadians(180))
                                     .splineTo(new Vector2d(-52, 37), Math.toRadians(180))
                                     .build()
                     )
@@ -375,8 +375,8 @@ public class BonnevilleBlue extends LinearOpMode {
                                                 manager.positionTheClawToDriveWithPixels()
                                         ))
                                 .setReversed(true)
-                                .splineToSplineHeading(new Pose2d(new Vector2d(-30, 60), Math.toRadians(0)), Math.toRadians(0))
-                                .splineTo(new Vector2d(0, 60), Math.toRadians(0))
+                                .splineToSplineHeading(new Pose2d(new Vector2d(-30, 58), Math.toRadians(0)), Math.toRadians(0))
+                                .splineTo(new Vector2d(0, 58), Math.toRadians(0))
                                 .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
                                 .splineToSplineHeading(secondBackdropDropLocation, Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
@@ -408,7 +408,7 @@ public class BonnevilleBlue extends LinearOpMode {
                                                 manager.positionTheClawToDriveWithPixels()
                                         ))
                                 .setReversed(true)
-                                .splineToSplineHeading(new Pose2d(new Vector2d(-35, 60), Math.toRadians(0)), Math.toRadians(0))
+                                .splineToSplineHeading(new Pose2d(new Vector2d(-35, 58), Math.toRadians(0)), Math.toRadians(0))
                                 .splineTo(new Vector2d(54, 64), Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openAutoClaw(),

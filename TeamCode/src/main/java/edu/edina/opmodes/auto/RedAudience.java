@@ -22,7 +22,7 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
-public class Bonneville extends LinearOpMode {
+public class RedAudience extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;
     protected MecanumDrive drive;
