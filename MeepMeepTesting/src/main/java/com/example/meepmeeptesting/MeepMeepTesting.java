@@ -50,6 +50,43 @@ public class MeepMeepTesting {
                 .waitSeconds(.5)
                 .build());
 
+        RoadRunnerBotEntity audienceCycleCBlue = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(40, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        audienceCycleCBlue.runAction(audienceCycleCBlue.getDrive().actionBuilder(new Pose2d(-32, 64, Math.toRadians(180)))
+                // Drop the pixel
+                .splineTo(new Vector2d(-38, 34.5), Math.toRadians(270))
+
+                // Back out and head to middle stack
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(-58, 39, Math.toRadians(180)), Math.toRadians(180))
+                .waitSeconds(0.5)
+
+                // Return to Backboard VIA C-Row
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-30, 10), Math.toRadians(0)), Math.toRadians(0))
+                .splineTo(new Vector2d(10, 10), Math.toRadians(0))
+                .splineTo(new Vector2d(48, 36), Math.toRadians(0))
+                .waitSeconds(.5)
+
+                // Return to Stacks VIA C-Row
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(10, 10, Math.toRadians(180)), Math.toRadians(180))
+                .splineToSplineHeading(new Pose2d(-20, 10, Math.toRadians(180)), Math.toRadians(180))
+                .splineToSplineHeading(new Pose2d(-56, 21, Math.toRadians(180)), Math.toRadians(180))
+                .waitSeconds(0.5)
+
+                // Return to Backboard VIA C-Row
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-20, 10), Math.toRadians(0)), Math.toRadians(0))
+                .splineTo(new Vector2d(10, 10), Math.toRadians(0))
+                .splineTo(new Vector2d(48, 36), Math.toRadians(0))
+                .waitSeconds(.5)
+                .build());
+
         RoadRunnerBotEntity audienceCycle = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(40, 40, Math.toRadians(180), Math.toRadians(180), 12)
@@ -677,7 +714,8 @@ public class MeepMeepTesting {
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
   //              .addEntity(audienceCycle)
-                .addEntity(audienceCycleC)
+//                .addEntity(audienceCycleC)
+                .addEntity(audienceCycleCBlue)
 //                .addEntity(audienceBlueLeft)
 //                .addEntity(audienceBlueLeftWall)
 //                .addEntity(audienceBlueCenter)
