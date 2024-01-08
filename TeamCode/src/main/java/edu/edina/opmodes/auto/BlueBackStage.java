@@ -28,6 +28,7 @@ public class BlueBackStage extends LinearOpMode {
     protected RevBlinkinLedDriver.BlinkinPattern pattern;
     protected PoCHuskyLens poCHuskyLens;
     protected PropLocation propLocation;
+    private boolean useCamera = false;
 
     private ParkLocation parkLocation = ParkLocation.Corner;
     private boolean twoWhites = false;
@@ -85,21 +86,17 @@ public class BlueBackStage extends LinearOpMode {
 
         initHardware();
 
-        Actions.runBlocking(new ParallelAction(
-                manager.closeRightClaw(),
-                manager.closeLeftClaw()
-        ));
-
         hardware.lights.setPower(1);
 
         while (!isStarted()) {
             pad1.update();
 
-            telemetry.addData("Press A purple, yellow and park in corner", "");
-            telemetry.addData("Press X purple, yellow and park in center", "");
-            telemetry.addData("Press Y purple, yellow, two whites and park in center", "");
-            telemetry.addData("Press B purple, yellow, four whites and park in center", "");
-            telemetry.addData("Press left bumper to increase delay, right number to decrease delay", "");
+            telemetry.addData("A P, Y and park in corner", "");
+            telemetry.addData("X P, Y and park in center", "");
+            telemetry.addData("Y P, Y, 2 Ws and park in center", "");
+            telemetry.addData("B P, Y, 4 Ws and park in center", "");
+            telemetry.addData("left bumper to increase delay, right bumper to decrease delay", "");
+            telemetry.addData("left trigger to close claws, right trigger to open", "");
 
             if (pad1.a) {
                 parkLocation = ParkLocation.Corner;
@@ -127,15 +124,43 @@ public class BlueBackStage extends LinearOpMode {
                 delayTime -= 1000;
             }
 
+            if (gamepad1.left_trigger != 0) {
+                Actions.runBlocking(new ParallelAction(
+                        manager.closeRightClaw(),
+                        manager.closeLeftClaw()
+                ));
+            }
+
+            if (gamepad1.right_trigger != 0) {
+                Actions.runBlocking(new ParallelAction(
+                        manager.openRightClaw(),
+                        manager.openLeftClaw()
+                ));
+            }
+
             poCHuskyLens.update();
 
-            // Find Prop Location
-            propLocation = poCHuskyLens.getPropLocation();
+            if (useCamera) {
+                // Find Prop Location
+                propLocation = poCHuskyLens.getPropLocation();
+            } else {
+                if (pad1.left_stick_button) {
+                    if (propLocation == PropLocation.Left) {
+                        propLocation = PropLocation.Center;
+                    } else if (propLocation == PropLocation.Center) {
+                        propLocation = PropLocation.Right;
+                    } else if (propLocation == PropLocation.Right) {
+                        propLocation = PropLocation.Left;
+                    }
+                }
+            }
 
             telemetry.addData("Make first trip", twoWhites);
             telemetry.addData("Make Second Trip", fourWhites);
             telemetry.addData("Current Park Location", parkLocation);
+            telemetry.addData("Location", propLocation);
             telemetry.addData("Delay in seconds", delayTime / 1000);
+            telemetry.addData("Use Camera", useCamera);
             telemetry.update();
 
             // Show solid pattern if block seen, otherwise heartbeat

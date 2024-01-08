@@ -93,13 +93,13 @@ public class RedAudienceCenter extends LinearOpMode {
         while (!isStarted()) {
             pad1.update();
 
-            telemetry.addData("Press A for purple only", "");
-            telemetry.addData("Press X for purple, yellow, one white and park in corner", "");
-            telemetry.addData("Press Y for purple, yellow, one white and park in center", "");
-            telemetry.addData("Press dpad up for purple, yellow, three whites on backdrop park in front", "");
-            telemetry.addData("Press dpad down for purple, yellow, three whites and park in corner", "");
-            telemetry.addData("Press left bumper to increase delay, right number to decrease delay.", "");
-            telemetry.addData("Pull left trigger to close claws, right trigger to open", "");
+            telemetry.addData("A for P only", "");
+            telemetry.addData("X for P, Y, 1 W and park in corner", "");
+            telemetry.addData("Y for P, Y, 1 W and park in center", "");
+            telemetry.addData("dpad up for P, Y, 3 Ws on backdrop park in front", "");
+            telemetry.addData("dpad down for P, Y, 3 Ws and park in corner", "");
+            telemetry.addData("left bumper to increase delay, right bumper to decrease delay.", "");
+            telemetry.addData("left trigger to close claws, right trigger to open", "");
 
             if (pad1.a) {
                 yellowPixel = false;
@@ -388,6 +388,7 @@ public class RedAudienceCenter extends LinearOpMode {
                                 .lineToX(-48)
                                 .afterDisp(0,
                                         new ParallelAction(
+                                                manager.zeroLift(),
                                                 manager.positionTheClawToDriveWithPixels()
                                         ))
                                 .setReversed(true)

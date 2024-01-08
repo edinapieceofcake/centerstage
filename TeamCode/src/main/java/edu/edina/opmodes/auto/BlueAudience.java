@@ -34,7 +34,7 @@ public class BlueAudience extends LinearOpMode {
     private boolean yellowPixel = false;
     private boolean dropOnBackdrop = false;
     private boolean dropOnBackstage = false;
-
+    private boolean useCamera = false;
     private ParkLocation parkLocation = ParkLocation.None;
 
     protected void initHardware() {
@@ -44,7 +44,8 @@ public class BlueAudience extends LinearOpMode {
         drive = new MecanumDrive(hardware.leftFront,
                 hardware.leftBack, hardware.rightBack, hardware.rightFront,
                 hardware.par0, hardware.par1, hardware.perp,
-                hardware.externalImu, hardware.voltageSensor, getStartPose());
+                hardware.externalImu, hardware.expansionImu,
+                hardware.voltageSensor, getStartPose());
 
         // uncomment this and comment out the above if it doesn't work right
         //drive = new MecanumDrive(hardwareMap, startPose);
@@ -52,8 +53,6 @@ public class BlueAudience extends LinearOpMode {
         // Heartbeat Red to signify Red alliance
         pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_GRAY;
         hardware.blinkinLedDriver.setPattern(pattern);
-
-        PropLocation lastLocation = PropLocation.Idle;
 
         // HuskyLens Init
         poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, getAlliance());
@@ -89,22 +88,18 @@ public class BlueAudience extends LinearOpMode {
 
         initHardware();
 
-        Actions.runBlocking(new ParallelAction(
-                manager.closeRightClaw(),
-                manager.closeLeftClaw()
-        ));
-
         hardware.lights.setPower(1);
 
         while (!isStarted()) {
             pad1.update();
 
-            telemetry.addData("Press A for purple only", "");
-            telemetry.addData("Press X for purple, yellow, one white and park in corner", "");
-            telemetry.addData("Press Y for purple, yellow, one white and park in center", "");
-            telemetry.addData("Press dpad up for purple, yellow, three whites on backdrop park in front", "");
-            telemetry.addData("Press dpad down for purple, yellow, three whites and park in corner", "");
-            telemetry.addData("Press left bumper to increase delay, right number to decrease delay.", "");
+            telemetry.addData("A for P only", "");
+            telemetry.addData("X for P, Y, 1 W and park in corner", "");
+            telemetry.addData("Y for P, Y, 1 W and park in center", "");
+            telemetry.addData("dpad up for P, T, 3 Ws on backdrop park in front", "");
+            telemetry.addData("dpad down for P, Y, 3 Ws and park in corner", "");
+            telemetry.addData("left bumper to increase delay, right bumper to decrease delay.", "");
+            telemetry.addData("left trigger to close claws, right trigger to open", "");
 
             if (pad1.a) {
                 yellowPixel = false;
@@ -152,6 +147,20 @@ public class BlueAudience extends LinearOpMode {
                 delayTime -= 1000;
             }
 
+            if (gamepad1.left_trigger != 0) {
+                Actions.runBlocking(new ParallelAction(
+                        manager.closeRightClaw(),
+                        manager.closeLeftClaw()
+                ));
+            }
+
+            if (gamepad1.right_trigger != 0) {
+                Actions.runBlocking(new ParallelAction(
+                        manager.openRightClaw(),
+                        manager.openLeftClaw()
+                ));
+            }
+
             telemetry.addData("==========================", "");
             telemetry.addData("Drop Yellow Pixel", yellowPixel);
             telemetry.addData("Make Second Trip", makeSecondTrip);
@@ -159,14 +168,24 @@ public class BlueAudience extends LinearOpMode {
             telemetry.addData("Drop on backdrop", dropOnBackdrop);
             telemetry.addData("Drop on backstage", dropOnBackstage);
             telemetry.addData("Delay in seconds", delayTime / 1000);
+            telemetry.addData("Use Camera", useCamera);
 
             poCHuskyLens.update();
 
             // Find Prop Location
-            propLocation = poCHuskyLens.getPropLocation();
-
-            // Comment out when actually using camera!!
-            propLocation = PropLocation.Left;
+            if (useCamera) {
+                propLocation = poCHuskyLens.getPropLocation();
+            } else {
+                if (pad1.left_stick_button) {
+                    if (propLocation == PropLocation.Left) {
+                        propLocation = PropLocation.Center;
+                    } else if (propLocation == PropLocation.Center) {
+                        propLocation = PropLocation.Right;
+                    } else if (propLocation == PropLocation.Right) {
+                        propLocation = PropLocation.Left;
+                    }
+                }
+            }
 
             telemetry.addData("Location", propLocation);
             telemetry.update();

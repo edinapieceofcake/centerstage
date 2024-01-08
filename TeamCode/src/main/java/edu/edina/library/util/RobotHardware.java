@@ -55,6 +55,7 @@ public class RobotHardware {
     public final DigitalChannel leftClawRed, leftClawGreen;
     public final DigitalChannel rightClawRed, rightClawGreen;
 
+    public final DigitalChannel beamBreak;
     public final DigitalChannel hangSwitch;
 
     private ExecutorService homeHangMotorExecutor;
@@ -158,6 +159,9 @@ public class RobotHardware {
         hangSwitch.setMode(DigitalChannel.Mode.INPUT);
 
         lights = hardwareMap.get(DcMotorEx.class, "lights");
+
+        beamBreak = hardwareMap.get(DigitalChannel.class, "beamBreak");
+        beamBreak.setMode(DigitalChannel.Mode.INPUT);
     }
 
     public void liftServosForTeleop() {

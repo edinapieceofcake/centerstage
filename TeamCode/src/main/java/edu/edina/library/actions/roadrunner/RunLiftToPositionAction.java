@@ -34,7 +34,8 @@ public class RunLiftToPositionAction implements Action {
             hardware.bottomLiftMotor.setPower(1);
             positionTimeout.reset();
         } else {
-            if ((hardware.topLiftMotor.getCurrentPosition() < (liftPosition + 10)) || positionTimeout.hasExpired()) {
+            if (((hardware.topLiftMotor.getCurrentPosition() > (liftPosition - 10)) &&
+                    (hardware.topLiftMotor.getCurrentPosition() < (liftPosition + 10))) || positionTimeout.hasExpired()) {
                 // reached end or we have timed out
                 return false;
             }

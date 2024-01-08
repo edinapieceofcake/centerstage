@@ -214,7 +214,34 @@ public final class MecanumDrive {
 
         this.voltageSensor = voltageSensor;
 
-        localizer = new TwoDeadWheelLocalizer(par0, perp, imu, PARAMS.inPerTick);
+        localizer = new TwoDeadWheelLocalizer(par0, perp, imu, imu, PARAMS.inPerTick);
+//        localizer = new ThreeDeadWheelLocalizer(par0, par1, perp, PARAMS.inPerTick);
+
+        FlightRecorder.write("MECANUM_PARAMS", PARAMS);
+    }
+
+    public MecanumDrive(DcMotorEx leftFront, DcMotorEx leftBack, DcMotorEx rightBack, DcMotorEx rightFront,
+                        DcMotorEx par0, DcMotorEx par1, DcMotorEx perp,
+                        IMU imu, IMU expansionImu, VoltageSensor voltageSensor, Pose2d pose) {
+        this.pose = pose;
+        this.leftFront = leftFront;
+        this.leftBack = leftBack;
+        this.rightBack = rightBack;
+        this.rightFront = rightFront;
+
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        this.imu = imu;
+
+        this.voltageSensor = voltageSensor;
+
+        localizer = new TwoDeadWheelLocalizer(par0, perp, imu, expansionImu, PARAMS.inPerTick);
 //        localizer = new ThreeDeadWheelLocalizer(par0, par1, perp, PARAMS.inPerTick);
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);

@@ -56,7 +56,7 @@ public class MeepMeepTesting {
                 .setDimensions(12, 12)
                 .build();
 
-        audienceCycleCBlue.runAction(audienceCycleCBlue.getDrive().actionBuilder(new Pose2d(-32, 64, Math.toRadians(180)))
+        audienceCycleCBlue.runAction(audienceCycleCBlue.getDrive().actionBuilder(new Pose2d(-31, 64, Math.toRadians(180)))
                 // Drop the pixel
                 .splineTo(new Vector2d(-38, 34.5), Math.toRadians(270))
 

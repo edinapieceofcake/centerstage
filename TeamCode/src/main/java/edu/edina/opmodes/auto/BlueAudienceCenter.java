@@ -22,7 +22,7 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
-public class RedAudience extends LinearOpMode {
+public class BlueAudienceCenter extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;
     protected MecanumDrive drive;
@@ -35,7 +35,6 @@ public class RedAudience extends LinearOpMode {
     private boolean dropOnBackdrop = false;
     private boolean dropOnBackstage = false;
     private boolean useCamera = false;
-
     private ParkLocation parkLocation = ParkLocation.None;
 
     protected void initHardware() {
@@ -45,7 +44,8 @@ public class RedAudience extends LinearOpMode {
         drive = new MecanumDrive(hardware.leftFront,
                 hardware.leftBack, hardware.rightBack, hardware.rightFront,
                 hardware.par0, hardware.par1, hardware.perp,
-                hardware.externalImu, hardware.expansionImu, hardware.voltageSensor, getStartPose());
+                hardware.externalImu, hardware.expansionImu,
+                hardware.voltageSensor, getStartPose());
 
         // uncomment this and comment out the above if it doesn't work right
         //drive = new MecanumDrive(hardwareMap, startPose);
@@ -53,8 +53,6 @@ public class RedAudience extends LinearOpMode {
         // Heartbeat Red to signify Red alliance
         pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_GRAY;
         hardware.blinkinLedDriver.setPattern(pattern);
-
-        PropLocation lastLocation = PropLocation.Idle;
 
         // HuskyLens Init
         poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, getAlliance());
@@ -80,7 +78,7 @@ public class RedAudience extends LinearOpMode {
     }
 
     protected Pose2d getStartPose() {
-        return new Pose2d(-42, -64, Math.toRadians(90));
+        return new Pose2d(-31, 64, Math.toRadians(270));
     }
 
     @Override
@@ -99,7 +97,7 @@ public class RedAudience extends LinearOpMode {
             telemetry.addData("X for P, Y, 1 W and park in corner", "");
             telemetry.addData("Y for P, Y, 1 W and park in center", "");
             telemetry.addData("dpad up for P, Y, 3 Ws on backdrop park in front", "");
-            telemetry.addData("dpad down for P, Y, 3 Ws and park in corner", "");
+            telemetry.addData("dpad down for P, Y, 3 Ws and park in center", "");
             telemetry.addData("left bumper to increase delay, right bumper to decrease delay.", "");
             telemetry.addData("left trigger to close claws, right trigger to open", "");
 
@@ -163,10 +161,19 @@ public class RedAudience extends LinearOpMode {
                 ));
             }
 
+            telemetry.addData("==========================", "");
+            telemetry.addData("Drop Yellow Pixel", yellowPixel);
+            telemetry.addData("Make Second Trip", makeSecondTrip);
+            telemetry.addData("Current Park Location", parkLocation);
+            telemetry.addData("Drop on backdrop", dropOnBackdrop);
+            telemetry.addData("Drop on backstage", dropOnBackstage);
+            telemetry.addData("Delay in seconds", delayTime / 1000);
+            telemetry.addData("Use Camera", useCamera);
+
             poCHuskyLens.update();
 
+            // Find Prop Location
             if (useCamera) {
-                // Find Prop Location
                 propLocation = poCHuskyLens.getPropLocation();
             } else {
                 if (pad1.left_stick_button) {
@@ -180,14 +187,6 @@ public class RedAudience extends LinearOpMode {
                 }
             }
 
-            telemetry.addData("==========================", "");
-            telemetry.addData("Drop Yellow Pixel", yellowPixel);
-            telemetry.addData("Make Second Trip", makeSecondTrip);
-            telemetry.addData("Current Park Location", parkLocation);
-            telemetry.addData("Drop on backdrop", dropOnBackdrop);
-            telemetry.addData("Drop on backstage", dropOnBackstage);
-            telemetry.addData("Delay in seconds", delayTime / 1000);
-            telemetry.addData("Use Camera", useCamera);
             telemetry.addData("Location", propLocation);
             telemetry.update();
 
@@ -220,85 +219,87 @@ public class RedAudience extends LinearOpMode {
 
     protected void runPaths() {
         Vector2d propDropLocation;
+        double propAngle = 270;
         Pose2d backdropDropLocation;
         Pose2d secondBackdropDropLocation;
 
         // Determine location for purple pixel
         switch(propLocation) {
             case Left:
-                propDropLocation = new Vector2d(-45, -35);
+                propDropLocation = new Vector2d(-33, 35);
+                propAngle = 315.0;
                 break;
             case Center:
-                propDropLocation = new Vector2d(-38, -35);
+                propDropLocation = new Vector2d(-38, 34.5);
+                propAngle = 270.0;
                 break;
             case Right:
-                propDropLocation = new Vector2d(-30, -37);
+                propDropLocation = new Vector2d(-48, 40);
+                propAngle = 270.0;
                 break;
             default:
-                propDropLocation = new Vector2d(-38, -33);  // default to Center if all goes bad
+                propDropLocation = new Vector2d(-38, 33);  // default to Center if all goes bad
+                propAngle = 270.0;
                 break;
         }
 
         // Determine location for yellow pixel
         switch (propLocation) {
             case Left:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(50,-32, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(50,39, Math.toRadians(0));
+                secondBackdropDropLocation = new Pose2d(50,39, Math.toRadians(0));
                 break;
             case Center:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(50,-38, Math.toRadians(0));
+                backdropDropLocation = secondBackdropDropLocation = new Pose2d(50,35, Math.toRadians(0));
                 break;
             case Right:
-                backdropDropLocation = new Pose2d(50,-47, Math.toRadians(0));
-                secondBackdropDropLocation = new Pose2d(50,-40, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(50,28, Math.toRadians(0));
+                secondBackdropDropLocation = new Pose2d(50,28, Math.toRadians(0));
                 break;
             default:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(50,-38, Math.toRadians(0)); // default to center if all goes bad
+                backdropDropLocation = secondBackdropDropLocation = new Pose2d(50,35, Math.toRadians(0)); // default to center if all goes bad
                 break;
         }
 
-        switch (propLocation) {
-            case Right:
-                Actions.runBlocking(
-                        new SequentialAction(
-                                drive.actionBuilder(drive.pose)
-                                        .splineTo(propDropLocation, Math.toRadians(45))
-                                        .build(),
-                                manager.openLeftClaw()
-                        )
-                );
-                break;
-            default:
-                // Execute drive to prop drop spot and drop
-                Actions.runBlocking(
-                        new SequentialAction(
-                                drive.actionBuilder(drive.pose)
-                                        .splineTo(propDropLocation, Math.toRadians(90))
-                                        .build(),
-                                manager.openLeftClaw()
-                        )
-                );
-                break;
-        }
+        Actions.runBlocking(
+                new SequentialAction(
+                        drive.actionBuilder(drive.pose)
+                                .splineTo(propDropLocation, Math.toRadians(propAngle))
+                                .build(),
+                        manager.openLeftClaw()
+                )
+        );
 
         if (yellowPixel) {
             // Drive to Stack Pick up 1st white
-            Actions.runBlocking(
-                    drive.actionBuilder(drive.pose)
-                            // Head to Stacks
-                            .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(-52, -36, Math.toRadians(180)), Math.toRadians(180))
-                            .build()
-            );
+            switch (propLocation) {
+                case Right:
+                    Actions.runBlocking(
+                            drive.actionBuilder(drive.pose)
+                                    .turnTo(Math.toRadians(180))
+                                    .build()
+                            );
+                    break;
+                default:
+                    Actions.runBlocking(
+                            drive.actionBuilder(drive.pose)
+                                    // Head to Stacks
+                                    .setReversed(true)
+                                    .splineToSplineHeading(new Pose2d(-52, 39, Math.toRadians(180)), Math.toRadians(180))
+                                    .build()
+                    );
+                    break;
+            }
 
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
-                                    manager.runLiftToPosition(-250),
+                                    manager.runLiftToPosition(-245),
                                     manager.positionTheClawToPickupPixels()
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
-                                    .lineToX(-55.5)
+                                    .lineToX(-55)
                                     .build(),
                             manager.closeLeftClaw(),
                             new SleepAction(.2),
@@ -306,29 +307,56 @@ public class RedAudience extends LinearOpMode {
                     )
             );
 
-            // drive to backstage - 1st trip
-            Actions.runBlocking(
-                    drive.actionBuilder(drive.pose)
-                            // Head to Stacks VIA A-Row
-                            .lineToX(-48)
-                            .afterDisp(0,
-                                    new ParallelAction(
-                                            manager.lowerLiftForDriving(),
-                                            manager.zeroLift(),
-                                            manager.positionTheClawToDriveWithPixels()
+            if (propLocation == PropLocation.Right || propLocation == PropLocation.Center) {
+                Actions.runBlocking(
+                            drive.actionBuilder(drive.pose)
+                                    // Head to Stacks VIA C-Row
+                                    .turnTo(Math.toRadians(270))
+                                    .afterDisp(0,
+                                            new ParallelAction(
+                                                    manager.lowerLiftForDriving(),
+                                                    manager.zeroLift(),
+                                                    manager.positionTheClawToDriveWithPixels()
+                                            )
+                                    )
+                                    .splineToSplineHeading(new Pose2d(new Vector2d(-30, 12), Math.toRadians(0)), Math.toRadians(0))
+                                    .splineTo(new Vector2d(11, 12), Math.toRadians(0))
+                                    .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
+                                    .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
+                                    .lineToX(51.5)
+                                    .afterDisp(0, new SequentialAction(
+                                            manager.openRightClaw(),
+                                            new SleepAction(0.25),
+                                            manager.openLeftClaw()
                                     ))
-                            .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
-                            .splineTo(new Vector2d(10, -60), Math.toRadians(0))
-                            .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                            .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
-                            .afterDisp(0, new SequentialAction(
-                                    manager.openRightClaw(),
-                                    new SleepAction(0.25),
-                                    manager.openLeftClaw()
-                            ))
-                            .build()
-            );
+                                    .build()
+                );
+            } else {
+                // drive to backstage - 1st trip
+                Actions.runBlocking(
+                        drive.actionBuilder(drive.pose)
+                                // Head to Stacks VIA A-Row
+                                .lineToX(-50)
+                                .afterDisp(0,
+                                        new ParallelAction(
+                                                manager.lowerLiftForDriving(),
+                                                manager.zeroLift(),
+                                                manager.positionTheClawToDriveWithPixels()
+                                        ))
+                                .setReversed(true)
+                                .splineToSplineHeading(new Pose2d(new Vector2d(-30, 12), Math.toRadians(0)), Math.toRadians(0))
+                                .splineTo(new Vector2d(11, 12), Math.toRadians(0))
+                                .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
+                                .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
+                                .lineToX(51.5)
+                                .afterDisp(0, new SequentialAction(
+                                        manager.openRightClaw(),
+                                        new SleepAction(0.25),
+                                        manager.openLeftClaw()
+                                ))
+                                .build()
+                );
+            }
 
             if (!makeSecondTrip) {
                 // back away and pack up
@@ -355,11 +383,9 @@ public class RedAudience extends LinearOpMode {
                                     manager.getLiftReadyToDrive()
                             ),
                             drive.actionBuilder(drive.pose)
-                                    .lineToX(44)
-                                    .setReversed(true)
-                                    .splineToSplineHeading(new Pose2d(0, -60, Math.toRadians(-180)), Math.toRadians(180))
-                                    .splineTo(new Vector2d(-40, -58), Math.toRadians(180))
-                                    .splineTo(new Vector2d(-52, -34), Math.toRadians(180))
+                                    .lineToX(46)
+                                    .splineToSplineHeading(new Pose2d(11, 12, Math.toRadians(180)), Math.toRadians(180))
+                                    .splineTo(new Vector2d(-48, 17), Math.toRadians(180))
                                     .build()
                     )
             );
@@ -368,11 +394,11 @@ public class RedAudience extends LinearOpMode {
                     new SequentialAction(
                             new ParallelAction(
                                     manager.positionTheClawToPickupPixels(),
-                                    manager.runLiftToPosition(-145)
+                                    manager.runLiftToPosition(-180)
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
-                                    .lineToX(-60)
+                                    .lineToX(-58)
                                     .build(),
                             new ParallelAction(
                                     manager.closeLeftClaw(),
@@ -387,14 +413,15 @@ public class RedAudience extends LinearOpMode {
                 Actions.runBlocking(
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks VIA A-Row
-                                .lineToX(-48)
+                                .lineToX(-50)
                                 .afterDisp(0,
                                         new ParallelAction(
+                                                manager.zeroLift(),
                                                 manager.positionTheClawToDriveWithPixels()
                                         ))
                                 .setReversed(true)
-                                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
-                                .splineTo(new Vector2d(10, -60), Math.toRadians(0))
+                                .splineToSplineHeading(new Pose2d(new Vector2d(-20, 12), Math.toRadians(0)), Math.toRadians(0))
+                                .splineTo(new Vector2d(10, 12), Math.toRadians(0))
                                 .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
                                 .splineToSplineHeading(secondBackdropDropLocation, Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
@@ -407,7 +434,7 @@ public class RedAudience extends LinearOpMode {
                 Actions.runBlocking(
                         new SequentialAction(
                                 drive.actionBuilder(drive.pose)
-                                        .lineToX(44)
+                                        .lineToX(40)
                                         .build(),
                                 manager.getLiftReadyToDrive()
                         )
@@ -426,8 +453,8 @@ public class RedAudience extends LinearOpMode {
                                                 manager.positionTheClawToDriveWithPixels()
                                         ))
                                 .setReversed(true)
-                                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
-                                .splineTo(new Vector2d(54, -64), Math.toRadians(0))
+                                .splineToSplineHeading(new Pose2d(new Vector2d(-35, 12), Math.toRadians(0)), Math.toRadians(0))
+                                .splineTo(new Vector2d(54, 14), Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openAutoClaw(),
                                         manager.openLeftClaw()
@@ -444,14 +471,14 @@ public class RedAudience extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(58, -14), Math.toRadians(0))
+                                .splineTo(new Vector2d(58, 14), Math.toRadians(0))
                                 .build()));
                 break;
             case Corner:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(58, -64), Math.toRadians(0))
+                                .splineTo(new Vector2d(58, 64), Math.toRadians(0))
                                 .build()));
                 break;
             default:
