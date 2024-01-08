@@ -31,8 +31,8 @@ public class TestLights extends LinearOpMode {
                 lights.setPower(0);
             }
 
-            telemetry.addData("Triggers control the light", "left on, right off");
-            telemetry.addData("Top Lift Motor Current Position: ", "%f %f", lights.getPower(), lights.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Bumpers control the light", "left increases, right turns off");
+            telemetry.addData("Light power", lights.getPower());
             telemetry.update();
         }
     }
