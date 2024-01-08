@@ -22,7 +22,7 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
-public class BonnevilleRedRowC extends LinearOpMode {
+public class RedAudienceCenter extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;
     protected MecanumDrive drive;
@@ -34,6 +34,7 @@ public class BonnevilleRedRowC extends LinearOpMode {
     private boolean yellowPixel = false;
     private boolean dropOnBackdrop = false;
     private boolean dropOnBackstage = false;
+    private boolean useCamera = false;
 
     private ParkLocation parkLocation = ParkLocation.None;
 
@@ -44,7 +45,7 @@ public class BonnevilleRedRowC extends LinearOpMode {
         drive = new MecanumDrive(hardware.leftFront,
                 hardware.leftBack, hardware.rightBack, hardware.rightFront,
                 hardware.par0, hardware.par1, hardware.perp,
-                hardware.externalImu, hardware.voltageSensor, getStartPose());
+                hardware.externalImu, hardware.expansionImu, hardware.voltageSensor, getStartPose());
 
         // uncomment this and comment out the above if it doesn't work right
         //drive = new MecanumDrive(hardwareMap, startPose);
@@ -52,8 +53,6 @@ public class BonnevilleRedRowC extends LinearOpMode {
         // Heartbeat Red to signify Red alliance
         pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_GRAY;
         hardware.blinkinLedDriver.setPattern(pattern);
-
-        PropLocation lastLocation = PropLocation.Idle;
 
         // HuskyLens Init
         poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, getAlliance());
@@ -89,11 +88,6 @@ public class BonnevilleRedRowC extends LinearOpMode {
 
         initHardware();
 
-        Actions.runBlocking(new ParallelAction(
-                manager.closeRightClaw(),
-                manager.closeLeftClaw()
-        ));
-
         hardware.lights.setPower(1);
 
         while (!isStarted()) {
@@ -105,6 +99,7 @@ public class BonnevilleRedRowC extends LinearOpMode {
             telemetry.addData("Press dpad up for purple, yellow, three whites on backdrop park in front", "");
             telemetry.addData("Press dpad down for purple, yellow, three whites and park in corner", "");
             telemetry.addData("Press left bumper to increase delay, right number to decrease delay.", "");
+            telemetry.addData("Pull left trigger to close claws, right trigger to open", "");
 
             if (pad1.a) {
                 yellowPixel = false;
@@ -152,6 +147,37 @@ public class BonnevilleRedRowC extends LinearOpMode {
                 delayTime -= 1000;
             }
 
+            if (gamepad1.left_trigger != 0) {
+                Actions.runBlocking(new ParallelAction(
+                        manager.closeRightClaw(),
+                        manager.closeLeftClaw()
+                ));
+            }
+
+            if (gamepad1.right_trigger != 0) {
+                Actions.runBlocking(new ParallelAction(
+                        manager.openRightClaw(),
+                        manager.openLeftClaw()
+                ));
+            }
+
+            poCHuskyLens.update();
+
+            if (useCamera) {
+                // Find Prop Location
+                propLocation = poCHuskyLens.getPropLocation();
+            } else {
+                if (pad1.left_stick_button) {
+                    if (propLocation == PropLocation.Left) {
+                        propLocation = PropLocation.Center;
+                    } else if (propLocation == PropLocation.Center) {
+                        propLocation = PropLocation.Right;
+                    } else if (propLocation == PropLocation.Right) {
+                        propLocation = PropLocation.Left;
+                    }
+                }
+            }
+
             telemetry.addData("==========================", "");
             telemetry.addData("Drop Yellow Pixel", yellowPixel);
             telemetry.addData("Make Second Trip", makeSecondTrip);
@@ -159,16 +185,8 @@ public class BonnevilleRedRowC extends LinearOpMode {
             telemetry.addData("Drop on backdrop", dropOnBackdrop);
             telemetry.addData("Drop on backstage", dropOnBackstage);
             telemetry.addData("Delay in seconds", delayTime / 1000);
-
-            poCHuskyLens.update();
-
-            // Find Prop Location
-            propLocation = poCHuskyLens.getPropLocation();
-
-            // Comment out when actually using camera!!
-            propLocation = PropLocation.Right;
-
             telemetry.addData("Location", propLocation);
+            telemetry.addData("Use Camera", useCamera);
             telemetry.update();
 
             // Show solid pattern if block seen, otherwise heartbeat
