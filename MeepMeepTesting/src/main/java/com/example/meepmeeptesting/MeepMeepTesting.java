@@ -67,22 +67,22 @@ public class MeepMeepTesting {
 
                 // Return to Backboard VIA C-Row
                 .setReversed(true)
-                .splineToSplineHeading(new Pose2d(new Vector2d(-30, 10), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(10, 10), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(new Vector2d(-30, 12), Math.toRadians(0)), Math.toRadians(0))
+                .splineTo(new Vector2d(10, 12), Math.toRadians(0))
                 .splineTo(new Vector2d(48, 36), Math.toRadians(0))
                 .waitSeconds(.5)
 
                 // Return to Stacks VIA C-Row
                 .setReversed(true)
-                .splineToSplineHeading(new Pose2d(10, 10, Math.toRadians(180)), Math.toRadians(180))
-                .splineToSplineHeading(new Pose2d(-20, 10, Math.toRadians(180)), Math.toRadians(180))
-                .splineToSplineHeading(new Pose2d(-56, 21, Math.toRadians(180)), Math.toRadians(180))
+                .splineToSplineHeading(new Pose2d(10, 12, Math.toRadians(180)), Math.toRadians(180))
+                .splineToSplineHeading(new Pose2d(-20, 12, Math.toRadians(180)), Math.toRadians(180))
+                .splineToSplineHeading(new Pose2d(-56, 15.5, Math.toRadians(180)), Math.toRadians(180))
                 .waitSeconds(0.5)
 
                 // Return to Backboard VIA C-Row
                 .setReversed(true)
-                .splineToSplineHeading(new Pose2d(new Vector2d(-20, 10), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(10, 10), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(new Vector2d(-20, 12), Math.toRadians(0)), Math.toRadians(0))
+                .splineTo(new Vector2d(10, 12), Math.toRadians(0))
                 .splineTo(new Vector2d(48, 36), Math.toRadians(0))
                 .waitSeconds(.5)
                 .build());
