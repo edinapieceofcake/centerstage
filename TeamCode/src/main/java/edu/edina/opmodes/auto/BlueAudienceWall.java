@@ -168,6 +168,7 @@ public class BlueAudienceWall extends LinearOpMode {
             telemetry.addData("Drop on backdrop", dropOnBackdrop);
             telemetry.addData("Drop on backstage", dropOnBackstage);
             telemetry.addData("Delay in seconds", delayTime / 1000);
+            telemetry.addData("Location", propLocation);
             telemetry.addData("Use Camera", useCamera);
 
             poCHuskyLens.update();

@@ -166,8 +166,9 @@ public class BlueAudienceCenter extends LinearOpMode {
             telemetry.addData("Make Second Trip", makeSecondTrip);
             telemetry.addData("Current Park Location", parkLocation);
             telemetry.addData("Drop on backdrop", dropOnBackdrop);
-            telemetry.addData("Drop on backstage", dropOnBackstage);
+            telemetry.addData("Drop on center", dropOnBackstage);
             telemetry.addData("Delay in seconds", delayTime / 1000);
+            telemetry.addData("Location", propLocation);
             telemetry.addData("Use Camera", useCamera);
 
             poCHuskyLens.update();

@@ -187,8 +187,8 @@ public class RedAudienceWall extends LinearOpMode {
             telemetry.addData("Drop on backdrop", dropOnBackdrop);
             telemetry.addData("Drop on backstage", dropOnBackstage);
             telemetry.addData("Delay in seconds", delayTime / 1000);
-            telemetry.addData("Use Camera", useCamera);
             telemetry.addData("Location", propLocation);
+            telemetry.addData("Use Camera", useCamera);
             telemetry.update();
 
             // Show solid pattern if block seen, otherwise heartbeat

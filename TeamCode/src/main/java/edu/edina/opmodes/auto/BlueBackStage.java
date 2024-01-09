@@ -158,8 +158,8 @@ public class BlueBackStage extends LinearOpMode {
             telemetry.addData("Make first trip", twoWhites);
             telemetry.addData("Make Second Trip", fourWhites);
             telemetry.addData("Current Park Location", parkLocation);
-            telemetry.addData("Location", propLocation);
             telemetry.addData("Delay in seconds", delayTime / 1000);
+            telemetry.addData("Location", propLocation);
             telemetry.addData("Use Camera", useCamera);
             telemetry.update();
 
