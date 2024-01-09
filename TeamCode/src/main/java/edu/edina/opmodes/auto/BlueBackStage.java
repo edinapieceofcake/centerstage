@@ -97,6 +97,8 @@ public class BlueBackStage extends LinearOpMode {
             telemetry.addData("B P, Y, 4 Ws and park in center", "");
             telemetry.addData("left bumper to increase delay, right bumper to decrease delay", "");
             telemetry.addData("left trigger to close claws, right trigger to open", "");
+            telemetry.addData("left stick down manual rotate prop position", "");
+            telemetry.addData("right stick down manual or auto camera", "");
 
             if (pad1.a) {
                 parkLocation = ParkLocation.Corner;
@@ -138,10 +140,17 @@ public class BlueBackStage extends LinearOpMode {
                 ));
             }
 
-            poCHuskyLens.update();
+            if (pad1.right_stick_button) {
+                if (useCamera) {
+                    useCamera = false;
+                } else {
+                    useCamera = true;
+                }
+            }
 
             if (useCamera) {
                 // Find Prop Location
+                poCHuskyLens.update();
                 propLocation = poCHuskyLens.getPropLocation();
             } else {
                 if (pad1.left_stick_button) {

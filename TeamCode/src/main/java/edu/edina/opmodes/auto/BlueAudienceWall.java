@@ -100,6 +100,8 @@ public class BlueAudienceWall extends LinearOpMode {
             telemetry.addData("dpad down for P, Y, 3 Ws and park in corner", "");
             telemetry.addData("left bumper to increase delay, right bumper to decrease delay.", "");
             telemetry.addData("left trigger to close claws, right trigger to open", "");
+            telemetry.addData("left stick down manual rotate prop position", "");
+            telemetry.addData("right stick down manual or auto camera", "");
 
             if (pad1.a) {
                 yellowPixel = false;
@@ -161,20 +163,17 @@ public class BlueAudienceWall extends LinearOpMode {
                 ));
             }
 
-            telemetry.addData("==========================", "");
-            telemetry.addData("Drop Yellow Pixel", yellowPixel);
-            telemetry.addData("Make Second Trip", makeSecondTrip);
-            telemetry.addData("Current Park Location", parkLocation);
-            telemetry.addData("Drop on backdrop", dropOnBackdrop);
-            telemetry.addData("Drop on backstage", dropOnBackstage);
-            telemetry.addData("Delay in seconds", delayTime / 1000);
-            telemetry.addData("Location", propLocation);
-            telemetry.addData("Use Camera", useCamera);
-
-            poCHuskyLens.update();
+            if (pad1.right_stick_button) {
+                if (useCamera) {
+                    useCamera = false;
+                } else {
+                    useCamera = true;
+                }
+            }
 
             // Find Prop Location
             if (useCamera) {
+                poCHuskyLens.update();
                 propLocation = poCHuskyLens.getPropLocation();
             } else {
                 if (pad1.left_stick_button) {
@@ -188,7 +187,15 @@ public class BlueAudienceWall extends LinearOpMode {
                 }
             }
 
+            telemetry.addData("==========================", "");
+            telemetry.addData("Drop Yellow Pixel", yellowPixel);
+            telemetry.addData("Make Second Trip", makeSecondTrip);
+            telemetry.addData("Current Park Location", parkLocation);
+            telemetry.addData("Drop on backdrop", dropOnBackdrop);
+            telemetry.addData("Drop on backstage", dropOnBackstage);
+            telemetry.addData("Delay in seconds", delayTime / 1000);
             telemetry.addData("Location", propLocation);
+            telemetry.addData("Use Camera", useCamera);
             telemetry.update();
 
             // Show solid pattern if block seen, otherwise heartbeat

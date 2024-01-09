@@ -100,6 +100,8 @@ public class RedAudienceCenter extends LinearOpMode {
             telemetry.addData("dpad down for P, Y, 3 Ws and park in corner", "");
             telemetry.addData("left bumper to increase delay, right bumper to decrease delay.", "");
             telemetry.addData("left trigger to close claws, right trigger to open", "");
+            telemetry.addData("left stick down manual rotate prop position", "");
+            telemetry.addData("right stick down manual or auto camera", "");
 
             if (pad1.a) {
                 yellowPixel = false;
@@ -161,10 +163,17 @@ public class RedAudienceCenter extends LinearOpMode {
                 ));
             }
 
-            poCHuskyLens.update();
+            if (pad1.right_stick_button) {
+                if (useCamera) {
+                    useCamera = false;
+                } else {
+                    useCamera = true;
+                }
+            }
 
             if (useCamera) {
                 // Find Prop Location
+                poCHuskyLens.update();
                 propLocation = poCHuskyLens.getPropLocation();
             } else {
                 if (pad1.left_stick_button) {
