@@ -62,7 +62,7 @@ public class RobotConfiguration {
     // robot hanger positions
     public double leftHangServoPosition = .53;
     public double rightHangServoPosition = .51;
-    public int hangMotorInitPosition = -260;
+    public int hangMotorInitPosition = -230;
     public int hangMotorStorePosition = 0;
     public int hangMotorLowDropOffPosition = -850;
     public int hangMotorHighDropOffPosition = -1100;
