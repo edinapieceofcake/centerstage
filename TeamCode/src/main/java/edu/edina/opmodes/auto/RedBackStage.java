@@ -3,6 +3,7 @@ package edu.edina.opmodes.auto;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
@@ -289,9 +290,12 @@ public class RedBackStage extends LinearOpMode {
         Actions.runBlocking(
                 new ParallelAction(
                         drive.actionBuilder(drive.pose)
-                                .lineToX(52)
+                                .lineToX(51)
                                 .build(),
-                        manager.getLiftReadyToDrive()
+                        new SequentialAction(
+                            new SleepAction(0.5),
+                            manager.getLiftReadyToDrive()
+                        )
                 )
         );
 
@@ -363,11 +367,11 @@ public class RedBackStage extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
-                                    manager.runLiftToPosition(-90),
+                                    manager.runLiftToPosition(-35),
                                     manager.positionTheClawToPickupPixels()
                             ),
                             drive.actionBuilder(drive.pose)
-                                    .lineToX(-53)
+                                    .lineToX(-56)
                                     .build(),
                             new ParallelAction(
                                     manager.closeAutoClaw(),
@@ -382,7 +386,7 @@ public class RedBackStage extends LinearOpMode {
                     new SequentialAction(
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks VIA A-Row
-                                    .lineToX(-44)
+                                    .lineToX(-48)
                                     .afterDisp(0,
                                             new ParallelAction(
                                                     manager.lowerLiftForDriving(),

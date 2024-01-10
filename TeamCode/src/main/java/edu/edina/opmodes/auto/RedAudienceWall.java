@@ -51,7 +51,7 @@ public class RedAudienceWall extends LinearOpMode {
         //drive = new MecanumDrive(hardwareMap, startPose);
 
         // Heartbeat Red to signify Red alliance
-        pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_GRAY;
+        pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
         hardware.blinkinLedDriver.setPattern(pattern);
 
         PropLocation lastLocation = PropLocation.Idle;
@@ -76,7 +76,7 @@ public class RedAudienceWall extends LinearOpMode {
     }
 
     protected RevBlinkinLedDriver.BlinkinPattern getSuccessfulPropMatchColor() {
-        return RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_GRAY;
+        return RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
     }
 
     protected Pose2d getStartPose() {
@@ -251,17 +251,17 @@ public class RedAudienceWall extends LinearOpMode {
         // Determine location for yellow pixel
         switch (propLocation) {
             case Left:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(50,-32, Math.toRadians(0));
+                backdropDropLocation = secondBackdropDropLocation = new Pose2d(47,-32, Math.toRadians(0));
                 break;
             case Center:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(50,-38, Math.toRadians(0));
+                backdropDropLocation = secondBackdropDropLocation = new Pose2d(47,-38, Math.toRadians(0));
                 break;
             case Right:
-                backdropDropLocation = new Pose2d(50,-47, Math.toRadians(0));
-                secondBackdropDropLocation = new Pose2d(50,-40, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(47,-47, Math.toRadians(0));
+                secondBackdropDropLocation = new Pose2d(47,-40, Math.toRadians(0));
                 break;
             default:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(50,-38, Math.toRadians(0)); // default to center if all goes bad
+                backdropDropLocation = secondBackdropDropLocation = new Pose2d(47,-38, Math.toRadians(0)); // default to center if all goes bad
                 break;
         }
 
@@ -290,24 +290,38 @@ public class RedAudienceWall extends LinearOpMode {
         }
 
         if (yellowPixel) {
-            // Drive to Stack Pick up 1st white
-            Actions.runBlocking(
-                    drive.actionBuilder(drive.pose)
-                            // Head to Stacks
-                            .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(-52, -36, Math.toRadians(180)), Math.toRadians(180))
-                            .build()
-            );
+            switch (propLocation) {
+                case Left:
+                    Actions.runBlocking(
+                        drive.actionBuilder(drive.pose)
+                                // Head to Stacks
+                                .setReversed(true)
+                                .turnTo(Math.toRadians(180))
+                                .lineToX(-52)
+                                .build()
+                    );
+                    break;
+                default:
+                // Drive to Stack Pick up 1st white
+                    Actions.runBlocking(
+                            drive.actionBuilder(drive.pose)
+                                    // Head to Stacks
+                                    .setReversed(true)
+                                    .splineToSplineHeading(new Pose2d(-52, -36, Math.toRadians(180)), Math.toRadians(180))
+                                    .build()
+                    );
+                    break;
+            }
 
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
-                                    manager.runLiftToPosition(-250),
+                                    manager.runLiftToPosition(-220),
                                     manager.positionTheClawToPickupPixels()
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
-                                    .lineToX(-55.5)
+                                    .lineToX(-57.5)
                                     .build(),
                             manager.closeLeftClaw(),
                             new SleepAction(.2),
@@ -360,7 +374,7 @@ public class RedAudienceWall extends LinearOpMode {
             Actions.runBlocking(
                     new ParallelAction(
                             new SequentialAction(
-                                    new SleepAction(.2),
+                                    new SleepAction(.5),
                                     manager.getLiftReadyToDrive()
                             ),
                             drive.actionBuilder(drive.pose)
@@ -368,7 +382,7 @@ public class RedAudienceWall extends LinearOpMode {
                                     .setReversed(true)
                                     .splineToSplineHeading(new Pose2d(0, -60, Math.toRadians(-180)), Math.toRadians(180))
                                     .splineTo(new Vector2d(-40, -58), Math.toRadians(180))
-                                    .splineTo(new Vector2d(-52, -34), Math.toRadians(180))
+                                    .splineTo(new Vector2d(-52, -33), Math.toRadians(180))
                                     .build()
                     )
             );
@@ -381,7 +395,7 @@ public class RedAudienceWall extends LinearOpMode {
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
-                                    .lineToX(-60)
+                                    .lineToX(-62)
                                     .build(),
                             new ParallelAction(
                                     manager.closeLeftClaw(),
@@ -407,8 +421,8 @@ public class RedAudienceWall extends LinearOpMode {
                                 .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
                                 .splineToSplineHeading(secondBackdropDropLocation, Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
-                                        manager.openAutoClaw(),
-                                        manager.openLeftClaw()
+                                        manager.openLeftClaw(),
+                                        manager.openAutoClaw()
                                 ))
                                 .build());
 
@@ -416,7 +430,7 @@ public class RedAudienceWall extends LinearOpMode {
                 Actions.runBlocking(
                         new SequentialAction(
                                 drive.actionBuilder(drive.pose)
-                                        .lineToX(44)
+                                        .lineToX(42)
                                         .build(),
                                 manager.getLiftReadyToDrive()
                         )
@@ -438,8 +452,8 @@ public class RedAudienceWall extends LinearOpMode {
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
                                 .splineTo(new Vector2d(54, -64), Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
-                                        manager.openAutoClaw(),
-                                        manager.openLeftClaw()
+                                        manager.openLeftClaw(),
+                                        manager.openAutoClaw()
                                 ))
                                 .lineToX(50)
                                 .build());
