@@ -21,33 +21,34 @@ public class MeepMeepTesting {
 
         audienceCycleC.runAction(audienceCycleC.getDrive().actionBuilder(new Pose2d(-42, -64, Math.toRadians(90)))
                 // Drop the pixel
-                .splineTo(new Vector2d(-28, -30), Math.toRadians(90))
+                .splineTo(new Vector2d(-30, -37), Math.toRadians(90))
 
                 // Back out and head to middle stack
                 .setReversed(true)
-                .splineToSplineHeading(new Pose2d(-56, -21, Math.toRadians(180)), Math.toRadians(180))
+                .splineToSplineHeading(new Pose2d(-48, -18, Math.toRadians(180)), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(-48, -11, Math.toRadians(180)), Math.toRadians(90))
                 .waitSeconds(0.5)
-
-                // Return to Backboard VIA C-Row
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(new Vector2d(-20, -10), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(10, -10), Math.toRadians(0))
-                .splineTo(new Vector2d(48, -36), Math.toRadians(0))
-                .waitSeconds(.5)
-
-                // Return to Stacks VIA C-Row
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(10, -10, Math.toRadians(180)), Math.toRadians(180))
-                .splineToSplineHeading(new Pose2d(-20, -10, Math.toRadians(180)), Math.toRadians(180))
-                .splineToSplineHeading(new Pose2d(-56, -21, Math.toRadians(180)), Math.toRadians(180))
-                .waitSeconds(0.5)
-
-                // Return to Backboard VIA C-Row
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(new Vector2d(-20, -10), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(10, -10), Math.toRadians(0))
-                .splineTo(new Vector2d(48, -36), Math.toRadians(0))
-                .waitSeconds(.5)
+//
+//                // Return to Backboard VIA C-Row
+//                .setReversed(true)
+//                .splineToSplineHeading(new Pose2d(new Vector2d(-20, -10), Math.toRadians(0)), Math.toRadians(0))
+//                .splineTo(new Vector2d(10, -10), Math.toRadians(0))
+//                .splineTo(new Vector2d(48, -36), Math.toRadians(0))
+//                .waitSeconds(.5)
+//
+//                // Return to Stacks VIA C-Row
+//                .setReversed(true)
+//                .splineToSplineHeading(new Pose2d(10, -10, Math.toRadians(180)), Math.toRadians(180))
+//                .splineToSplineHeading(new Pose2d(-20, -10, Math.toRadians(180)), Math.toRadians(180))
+//                .splineToSplineHeading(new Pose2d(-56, -21, Math.toRadians(180)), Math.toRadians(180))
+//                .waitSeconds(0.5)
+//
+//                // Return to Backboard VIA C-Row
+//                .setReversed(true)
+//                .splineToSplineHeading(new Pose2d(new Vector2d(-20, -10), Math.toRadians(0)), Math.toRadians(0))
+//                .splineTo(new Vector2d(10, -10), Math.toRadians(0))
+//                .splineTo(new Vector2d(48, -36), Math.toRadians(0))
+//                .waitSeconds(.5)
                 .build());
 
         RoadRunnerBotEntity audienceCycleCBlue = new DefaultBotBuilder(meepMeep)
@@ -714,8 +715,8 @@ public class MeepMeepTesting {
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
   //              .addEntity(audienceCycle)
-//                .addEntity(audienceCycleC)
-                .addEntity(audienceCycleCBlue)
+                .addEntity(audienceCycleC)
+//                .addEntity(audienceCycleCBlue)
 //                .addEntity(audienceBlueLeft)
 //                .addEntity(audienceBlueLeftWall)
 //                .addEntity(audienceBlueCenter)

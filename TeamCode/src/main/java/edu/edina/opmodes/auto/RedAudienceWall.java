@@ -251,17 +251,17 @@ public class RedAudienceWall extends LinearOpMode {
         // Determine location for yellow pixel
         switch (propLocation) {
             case Left:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(47,-32, Math.toRadians(0));
+                backdropDropLocation = secondBackdropDropLocation = new Pose2d(50,-32, Math.toRadians(0));
                 break;
             case Center:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(47,-38, Math.toRadians(0));
+                backdropDropLocation = secondBackdropDropLocation = new Pose2d(50,-38, Math.toRadians(0));
                 break;
             case Right:
-                backdropDropLocation = new Pose2d(47,-47, Math.toRadians(0));
-                secondBackdropDropLocation = new Pose2d(47,-40, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(50,-47, Math.toRadians(0));
+                secondBackdropDropLocation = new Pose2d(50,-40, Math.toRadians(0));
                 break;
             default:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(47,-38, Math.toRadians(0)); // default to center if all goes bad
+                backdropDropLocation = secondBackdropDropLocation = new Pose2d(50,-38, Math.toRadians(0)); // default to center if all goes bad
                 break;
         }
 
@@ -321,7 +321,7 @@ public class RedAudienceWall extends LinearOpMode {
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
-                                    .lineToX(-57.5)
+                                    .lineToX(-55.5)
                                     .build(),
                             manager.closeLeftClaw(),
                             new SleepAction(.2),
@@ -395,7 +395,7 @@ public class RedAudienceWall extends LinearOpMode {
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
-                                    .lineToX(-62)
+                                    .lineToX(-60)
                                     .build(),
                             new ParallelAction(
                                     manager.closeLeftClaw(),
