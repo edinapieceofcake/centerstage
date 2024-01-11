@@ -9,7 +9,7 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @TeleOp
-//@Disabled
+@Disabled
 public class TestBeamBreak extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

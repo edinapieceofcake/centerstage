@@ -175,6 +175,9 @@ public class RedAudienceCenter extends LinearOpMode {
                 // Find Prop Location
                 poCHuskyLens.update();
                 propLocation = poCHuskyLens.getPropLocation();
+                if (propLocation == PropLocation.None) {
+                    propLocation = PropLocation.Right;
+                }
             } else {
                 if (pad1.left_stick_button) {
                     switch (propLocation) {
@@ -262,17 +265,17 @@ public class RedAudienceCenter extends LinearOpMode {
         // Determine location for yellow pixel
         switch (propLocation) {
             case Left:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(50,-32, Math.toRadians(0));
+                backdropDropLocation = secondBackdropDropLocation = new Pose2d(49,-32, Math.toRadians(0));
                 break;
             case Center:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(50,-38, Math.toRadians(0));
+                backdropDropLocation = secondBackdropDropLocation = new Pose2d(49,-38, Math.toRadians(0));
                 break;
             case Right:
-                backdropDropLocation = new Pose2d(50,-47, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(49,-47, Math.toRadians(0));
                 secondBackdropDropLocation = new Pose2d(50,-40, Math.toRadians(0));
                 break;
             default:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(50,-38, Math.toRadians(0)); // default to center if all goes bad
+                backdropDropLocation = secondBackdropDropLocation = new Pose2d(49,-38, Math.toRadians(0)); // default to center if all goes bad
                 break;
         }
 
@@ -333,12 +336,12 @@ public class RedAudienceCenter extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
-                                    manager.runLiftToPosition(-245),
+                                    manager.runLiftToPosition(-240),
                                     manager.positionTheClawToPickupPixels()
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
-                                    .lineToX(-55.5)
+                                    .lineToX(-55)
                                     .build(),
                             manager.closeLeftClaw(),
                             new SleepAction(.2),
@@ -397,8 +400,8 @@ public class RedAudienceCenter extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .lineToX(44)
                                     .setReversed(true)
-                                    .splineToSplineHeading(new Pose2d(10, -11, Math.toRadians(-180)), Math.toRadians(180))
-                                    .splineTo(new Vector2d(-52, -11), Math.toRadians(180))
+                                    .splineToSplineHeading(new Pose2d(10, -11.5, Math.toRadians(-180)), Math.toRadians(180))
+                                    .splineTo(new Vector2d(-52, -11.5), Math.toRadians(180))
                                     .build()
                     )
             );
@@ -407,11 +410,11 @@ public class RedAudienceCenter extends LinearOpMode {
                     new SequentialAction(
                             new ParallelAction(
                                     manager.positionTheClawToPickupPixels(),
-                                    manager.runLiftToPosition(-145)
+                                    manager.runLiftToPosition(-125)
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
-                                    .lineToX(-60)
+                                    .lineToX(-59.5)
                                     .build(),
                             new ParallelAction(
                                     manager.closeLeftClaw(),
@@ -447,7 +450,7 @@ public class RedAudienceCenter extends LinearOpMode {
                 Actions.runBlocking(
                         new SequentialAction(
                                 drive.actionBuilder(drive.pose)
-                                        .lineToX(44)
+                                        .lineToX(43)
                                         .build(),
                                 manager.getLiftReadyToDrive()
                         )
