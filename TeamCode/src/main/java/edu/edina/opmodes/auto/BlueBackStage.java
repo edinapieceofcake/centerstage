@@ -27,7 +27,7 @@ public class BlueBackStage extends LinearOpMode {
     protected MecanumDrive drive;
     protected RevBlinkinLedDriver.BlinkinPattern pattern;
     protected PoCHuskyLens poCHuskyLens;
-    protected PropLocation propLocation;
+    protected PropLocation propLocation = PropLocation.Center;
     private boolean useCamera = false;
 
     private ParkLocation parkLocation = ParkLocation.Corner;
@@ -154,12 +154,25 @@ public class BlueBackStage extends LinearOpMode {
                 propLocation = poCHuskyLens.getPropLocation();
             } else {
                 if (pad1.left_stick_button) {
-                    if (propLocation == PropLocation.Left) {
-                        propLocation = PropLocation.Center;
-                    } else if (propLocation == PropLocation.Center) {
-                        propLocation = PropLocation.Right;
-                    } else if (propLocation == PropLocation.Right) {
-                        propLocation = PropLocation.Left;
+                    switch (propLocation) {
+                        case None:
+                            propLocation = PropLocation.Left;
+                            break;
+                        case Left:
+                            propLocation = PropLocation.Center;
+                            break;
+                        case Center:
+                            propLocation = PropLocation.Right;
+                            break;
+                        case Right:
+                            propLocation = PropLocation.Left;
+                            break;
+                        case Idle:
+                            propLocation = PropLocation.Left;
+                            break;
+                        default:
+                            propLocation = PropLocation.Center;
+                            break;
                     }
                 }
             }

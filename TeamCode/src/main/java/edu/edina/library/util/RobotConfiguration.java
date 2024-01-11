@@ -64,8 +64,8 @@ public class RobotConfiguration {
     public double rightHangServoPosition = .51;
     public int hangMotorInitPosition = -230;
     public int hangMotorStorePosition = 0;
-    public int hangMotorLowDropOffPosition = -850;
-    public int hangMotorHighDropOffPosition = -1100;
+    public int hangMotorLowDropOffPosition = -640;
+    public int hangMotorHighDropOffPosition = -730;
     public int hangMotorHangPosition = -2800;
 
     public double minimumHeightToTwistServoInInches = 12.0;

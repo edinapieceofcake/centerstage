@@ -28,7 +28,7 @@ public class RedBackStage extends LinearOpMode {
     protected MecanumDrive drive;
     protected RevBlinkinLedDriver.BlinkinPattern pattern;
     protected PoCHuskyLens poCHuskyLens;
-    protected PropLocation propLocation = PropLocation.None;
+    protected PropLocation propLocation = PropLocation.Center;
 
     private ParkLocation parkLocation = ParkLocation.Corner;
     private boolean twoWhites = false;

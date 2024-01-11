@@ -468,6 +468,7 @@ public class Lift implements Subsystem, Action {
                 state.currentLiftServoState = LiftServoState.Start;
                 highLiftDelay.reset();
                 lowLiftDelay.reset();
+                state.hangerState = HangerState.Store;
             }
         }
 

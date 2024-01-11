@@ -113,6 +113,7 @@ public class RobotState {
 
             telemetry.addData("Lift Switch", hardware.liftSwitch.getState());
             telemetry.addData("Hanger Motor Position", hardware.robotHangerMotor.getCurrentPosition());
+            telemetry.addData("Beam break", hardware.beamBreak.getState());
         }
     }
 }
