@@ -28,7 +28,7 @@ public class RedBackStage extends LinearOpMode {
     protected MecanumDrive drive;
     protected RevBlinkinLedDriver.BlinkinPattern pattern;
     protected PoCHuskyLens poCHuskyLens;
-    protected PropLocation propLocation;
+    protected PropLocation propLocation = PropLocation.None;
 
     private ParkLocation parkLocation = ParkLocation.Corner;
     private boolean twoWhites = false;
@@ -51,7 +51,7 @@ public class RedBackStage extends LinearOpMode {
         pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_GRAY;
         hardware.blinkinLedDriver.setPattern(pattern);
 
-        PropLocation lastLocation = PropLocation.Idle;
+        PropLocation lastLocation = PropLocation.None;
 
         // HuskyLens Init
         poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, getAlliance());
@@ -73,7 +73,7 @@ public class RedBackStage extends LinearOpMode {
     }
 
     protected RevBlinkinLedDriver.BlinkinPattern getSuccessfulPropMatchColor() {
-        return RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_GRAY;
+        return RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
     }
 
     protected Pose2d getStartPose() {
@@ -155,12 +155,25 @@ public class RedBackStage extends LinearOpMode {
                 propLocation = poCHuskyLens.getPropLocation();
             } else {
                 if (pad1.left_stick_button) {
-                    if (propLocation == PropLocation.Left) {
-                        propLocation = PropLocation.Center;
-                    } else if (propLocation == PropLocation.Center) {
-                        propLocation = PropLocation.Right;
-                    } else if (propLocation == PropLocation.Right) {
-                        propLocation = PropLocation.Left;
+                    switch (propLocation) {
+                        case None:
+                            propLocation = PropLocation.Left;
+                            break;
+                        case Left:
+                            propLocation = PropLocation.Center;
+                            break;
+                        case Center:
+                            propLocation = PropLocation.Right;
+                            break;
+                        case Right:
+                            propLocation = PropLocation.Left;
+                            break;
+                        case Idle:
+                            propLocation = PropLocation.Left;
+                            break;
+                        default:
+                            propLocation = PropLocation.Center;
+                            break;
                     }
                 }
             }
@@ -207,7 +220,7 @@ public class RedBackStage extends LinearOpMode {
         double propDropAngle = 90.0;
 
         // Comment out when actually using camera!!
-        propLocation = PropLocation.Left;
+        //propLocation = PropLocation.Left;
 
         // Determine location for purple pixel
         switch(propLocation) {
@@ -242,31 +255,15 @@ public class RedBackStage extends LinearOpMode {
                 break;
         }
 
-        switch (propLocation) {
-            case Right:
-                // Execute drive to prop drop spot and drop
-                Actions.runBlocking(
-                        new SequentialAction(
-                                drive.actionBuilder(drive.pose)
-                                        .lineToY(-50)
-                                        .splineTo(propDropLocation, Math.toRadians(propDropAngle))
-                                        .build(),
-                                manager.openLeftClaw()
-                        )
-                );
-                break;
-            default:
-                // Execute drive to prop drop spot and drop
-                Actions.runBlocking(
-                        new SequentialAction(
-                                drive.actionBuilder(drive.pose)
-                                        .splineTo(propDropLocation, Math.toRadians(propDropAngle))
-                                        .build(),
-                                manager.openLeftClaw()
-                        )
-                );
-                break;
-        }
+        // Execute drive to prop drop spot and drop
+        Actions.runBlocking(
+                new SequentialAction(
+                        drive.actionBuilder(drive.pose)
+                                .splineTo(propDropLocation, Math.toRadians(propDropAngle))
+                                .build(),
+                        manager.openLeftClaw()
+                )
+        );
 
         // Drive to backdrop
         Actions.runBlocking(
@@ -290,7 +287,8 @@ public class RedBackStage extends LinearOpMode {
         Actions.runBlocking(
                 new ParallelAction(
                         drive.actionBuilder(drive.pose)
-                                .lineToX(51)
+                                .lineToX(50)
+                                .turnTo(Math.toRadians(90))
                                 .build(),
                         new SequentialAction(
                             new SleepAction(0.5),
@@ -304,9 +302,7 @@ public class RedBackStage extends LinearOpMode {
             Actions.runBlocking(
                     drive.actionBuilder(drive.pose)
                             // Head to Stacks VIA A-Row
-                            .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(20, -11, Math.toRadians(-180)), Math.toRadians(180))
-                            .setReversed(false)
+                            .splineToSplineHeading(new Pose2d(24, -11, Math.toRadians(180)), Math.toRadians(180))
                             .splineTo(new Vector2d(-44, -11), Math.toRadians(180))
                             .build());
 
@@ -338,10 +334,10 @@ public class RedBackStage extends LinearOpMode {
                                                     manager.zeroLift(),
                                                     manager.positionTheClawToDriveWithPixels()
                                             ))
-                                    .splineToSplineHeading(new Pose2d(-11, -11, Math.toRadians(0)), Math.toRadians(0))
+                                    .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(40, -12), Math.toRadians(0))
-                                    .splineTo(new Vector2d(64, -14), Math.toRadians(0))
+                                    .splineTo(new Vector2d(40, -13), Math.toRadians(0))
+                                    .splineTo(new Vector2d(60, -14), Math.toRadians(0))
                                     .build(),
                             new ParallelAction(
                                     manager.openAutoClaw(),
@@ -358,9 +354,9 @@ public class RedBackStage extends LinearOpMode {
                             // Head to Stacks VIA A-Row
                             .lineToX(60)
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(24, -16, Math.toRadians(-180)), Math.toRadians(-180))
+                            .splineToSplineHeading(new Pose2d(24, -12.5, Math.toRadians(-180)), Math.toRadians(-180))
                             .setReversed(false)
-                            .splineTo(new Vector2d(-44, -11), Math.toRadians(180))
+                            .splineTo(new Vector2d(-44, -12.5), Math.toRadians(180))
                             .build());
 
             // Extend and pick up two pixels
@@ -371,7 +367,7 @@ public class RedBackStage extends LinearOpMode {
                                     manager.positionTheClawToPickupPixels()
                             ),
                             drive.actionBuilder(drive.pose)
-                                    .lineToX(-56)
+                                    .lineToX(-55)
                                     .build(),
                             new ParallelAction(
                                     manager.closeAutoClaw(),
@@ -396,7 +392,7 @@ public class RedBackStage extends LinearOpMode {
                                     .splineToSplineHeading(new Pose2d(-12, -14, Math.toRadians(0)), Math.toRadians(0))
                                     .setReversed(false)
                                     .splineTo(new Vector2d(40, -14), Math.toRadians(0))
-                                    .splineTo(new Vector2d(64, -14), Math.toRadians(-45))
+                                    .splineTo(new Vector2d(56, -17), Math.toRadians(-45))
                                     .build(),
                             new ParallelAction(
                                     manager.openAutoClaw(),
