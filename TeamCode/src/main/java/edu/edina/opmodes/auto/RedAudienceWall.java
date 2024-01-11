@@ -177,6 +177,9 @@ public class RedAudienceWall extends LinearOpMode {
                 // Find Prop Location
                 poCHuskyLens.update();
                 propLocation = poCHuskyLens.getPropLocation();
+                if (propLocation == PropLocation.None) {
+                    propLocation = PropLocation.Right;
+                }
             } else {
                 if (pad1.left_stick_button) {
                     switch (propLocation) {
@@ -251,10 +254,10 @@ public class RedAudienceWall extends LinearOpMode {
                 propDropLocation = new Vector2d(-45, -35);
                 break;
             case Center:
-                propDropLocation = new Vector2d(-38, -35);
+                propDropLocation = new Vector2d(-38, -36);
                 break;
             case Right:
-                propDropLocation = new Vector2d(-30, -37);
+                propDropLocation = new Vector2d(-30, -38);
                 break;
             default:
                 propDropLocation = new Vector2d(-38, -33);  // default to Center if all goes bad
@@ -264,17 +267,17 @@ public class RedAudienceWall extends LinearOpMode {
         // Determine location for yellow pixel
         switch (propLocation) {
             case Left:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(50,-32, Math.toRadians(0));
+                backdropDropLocation = secondBackdropDropLocation = new Pose2d(49,-32, Math.toRadians(0));
                 break;
             case Center:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(50,-38, Math.toRadians(0));
+                backdropDropLocation = secondBackdropDropLocation = new Pose2d(49,-38, Math.toRadians(0));
                 break;
             case Right:
-                backdropDropLocation = new Pose2d(50,-47, Math.toRadians(0));
-                secondBackdropDropLocation = new Pose2d(50,-40, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(49,-47, Math.toRadians(0));
+                secondBackdropDropLocation = new Pose2d(49,-40, Math.toRadians(0));
                 break;
             default:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(50,-38, Math.toRadians(0)); // default to center if all goes bad
+                backdropDropLocation = secondBackdropDropLocation = new Pose2d(49,-38, Math.toRadians(0)); // default to center if all goes bad
                 break;
         }
 
