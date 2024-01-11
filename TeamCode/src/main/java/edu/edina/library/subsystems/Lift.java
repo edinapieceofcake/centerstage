@@ -420,19 +420,6 @@ public class Lift implements Subsystem, Action {
                         state.currentLiftSlideState = LiftSlideState.Idle;
                         state.lastKnownLiftState = LowDropOff;
                     }
-                    /*if (state.lastKnownLiftState == HighDropOff) {
-                        if (state.currentTopMotorPosition > (config.liftLowDropOffPosition - 10)) {
-                            state.dropOffState = DropOffState.Finished;
-                            state.currentLiftSlideState = LiftSlideState.Idle;
-                            state.lastKnownLiftState = LowDropOff;
-                        }
-                    } else {
-                        if (state.currentTopMotorPosition < (config.liftLowDropOffPosition + 10)) {
-                            state.dropOffState = DropOffState.Finished;
-                            state.currentLiftSlideState = LiftSlideState.Idle;
-                            state.lastKnownLiftState = LowDropOff;
-                        }
-                    }*/
                 }
             } else {
                 if (secondExtensionTimeout.hasExpired()) {
