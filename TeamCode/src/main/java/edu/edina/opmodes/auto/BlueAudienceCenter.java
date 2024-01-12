@@ -66,7 +66,7 @@ public class BlueAudienceCenter extends LinearOpMode {
     }
 
     protected Alliance getAlliance() {
-        return Alliance.Red;
+        return Alliance.Blue;
     }
 
     protected RevBlinkinLedDriver.BlinkinPattern getUnsuccessfulPropMatchColor() {

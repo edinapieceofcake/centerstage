@@ -64,7 +64,7 @@ public class BlueBackStage extends LinearOpMode {
     }
 
     protected Alliance getAlliance() {
-        return Alliance.Red;
+        return Alliance.Blue;
     }
 
     protected RevBlinkinLedDriver.BlinkinPattern getUnsuccessfulPropMatchColor() {
@@ -218,9 +218,6 @@ public class BlueBackStage extends LinearOpMode {
         Pose2d backdropDropLocation;
         double propDropAngle = 270.0;
 
-        // Comment out when actually using camera!!
-        propLocation = PropLocation.Right;
-
         // Determine location for purple pixel
         switch(propLocation) {
             case Left:
@@ -298,9 +295,9 @@ public class BlueBackStage extends LinearOpMode {
                     drive.actionBuilder(drive.pose)
                             // Head to Stacks VIA A-Row
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(20, 15, Math.toRadians(180)), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(20, 12, Math.toRadians(180)), Math.toRadians(180))
                             //.setReversed(false)
-                            .splineTo(new Vector2d(-48, 15.5), Math.toRadians(180))
+                            .splineTo(new Vector2d(-48, 15), Math.toRadians(180))
                             .build());
 
             Actions.runBlocking(
@@ -310,7 +307,7 @@ public class BlueBackStage extends LinearOpMode {
                                     manager.positionTheClawToPickupPixels()
                             ),
                             drive.actionBuilder(drive.pose)
-                                    .lineToX(-56)
+                                    .lineToX(-59)
                                     .build(),
                             new ParallelAction(
                                     manager.closeAutoClaw(),
@@ -334,7 +331,7 @@ public class BlueBackStage extends LinearOpMode {
                                     .splineToSplineHeading(new Pose2d(-11, 11, Math.toRadians(0)), Math.toRadians(0))
                                     .setReversed(false)
                                     .splineTo(new Vector2d(40, 12), Math.toRadians(0))
-                                    .splineTo(new Vector2d(58, 12), Math.toRadians(0))
+                                    .splineTo(new Vector2d(50, 12), Math.toRadians(0))
                                     .build(),
                             new ParallelAction(
                                     manager.openAutoClaw(),
@@ -349,7 +346,7 @@ public class BlueBackStage extends LinearOpMode {
             Actions.runBlocking(
                     drive.actionBuilder(drive.pose)
                             // Head to Stacks VIA A-Row
-                            .lineToX(60)
+                            .lineToX(50)
                             .setReversed(true)
                             .splineToSplineHeading(new Pose2d(24, 11, Math.toRadians(180)), Math.toRadians(180))
                             //.setReversed(false)
@@ -364,7 +361,7 @@ public class BlueBackStage extends LinearOpMode {
                                     manager.positionTheClawToPickupPixels()
                             ),
                             drive.actionBuilder(drive.pose)
-                                    .lineToX(-57.5)
+                                    .lineToX(-59)
                                     .build(),
                             new ParallelAction(
                                     manager.closeAutoClaw(),
@@ -389,7 +386,7 @@ public class BlueBackStage extends LinearOpMode {
                                     .splineToSplineHeading(new Pose2d(-12, 11, Math.toRadians(0)), Math.toRadians(0))
                                     .setReversed(false)
                                     .splineTo(new Vector2d(40, 14), Math.toRadians(0))
-                                    .splineTo(new Vector2d(58, 14), Math.toRadians(45))
+                                    .splineTo(new Vector2d(50, 14), Math.toRadians(45))
                                     .build(),
                             new ParallelAction(
                                     manager.openAutoClaw(),

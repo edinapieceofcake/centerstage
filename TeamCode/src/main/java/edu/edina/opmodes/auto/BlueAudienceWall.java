@@ -66,7 +66,7 @@ public class BlueAudienceWall extends LinearOpMode {
     }
 
     protected Alliance getAlliance() {
-        return Alliance.Red;
+        return Alliance.Blue;
     }
 
     protected RevBlinkinLedDriver.BlinkinPattern getUnsuccessfulPropMatchColor() {
@@ -268,14 +268,14 @@ public class BlueAudienceWall extends LinearOpMode {
         switch (propLocation) {
             case Left:
                 backdropDropLocation = new Pose2d(51.5,39, Math.toRadians(0));
-                secondBackdropDropLocation = new Pose2d(53,39, Math.toRadians(0));
+                secondBackdropDropLocation = new Pose2d(51.5,39, Math.toRadians(0));
                 break;
             case Center:
                 backdropDropLocation = secondBackdropDropLocation = new Pose2d(51.5,35, Math.toRadians(0));
                 break;
             case Right:
                 backdropDropLocation = new Pose2d(51.5,28, Math.toRadians(0));
-                secondBackdropDropLocation = new Pose2d(51.5,28, Math.toRadians(0));
+                secondBackdropDropLocation = new Pose2d(51.5,39, Math.toRadians(0));
                 break;
             default:
                 backdropDropLocation = secondBackdropDropLocation = new Pose2d(50,35, Math.toRadians(0)); // default to center if all goes bad
@@ -315,7 +315,7 @@ public class BlueAudienceWall extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
-                                    manager.runLiftToPosition(-250),
+                                    manager.runLiftToPosition(-200),
                                     manager.positionTheClawToPickupPixels()
                             ),
                             drive.actionBuilder(drive.pose)
@@ -390,11 +390,11 @@ public class BlueAudienceWall extends LinearOpMode {
                     new SequentialAction(
                             new ParallelAction(
                                     manager.positionTheClawToPickupPixels(),
-                                    manager.runLiftToPosition(-145)
+                                    manager.runLiftToPosition(-130)
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
-                                    .lineToX(-57)
+                                    .lineToX(-55)
                                     .build(),
                             new ParallelAction(
                                     manager.closeLeftClaw(),
