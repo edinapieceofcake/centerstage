@@ -175,6 +175,9 @@ public class BlueAudienceWall extends LinearOpMode {
             if (useCamera) {
                 poCHuskyLens.update();
                 propLocation = poCHuskyLens.getPropLocation();
+                if (propLocation == PropLocation.None) {
+                    propLocation = PropLocation.Left;
+                }
             } else {
                 if (pad1.left_stick_button) {
                     switch (propLocation) {
@@ -340,7 +343,7 @@ public class BlueAudienceWall extends LinearOpMode {
                                             manager.positionTheClawToDriveWithPixels()
                                     ))
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-30, 58), Math.toRadians(0)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-30, 59), Math.toRadians(0)), Math.toRadians(0))
                             .splineTo(new Vector2d(0, 58), Math.toRadians(0))
                             .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
                             .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
@@ -379,8 +382,8 @@ public class BlueAudienceWall extends LinearOpMode {
                             ),
                             drive.actionBuilder(drive.pose)
                                     .lineToX(44)
-                                    .splineToSplineHeading(new Pose2d(0, 58, Math.toRadians(180)), Math.toRadians(180))
-                                    .splineTo(new Vector2d(-30, 58), Math.toRadians(180))
+                                    .splineToSplineHeading(new Pose2d(0, 59, Math.toRadians(180)), Math.toRadians(180))
+                                    .splineTo(new Vector2d(-30, 59), Math.toRadians(180))
                                     .splineTo(new Vector2d(-52, 37), Math.toRadians(180))
                                     .build()
                     )
@@ -415,8 +418,8 @@ public class BlueAudienceWall extends LinearOpMode {
                                                 manager.positionTheClawToDriveWithPixels()
                                         ))
                                 .setReversed(true)
-                                .splineToSplineHeading(new Pose2d(new Vector2d(-30, 58), Math.toRadians(0)), Math.toRadians(0))
-                                .splineTo(new Vector2d(0, 58), Math.toRadians(0))
+                                .splineToSplineHeading(new Pose2d(new Vector2d(-30, 59), Math.toRadians(0)), Math.toRadians(0))
+                                .splineTo(new Vector2d(0, 59), Math.toRadians(0))
                                 .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
                                 .splineToSplineHeading(secondBackdropDropLocation, Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
@@ -448,7 +451,7 @@ public class BlueAudienceWall extends LinearOpMode {
                                                 manager.positionTheClawToDriveWithPixels()
                                         ))
                                 .setReversed(true)
-                                .splineToSplineHeading(new Pose2d(new Vector2d(-35, 58), Math.toRadians(0)), Math.toRadians(0))
+                                .splineToSplineHeading(new Pose2d(new Vector2d(-35, 59), Math.toRadians(0)), Math.toRadians(0))
                                 .splineTo(new Vector2d(54, 64), Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openAutoClaw(),

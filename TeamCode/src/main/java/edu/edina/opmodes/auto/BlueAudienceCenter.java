@@ -175,6 +175,9 @@ public class BlueAudienceCenter extends LinearOpMode {
             if (useCamera) {
                 poCHuskyLens.update();
                 propLocation = poCHuskyLens.getPropLocation();
+                if (propLocation == PropLocation.None) {
+                    propLocation = PropLocation.Left;
+                }
             } else {
                 if (pad1.left_stick_button) {
                     switch (propLocation) {
