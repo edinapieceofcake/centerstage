@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.teamcode.PoCMecanumDrive;
 
 import edu.edina.library.actions.roadrunner.ActionManager;
 import edu.edina.library.util.RobotHardware;
@@ -24,12 +25,12 @@ public class TestStackPickup extends LinearOpMode  {
         SmartGamepad pad1 = new SmartGamepad(gamepad1);
         RobotState state = RobotState.getInstance();
         ActionManager manager = new ActionManager(hardware);
-
+        boolean toggleBeamBreak = true;
         // Start Position
-        MecanumDrive drive = new org.firstinspires.ftc.teamcode.MecanumDrive(hardware.leftFront,
+        PoCMecanumDrive drive = new org.firstinspires.ftc.teamcode.PoCMecanumDrive(hardware.leftFront,
                 hardware.leftBack, hardware.rightBack, hardware.rightFront,
-                hardware.par0, hardware.par1, hardware.perp,
-                hardware.externalImu, hardware.voltageSensor,
+                hardware.par0, hardware.par1, hardware.perp, hardware.externalImu,
+                hardware.expansionImu, hardware.voltageSensor, hardware.beamBreak,
                 new Pose2d(12.5, -64, Math.toRadians(90)));
 
         // use out version of the drive based off the hardware that we created above.
@@ -70,9 +71,19 @@ public class TestStackPickup extends LinearOpMode  {
                         manager.openLeftClaw(), manager.openAutoClaw()
                 ));
             }
-
+            if(pad1.left_stick_button){
+                if(toggleBeamBreak){
+                    toggleBeamBreak = false;
+                }
+                else{
+                    toggleBeamBreak = true;
+                }
+            }
             if (pad1.dpad_up) {
                 // start at one tile out
+                if(toggleBeamBreak){
+                    drive.TurnBeamBreakOn();
+                }
                 Actions.runBlocking(
                         new SequentialAction(
                                 new ParallelAction(
@@ -89,7 +100,9 @@ public class TestStackPickup extends LinearOpMode  {
                                 manager.raiseLiftAfterStackPickup()
                         )
                 );
-
+                if(toggleBeamBreak){
+                    drive.TurnBeamBreakOff();
+                }
                 Actions.runBlocking(
                         new SequentialAction(
                                 drive.actionBuilder(drive.pose)
@@ -132,6 +145,8 @@ public class TestStackPickup extends LinearOpMode  {
             telemetry.addData("Top Motor Lift Position", hardware.topLiftMotor.getCurrentPosition());
             telemetry.addData("Zero Switch", hardware.liftSwitch.getState());
             telemetry.addData("Top motor power", hardware.topLiftMotor.getPower());
+            telemetry.addData("Toggle Beam Break", toggleBeamBreak);
+            telemetry.addData("Beam Break:", hardware.beamBreak.getState());
             telemetry.update();
         }
     }
