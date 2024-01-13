@@ -34,9 +34,11 @@ public class RedAudienceCenter extends LinearOpMode {
     private boolean yellowPixel = false;
     private boolean dropOnBackdrop = false;
     private boolean dropOnBackstage = false;
-    private boolean useCamera = false;
+    private boolean useCamera = true;
 
     private ParkLocation parkLocation = ParkLocation.None;
+
+    private long delayTime = 0;
 
     protected void initHardware() {
         hardware = new RobotHardware(hardwareMap);
@@ -46,9 +48,6 @@ public class RedAudienceCenter extends LinearOpMode {
                 hardware.leftBack, hardware.rightBack, hardware.rightFront,
                 hardware.par0, hardware.par1, hardware.perp,
                 hardware.externalImu, hardware.expansionImu, hardware.voltageSensor, getStartPose());
-
-        // uncomment this and comment out the above if it doesn't work right
-        //drive = new MecanumDrive(hardwareMap, startPose);
 
         // Heartbeat Red to signify Red alliance
         pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_GRAY;
@@ -74,7 +73,7 @@ public class RedAudienceCenter extends LinearOpMode {
     }
 
     protected RevBlinkinLedDriver.BlinkinPattern getSuccessfulPropMatchColor() {
-        return RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_GRAY;
+        return RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_WHITE;
     }
 
     protected Pose2d getStartPose() {
@@ -84,24 +83,24 @@ public class RedAudienceCenter extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         SmartGamepad pad1 = new SmartGamepad(gamepad1);
-        long delayTime = 0;
 
         initHardware();
 
+        // Turn on prop illumination
         hardware.lights.setPower(1);
 
         while (!isStarted()) {
             pad1.update();
 
             telemetry.addData("A for P only", "");
-            telemetry.addData("X for P, Y, 1 W and park in corner", "");
-            telemetry.addData("Y for P, Y, 1 W and park in center", "");
-            telemetry.addData("dpad up for P, Y, 3 Ws on backdrop park in front", "");
-            telemetry.addData("dpad down for P, Y, 3 Ws and park in corner", "");
-            telemetry.addData("left bumper to increase delay, right bumper to decrease delay.", "");
-            telemetry.addData("left trigger to close claws, right trigger to open", "");
-            telemetry.addData("left stick down manual rotate prop position", "");
-            telemetry.addData("right stick down manual or auto camera", "");
+            telemetry.addData("X for P, Y, 1W and park in corner", "");
+            telemetry.addData("Y for P, Y, 1W and park in center", "");
+            telemetry.addData("DPAD-UP for P, Y, 3Ws on backdrop park in front", "");
+            telemetry.addData("DPAD-DN for P, Y, 3Ws and park in center", "");
+            telemetry.addData("L-BUMPER to increase delay, R-BUMPER to decrease delay.", "");
+            telemetry.addData("L-TRIGGER to close claws, L-TRIGGER to open", "");
+//            telemetry.addData("LEFT-STICK-DOWN : manual rotate prop position", "");
+//            telemetry.addData("RIGHT-STICK-DOWN : manual or auto camera", "");
 
             if (pad1.a) {
                 yellowPixel = false;
@@ -143,12 +142,17 @@ public class RedAudienceCenter extends LinearOpMode {
                 parkLocation = ParkLocation.None;
             }
 
+            // Delay - Max of 4000ms, Min of 0ms
             if (pad1.left_bumper) {
-                delayTime += 1000;
+                delayTime += (delayTime > 3000) ? 0 : 1000;
             } else if (pad1.right_bumper) {
-                delayTime -= 1000;
+                delayTime -= (delayTime < 1000) ? 0 : 1000;
             }
 
+            // If we have ANY delay, don't allow second trip
+            makeSecondTrip = (delayTime > 0) ? false : makeSecondTrip;
+
+            // Close claws
             if (gamepad1.left_trigger != 0) {
                 Actions.runBlocking(new ParallelAction(
                         manager.closeRightClaw(),
@@ -156,6 +160,7 @@ public class RedAudienceCenter extends LinearOpMode {
                 ));
             }
 
+            // Open claws
             if (gamepad1.right_trigger != 0) {
                 Actions.runBlocking(new ParallelAction(
                         manager.openRightClaw(),
@@ -163,6 +168,7 @@ public class RedAudienceCenter extends LinearOpMode {
                 ));
             }
 
+            // Select whether camera is live or not
             if (pad1.right_stick_button) {
                 if (useCamera) {
                     useCamera = false;
@@ -171,6 +177,7 @@ public class RedAudienceCenter extends LinearOpMode {
                 }
             }
 
+            // Find Prop Location
             if (useCamera) {
                 // Find Prop Location
                 poCHuskyLens.update();
@@ -224,15 +231,13 @@ public class RedAudienceCenter extends LinearOpMode {
             hardware.blinkinLedDriver.setPattern(pattern);
         }
 
+        // Turn off prop lighting
         hardware.lights.setPower(0);
 
         if (opModeIsActive()) {
             // Signal GREEN for successful run
             pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
             hardware.blinkinLedDriver.setPattern(pattern);
-            if (delayTime > 0) {
-                sleep(delayTime);
-            }
 
             runPaths();
 
@@ -279,6 +284,7 @@ public class RedAudienceCenter extends LinearOpMode {
                 break;
         }
 
+        // Run to drop PURPLE pixel
         switch (propLocation) {
             case Right:
                 Actions.runBlocking(
@@ -303,6 +309,7 @@ public class RedAudienceCenter extends LinearOpMode {
                 break;
         }
 
+        // If we want to drop Yellow..
         if (yellowPixel) {
             if (propLocation == PropLocation.Left) {
                 Actions.runBlocking(
@@ -349,30 +356,59 @@ public class RedAudienceCenter extends LinearOpMode {
                     )
             );
 
-            // drive to backstage - 1st trip
-            Actions.runBlocking(
-                    drive.actionBuilder(drive.pose)
-                            // Head to Stacks VIA A-Row
-                            .lineToX(-48)
-                            .afterDisp(0,
-                                    new ParallelAction(
-                                            manager.lowerLiftForDriving(),
-                                            manager.zeroLift(),
-                                            manager.positionTheClawToDriveWithPixels()
-                                    ))
-                            .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
-                            .splineTo(new Vector2d(10, -11), Math.toRadians(0))
-                            .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                            .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
-                            .afterDisp(0, new SequentialAction(
-                                    manager.openRightClaw(),
-                                    new SleepAction(0.25),
-                                    manager.openLeftClaw()
-                            ))
-                            .build()
-            );
+            // Check to see if there is delay - if so, run special version with wait during return
+            if (delayTime > 0) {  // Yes, there's a delay
+                // drive to backstage - 1st trip with delay at center field
+                Actions.runBlocking(
+                        drive.actionBuilder(drive.pose)
+                                // Head to Stacks VIA C-Row
+                                .lineToX(-48)
+                                .afterDisp(0,
+                                        new ParallelAction(
+                                                manager.lowerLiftForDriving(),
+                                                manager.zeroLift(),
+                                                manager.positionTheClawToDriveWithPixels()
+                                        ))
+                                .setReversed(true)
+                                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
+                                .splineTo(new Vector2d(10, -11), Math.toRadians(0))
+                                .waitSeconds(delayTime/1000)
+                                .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
+                                .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
+                                .afterDisp(0, new SequentialAction(
+                                        manager.openRightClaw(),
+                                        new SleepAction(0.25),
+                                        manager.openLeftClaw()
+                                ))
+                                .build()
+                );
+            } else {
+                // drive to backstage - 1st trip - no delay
+                Actions.runBlocking(
+                        drive.actionBuilder(drive.pose)
+                                // Head to Stacks VIA C-Row
+                                .lineToX(-48)
+                                .afterDisp(0,
+                                        new ParallelAction(
+                                                manager.lowerLiftForDriving(),
+                                                manager.zeroLift(),
+                                                manager.positionTheClawToDriveWithPixels()
+                                        ))
+                                .setReversed(true)
+                                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
+                                .splineTo(new Vector2d(10, -11), Math.toRadians(0))
+                                .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
+                                .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
+                                .afterDisp(0, new SequentialAction(
+                                        manager.openRightClaw(),
+                                        new SleepAction(0.25),
+                                        manager.openLeftClaw()
+                                ))
+                                .build()
+                );
+            }
 
+            // If we're done making stack trips
             if (!makeSecondTrip) {
                 // back away and pack up
                 Actions.runBlocking(
@@ -389,6 +425,7 @@ public class RedAudienceCenter extends LinearOpMode {
             }
         }
 
+        // If we are making a second trip to the stacks
         if (makeSecondTrip) {
             // go get other white pixels
             Actions.runBlocking(
@@ -406,6 +443,7 @@ public class RedAudienceCenter extends LinearOpMode {
                     )
             );
 
+            // Reach out, grab pixels, close the claws
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
@@ -424,6 +462,7 @@ public class RedAudienceCenter extends LinearOpMode {
                     )
             );
 
+            // If we're going to drop on the background
             if (dropOnBackdrop) {
                 // drive to backstage - 2nd trip
                 Actions.runBlocking(
@@ -457,6 +496,7 @@ public class RedAudienceCenter extends LinearOpMode {
                 );
             }
 
+            // If we are dropping on Backstage
             if (dropOnBackstage) {
                 Actions.runBlocking(
                         drive.actionBuilder(drive.pose)

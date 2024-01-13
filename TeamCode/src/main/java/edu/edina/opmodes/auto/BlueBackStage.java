@@ -27,12 +27,16 @@ public class BlueBackStage extends LinearOpMode {
     protected MecanumDrive drive;
     protected RevBlinkinLedDriver.BlinkinPattern pattern;
     protected PoCHuskyLens poCHuskyLens;
-    protected PropLocation propLocation = PropLocation.Center;
-    private boolean useCamera = false;
 
+    protected PropLocation propLocation = PropLocation.Center;
     private ParkLocation parkLocation = ParkLocation.Corner;
+
+    private boolean useCamera = true;
+
     private boolean twoWhites = false;
     private boolean fourWhites = false;
+
+    private long delayTime = 0;
 
     protected void initHardware() {
         hardware = new RobotHardware(hardwareMap);
@@ -43,14 +47,11 @@ public class BlueBackStage extends LinearOpMode {
                 hardware.par0, hardware.par1, hardware.perp,
                 hardware.expansionImu, hardware.voltageSensor, getStartPose());
 
-        // uncomment this and comment out the above if it doesn't work right
-        //drive = new MecanumDrive(hardwareMap, startPose);
-
         // Heartbeat Red to signify Red alliance
         pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_GRAY;
         hardware.blinkinLedDriver.setPattern(pattern);
 
-        PropLocation lastLocation = PropLocation.Idle;
+        PropLocation lastLocation = PropLocation.None;
 
         // HuskyLens Init
         poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, getAlliance());
@@ -82,23 +83,23 @@ public class BlueBackStage extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         SmartGamepad pad1 = new SmartGamepad(gamepad1);
-        long delayTime = 0;
 
         initHardware();
 
+        // Turn on prop illumination
         hardware.lights.setPower(1);
 
         while (!isStarted()) {
             pad1.update();
 
-            telemetry.addData("A P, Y and park in corner", "");
-            telemetry.addData("X P, Y and park in center", "");
-            telemetry.addData("Y P, Y, 2 Ws and park in center", "");
-            telemetry.addData("B P, Y, 4 Ws and park in center", "");
-            telemetry.addData("left bumper to increase delay, right bumper to decrease delay", "");
-            telemetry.addData("left trigger to close claws, right trigger to open", "");
-            telemetry.addData("left stick down manual rotate prop position", "");
-            telemetry.addData("right stick down manual or auto camera", "");
+            telemetry.addData("A for P, Y and park in corner", "");
+            telemetry.addData("X for P, Y and park in center", "");
+            telemetry.addData("Y for P, Y, 2Ws and park in center", "");
+            telemetry.addData("B for P, Y, 4Ws and park in center", "");
+            telemetry.addData("L-BUMPER to increase delay, R-BUMPER to decrease delay", "");
+            telemetry.addData("L-TRIGGER to close claws, R-TRIGGER to open", "");
+            //telemetry.addData("left stick down manual rotate prop position", "");
+            //telemetry.addData("right stick down manual or auto camera", "");
 
             if (pad1.a) {
                 parkLocation = ParkLocation.Corner;
@@ -120,12 +121,17 @@ public class BlueBackStage extends LinearOpMode {
                 parkLocation = ParkLocation.None;
             }
 
+            // Delay - Max of 10000ms, Min of 0ms
             if (pad1.left_bumper) {
-                delayTime += 1000;
+                delayTime += (delayTime > 9000) ? 0 : 1000;
             } else if (pad1.right_bumper) {
-                delayTime -= 1000;
+                delayTime -= (delayTime < 1000) ? 0 : 1000;
             }
 
+            // If we have ANY delay, don't allow second trip
+            fourWhites = (delayTime > 0) ? false : fourWhites;
+
+            // Close the claws
             if (gamepad1.left_trigger != 0) {
                 Actions.runBlocking(new ParallelAction(
                         manager.closeRightClaw(),
@@ -133,6 +139,7 @@ public class BlueBackStage extends LinearOpMode {
                 ));
             }
 
+            // Open the claws
             if (gamepad1.right_trigger != 0) {
                 Actions.runBlocking(new ParallelAction(
                         manager.openRightClaw(),
@@ -140,6 +147,7 @@ public class BlueBackStage extends LinearOpMode {
                 ));
             }
 
+            // Select whether camera is live or not
             if (pad1.right_stick_button) {
                 if (useCamera) {
                     useCamera = false;
@@ -148,8 +156,8 @@ public class BlueBackStage extends LinearOpMode {
                 }
             }
 
+            // Find Prop Location
             if (useCamera) {
-                // Find Prop Location
                 poCHuskyLens.update();
                 propLocation = poCHuskyLens.getPropLocation();
             } else {
@@ -195,12 +203,15 @@ public class BlueBackStage extends LinearOpMode {
             hardware.blinkinLedDriver.setPattern(pattern);
         }
 
+        // Turn off prop illumination
         hardware.lights.setPower(0);
 
         if (opModeIsActive()) {
             // Signal GREEN for successful run
             pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
             hardware.blinkinLedDriver.setPattern(pattern);
+
+            // Delay time
             if (delayTime > 0) {
                 sleep(delayTime);
             }
