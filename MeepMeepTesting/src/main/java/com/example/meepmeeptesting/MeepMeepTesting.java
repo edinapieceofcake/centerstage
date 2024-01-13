@@ -457,7 +457,7 @@ public class MeepMeepTesting {
                 .splineToSplineHeading(new Pose2d(49,-38, Math.toRadians(0)), Math.toRadians(0))
                 .lineToX(44)
                 .setReversed(true)
-                .splineTo(new Vector2d(58, -64), Math.toRadians(0))
+                .splineTo(new Vector2d(58, -14), Math.toRadians(0))
                 .build());
 
         // red audience wall
@@ -576,6 +576,8 @@ public class MeepMeepTesting {
                 .splineToSplineHeading(new Pose2d(48, -38, Math.toRadians(0)), Math.toRadians(0))
                 .lineToX(53.5)
                 .lineToX(50)
+                .setReversed(true)
+                .splineTo(new Vector2d(58, -64), Math.toRadians(0))
                 .build());
 
         RoadRunnerBotEntity redBackstageParkCenter = new DefaultBotBuilder(meepMeep)
@@ -590,6 +592,8 @@ public class MeepMeepTesting {
                 .splineToSplineHeading(new Pose2d(48, -38, Math.toRadians(0)), Math.toRadians(0))
                 .lineToX(53.5)
                 .lineToX(50)
+                .setReversed(true)
+                .splineTo(new Vector2d(58, -14), Math.toRadians(0))
                 .build());
 
         RoadRunnerBotEntity redBackstageTwoWhites = new DefaultBotBuilder(meepMeep)
