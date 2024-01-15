@@ -459,7 +459,8 @@ public class RedAudienceWall extends LinearOpMode {
                                     .build(),
                             new ParallelAction(
                                     manager.closeLeftClaw(),
-                                    manager.closeAutoClaw()
+                                    manager.closeAutoClaw(),
+                                    manager.closeRightClaw()
                             ),
                             new SleepAction(.2)
                     )
@@ -483,7 +484,8 @@ public class RedAudienceWall extends LinearOpMode {
                                 .splineToSplineHeading(secondBackdropDropLocation, Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openLeftClaw(),
-                                        manager.openAutoClaw()
+                                        manager.openAutoClaw(),
+                                        manager.openRightClaw()
                                 ))
                                 .build());
 
@@ -515,7 +517,8 @@ public class RedAudienceWall extends LinearOpMode {
                                 .splineTo(new Vector2d(54, -64), Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openLeftClaw(),
-                                        manager.openAutoClaw()
+                                        manager.openAutoClaw(),
+                                        manager.openRightClaw()
                                 ))
                                 .lineToX(50)
                                 .build());

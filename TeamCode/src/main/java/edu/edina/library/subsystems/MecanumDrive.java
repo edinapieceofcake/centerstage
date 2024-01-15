@@ -41,13 +41,13 @@ public class MecanumDrive implements Subsystem {
     public void update() {
         drive.setDrivePowers(new PoseVelocity2d(
                 new Vector2d(
-                        -leftStickY,
-                        -leftStickX
+                        -leftStickY * 0.9,
+                        -leftStickX * 0.9
                 ),
                 (-rightStickX/1.5)
         ));
 
-        drive.updatePoseEstimate();
+        //drive.updatePoseEstimate();
     }
 
     public static double ScaleMotorCube(double joyStickPosition) {

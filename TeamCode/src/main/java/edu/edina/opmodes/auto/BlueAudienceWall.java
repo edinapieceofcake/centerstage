@@ -442,7 +442,8 @@ public class BlueAudienceWall extends LinearOpMode {
                                     .build(),
                             new ParallelAction(
                                     manager.closeLeftClaw(),
-                                    manager.closeAutoClaw()
+                                    manager.closeAutoClaw(),
+                                    manager.closeRightClaw()
                             ),
                             new SleepAction(.2)
                     )
@@ -466,7 +467,8 @@ public class BlueAudienceWall extends LinearOpMode {
                                 .splineToSplineHeading(secondBackdropDropLocation, Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openAutoClaw(),
-                                        manager.openLeftClaw()
+                                        manager.openLeftClaw(),
+                                        manager.openRightClaw()
                                 ))
                                 .build());
 
@@ -498,7 +500,8 @@ public class BlueAudienceWall extends LinearOpMode {
                                 .splineTo(new Vector2d(54, 64), Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openAutoClaw(),
-                                        manager.openLeftClaw()
+                                        manager.openLeftClaw(),
+                                        manager.openRightClaw()
                                 ))
                                 .lineToX(50)
                                 .build());

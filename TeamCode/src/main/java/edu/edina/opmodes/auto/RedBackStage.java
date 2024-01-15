@@ -328,7 +328,8 @@ public class RedBackStage extends LinearOpMode {
                                     .build(),
                             new ParallelAction(
                                     manager.closeAutoClaw(),
-                                    manager.closeLeftClaw()
+                                    manager.closeLeftClaw(),
+                                    manager.closeRightClaw()
                             ),
                             manager.raiseLiftAfterStackPickup()
                     )
@@ -352,7 +353,8 @@ public class RedBackStage extends LinearOpMode {
                                     .build(),
                             new ParallelAction(
                                     manager.openAutoClaw(),
-                                    manager.openLeftClaw()
+                                    manager.openLeftClaw(),
+                                    manager.openRightClaw()
                             )
                     )
             );
@@ -382,7 +384,8 @@ public class RedBackStage extends LinearOpMode {
                                     .build(),
                             new ParallelAction(
                                     manager.closeAutoClaw(),
-                                    manager.closeLeftClaw()
+                                    manager.closeLeftClaw(),
+                                    manager.closeRightClaw()
                             ),
                             manager.raiseLiftAfterStackPickup()
                     )
@@ -407,7 +410,8 @@ public class RedBackStage extends LinearOpMode {
                                     .build(),
                             new ParallelAction(
                                     manager.openAutoClaw(),
-                                    manager.openLeftClaw()
+                                    manager.openLeftClaw(),
+                                    manager.openRightClaw()
                             )
                     )
             );

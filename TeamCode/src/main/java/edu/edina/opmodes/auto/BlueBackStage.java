@@ -250,16 +250,16 @@ public class BlueBackStage extends LinearOpMode {
         // Determine location for yellow pixel
         switch (propLocation) {
             case Left:
-                backdropDropLocation = new Pose2d(46,41, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(47.5,41, Math.toRadians(0));
                 break;
             case Center:
-                backdropDropLocation = new Pose2d(46,35, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(47.5,35, Math.toRadians(0));
                 break;
             case Right:
-                backdropDropLocation = new Pose2d(46,28, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(47.5,28, Math.toRadians(0));
                 break;
             default:
-                backdropDropLocation = new Pose2d(46,38, Math.toRadians(0)); // default to center if all goes bad
+                backdropDropLocation = new Pose2d(47.5,38, Math.toRadians(0)); // default to center if all goes bad
                 break;
         }
 
@@ -343,7 +343,8 @@ public class BlueBackStage extends LinearOpMode {
                                     .build(),
                             new ParallelAction(
                                     manager.closeAutoClaw(),
-                                    manager.closeLeftClaw()
+                                    manager.closeLeftClaw(),
+                                    manager.closeRightClaw()
                             ),
                             manager.raiseLiftAfterStackPickup()
                     )
@@ -367,7 +368,8 @@ public class BlueBackStage extends LinearOpMode {
                                     .build(),
                             new ParallelAction(
                                     manager.openAutoClaw(),
-                                    manager.openLeftClaw()
+                                    manager.openLeftClaw(),
+                                    manager.openRightClaw()
                             )
                     )
             );
@@ -397,7 +399,8 @@ public class BlueBackStage extends LinearOpMode {
                                     .build(),
                             new ParallelAction(
                                     manager.closeAutoClaw(),
-                                    manager.closeLeftClaw()
+                                    manager.closeLeftClaw(),
+                                    manager.closeRightClaw()
                             ),
                             manager.raiseLiftAfterStackPickup()
                     )
@@ -422,7 +425,8 @@ public class BlueBackStage extends LinearOpMode {
                                     .build(),
                             new ParallelAction(
                                     manager.openAutoClaw(),
-                                    manager.openLeftClaw()
+                                    manager.openLeftClaw(),
+                                    manager.openRightClaw()
                             )
                     )
             );
