@@ -3,6 +3,7 @@ package edu.edina.opmodes.auto;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
@@ -232,10 +233,10 @@ public class BlueBackStage extends LinearOpMode {
         // Determine location for purple pixel
         switch(propLocation) {
             case Left:
-                propDropLocation = new Vector2d(20.5, 36);
+                propDropLocation = new Vector2d(20.5, 44);
                 break;
             case Center:
-                propDropLocation = new Vector2d(13, 35.5);
+                propDropLocation = new Vector2d(12, 35.5);
                 break;
             case Right:
                 propDropLocation = new Vector2d(6, 38);
@@ -249,16 +250,16 @@ public class BlueBackStage extends LinearOpMode {
         // Determine location for yellow pixel
         switch (propLocation) {
             case Left:
-                backdropDropLocation = new Pose2d(46.5,41, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(47.5,41, Math.toRadians(0));
                 break;
             case Center:
-                backdropDropLocation = new Pose2d(46.5,35, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(47.5,35, Math.toRadians(0));
                 break;
             case Right:
-                backdropDropLocation = new Pose2d(46.5,28, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(47.5,28, Math.toRadians(0));
                 break;
             default:
-                backdropDropLocation = new Pose2d(46.5,38, Math.toRadians(0)); // default to center if all goes bad
+                backdropDropLocation = new Pose2d(47.5,38, Math.toRadians(0)); // default to center if all goes bad
                 break;
         }
 
@@ -272,23 +273,43 @@ public class BlueBackStage extends LinearOpMode {
                 )
         );
 
-        // Drive to backdrop
-        Actions.runBlocking(
-                new SequentialAction(
-                        new ParallelAction(
-                                drive.actionBuilder(drive.pose)
-                                        .setReversed(true)
-                                        .waitSeconds(.5)
-                                        .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
-                                        //.lineToX(50)
-                                        .build(),
-                                new SequentialAction(
-                                        manager.getLiftReadyToDropThePixelLowOnTheWall()
-                                )
-                        ),
-                        manager.openRightClaw()
-                )
-        );
+        if (propLocation == PropLocation.Center) {
+            // Drive to backdrop
+            Actions.runBlocking(
+                    new SequentialAction(
+                            new ParallelAction(
+                                    drive.actionBuilder(drive.pose)
+                                            .setReversed(true)
+                                            .turnTo(Math.toRadians(0))
+                                            .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
+                                            //.lineToX(50)
+                                            .build(),
+                                    new SequentialAction(
+                                            manager.getLiftReadyToDropThePixelLowOnTheWall()
+                                    )
+                            ),
+                            manager.openRightClaw()
+                    )
+            );
+        } else {
+            // Drive to backdrop
+            Actions.runBlocking(
+                    new SequentialAction(
+                            new ParallelAction(
+                                    drive.actionBuilder(drive.pose)
+                                            .setReversed(true)
+                                            .waitSeconds(0.5)
+                                            .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
+                                            //.lineToX(50)
+                                            .build(),
+                                    new SequentialAction(
+                                            manager.getLiftReadyToDropThePixelLowOnTheWall()
+                                    )
+                            ),
+                            manager.openRightClaw()
+                    )
+            );
+        }
 
         // back away and pack up
         Actions.runBlocking(
@@ -306,7 +327,7 @@ public class BlueBackStage extends LinearOpMode {
                     drive.actionBuilder(drive.pose)
                             // Head to Stacks VIA A-Row
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(20, 12, Math.toRadians(180)), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(20, 13.5, Math.toRadians(180)), Math.toRadians(180))
                             //.setReversed(false)
                             .splineTo(new Vector2d(-48, 15), Math.toRadians(180))
                             .build());
@@ -314,15 +335,16 @@ public class BlueBackStage extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
-                                    manager.runLiftToPosition(-180),
+                                    manager.runLiftToPosition(-160),
                                     manager.positionTheClawToPickupPixels()
                             ),
                             drive.actionBuilder(drive.pose)
-                                    .lineToX(-59)
+                                    .lineToX(-56)
                                     .build(),
                             new ParallelAction(
                                     manager.closeAutoClaw(),
-                                    manager.closeLeftClaw()
+                                    manager.closeLeftClaw(),
+                                    manager.closeRightClaw()
                             ),
                             manager.raiseLiftAfterStackPickup()
                     )
@@ -339,14 +361,15 @@ public class BlueBackStage extends LinearOpMode {
                                                     manager.zeroLift(),
                                                     manager.positionTheClawToDriveWithPixels()
                                             ))
-                                    .splineToSplineHeading(new Pose2d(-11, 11, Math.toRadians(0)), Math.toRadians(0))
+                                    .splineToSplineHeading(new Pose2d(-11, 13.5, Math.toRadians(0)), Math.toRadians(0))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(40, 12), Math.toRadians(0))
-                                    .splineTo(new Vector2d(50, 12), Math.toRadians(0))
+                                    .splineTo(new Vector2d(40, 14.5), Math.toRadians(0))
+                                    .splineTo(new Vector2d(55, 14.5), Math.toRadians(0))
                                     .build(),
                             new ParallelAction(
                                     manager.openAutoClaw(),
-                                    manager.openLeftClaw()
+                                    manager.openLeftClaw(),
+                                    manager.openRightClaw()
                             )
                     )
             );
@@ -359,9 +382,9 @@ public class BlueBackStage extends LinearOpMode {
                             // Head to Stacks VIA A-Row
                             .lineToX(50)
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(24, 11, Math.toRadians(180)), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(24, 13.5, Math.toRadians(180)), Math.toRadians(180))
                             //.setReversed(false)
-                            .splineTo(new Vector2d(-48, 12.5), Math.toRadians(180))
+                            .splineTo(new Vector2d(-48, 15.5), Math.toRadians(180))
                             .build());
 
             // Extend and pick up two pixels
@@ -376,7 +399,8 @@ public class BlueBackStage extends LinearOpMode {
                                     .build(),
                             new ParallelAction(
                                     manager.closeAutoClaw(),
-                                    manager.closeLeftClaw()
+                                    manager.closeLeftClaw(),
+                                    manager.closeRightClaw()
                             ),
                             manager.raiseLiftAfterStackPickup()
                     )
@@ -397,11 +421,12 @@ public class BlueBackStage extends LinearOpMode {
                                     .splineToSplineHeading(new Pose2d(-12, 11, Math.toRadians(0)), Math.toRadians(0))
                                     .setReversed(false)
                                     .splineTo(new Vector2d(40, 14), Math.toRadians(0))
-                                    .splineTo(new Vector2d(50, 14), Math.toRadians(45))
+                                    .splineTo(new Vector2d(50, 18), Math.toRadians(45))
                                     .build(),
                             new ParallelAction(
                                     manager.openAutoClaw(),
-                                    manager.openLeftClaw()
+                                    manager.openLeftClaw(),
+                                    manager.openRightClaw()
                             )
                     )
             );

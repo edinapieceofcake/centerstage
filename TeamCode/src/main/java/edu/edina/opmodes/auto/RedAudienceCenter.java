@@ -273,7 +273,8 @@ public class RedAudienceCenter extends LinearOpMode {
                 backdropDropLocation = secondBackdropDropLocation = new Pose2d(49,-32, Math.toRadians(0));
                 break;
             case Center:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(49,-38, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(49,-42, Math.toRadians(0));
+                secondBackdropDropLocation = new Pose2d(48.5,-42, Math.toRadians(0));
                 break;
             case Right:
                 backdropDropLocation = new Pose2d(49,-47, Math.toRadians(0));
@@ -348,7 +349,7 @@ public class RedAudienceCenter extends LinearOpMode {
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
-                                    .lineToX(-55)
+                                    .lineToX(-56)
                                     .build(),
                             manager.closeLeftClaw(),
                             new SleepAction(.2),
@@ -438,7 +439,7 @@ public class RedAudienceCenter extends LinearOpMode {
                                     .lineToX(44)
                                     .setReversed(true)
                                     .splineToSplineHeading(new Pose2d(10, -11.5, Math.toRadians(-180)), Math.toRadians(180))
-                                    .splineTo(new Vector2d(-52, -11.5), Math.toRadians(180))
+                                    .splineTo(new Vector2d(-54, -11.5), Math.toRadians(180))
                                     .build()
                     )
             );
@@ -452,13 +453,14 @@ public class RedAudienceCenter extends LinearOpMode {
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
-                                    .lineToX(-59.5)
+                                    .lineToX(-62)
                                     .build(),
                             new ParallelAction(
                                     manager.closeLeftClaw(),
-                                    manager.closeAutoClaw()
+                                    manager.closeAutoClaw(),
+                                    manager.closeRightClaw()
                             ),
-                            new SleepAction(.2)
+                            new SleepAction(0.2)
                     )
             );
 
@@ -481,7 +483,8 @@ public class RedAudienceCenter extends LinearOpMode {
                                 .splineToSplineHeading(secondBackdropDropLocation, Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openAutoClaw(),
-                                        manager.openLeftClaw()
+                                        manager.openLeftClaw(),
+                                        manager.openRightClaw()
                                 ))
                                 .build());
 
@@ -513,7 +516,8 @@ public class RedAudienceCenter extends LinearOpMode {
                                 .splineTo(new Vector2d(54, -11), Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openAutoClaw(),
-                                        manager.openLeftClaw()
+                                        manager.openLeftClaw(),
+                                        manager.openRightClaw()
                                 ))
                                 .lineToX(50)
                                 .build());
@@ -534,7 +538,7 @@ public class RedAudienceCenter extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(58, -64), Math.toRadians(0))
+                                .splineTo(new Vector2d(58, -60), Math.toRadians(0))
                                 .build()));
                 break;
             default:

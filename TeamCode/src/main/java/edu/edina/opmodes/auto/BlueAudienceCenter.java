@@ -278,14 +278,15 @@ public class BlueAudienceCenter extends LinearOpMode {
         switch (propLocation) {
             case Left:
                 backdropDropLocation = new Pose2d(50,39, Math.toRadians(0));
-                secondBackdropDropLocation = new Pose2d(50,39, Math.toRadians(0));
+                secondBackdropDropLocation = new Pose2d(49,39, Math.toRadians(0));
                 break;
             case Center:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(50,35, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(50,32, Math.toRadians(0));
+                secondBackdropDropLocation = new Pose2d(49,32, Math.toRadians(0));
                 break;
             case Right:
                 backdropDropLocation = new Pose2d(50,28, Math.toRadians(0));
-                secondBackdropDropLocation = new Pose2d(50,28, Math.toRadians(0));
+                secondBackdropDropLocation = new Pose2d(49,28, Math.toRadians(0));
                 break;
             default:
                 backdropDropLocation = secondBackdropDropLocation = new Pose2d(50,35, Math.toRadians(0)); // default to center if all goes bad
@@ -494,11 +495,12 @@ public class BlueAudienceCenter extends LinearOpMode {
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
-                                    .lineToX(-58)
+                                    .lineToX(-59)
                                     .build(),
                             new ParallelAction(
                                     manager.closeLeftClaw(),
-                                    manager.closeAutoClaw()
+                                    manager.closeAutoClaw(),
+                                    manager.closeRightClaw()
                             ),
                             new SleepAction(.2)
                     )
@@ -523,7 +525,8 @@ public class BlueAudienceCenter extends LinearOpMode {
                                 .splineToSplineHeading(secondBackdropDropLocation, Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openAutoClaw(),
-                                        manager.openLeftClaw()
+                                        manager.openLeftClaw(),
+                                        manager.openRightClaw()
                                 ))
                                 .build());
 
@@ -555,7 +558,8 @@ public class BlueAudienceCenter extends LinearOpMode {
                                 .splineTo(new Vector2d(54, 14), Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openAutoClaw(),
-                                        manager.openLeftClaw()
+                                        manager.openLeftClaw(),
+                                        manager.openRightClaw()
                                 ))
                                 .lineToX(50)
                                 .build());
@@ -576,7 +580,7 @@ public class BlueAudienceCenter extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(58, 64), Math.toRadians(0))
+                                .splineTo(new Vector2d(58, 60), Math.toRadians(0))
                                 .build()));
                 break;
             default:

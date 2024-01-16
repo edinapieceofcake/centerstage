@@ -275,17 +275,19 @@ public class RedAudienceWall extends LinearOpMode {
         // Determine location for yellow pixel
         switch (propLocation) {
             case Left:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(49,-32, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(48,-32, Math.toRadians(0));
+                secondBackdropDropLocation = new Pose2d(48,-40, Math.toRadians(0));
                 break;
             case Center:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(49,-38, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(48,-40, Math.toRadians(0));
+                secondBackdropDropLocation = new Pose2d(48,-43, Math.toRadians(0));
                 break;
             case Right:
-                backdropDropLocation = new Pose2d(49,-47, Math.toRadians(0));
-                secondBackdropDropLocation = new Pose2d(49,-40, Math.toRadians(0));
+                backdropDropLocation = new Pose2d(48,-47, Math.toRadians(0));
+                secondBackdropDropLocation = new Pose2d(48,-40, Math.toRadians(0));
                 break;
             default:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(49,-38, Math.toRadians(0)); // default to center if all goes bad
+                backdropDropLocation = secondBackdropDropLocation = new Pose2d(48,-40, Math.toRadians(0)); // default to center if all goes bad
                 break;
         }
 
@@ -439,7 +441,7 @@ public class RedAudienceWall extends LinearOpMode {
                                     .setReversed(true)
                                     .splineToSplineHeading(new Pose2d(0, -60, Math.toRadians(-180)), Math.toRadians(180))
                                     .splineTo(new Vector2d(-40, -58), Math.toRadians(180))
-                                    .splineTo(new Vector2d(-52, -33), Math.toRadians(180))
+                                    .splineToConstantHeading(new Vector2d(-52, -34), Math.toRadians(180))
                                     .build()
                     )
             );
@@ -453,11 +455,12 @@ public class RedAudienceWall extends LinearOpMode {
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
-                                    .lineToX(-60)
+                                    .lineToX(-57)
                                     .build(),
                             new ParallelAction(
                                     manager.closeLeftClaw(),
-                                    manager.closeAutoClaw()
+                                    manager.closeAutoClaw(),
+                                    manager.closeRightClaw()
                             ),
                             new SleepAction(.2)
                     )
@@ -481,7 +484,8 @@ public class RedAudienceWall extends LinearOpMode {
                                 .splineToSplineHeading(secondBackdropDropLocation, Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openLeftClaw(),
-                                        manager.openAutoClaw()
+                                        manager.openAutoClaw(),
+                                        manager.openRightClaw()
                                 ))
                                 .build());
 
@@ -513,7 +517,8 @@ public class RedAudienceWall extends LinearOpMode {
                                 .splineTo(new Vector2d(54, -64), Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openLeftClaw(),
-                                        manager.openAutoClaw()
+                                        manager.openAutoClaw(),
+                                        manager.openRightClaw()
                                 ))
                                 .lineToX(50)
                                 .build());
@@ -534,7 +539,7 @@ public class RedAudienceWall extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(58, -64), Math.toRadians(0))
+                                .splineTo(new Vector2d(58, -60), Math.toRadians(0))
                                 .build()));
                 break;
             default:
