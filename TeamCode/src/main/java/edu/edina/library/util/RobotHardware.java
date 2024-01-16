@@ -199,8 +199,8 @@ public class RobotHardware {
 
         robotHangerMotor.setPower(0);
         robotHangerMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robotHangerMotor.setTargetPosition(RobotConfiguration.getInstance().hangMotorInitPosition);
+        robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robotHangerMotor.setPower(.75);
 
         while (robotHangerMotor.isBusy()) {
