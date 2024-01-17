@@ -45,7 +45,7 @@ public class BlueBackStage extends LinearOpMode {
 
         drive = new MecanumDrive(hardware.leftFront,
                 hardware.leftBack, hardware.rightBack, hardware.rightFront,
-                hardware.par0, hardware.par1, hardware.perp,
+                hardware.par0, hardware.par1, hardware.perp, hardware.externalImu,
                 hardware.expansionImu, hardware.voltageSensor, getStartPose());
 
         // Heartbeat Red to signify Red alliance
@@ -227,39 +227,27 @@ public class BlueBackStage extends LinearOpMode {
     protected void runPaths() {
 
         Vector2d propDropLocation;
-        Pose2d backdropDropLocation;
+        Pose2d backdropLocation;
         double propDropAngle = 270.0;
 
-        // Determine location for purple pixel
+        // Determine location for the purple and yellow pixel
         switch(propLocation) {
             case Left:
                 propDropLocation = new Vector2d(20.5, 44);
+                backdropLocation = new Pose2d(47.5,41, Math.toRadians(0));
                 break;
             case Center:
                 propDropLocation = new Vector2d(12, 35.5);
+                backdropLocation = new Pose2d(47.5,35, Math.toRadians(0));
                 break;
             case Right:
                 propDropLocation = new Vector2d(6, 38);
                 propDropAngle = -135.0;
+                backdropLocation = new Pose2d(47.5,28, Math.toRadians(0));
                 break;
             default:
                 propDropLocation = new Vector2d(16.5, 35.5);  // default to Center if all goes bad
-                break;
-        }
-
-        // Determine location for yellow pixel
-        switch (propLocation) {
-            case Left:
-                backdropDropLocation = new Pose2d(47.5,41, Math.toRadians(0));
-                break;
-            case Center:
-                backdropDropLocation = new Pose2d(47.5,35, Math.toRadians(0));
-                break;
-            case Right:
-                backdropDropLocation = new Pose2d(47.5,28, Math.toRadians(0));
-                break;
-            default:
-                backdropDropLocation = new Pose2d(47.5,38, Math.toRadians(0)); // default to center if all goes bad
+                backdropLocation = new Pose2d(47.5,38, Math.toRadians(0)); // default to center if all goes bad
                 break;
         }
 
@@ -281,7 +269,7 @@ public class BlueBackStage extends LinearOpMode {
                                     drive.actionBuilder(drive.pose)
                                             .setReversed(true)
                                             .turnTo(Math.toRadians(0))
-                                            .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
+                                            .splineToSplineHeading(backdropLocation, Math.toRadians(0))
                                             //.lineToX(50)
                                             .build(),
                                     new SequentialAction(
@@ -299,7 +287,7 @@ public class BlueBackStage extends LinearOpMode {
                                     drive.actionBuilder(drive.pose)
                                             .setReversed(true)
                                             .waitSeconds(0.5)
-                                            .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
+                                            .splineToSplineHeading(backdropLocation, Math.toRadians(0))
                                             //.lineToX(50)
                                             .build(),
                                     new SequentialAction(
@@ -315,7 +303,7 @@ public class BlueBackStage extends LinearOpMode {
         Actions.runBlocking(
                 new ParallelAction(
                         drive.actionBuilder(drive.pose)
-                                .lineToX(44 )
+                                .lineToX(44)
                                 .build(),
                         manager.getLiftReadyToDrive()
                 )
@@ -325,10 +313,9 @@ public class BlueBackStage extends LinearOpMode {
             // drive to stack - 1st trip
             Actions.runBlocking(
                     drive.actionBuilder(drive.pose)
-                            // Head to Stacks VIA A-Row
+                            // Head to Stacks VIA C-Row
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(20, 13.5, Math.toRadians(180)), Math.toRadians(180))
-                            //.setReversed(false)
+                            .splineToSplineHeading(new Pose2d(20, 15, Math.toRadians(180)), Math.toRadians(180))
                             .splineTo(new Vector2d(-48, 15), Math.toRadians(180))
                             .build());
 
@@ -379,11 +366,10 @@ public class BlueBackStage extends LinearOpMode {
             // drive to stack - 2nd trip
             Actions.runBlocking(
                     drive.actionBuilder(drive.pose)
-                            // Head to Stacks VIA A-Row
+                            // Head to Stacks VIA C-Row
                             .lineToX(50)
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(24, 13.5, Math.toRadians(180)), Math.toRadians(180))
-                            //.setReversed(false)
+                            .splineToSplineHeading(new Pose2d(24, 15.5, Math.toRadians(180)), Math.toRadians(180))
                             .splineTo(new Vector2d(-48, 15.5), Math.toRadians(180))
                             .build());
 
