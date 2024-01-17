@@ -46,6 +46,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 import org.firstinspires.ftc.teamcode.messages.DriveCommandMessage;
 import org.firstinspires.ftc.teamcode.messages.MecanumCommandMessage;
 import org.firstinspires.ftc.teamcode.messages.MecanumEncodersMessage;
@@ -54,6 +55,7 @@ import org.firstinspires.ftc.teamcode.messages.PoseMessage;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Config
 public final class PoCMecanumDrive {
@@ -133,6 +135,8 @@ public final class PoCMecanumDrive {
     private final DownsampledWriter mecanumCommandWriter = new DownsampledWriter("MECANUM_COMMAND", 50_000_000);
     private DigitalChannel beamBreak = null;
     private boolean beamUsage = false;
+    private final Deadline beamBreakDelay = new Deadline(100, TimeUnit.MILLISECONDS);
+    private boolean BeamBreakTripped = false;
 
     public class DriveLocalizer implements Localizer {
         public final Encoder leftFront, leftBack, rightBack, rightFront;
@@ -308,6 +312,7 @@ public final class PoCMecanumDrive {
 
     public void TurnBeamBreakOn(){
         beamUsage = true;
+        BeamBreakTripped = false;
     }
     public void TurnBeamBreakOff(){
         beamUsage = false;
@@ -351,13 +356,22 @@ public final class PoCMecanumDrive {
 
                 return false;
             }
-            if(beamUsage && beamBreak != null && !beamBreak.getState()){
-                leftFront.setPower(0);
-                leftBack.setPower(0);
-                rightBack.setPower(0);
-                rightFront.setPower(0);
+            if(beamUsage){
+                if(BeamBreakTripped){
+                    if(beamBreakDelay.hasExpired()){
+                        leftFront.setPower(0);
+                        leftBack.setPower(0);
+                        rightBack.setPower(0);
+                        rightFront.setPower(0);
 
-                return false;
+                        BeamBreakTripped = false;
+                        return false;
+                    }
+                }
+                else if(!beamBreak.getState()){
+                    BeamBreakTripped = true;
+                    beamBreakDelay.reset();
+                }
             }
 
             Pose2dDual<Time> txWorldTarget = timeTrajectory.get(t);

@@ -17,7 +17,7 @@ import edu.edina.library.util.RobotState;
 import edu.edina.library.util.SmartGamepad;
 
 @TeleOp
-@Disabled
+//@Disabled
 public class TestStackPickup extends LinearOpMode  {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -87,7 +87,7 @@ public class TestStackPickup extends LinearOpMode  {
                 Actions.runBlocking(
                         new SequentialAction(
                                 new ParallelAction(
-                                        manager.runLiftToPosition(-90),
+                                        manager.runLiftToPosition(-100),
                                         manager.positionTheClawToPickupPixels(),
                                         drive.actionBuilder(drive.pose)
                                                 .lineToY(-46)
