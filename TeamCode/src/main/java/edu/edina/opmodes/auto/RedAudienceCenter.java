@@ -10,7 +10,6 @@ import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.PoCMecanumDrive;
 
 import edu.edina.library.actions.roadrunner.ActionManager;
@@ -342,7 +341,7 @@ public class RedAudienceCenter extends LinearOpMode {
                 );
             }
 
-            drive.TurnBeamBreakOn();
+            drive.turnBeamBreakOn();
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
@@ -358,7 +357,7 @@ public class RedAudienceCenter extends LinearOpMode {
                             manager.raiseLiftAfterStackPickup()
                     )
             );
-            drive.TurnBeamBreakOff();
+            drive.turnBeamBreakOff();
 
             // Check to see if there is delay - if so, run special version with wait during return
             if (delayTime > 0) {  // Yes, there's a delay

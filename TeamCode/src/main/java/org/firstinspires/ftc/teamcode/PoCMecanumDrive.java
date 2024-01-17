@@ -310,11 +310,11 @@ public final class PoCMecanumDrive {
         rightFront.setPower(wheelVels.rightFront.get(0) / maxPowerMag);
     }
 
-    public void TurnBeamBreakOn(){
+    public void turnBeamBreakOn(){
         beamUsage = true;
         BeamBreakTripped = false;
     }
-    public void TurnBeamBreakOff(){
+    public void turnBeamBreakOff(){
         beamUsage = false;
     }
     public final class FollowTrajectoryAction implements Action {

@@ -4,11 +4,9 @@ import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.ftc.Actions;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.PoCMecanumDrive;
 
 import edu.edina.library.actions.roadrunner.ActionManager;
@@ -82,7 +80,7 @@ public class TestStackPickup extends LinearOpMode  {
             if (pad1.dpad_up) {
                 // start at one tile out
                 if(toggleBeamBreak){
-                    drive.TurnBeamBreakOn();
+                    drive.turnBeamBreakOn();
                 }
                 Actions.runBlocking(
                         new SequentialAction(
@@ -101,7 +99,7 @@ public class TestStackPickup extends LinearOpMode  {
                         )
                 );
                 if(toggleBeamBreak){
-                    drive.TurnBeamBreakOff();
+                    drive.turnBeamBreakOff();
                 }
                 Actions.runBlocking(
                         new SequentialAction(
