@@ -286,7 +286,6 @@ public class RedBackStage extends LinearOpMode {
                 new ParallelAction(
                         drive.actionBuilder(drive.pose)
                                 .lineToX(50)
-                                .turnTo(Math.toRadians(90))
                                 .build(),
                         new SequentialAction(
                             new SleepAction(0.5),
@@ -299,6 +298,7 @@ public class RedBackStage extends LinearOpMode {
             // drive to stack - 1st trip
             Actions.runBlocking(
                     drive.actionBuilder(drive.pose)
+                            .turnTo(Math.toRadians(90))
                             // Head to Stacks VIA C-Row
                             .splineToSplineHeading(new Pose2d(24, -11, Math.toRadians(180)), Math.toRadians(180))
                             .splineTo(new Vector2d(-44, -11), Math.toRadians(180))

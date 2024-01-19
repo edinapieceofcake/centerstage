@@ -11,7 +11,7 @@ import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 public class MeepMeepTesting {
     public static void main(String[] args) {
-        MeepMeep meepMeep = new MeepMeep(640);
+        MeepMeep meepMeep = new MeepMeep(800);
 
         // blue maps
 
@@ -40,8 +40,8 @@ public class MeepMeepTesting {
                 .lineToX(-55)
                 .turnTo(Math.toRadians(270))
                 .splineToSplineHeading(new Pose2d(new Vector2d(-30, 12), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(11, 12), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(50,35, Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(11, 12), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(50,35), Math.toRadians(0))
                 .lineToX(51.5)
                 .lineToX(44)
                 .setReversed(true)
@@ -61,8 +61,8 @@ public class MeepMeepTesting {
                 .lineToX(-55)
                 .turnTo(Math.toRadians(270))
                 .splineToSplineHeading(new Pose2d(new Vector2d(-30, 12), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(11, 12), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(50,35, Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(11, 12), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(50,35), Math.toRadians(0))
                 .lineToX(51.5)
                 .lineToX(44)
                 .setReversed(true)
@@ -82,18 +82,18 @@ public class MeepMeepTesting {
                 .lineToX(-55)
                 .turnTo(Math.toRadians(270))
                 .splineToSplineHeading(new Pose2d(new Vector2d(-30, 12), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(11, 12), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(50,35, Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(11, 12), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(50,35), Math.toRadians(0))
                 .lineToX(51.5)
                 .lineToX(46)
                 .splineToSplineHeading(new Pose2d(11, 12, Math.toRadians(180)), Math.toRadians(180))
-                .splineTo(new Vector2d(-48, 17), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-48, 17), Math.toRadians(180))
                 .lineToX(-58)
                 .lineToX(-50)
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(new Vector2d(-20, 12), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(10, 12), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(50,35, Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(10, 12), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(50,35), Math.toRadians(0))
                 .lineToX(40)
                 .build());
 
@@ -110,17 +110,17 @@ public class MeepMeepTesting {
                 .lineToX(-55)
                 .turnTo(Math.toRadians(270))
                 .splineToSplineHeading(new Pose2d(new Vector2d(-30, 12), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(11, 12), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(50,35, Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(11, 12), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(50,35), Math.toRadians(0))
                 .lineToX(51.5)
                 .lineToX(46)
                 .splineToSplineHeading(new Pose2d(11, 12, Math.toRadians(180)), Math.toRadians(180))
-                .splineTo(new Vector2d(-48, 17), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-48, 17), Math.toRadians(180))
                 .lineToX(-58)
                 .lineToX(-48)
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, 12), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(54, 14), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(54, 14), Math.toRadians(0))
                 .lineToX(50)
                 .build());
 
@@ -140,8 +140,8 @@ public class MeepMeepTesting {
                 .lineToX(-50)
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(new Vector2d(-30, 59), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(0, 58), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(51.5,35, Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(0, 58), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(51.5,35), Math.toRadians(0))
                 .lineToX(51.5)
                 .lineToX(44)
                 .setReversed(true)
@@ -162,8 +162,8 @@ public class MeepMeepTesting {
                 .lineToX(-50)
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(new Vector2d(-30, 59), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(0, 58), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(51.5,35, Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(0, 58), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(51.5,35), Math.toRadians(0))
                 .lineToX(51.5)
                 .lineToX(44)
                 .setReversed(true)
@@ -184,19 +184,19 @@ public class MeepMeepTesting {
                 .lineToX(-50)
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(new Vector2d(-30, 59), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(0, 58), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(51.5,35, Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(0, 58), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(51.5,35), Math.toRadians(0))
                 .lineToX(51.5)
                 .lineToX(44)
                 .splineToSplineHeading(new Pose2d(0, 59, Math.toRadians(180)), Math.toRadians(180))
-                .splineTo(new Vector2d(-30, 59), Math.toRadians(180))
-                .splineTo(new Vector2d(-52, 37), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-30, 59), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-52, 37), Math.toRadians(180))
                 .lineToX(-55)
                 .lineToX(-48)
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(new Vector2d(-30, 59), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(0, 59), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(51.5, 39, Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(0, 59), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(51.5, 39), Math.toRadians(0))
                 .lineToX(44)
                 .build());
 
@@ -214,13 +214,13 @@ public class MeepMeepTesting {
                 .lineToX(-50)
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(new Vector2d(-30, 59), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(0, 58), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(51.5,35, Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(0, 58), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(51.5,35), Math.toRadians(0))
                 .lineToX(51.5)
                 .lineToX(44)
                 .splineToSplineHeading(new Pose2d(0, 59, Math.toRadians(180)), Math.toRadians(180))
-                .splineTo(new Vector2d(-30, 59), Math.toRadians(180))
-                .splineTo(new Vector2d(-52, 37), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-30, 59), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-52, 37), Math.toRadians(180))
                 .lineToX(-55)
                 .lineToX(-48)
                 .setReversed(true)
@@ -261,13 +261,13 @@ public class MeepMeepTesting {
                 .splineTo(new Vector2d(58, 14), Math.toRadians(0))
                 .build());
 
-        RoadRunnerBotEntity blueBackstageTwoWhites = new DefaultBotBuilder(meepMeep)
+        RoadRunnerBotEntity blueBackstageCenterTwoWhitesInCenter = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
                 .setDimensions(12, 12)
                 .build();
 
-        blueBackstageTwoWhites.runAction(blueBackstageTwoWhites.getDrive().actionBuilder(new Pose2d(17.5, 64, Math.toRadians(270)))
+        blueBackstageCenterTwoWhitesInCenter.runAction(blueBackstageCenterTwoWhitesInCenter.getDrive().actionBuilder(new Pose2d(17.5, 64, Math.toRadians(270)))
                 .splineTo(new Vector2d(13, 35.5), Math.toRadians(270))
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(46.5,35, Math.toRadians(0)), Math.toRadians(0))
@@ -283,13 +283,13 @@ public class MeepMeepTesting {
                 .splineTo(new Vector2d(50, 12), Math.toRadians(0))
                 .build());
 
-        RoadRunnerBotEntity blueBackstageFourWhites = new DefaultBotBuilder(meepMeep)
+        RoadRunnerBotEntity blueBackstageCenterFourWhitesInCenter = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
                 .setDimensions(12, 12)
                 .build();
 
-        blueBackstageFourWhites.runAction(blueBackstageFourWhites.getDrive().actionBuilder(new Pose2d(17.5, 64, Math.toRadians(270)))
+        blueBackstageCenterFourWhitesInCenter.runAction(blueBackstageCenterFourWhitesInCenter.getDrive().actionBuilder(new Pose2d(17.5, 64, Math.toRadians(270)))
                 .splineTo(new Vector2d(13, 35.5), Math.toRadians(270))
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(46.5,35, Math.toRadians(0)), Math.toRadians(0))
@@ -316,6 +316,223 @@ public class MeepMeepTesting {
                 .splineTo(new Vector2d(50, 14), Math.toRadians(45))
                 .build());
 
+        RoadRunnerBotEntity blueBackstageCenterTwoWhitesOnBackdropParkInCenter = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        blueBackstageCenterTwoWhitesOnBackdropParkInCenter.runAction(blueBackstageCenterTwoWhitesOnBackdropParkInCenter.getDrive().actionBuilder(new Pose2d(17.5, 64, Math.toRadians(270)))
+                .splineTo(new Vector2d(13, 35.5), Math.toRadians(270))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(46.5,35, Math.toRadians(0)), Math.toRadians(0))
+                .lineToX(44 )
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(20, 12, Math.toRadians(180)), Math.toRadians(180))
+                .splineTo(new Vector2d(-48, 15), Math.toRadians(180))
+                .lineToX(-59)
+                .lineToX(-44)
+                .splineToSplineHeading(new Pose2d(-11, 11, Math.toRadians(0)), Math.toRadians(0))
+                .setReversed(false)
+                .splineToConstantHeading(new Vector2d(25,11), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(46.5,35), Math.toRadians(0))
+                .lineToX(44 )
+                .setReversed(true)
+                .splineTo(new Vector2d(58, 14), Math.toRadians(0))
+                .build());
+
+        RoadRunnerBotEntity blueBackstageCenterTwoWhitesOnBackdropParkInCorner = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        blueBackstageCenterTwoWhitesOnBackdropParkInCorner.runAction(blueBackstageCenterTwoWhitesOnBackdropParkInCorner.getDrive().actionBuilder(new Pose2d(17.5, 64, Math.toRadians(270)))
+                .splineTo(new Vector2d(13, 35.5), Math.toRadians(270))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(46.5,35, Math.toRadians(0)), Math.toRadians(0))
+                .lineToX(44 )
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(20, 12, Math.toRadians(180)), Math.toRadians(180))
+                .splineTo(new Vector2d(-48, 15), Math.toRadians(180))
+                .lineToX(-59)
+                .lineToX(-44)
+                .splineToSplineHeading(new Pose2d(-11, 11, Math.toRadians(0)), Math.toRadians(0))
+                .setReversed(false)
+                .splineToConstantHeading(new Vector2d(25,11), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(46.5,35), Math.toRadians(0))
+                .lineToX(44 )
+                .setReversed(true)
+                .splineTo(new Vector2d(58, 54), Math.toRadians(0))
+                .build());
+
+        RoadRunnerBotEntity blueBackstageCenterFourWhitesOnBackdrop = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        blueBackstageCenterFourWhitesOnBackdrop.runAction(blueBackstageCenterFourWhitesOnBackdrop.getDrive().actionBuilder(new Pose2d(17.5, 64, Math.toRadians(270)))
+                .splineTo(new Vector2d(13, 35.5), Math.toRadians(270))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(46.5,35, Math.toRadians(0)), Math.toRadians(0))
+                .lineToX(44 )
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(20, 12, Math.toRadians(180)), Math.toRadians(180))
+                .splineTo(new Vector2d(-48, 15), Math.toRadians(180))
+                .lineToX(-59)
+                .lineToX(-44)
+                .splineToSplineHeading(new Pose2d(-11, 11, Math.toRadians(0)), Math.toRadians(0))
+                .setReversed(false)
+                .splineToConstantHeading(new Vector2d(25,11), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(46.5,35), Math.toRadians(0))
+                .lineToX(44 )
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(20, 12, Math.toRadians(180)), Math.toRadians(180))
+                .splineTo(new Vector2d(-48, 15), Math.toRadians(180))
+                .lineToX(-59)
+                .lineToX(-44)
+                .splineToSplineHeading(new Pose2d(-11, 11, Math.toRadians(0)), Math.toRadians(0))
+                .setReversed(false)
+                .splineToConstantHeading(new Vector2d(25,11), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(46.5,35), Math.toRadians(0))
+                .lineToX(44 )
+                .build());
+
+        RoadRunnerBotEntity blueBackstageWallTwoWhitesOnBackstage = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        blueBackstageWallTwoWhitesOnBackstage.runAction(blueBackstageWallTwoWhitesOnBackstage.getDrive().actionBuilder(new Pose2d(17.5, 64, Math.toRadians(270)))
+                .splineTo(new Vector2d(13, 35.5), Math.toRadians(270))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(46.5,35, Math.toRadians(0)), Math.toRadians(0))
+                .lineToX(44 )
+                .splineToSplineHeading(new Pose2d(10, 59, Math.toRadians(180)), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-30, 59), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-52, 37), Math.toRadians(180))
+                .lineToX(-55)
+                .lineToX(-48)
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-35, 59), Math.toRadians(0)), Math.toRadians(0))
+                .splineTo(new Vector2d(54, 64), Math.toRadians(0))
+                .lineToX(50)
+                .build());
+
+        RoadRunnerBotEntity blueBackstageWallFourWhitesOnBackstage = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        blueBackstageWallFourWhitesOnBackstage.runAction(blueBackstageWallFourWhitesOnBackstage.getDrive().actionBuilder(new Pose2d(17.5, 64, Math.toRadians(270)))
+                .splineTo(new Vector2d(13, 35.5), Math.toRadians(270))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(46.5,35, Math.toRadians(0)), Math.toRadians(0))
+                .lineToX(44 )
+                .splineToSplineHeading(new Pose2d(10, 59, Math.toRadians(180)), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-30, 59), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-52, 37), Math.toRadians(180))
+                .lineToX(-55)
+                .lineToX(-48)
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-35, 59), Math.toRadians(0)), Math.toRadians(0))
+                .splineTo(new Vector2d(54, 64), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(10, 59, Math.toRadians(180)), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-30, 59), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-52, 37), Math.toRadians(180))
+                .lineToX(-55)
+                .lineToX(-48)
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-35, 59), Math.toRadians(0)), Math.toRadians(0))
+                .splineTo(new Vector2d(54, 64), Math.toRadians(0))
+                .lineToX(50)
+                .build());
+
+        RoadRunnerBotEntity blueBackstageWallTwoWhitesOnBackdropParkInCenter = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        blueBackstageWallTwoWhitesOnBackdropParkInCenter.runAction(blueBackstageWallTwoWhitesOnBackdropParkInCenter.getDrive().actionBuilder(new Pose2d(17.5, 64, Math.toRadians(270)))
+                .splineTo(new Vector2d(13, 35.5), Math.toRadians(270))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(46.5,35, Math.toRadians(0)), Math.toRadians(0))
+                .lineToX(44 )
+                .splineToSplineHeading(new Pose2d(10, 59, Math.toRadians(180)), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-30, 59), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-52, 37), Math.toRadians(180))
+                .lineToX(-55)
+                .lineToX(-48)
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-35, 59), Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(15, 59), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(46.5, 35), Math.toRadians(0))
+                .lineToX(44 )
+                .setReversed(true)
+                .splineTo(new Vector2d(58, 14), Math.toRadians(0))
+                .build());
+
+        RoadRunnerBotEntity blueBackstageWallTwoWhitesOnBackdropParkInCorner = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        blueBackstageWallTwoWhitesOnBackdropParkInCorner.runAction(blueBackstageWallTwoWhitesOnBackdropParkInCorner.getDrive().actionBuilder(new Pose2d(17.5, 64, Math.toRadians(270)))
+                .splineTo(new Vector2d(13, 35.5), Math.toRadians(270))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(46.5,35, Math.toRadians(0)), Math.toRadians(0))
+                .lineToX(44 )
+                .splineToSplineHeading(new Pose2d(10, 59, Math.toRadians(180)), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-30, 59), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-52, 37), Math.toRadians(180))
+                .lineToX(-55)
+                .lineToX(-48)
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-35, 59), Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(15, 59), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(46.5, 35), Math.toRadians(0))
+                .lineToX(44 )
+                .setReversed(true)
+                .splineTo(new Vector2d(58, 64), Math.toRadians(0))
+                .build());
+
+        RoadRunnerBotEntity blueBackstageWallFourWhitesOnBackdrop = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        blueBackstageWallFourWhitesOnBackdrop.runAction(blueBackstageWallFourWhitesOnBackdrop.getDrive().actionBuilder(new Pose2d(17.5, 64, Math.toRadians(270)))
+                .splineTo(new Vector2d(13, 35.5), Math.toRadians(270))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(46.5,35, Math.toRadians(0)), Math.toRadians(0))
+                .lineToX(44 )
+                .splineToSplineHeading(new Pose2d(10, 59, Math.toRadians(180)), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-30, 59), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-52, 37), Math.toRadians(180))
+                .lineToX(-55)
+                .lineToX(-48)
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-35, 59), Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(15, 59), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(46.5, 35), Math.toRadians(0))
+                .lineToX(44 )
+                .splineToSplineHeading(new Pose2d(10, 59, Math.toRadians(180)), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-30, 59), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-52, 37), Math.toRadians(180))
+                .lineToX(-55)
+                .lineToX(-48)
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-35, 59), Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(15, 59), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(46.5, 35), Math.toRadians(0))
+                .lineToX(44 )
+                .build());
 
         // red maps
 
@@ -332,92 +549,6 @@ public class MeepMeepTesting {
 
         // red audience center
 
-        RoadRunnerBotEntity redAudienceCenterTwoWhitesOnBackDrop = new DefaultBotBuilder(meepMeep)
-                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
-                .setDimensions(12, 12)
-                .build();
-
-        redAudienceCenterTwoWhitesOnBackDrop.runAction(redAudienceCenterTwoWhitesOnBackDrop.getDrive().actionBuilder(new Pose2d(-42, -64, Math.toRadians(90)))
-                .splineTo(new Vector2d(-38, -36), Math.toRadians(90))
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(-35, -11, Math.toRadians(180)), Math.toRadians(90))
-                .setReversed(true)
-                .lineToX(-55)
-                .lineToX(-48)
-                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(10, -11), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(49,-38, Math.toRadians(0)), Math.toRadians(0))
-                .lineToX(44)
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(10, -11.5, Math.toRadians(-180)), Math.toRadians(180))
-                .splineTo(new Vector2d(-52, -11.5), Math.toRadians(180))
-                .lineToX(-59.5)
-                .lineToX(-48)
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(10, -11), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(49,-38, Math.toRadians(0)), Math.toRadians(0))
-                .lineToX(43)
-                .build());
-
-        RoadRunnerBotEntity redAudienceCenterTwoWhitesOnBackStage = new DefaultBotBuilder(meepMeep)
-                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
-                .setDimensions(12, 12)
-                .build();
-
-        redAudienceCenterTwoWhitesOnBackStage.runAction(redAudienceCenterTwoWhitesOnBackStage.getDrive().actionBuilder(new Pose2d(-42, -64, Math.toRadians(90)))
-                .splineTo(new Vector2d(-38, -36), Math.toRadians(90))
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(-35, -11, Math.toRadians(180)), Math.toRadians(90))
-                .setReversed(true)
-                .lineToX(-55)
-                .lineToX(-48)
-                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(10, -11), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(49,-38, Math.toRadians(0)), Math.toRadians(0))
-                .lineToX(44)
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(10, -11.5, Math.toRadians(-180)), Math.toRadians(180))
-                .splineTo(new Vector2d(-52, -11.5), Math.toRadians(180))
-                .lineToX(-59.5)
-                .lineToX(-48)
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(54, -11), Math.toRadians(0))
-                .lineToX(50)
-                .build());
-
-        RoadRunnerBotEntity redAudienceCenterTwoWhitesOnBackStage1 = new DefaultBotBuilder(meepMeep)
-                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
-                .setDimensions(12, 12)
-                .build();
-
-        redAudienceCenterTwoWhitesOnBackStage1.runAction(redAudienceCenterTwoWhitesOnBackStage1.getDrive().actionBuilder(new Pose2d(-42, -64, Math.toRadians(90)))
-                .splineTo(new Vector2d(-38, -36), Math.toRadians(90))
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(-48, -18, Math.toRadians(180)), Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(-48, -11, Math.toRadians(180)), Math.toRadians(90))
-                .setReversed(true)
-                .lineToX(-55)
-                .lineToX(-48)
-                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(10, -11), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(49,-38, Math.toRadians(0)), Math.toRadians(0))
-                .lineToX(44)
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(10, -11.5, Math.toRadians(-180)), Math.toRadians(180))
-                .splineTo(new Vector2d(-52, -11.5), Math.toRadians(180))
-                .lineToX(-59.5)
-                .lineToX(-48)
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(54, -11), Math.toRadians(0))
-                .lineToX(50)
-                .build());
-
         RoadRunnerBotEntity redAudienceCenterParkCorner = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
@@ -432,8 +563,8 @@ public class MeepMeepTesting {
                 .lineToX(-55)
                 .lineToX(-48)
                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(10, -11), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(49,-38, Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(10, -11), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(49,-38), Math.toRadians(0))
                 .lineToX(44)
                 .setReversed(true)
                 .splineTo(new Vector2d(58, -64), Math.toRadians(0))
@@ -453,14 +584,115 @@ public class MeepMeepTesting {
                 .lineToX(-55)
                 .lineToX(-48)
                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(10, -11), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(49,-38, Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(10, -11), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(49,-38), Math.toRadians(0))
                 .lineToX(44)
                 .setReversed(true)
                 .splineTo(new Vector2d(58, -14), Math.toRadians(0))
                 .build());
 
+        RoadRunnerBotEntity redAudienceCenterTwoWhitesOnBackDrop = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        redAudienceCenterTwoWhitesOnBackDrop.runAction(redAudienceCenterTwoWhitesOnBackDrop.getDrive().actionBuilder(new Pose2d(-42, -64, Math.toRadians(90)))
+                .splineTo(new Vector2d(-38, -36), Math.toRadians(90))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(-35, -11, Math.toRadians(180)), Math.toRadians(90))
+                .setReversed(true)
+                .lineToX(-55)
+                .lineToX(-48)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(10, -11), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(49,-38), Math.toRadians(0))
+                .lineToX(44)
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(10, -11.5, Math.toRadians(-180)), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-52, -11.5), Math.toRadians(180))
+                .lineToX(-59.5)
+                .lineToX(-48)
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(10, -11), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(49,-38), Math.toRadians(0))
+                .lineToX(43)
+                .build());
+
+        RoadRunnerBotEntity redAudienceCenterTwoWhitesOnBackStage = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        redAudienceCenterTwoWhitesOnBackStage.runAction(redAudienceCenterTwoWhitesOnBackStage.getDrive().actionBuilder(new Pose2d(-42, -64, Math.toRadians(90)))
+                .splineTo(new Vector2d(-38, -36), Math.toRadians(90))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(-35, -11, Math.toRadians(180)), Math.toRadians(90))
+                .setReversed(true)
+                .lineToX(-55)
+                .lineToX(-48)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(10, -11), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(49,-38), Math.toRadians(0))
+                .lineToX(44)
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(10, -11.5, Math.toRadians(-180)), Math.toRadians(180))
+                .splineTo(new Vector2d(-52, -11.5), Math.toRadians(180))
+                .lineToX(-59.5)
+                .lineToX(-48)
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
+                .splineTo(new Vector2d(54, -11), Math.toRadians(0))
+                .lineToX(50)
+                .build());
+
+
         // red audience wall
+
+        RoadRunnerBotEntity redAudienceWallParkCorner = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        redAudienceWallParkCorner.runAction(redAudienceWallParkCorner.getDrive().actionBuilder(new Pose2d(-42, -64, Math.toRadians(90)))
+                .splineTo(new Vector2d(-38, -36), Math.toRadians(90))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(-52, -36, Math.toRadians(180)), Math.toRadians(180))
+                .lineToX(-55.5)
+                .lineToX(-48)
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(10, -60), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(49,-38), Math.toRadians(0))
+                .lineToX(44)
+                .setReversed(true)
+                .splineTo(new Vector2d(58, -64), Math.toRadians(0))
+                .build());
+
+        RoadRunnerBotEntity redAudienceWallParkCenter = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        redAudienceWallParkCenter.runAction(redAudienceWallParkCenter.getDrive().actionBuilder(new Pose2d(-42, -64, Math.toRadians(90)))
+                .splineTo(new Vector2d(-38, -36), Math.toRadians(90))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(-52, -36, Math.toRadians(180)), Math.toRadians(180))
+                .lineToX(-55.5)
+                .lineToX(-48)
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(10, -60), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(49,-38), Math.toRadians(0))
+                .lineToX(44)
+                .setReversed(true)
+                .splineTo(new Vector2d(58, -14), Math.toRadians(0))
+                .build());
+
 
         RoadRunnerBotEntity redAudienceWallBackdropCenterWithTwoWhites = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
@@ -489,48 +721,7 @@ public class MeepMeepTesting {
                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
                 .splineToConstantHeading(new Vector2d(10, -60), Math.toRadians(0))
                 .splineToConstantHeading(new Vector2d(49,-38), Math.toRadians(0))
-                .build());
-
-        RoadRunnerBotEntity redAudienceWallParkCorner = new DefaultBotBuilder(meepMeep)
-                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
-                .setDimensions(12, 12)
-                .build();
-
-        redAudienceWallParkCorner.runAction(redAudienceWallParkCorner.getDrive().actionBuilder(new Pose2d(-42, -64, Math.toRadians(90)))
-                .splineTo(new Vector2d(-38, -36), Math.toRadians(90))
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(-52, -36, Math.toRadians(180)), Math.toRadians(180))
-                .lineToX(-55.5)
-                .lineToX(-48)
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(10, -60), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(49,-38, Math.toRadians(0)), Math.toRadians(0))
-                .lineToX(44)
-                .setReversed(true)
-                .splineTo(new Vector2d(58, -64), Math.toRadians(0))
-                .build());
-
-        RoadRunnerBotEntity redAudienceWallParkCenter = new DefaultBotBuilder(meepMeep)
-                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
-                .setDimensions(12, 12)
-                .build();
-
-        redAudienceWallParkCenter.runAction(redAudienceWallParkCenter.getDrive().actionBuilder(new Pose2d(-42, -64, Math.toRadians(90)))
-                .splineTo(new Vector2d(-38, -36), Math.toRadians(90))
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(-52, -36, Math.toRadians(180)), Math.toRadians(180))
-                .lineToX(-55.5)
-                .lineToX(-48)
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(10, -60), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(49,-38, Math.toRadians(0)), Math.toRadians(0))
-                .lineToX(44)
-                .setReversed(true)
-                .splineTo(new Vector2d(58, -14), Math.toRadians(0))
+                .lineToX(42)
                 .build());
 
         RoadRunnerBotEntity redAudienceWallParkCornerWithTwoWhites = new DefaultBotBuilder(meepMeep)
@@ -547,19 +738,20 @@ public class MeepMeepTesting {
                 .lineToX(-48)
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(10, -60), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(49,-38, Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(10, -60), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(49,-38), Math.toRadians(0))
                 .lineToX(44)
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(0, -60, Math.toRadians(-180)), Math.toRadians(180))
-                .splineTo(new Vector2d(-40, -58), Math.toRadians(180))
-                .splineTo(new Vector2d(-52, -33), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-40, -58), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-52, -33), Math.toRadians(180))
                 .lineToX(-60)
                 .lineToX(-48)
                 .setReversed(true)
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
                 .splineTo(new Vector2d(54, -64), Math.toRadians(0))
+                .lineToX(50)
                 .build());
 
         // red backstage
@@ -596,20 +788,20 @@ public class MeepMeepTesting {
                 .splineTo(new Vector2d(58, -14), Math.toRadians(0))
                 .build());
 
-        RoadRunnerBotEntity redBackstageTwoWhites = new DefaultBotBuilder(meepMeep)
+        RoadRunnerBotEntity redBackstageCenterTwoWhitesInCenter = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
                 .setDimensions(12, 12)
                 .build();
 
-        redBackstageTwoWhites.runAction(redBackstageTwoWhites.getDrive().actionBuilder(new Pose2d(14.5, -64, Math.toRadians(90)))
+        redBackstageCenterTwoWhitesInCenter.runAction(redBackstageCenterTwoWhitesInCenter.getDrive().actionBuilder(new Pose2d(14.5, -64, Math.toRadians(90)))
                 .splineTo(new Vector2d(16.5, -35.5), Math.toRadians(90))
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(48, -38, Math.toRadians(0)), Math.toRadians(0))
                 .lineToX(53.5)
                 .lineToX(50)
                 .turnTo(Math.toRadians(90))
-                .splineTo(new Vector2d(-24, -11), Math.toRadians(180))
+                .splineToSplineHeading(new Pose2d(-24, -11, Math.toRadians(180)), Math.toRadians(180))
                 .splineTo(new Vector2d(-44,-11), Math.toRadians(180))
                 .lineToX(-51.25)
                 .lineToX(-44)
@@ -619,20 +811,20 @@ public class MeepMeepTesting {
                 .splineTo(new Vector2d(60, -14), Math.toRadians(0))
                 .build());
 
-        RoadRunnerBotEntity redBackstageFourWhites = new DefaultBotBuilder(meepMeep)
+        RoadRunnerBotEntity redBackstageCenterFourWhitesInCenter = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
                 .setDimensions(12, 12)
                 .build();
 
-        redBackstageFourWhites.runAction(redBackstageFourWhites.getDrive().actionBuilder(new Pose2d(14.5, -64, Math.toRadians(90)))
+        redBackstageCenterFourWhitesInCenter.runAction(redBackstageCenterFourWhitesInCenter.getDrive().actionBuilder(new Pose2d(14.5, -64, Math.toRadians(90)))
                 .splineTo(new Vector2d(16.5, -35.5), Math.toRadians(90))
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(48, -38, Math.toRadians(0)), Math.toRadians(0))
                 .lineToX(53.5)
                 .lineToX(50)
                 .turnTo(Math.toRadians(90))
-                .splineTo(new Vector2d(-24, -11), Math.toRadians(180))
+                .splineToSplineHeading(new Pose2d(-24, -11, Math.toRadians(180)), Math.toRadians(180))
                 .splineTo(new Vector2d(-44,-11), Math.toRadians(180))
                 .lineToX(-51.25)
                 .lineToX(-44)
@@ -652,43 +844,281 @@ public class MeepMeepTesting {
                 .splineTo(new Vector2d(56, -17), Math.toRadians(-45))
                 .build());
 
+        RoadRunnerBotEntity redBackstageCenterTwoWhitesOnBackdropParkInCenter = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        redBackstageCenterTwoWhitesOnBackdropParkInCenter.runAction(redBackstageCenterTwoWhitesOnBackdropParkInCenter.getDrive().actionBuilder(new Pose2d(17.5, -64, Math.toRadians(90)))
+                .splineTo(new Vector2d(13, -35.5), Math.toRadians(90))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(46.5,-35, Math.toRadians(0)), Math.toRadians(0))
+                .lineToX(44 )
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(20, -12, Math.toRadians(180)), Math.toRadians(180))
+                .splineTo(new Vector2d(-48, -15), Math.toRadians(180))
+                .lineToX(-59)
+                .lineToX(-44)
+                .splineToSplineHeading(new Pose2d(-11, -11, Math.toRadians(0)), Math.toRadians(0))
+                .setReversed(false)
+                .splineToConstantHeading(new Vector2d(25,-11), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(46.5,-35), Math.toRadians(0))
+                .lineToX(44 )
+                .setReversed(true)
+                .splineTo(new Vector2d(58, -14), Math.toRadians(0))
+                .build());
+
+        RoadRunnerBotEntity redBackstageCenterTwoWhitesOnBackdropParkInCorner = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        redBackstageCenterTwoWhitesOnBackdropParkInCorner.runAction(redBackstageCenterTwoWhitesOnBackdropParkInCorner.getDrive().actionBuilder(new Pose2d(17.5, -64, Math.toRadians(90)))
+                .splineTo(new Vector2d(13, -35.5), Math.toRadians(90))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(46.5,-35, Math.toRadians(0)), Math.toRadians(0))
+                .lineToX(44 )
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(20, -12, Math.toRadians(180)), Math.toRadians(180))
+                .splineTo(new Vector2d(-48, -15), Math.toRadians(180))
+                .lineToX(-59)
+                .lineToX(-44)
+                .splineToSplineHeading(new Pose2d(-11, -11, Math.toRadians(0)), Math.toRadians(0))
+                .setReversed(false)
+                .splineToConstantHeading(new Vector2d(25,-11), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(46.5,-35), Math.toRadians(0))
+                .lineToX(44 )
+                .setReversed(true)
+                .splineTo(new Vector2d(58, -54), Math.toRadians(0))
+                .build());
+
+        RoadRunnerBotEntity redBackstageCenterFourWhitesOnBackdrop = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        redBackstageCenterFourWhitesOnBackdrop.runAction(redBackstageCenterFourWhitesOnBackdrop.getDrive().actionBuilder(new Pose2d(17.5, -64, Math.toRadians(90)))
+                .splineTo(new Vector2d(13, -35.5), Math.toRadians(90))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(46.5,-35, Math.toRadians(0)), Math.toRadians(0))
+                .lineToX(44 )
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(20, -12, Math.toRadians(180)), Math.toRadians(180))
+                .splineTo(new Vector2d(-48, -15), Math.toRadians(180))
+                .lineToX(-59)
+                .lineToX(-44)
+                .splineToSplineHeading(new Pose2d(-11, -11, Math.toRadians(0)), Math.toRadians(0))
+                .setReversed(false)
+                .splineToConstantHeading(new Vector2d(25,-11), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(46.5,-35), Math.toRadians(0))
+                .lineToX(44 )
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(20, -12, Math.toRadians(180)), Math.toRadians(180))
+                .splineTo(new Vector2d(-48, -15), Math.toRadians(180))
+                .lineToX(-59)
+                .lineToX(-44)
+                .splineToSplineHeading(new Pose2d(-11, -11, Math.toRadians(0)), Math.toRadians(0))
+                .setReversed(false)
+                .splineToConstantHeading(new Vector2d(25,-11), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(46.5,-35), Math.toRadians(0))
+                .lineToX(44 )
+                .build());
+
+        RoadRunnerBotEntity redBackstageWallTwoWhitesOnBackstage = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        redBackstageWallTwoWhitesOnBackstage.runAction(redBackstageWallTwoWhitesOnBackstage.getDrive().actionBuilder(new Pose2d(17.5, -64, Math.toRadians(90)))
+                .splineTo(new Vector2d(13, -35.5), Math.toRadians(90))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(46.5,-35, Math.toRadians(0)), Math.toRadians(0))
+                .lineToX(44 )
+                .splineToSplineHeading(new Pose2d(10, -59, Math.toRadians(180)), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-30, -59), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-52, -37), Math.toRadians(180))
+                .lineToX(-55)
+                .lineToX(-48)
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -59), Math.toRadians(0)), Math.toRadians(0))
+                .splineTo(new Vector2d(54, -64), Math.toRadians(0))
+                .lineToX(50)
+                .build());
+
+        RoadRunnerBotEntity redBackstageWallFourWhitesOnBackstage = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        redBackstageWallFourWhitesOnBackstage.runAction(redBackstageWallFourWhitesOnBackstage.getDrive().actionBuilder(new Pose2d(17.5, -64, Math.toRadians(90)))
+                .splineTo(new Vector2d(13, -35.5), Math.toRadians(90))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(46.5,-35, Math.toRadians(0)), Math.toRadians(0))
+                .lineToX(44 )
+                .splineToSplineHeading(new Pose2d(10, -59, Math.toRadians(180)), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-30, -59), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-52, -37), Math.toRadians(180))
+                .lineToX(-55)
+                .lineToX(-48)
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -59), Math.toRadians(0)), Math.toRadians(0))
+                .splineTo(new Vector2d(54, -64), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(10, -59, Math.toRadians(180)), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-30, -59), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-52, -37), Math.toRadians(180))
+                .lineToX(-55)
+                .lineToX(-48)
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -59), Math.toRadians(0)), Math.toRadians(0))
+                .splineTo(new Vector2d(54, -64), Math.toRadians(0))
+                .lineToX(50)
+                .build());
+
+        RoadRunnerBotEntity redBackstageWallTwoWhitesOnBackdropParkInCenter = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        redBackstageWallTwoWhitesOnBackdropParkInCenter.runAction(redBackstageWallTwoWhitesOnBackdropParkInCenter.getDrive().actionBuilder(new Pose2d(17.5, -64, Math.toRadians(90)))
+                .splineTo(new Vector2d(13, -35.5), Math.toRadians(90))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(46.5,-35, Math.toRadians(0)), Math.toRadians(0))
+                .lineToX(44 )
+                .splineToSplineHeading(new Pose2d(10, -59, Math.toRadians(180)), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-30, -59), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-52, -37), Math.toRadians(180))
+                .lineToX(-55)
+                .lineToX(-48)
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -59), Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(15, -59), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(46.5, -35), Math.toRadians(0))
+                .lineToX(44 )
+                .setReversed(true)
+                .splineTo(new Vector2d(58, -14), Math.toRadians(0))
+                .build());
+
+        RoadRunnerBotEntity redBackstageWallTwoWhitesOnBackdropParkInCorner = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        redBackstageWallTwoWhitesOnBackdropParkInCorner.runAction(redBackstageWallTwoWhitesOnBackdropParkInCorner.getDrive().actionBuilder(new Pose2d(17.5, -64, Math.toRadians(90)))
+                .splineTo(new Vector2d(13, -35.5), Math.toRadians(90))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(46.5,-35, Math.toRadians(0)), Math.toRadians(0))
+                .lineToX(44 )
+                .splineToSplineHeading(new Pose2d(10, -59, Math.toRadians(180)), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-30, -59), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-52, -37), Math.toRadians(180))
+                .lineToX(-55)
+                .lineToX(-48)
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -59), Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(15, -59), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(46.5, -35), Math.toRadians(0))
+                .lineToX(44 )
+                .setReversed(true)
+                .splineTo(new Vector2d(58, -64), Math.toRadians(0))
+                .build());
+
+        RoadRunnerBotEntity redBackstageWallFourWhitesOnBackdrop = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 40, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
+                .build();
+
+        redBackstageWallFourWhitesOnBackdrop.runAction(redBackstageWallFourWhitesOnBackdrop.getDrive().actionBuilder(new Pose2d(17.5, -64, Math.toRadians(90)))
+                .splineTo(new Vector2d(13, -35.5), Math.toRadians(90))
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(46.5,-35, Math.toRadians(0)), Math.toRadians(0))
+                .lineToX(44 )
+                .splineToSplineHeading(new Pose2d(10, -59, Math.toRadians(180)), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-30, -59), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-52, -37), Math.toRadians(180))
+                .lineToX(-55)
+                .lineToX(-48)
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -59), Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(15, -59), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(46.5, -35), Math.toRadians(0))
+                .lineToX(44 )
+                .splineToSplineHeading(new Pose2d(10, -59, Math.toRadians(180)), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-30, -59), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-52, -37), Math.toRadians(180))
+                .lineToX(-55)
+                .lineToX(-48)
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -59), Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(15, -59), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(46.5, -35), Math.toRadians(0))
+                .lineToX(44 )
+                .build());
+
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_OFFICIAL)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-//                // blue
-//                .addEntity(blueAudience)
-//                // blue audience center
-//                .addEntity(blueAudienceCenterParkCenter)
-//                .addEntity(blueAudienceCenterParkCorner)
-//                .addEntity(blueAudienceCenterTwoWhitesOnBackStage)
-//                .addEntity(blueAudienceCenterTwoWhitesOnBackDrop) // dpad up
-//                // blue audience wall
-//                .addEntity(blueAudienceWallParkCorner)
-//                .addEntity(blueAudienceWallParkCenter)
-//                .addEntity(blueAudienceWallBackdropCenterWithTwoWhites) // dpad up
-//                .addEntity(blueAudienceWallParkCornerWithTwoWhites) // dpad down
-//                // blue backstage
-//                .addEntity(blueBackstageParkCenter)
-//                .addEntity(blueBackstageParkCorner)
-//                .addEntity(blueBackstageTwoWhites)
-//                .addEntity(blueBackstageFourWhites)
-//                // red
-//                .addEntity(redAudience)
-//                // red audience center
-//                .addEntity(redAudienceCenterParkCenter)
-//                .addEntity(redAudienceCenterParkCorner)
-//                .addEntity(redAudienceCenterTwoWhitesOnBackStage) // dpad down
-//                .addEntity(redAudienceCenterTwoWhitesOnBackDrop) // dpad up
-//                // red audience wall
-//                .addEntity(redAudienceWallParkCorner)
-//                .addEntity(redAudienceWallParkCenter)
-//                .addEntity(redAudienceWallParkCornerWithTwoWhites) // dpad down
+                // blue
+                .addEntity(blueAudience)
+                // blue audience center
+                .addEntity(blueAudienceCenterParkCenter)
+                .addEntity(blueAudienceCenterParkCorner)
+                .addEntity(blueAudienceCenterTwoWhitesOnBackStage)
+                .addEntity(blueAudienceCenterTwoWhitesOnBackDrop) // dpad up
+                // blue audience wall
+                .addEntity(blueAudienceWallParkCorner)
+                .addEntity(blueAudienceWallParkCenter)
+                .addEntity(blueAudienceWallBackdropCenterWithTwoWhites) // dpad up
+                .addEntity(blueAudienceWallParkCornerWithTwoWhites) // dpad down
+                // blue backstage
+                .addEntity(blueBackstageParkCenter)
+                .addEntity(blueBackstageParkCorner)
+                // blue backstage center
+                .addEntity(blueBackstageCenterTwoWhitesInCenter)
+                .addEntity(blueBackstageCenterFourWhitesInCenter)
+                .addEntity(blueBackstageCenterTwoWhitesOnBackdropParkInCenter) // new
+                .addEntity(blueBackstageCenterTwoWhitesOnBackdropParkInCorner) // new
+                .addEntity(blueBackstageCenterFourWhitesOnBackdrop) // new
+                // blue backstage wall
+                .addEntity(blueBackstageWallTwoWhitesOnBackstage) // new
+                .addEntity(blueBackstageWallFourWhitesOnBackstage) // new
+                .addEntity(blueBackstageWallTwoWhitesOnBackdropParkInCenter) // new
+                .addEntity(blueBackstageWallTwoWhitesOnBackdropParkInCorner) // new
+                .addEntity(blueBackstageWallFourWhitesOnBackdrop) // new
+                // red
+                .addEntity(redAudience)
+                // red audience center
+                .addEntity(redAudienceCenterParkCenter)
+                .addEntity(redAudienceCenterParkCorner)
+                .addEntity(redAudienceCenterTwoWhitesOnBackStage) // dpad down
+                .addEntity(redAudienceCenterTwoWhitesOnBackDrop) // dpad up
+                // red audience wall
+                .addEntity(redAudienceWallParkCorner)
+                .addEntity(redAudienceWallParkCenter)
+                .addEntity(redAudienceWallParkCornerWithTwoWhites) // dpad down
                 .addEntity(redAudienceWallBackdropCenterWithTwoWhites) // dpad up
-//                // red backstage
-//                .addEntity(redBackstageParkCenter)
-//                .addEntity(redBackstageParkCorner)
-//                .addEntity(redBackstageTwoWhites)
-//                .addEntity(redBackstageFourWhites)
+                // red backstage
+                .addEntity(redBackstageParkCenter)
+                .addEntity(redBackstageParkCorner)
+                // red backstage center
+                .addEntity(redBackstageCenterTwoWhitesInCenter)
+                .addEntity(redBackstageCenterFourWhitesInCenter)
+                .addEntity(redBackstageCenterTwoWhitesOnBackdropParkInCenter) // new
+                .addEntity(redBackstageCenterTwoWhitesOnBackdropParkInCorner) // new
+                .addEntity(redBackstageCenterFourWhitesOnBackdrop) // new
+                // red backstage wall
+                .addEntity(redBackstageWallTwoWhitesOnBackstage) // new
+                .addEntity(redBackstageWallFourWhitesOnBackstage) // new
+                .addEntity(redBackstageWallTwoWhitesOnBackdropParkInCenter) // new
+                .addEntity(redBackstageWallTwoWhitesOnBackdropParkInCorner) // new
+                .addEntity(redBackstageWallFourWhitesOnBackdrop) // new
                 .start();
     }
 }
