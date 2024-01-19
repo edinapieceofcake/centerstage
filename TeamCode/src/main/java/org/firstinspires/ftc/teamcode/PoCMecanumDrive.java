@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.canvas.Canvas;
@@ -37,6 +39,7 @@ import com.acmerobotics.roadrunner.ftc.PositionVelocityPair;
 import com.acmerobotics.roadrunner.ftc.RawEncoder;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.OpModeManagerImpl;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -407,11 +410,14 @@ public final class PoCMecanumDrive {
             p.put("x", pose.position.x);
             p.put("y", pose.position.y);
             p.put("heading (deg)", Math.toDegrees(pose.heading.toDouble()));
-
             Pose2d error = txWorldTarget.value().minusExp(pose);
-            p.put("xError", error.position.x);
+            Log.d("POSE_ERROR", String.format("%f", error.position.norm()));
+            /*p.put("xError", error.position.x);
             p.put("yError", error.position.y);
-            p.put("headingError (deg)", Math.toDegrees(error.heading.toDouble()));
+            p.put("headingError (deg)", Math.toDegrees(error.heading.toDouble()));*/
+            if(error.position.norm()>3.0){
+                throw new OpModeManagerImpl.ForceStopException();
+            }
 
             // only draw when active; only one drive action should be active at a time
             Canvas c = p.fieldOverlay();
