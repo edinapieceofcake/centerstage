@@ -251,11 +251,11 @@ public class Lift implements Subsystem {
         }
 
         if (dpadUp) {
-            state.liftServoRange = LiftServoRange.Low;
+            state.liftServoRange = LiftServoRange.High;
         }
 
         if (dpadDown) {
-            state.liftServoRange = LiftServoRange.High;
+            state.liftServoRange = LiftServoRange.Low;
         }
     }
 
