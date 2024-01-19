@@ -253,8 +253,8 @@ public class RedAudienceWall extends LinearOpMode {
 
     protected void runPaths() {
         Vector2d propDropLocation;
-        Pose2d backdropDropLocation;
-        Pose2d secondBackdropDropLocation;
+        Vector2d backdropDropLocation;
+        Vector2d secondBackdropDropLocation;
 
         // Determine location for purple pixel
         switch(propLocation) {
@@ -275,19 +275,19 @@ public class RedAudienceWall extends LinearOpMode {
         // Determine location for yellow pixel
         switch (propLocation) {
             case Left:
-                backdropDropLocation = new Pose2d(48,-32, Math.toRadians(0));
-                secondBackdropDropLocation = new Pose2d(48,-40, Math.toRadians(0));
+                backdropDropLocation = new Vector2d(48,-32);
+                secondBackdropDropLocation = new Vector2d(48,-40);
                 break;
             case Center:
-                backdropDropLocation = new Pose2d(48,-40, Math.toRadians(0));
-                secondBackdropDropLocation = new Pose2d(48,-43, Math.toRadians(0));
+                backdropDropLocation = new Vector2d(48,-40);
+                secondBackdropDropLocation = new Vector2d(48,-43);
                 break;
             case Right:
-                backdropDropLocation = new Pose2d(48,-47, Math.toRadians(0));
-                secondBackdropDropLocation = new Pose2d(48,-40, Math.toRadians(0));
+                backdropDropLocation = new Vector2d(48,-47);
+                secondBackdropDropLocation = new Vector2d(48,-40);
                 break;
             default:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(48,-40, Math.toRadians(0)); // default to center if all goes bad
+                backdropDropLocation = secondBackdropDropLocation = new Vector2d(48,-40); // default to center if all goes bad
                 break;
         }
 
@@ -373,10 +373,10 @@ public class RedAudienceWall extends LinearOpMode {
                                         ))
                                 .setReversed(true)
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
-                                .splineTo(new Vector2d(10, -60), Math.toRadians(0))
+                                .splineToConstantHeading(new Vector2d(10, -60), Math.toRadians(0))
                                 .waitSeconds(delayTime/1000)
                                 .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                                .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
+                                .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openRightClaw(),
                                         new SleepAction(0.25),
@@ -398,9 +398,9 @@ public class RedAudienceWall extends LinearOpMode {
                                         ))
                                 .setReversed(true)
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
-                                .splineTo(new Vector2d(10, -60), Math.toRadians(0))
+                                .splineToConstantHeading(new Vector2d(10, -60), Math.toRadians(0))
                                 .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                                .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
+                                .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openRightClaw(),
                                         new SleepAction(0.25),
@@ -440,7 +440,7 @@ public class RedAudienceWall extends LinearOpMode {
                                     .lineToX(44)
                                     .setReversed(true)
                                     .splineToSplineHeading(new Pose2d(0, -60, Math.toRadians(-180)), Math.toRadians(180))
-                                    .splineTo(new Vector2d(-40, -58), Math.toRadians(180))
+                                    .splineToConstantHeading(new Vector2d(-40, -58), Math.toRadians(180))
                                     .splineToConstantHeading(new Vector2d(-52, -34), Math.toRadians(180))
                                     .build()
                     )
@@ -479,9 +479,9 @@ public class RedAudienceWall extends LinearOpMode {
                                         ))
                                 .setReversed(true)
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
-                                .splineTo(new Vector2d(10, -60), Math.toRadians(0))
+                                .splineToConstantHeading(new Vector2d(10, -60), Math.toRadians(0))
                                 .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                                .splineToSplineHeading(secondBackdropDropLocation, Math.toRadians(0))
+                                .splineToConstantHeading(secondBackdropDropLocation, Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openLeftClaw(),
                                         manager.openAutoClaw(),
