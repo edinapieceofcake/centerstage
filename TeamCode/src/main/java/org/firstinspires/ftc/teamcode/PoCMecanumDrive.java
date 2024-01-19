@@ -136,7 +136,7 @@ public final class PoCMecanumDrive {
     private DigitalChannel beamBreak = null;
     private boolean beamUsage = false;
     private final Deadline beamBreakDelay = new Deadline(100, TimeUnit.MILLISECONDS);
-    private boolean BeamBreakTripped = false;
+    private boolean beamBreakTripped = false;
 
     public class DriveLocalizer implements Localizer {
         public final Encoder leftFront, leftBack, rightBack, rightFront;
@@ -312,11 +312,13 @@ public final class PoCMecanumDrive {
 
     public void turnBeamBreakOn(){
         beamUsage = true;
-        BeamBreakTripped = false;
+        beamBreakTripped = false;
     }
+
     public void turnBeamBreakOff(){
         beamUsage = false;
     }
+
     public final class FollowTrajectoryAction implements Action {
         public final TimeTrajectory timeTrajectory;
         private double beginTs = -1;
@@ -356,20 +358,24 @@ public final class PoCMecanumDrive {
 
                 return false;
             }
-            if(beamUsage){
-                if(BeamBreakTripped){
-                    if(beamBreakDelay.hasExpired()){
+
+            if(beamUsage) {
+                // we want to use the beam break to stop the robot
+                if(beamBreakTripped) {
+                    // the beam break was tripped, but we want to let the robot move forward a bit more
+                    // before stopping
+                    if(beamBreakDelay.hasExpired()) {
                         leftFront.setPower(0);
                         leftBack.setPower(0);
                         rightBack.setPower(0);
                         rightFront.setPower(0);
 
-                        BeamBreakTripped = false;
+                        beamBreakTripped = false;
                         return false;
                     }
-                }
-                else if(!beamBreak.getState()){
-                    BeamBreakTripped = true;
+                } else if(!beamBreak.getState()) {
+                    // bream break hit so start the timer to let it move a little more forward
+                    beamBreakTripped = true;
                     beamBreakDelay.reset();
                 }
             }
