@@ -16,6 +16,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 @Config
 public final class TwoDeadWheelLocalizer implements Localizer {
@@ -36,6 +37,8 @@ public final class TwoDeadWheelLocalizer implements Localizer {
     private final double inPerTick;
 
     private double lastRawHeadingVel, headingVelOffset;
+
+    private boolean usePrimary = true;
 
     public TwoDeadWheelLocalizer(DcMotorEx par, DcMotorEx perp, IMU imu, IMU expansionImu, double inPerTick) {
         this.par = new RawEncoder(par);
@@ -113,22 +116,36 @@ public final class TwoDeadWheelLocalizer implements Localizer {
     }
 
     private double getRobotYawPitchRollAngles() {
-        double heading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        YawPitchRollAngles angles = null;
 
-        if (heading == 0.0) {
-            return expansionImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        if (usePrimary) {
+            angles = imu.getRobotYawPitchRollAngles();
+
+            if (angles.getAcquisitionTime() == 0) {
+                usePrimary = false;
+                return expansionImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+            } else {
+                return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+            }
         } else {
-            return heading;
+            return expansionImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
         }
     }
 
     private double getRobotAngularVelocity() {
-        double velocity = imu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
+        YawPitchRollAngles angles = null;
 
-        if (velocity == 0.0) {
-            return expansionImu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
-        } else {
-            return velocity;
-        }
+         if (usePrimary) {
+                angles = imu.getRobotYawPitchRollAngles();
+
+                if (angles.getAcquisitionTime() == 0) {
+                    usePrimary = false;
+                    return expansionImu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
+                } else {
+                    return imu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
+                }
+            } else {
+                return expansionImu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
+            }
     }
 }
