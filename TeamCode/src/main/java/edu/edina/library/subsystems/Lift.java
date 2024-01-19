@@ -40,7 +40,10 @@ public class Lift implements Subsystem {
     private boolean isTeleop;
     private boolean liftMotorReset = false;
     private Deadline lowLiftDelay = new Deadline(300, TimeUnit.MILLISECONDS);
-    private Deadline highLiftDelay = new Deadline(500, TimeUnit.MILLISECONDS);
+    private Deadline mediumLiftDelay = new Deadline(500, TimeUnit.MILLISECONDS);
+    private Deadline highLiftDelay = new Deadline(600, TimeUnit.MILLISECONDS);
+    private Deadline currentLowLiftDelay;
+    private Deadline currentHighLiftDelay;
     private Deadline secondExtensionTimeout = new Deadline(1000, TimeUnit.MILLISECONDS);
     private Deadline zeroSwitchTimeout = new Deadline(1000, TimeUnit.MILLISECONDS);
 
@@ -64,6 +67,8 @@ public class Lift implements Subsystem {
         state.currentLiftServoState = LiftServoState.Start;
         state.currentTopMotorTargetPosition = 0;
         state.currentBottomMotorTargetPosition = 0;
+        currentLowLiftDelay = lowLiftDelay;
+        currentHighLiftDelay = mediumLiftDelay;
         hardware.leftLiftServo.setPosition(config.startingLeftLiftServoPosition);
         hardware.rightLiftServo.setPosition(config.startingRightLiftServoPosition);
     }
@@ -252,10 +257,14 @@ public class Lift implements Subsystem {
 
         if (dpadUp) {
             state.liftServoRange = LiftServoRange.High;
+            currentLowLiftDelay = mediumLiftDelay;
+            currentHighLiftDelay = highLiftDelay;
         }
 
         if (dpadDown) {
             state.liftServoRange = LiftServoRange.Low;
+            currentLowLiftDelay = lowLiftDelay;
+            currentHighLiftDelay = mediumLiftDelay;
         }
     }
 
@@ -310,6 +319,7 @@ public class Lift implements Subsystem {
         if (state.hangState == HangState.FirstExtension) {
             if (state.currentTopMotorPosition < (config.minimumExtensionBeforeRaisingLiftInTicks + 10)) {
                 state.hangState = HangState.LiftArm;
+                state.liftServoRange = LiftServoRange.Low;
                 state.currentLiftServoState = LiftServoState.Low;
                 highLiftDelay.reset();
             }
@@ -362,17 +372,17 @@ public class Lift implements Subsystem {
                 state.dropOffState = DropOffState.LiftArm;
                 if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {
                     state.currentLiftServoState = LiftServoState.Low;
-                    lowLiftDelay.reset();
+                    currentLowLiftDelay.reset();
                 } else {
                     state.currentLiftServoState = LiftServoState.High;
-                    highLiftDelay.reset();
+                    currentHighLiftDelay.reset();
                 }
             }
         }
 
         if (state.dropOffState == DropOffState.LiftArm) {
             if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {
-                if (lowLiftDelay.hasExpired()) {
+                if (currentLowLiftDelay.hasExpired()) {
                     state.currentLiftServoState = LiftServoState.Low;
                     state.currentTopMotorTargetPosition = config.liftLowDropOffPosition;
                     state.currentBottomMotorTargetPosition = config.liftLowDropOffPosition;
@@ -381,7 +391,7 @@ public class Lift implements Subsystem {
                     secondExtensionTimeout.reset();
                 }
             } else {
-                if (highLiftDelay.hasExpired()) {
+                if (currentHighLiftDelay.hasExpired()) {
                     state.currentLiftServoState = LiftServoState.High;
                     state.currentTopMotorTargetPosition = config.liftHighDropOffPosition;
                     state.currentBottomMotorTargetPosition = config.liftHighDropOffPosition;
@@ -443,22 +453,22 @@ public class Lift implements Subsystem {
             if (state.currentTopMotorPosition > (config.minimumExtensionBeforeRaisingLiftInTicks - 10)) {
                 state.pickUpState = PickUpState.DropArm;
                 state.currentLiftServoState = LiftServoState.Start;
-                highLiftDelay.reset();
-                lowLiftDelay.reset();
+                currentHighLiftDelay.reset();
+                currentLowLiftDelay.reset();
                 state.hangerState = HangerState.Store;
             }
         }
 
         if (state.pickUpState == PickUpState.DropArm) {
             if (state.lastKnownLiftState == HighDropOff) {
-                if (highLiftDelay.hasExpired()) {
+                if (currentHighLiftDelay.hasExpired()) {
                     state.hangerState = HangerState.Store;
 
                     state.currentLiftServoState = LiftServoState.Start;
                     state.pickUpState = PickUpState.SecondRetraction;
                 }
             } else {
-                if (lowLiftDelay.hasExpired()) {
+                if (currentLowLiftDelay.hasExpired()) {
                     state.hangerState = HangerState.Store;
 
                     state.currentLiftServoState = LiftServoState.Start;
