@@ -10,7 +10,7 @@ import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.teamcode.PoCMecanumDrive;
 
 import edu.edina.library.actions.roadrunner.ActionManager;
 import edu.edina.library.enums.Alliance;
@@ -25,7 +25,7 @@ import edu.edina.library.util.SmartGamepad;
 public class BlueAudienceCenter extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;
-    protected MecanumDrive drive;
+    protected PoCMecanumDrive drive;
     protected RevBlinkinLedDriver.BlinkinPattern pattern;
     protected PoCHuskyLens poCHuskyLens;
     protected PropLocation propLocation = PropLocation.Center;
@@ -44,11 +44,11 @@ public class BlueAudienceCenter extends LinearOpMode {
         hardware = new RobotHardware(hardwareMap);
         manager = new ActionManager(hardware);
 
-        drive = new MecanumDrive(hardware.leftFront,
+        drive = new PoCMecanumDrive(hardware.leftFront,
                 hardware.leftBack, hardware.rightBack, hardware.rightFront,
                 hardware.par0, hardware.par1, hardware.perp,
                 hardware.externalImu, hardware.expansionImu,
-                hardware.voltageSensor, getStartPose());
+                hardware.voltageSensor, hardware.beamBreak, getStartPose());
 
         // Heartbeat Red to signify Red alliance
         pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_GRAY;
@@ -314,6 +314,8 @@ public class BlueAudienceCenter extends LinearOpMode {
             }
 
             // Prepare lift, grab pixel, and raise lift
+            drive.turnBeamBreakOn();
+
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
@@ -329,6 +331,8 @@ public class BlueAudienceCenter extends LinearOpMode {
                             manager.raiseLiftAfterStackPickup()
                     )
             );
+
+            drive.turnBeamBreakOff();
 
             // Check to see if delay is set and determine which routine to run
             if (delayTime > 0) {  // Yes - delay is set
@@ -417,6 +421,8 @@ public class BlueAudienceCenter extends LinearOpMode {
             );
 
             // Reach out, grab pixels, close the claws
+            drive.turnBeamBreakOn();
+
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
@@ -435,6 +441,8 @@ public class BlueAudienceCenter extends LinearOpMode {
                             new SleepAction(.2)
                     )
             );
+
+            drive.turnBeamBreakOff();
 
             // If we're going to drop on the background
             if (dropOnBackdrop) {

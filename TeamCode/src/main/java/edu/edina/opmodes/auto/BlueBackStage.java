@@ -10,7 +10,7 @@ import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.teamcode.PoCMecanumDrive;
 
 import edu.edina.library.actions.roadrunner.ActionManager;
 import edu.edina.library.enums.Alliance;
@@ -25,7 +25,7 @@ import edu.edina.library.util.SmartGamepad;
 public class BlueBackStage extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;
-    protected MecanumDrive drive;
+    protected PoCMecanumDrive drive;
     protected RevBlinkinLedDriver.BlinkinPattern pattern;
     protected PoCHuskyLens poCHuskyLens;
 
@@ -43,10 +43,11 @@ public class BlueBackStage extends LinearOpMode {
         hardware = new RobotHardware(hardwareMap);
         manager = new ActionManager(hardware);
 
-        drive = new MecanumDrive(hardware.leftFront,
+        drive = new PoCMecanumDrive(hardware.leftFront,
                 hardware.leftBack, hardware.rightBack, hardware.rightFront,
                 hardware.par0, hardware.par1, hardware.perp, hardware.externalImu,
-                hardware.expansionImu, hardware.voltageSensor, getStartPose());
+                hardware.expansionImu, hardware.voltageSensor, hardware.beamBreak,
+                getStartPose());
 
         // Heartbeat Red to signify Red alliance
         pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_GRAY;
@@ -319,6 +320,8 @@ public class BlueBackStage extends LinearOpMode {
                             .splineTo(new Vector2d(-48, 15), Math.toRadians(180))
                             .build());
 
+            drive.turnBeamBreakOn();
+
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
@@ -336,6 +339,8 @@ public class BlueBackStage extends LinearOpMode {
                             manager.raiseLiftAfterStackPickup()
                     )
             );
+
+            drive.turnBeamBreakOff();
 
             // drive to backstage - 1st trip
             Actions.runBlocking(
@@ -374,6 +379,8 @@ public class BlueBackStage extends LinearOpMode {
                             .build());
 
             // Extend and pick up two pixels
+            drive.turnBeamBreakOn();
+
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
@@ -391,6 +398,8 @@ public class BlueBackStage extends LinearOpMode {
                             manager.raiseLiftAfterStackPickup()
                     )
             );
+
+            drive.turnBeamBreakOff();
 
             // drive to backstage - 2nd trip
             Actions.runBlocking(
