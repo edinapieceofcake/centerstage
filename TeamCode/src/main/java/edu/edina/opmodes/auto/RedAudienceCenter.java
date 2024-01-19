@@ -330,6 +330,7 @@ public class RedAudienceCenter extends LinearOpMode {
             }
 
             drive.turnBeamBreakOn();
+
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
@@ -345,6 +346,7 @@ public class RedAudienceCenter extends LinearOpMode {
                             manager.raiseLiftAfterStackPickup()
                     )
             );
+
             drive.turnBeamBreakOff();
 
             // Check to see if there is delay - if so, run special version with wait during return
@@ -435,6 +437,8 @@ public class RedAudienceCenter extends LinearOpMode {
             );
 
             // Reach out, grab pixels, close the claws
+            drive.turnBeamBreakOn();
+
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
@@ -453,6 +457,8 @@ public class RedAudienceCenter extends LinearOpMode {
                             new SleepAction(0.2)
                     )
             );
+
+            drive.turnBeamBreakOff();
 
             // If we're going to drop on the background
             if (dropOnBackdrop) {
