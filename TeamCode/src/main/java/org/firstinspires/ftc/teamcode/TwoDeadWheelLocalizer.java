@@ -21,8 +21,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 @Config
 public final class TwoDeadWheelLocalizer implements Localizer {
     public static class Params {
-        public double parYTicks = -756.6437132344282; // y position of the parallel encoder (in tick units)
-        public double perpXTicks = -862.0096899816914; // x position of the perpendicular encoder (in tick units)
+        public double parYTicks = -753.9604362767827; // y position of the parallel encoder (in tick units)
+        public double perpXTicks = -863.5947502575242; // x position of the perpendicular encoder (in tick units)
     }
 
     public static Params PARAMS = new Params();
@@ -56,8 +56,8 @@ public final class TwoDeadWheelLocalizer implements Localizer {
     }
 
     public TwoDeadWheelLocalizer(HardwareMap hardwareMap, IMU imu, double inPerTick) {
-        par = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "par")));
-        perp = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "perp")));
+        par = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "rightFront")));
+        perp = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "leftFront")));
         this.imu = imu;
         this.expansionImu = imu;
 

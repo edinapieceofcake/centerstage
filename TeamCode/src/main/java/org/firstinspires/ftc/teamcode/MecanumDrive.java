@@ -65,9 +65,9 @@ public final class MecanumDrive {
         public double trackWidthTicks = 1671.531512305301;
 
         // feedforward parameters (in tick units)
-        public double kS = 1.983359520375736;
+        public double kS = 1.783359520375736;
         public double kV = 0.0007606853729753925;
-        public double kA = 0;
+        public double kA = 0.00032;
 
         // path profile parameters (in inches)
         public double maxWheelVel = 50;
@@ -79,13 +79,13 @@ public final class MecanumDrive {
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = 0.0;
-        public double lateralGain = 0.0;
-        public double headingGain = 0.0; // shared with turn
+        public double axialGain = 15.0;
+        public double lateralGain = 18.0;
+        public double headingGain = 25.0; // shared with turn
 
-        public double axialVelGain = 0.0;
-        public double lateralVelGain = 0.0;
-        public double headingVelGain = 0.0; // shared with turn
+        public double axialVelGain = 0.2;
+        public double lateralVelGain = 0.3;
+        public double headingVelGain = 0.7; // shared with turn
 
 //        // drive model parameters
 //        public double inPerTick = 0.005952374028;
@@ -234,8 +234,8 @@ public final class MecanumDrive {
 
         this.voltageSensor = voltageSensor;
 
-//        localizer = new TwoDeadWheelLocalizer(par0, perp, imu, imu, PARAMS.inPerTick);
-        localizer = new ThreeDeadWheelLocalizer(par0, par1, perp, PARAMS.inPerTick);
+        localizer = new TwoDeadWheelLocalizer(par0, perp, imu, imu, PARAMS.inPerTick);
+//        localizer = new ThreeDeadWheelLocalizer(par0, par1, perp, PARAMS.inPerTick);
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
@@ -261,8 +261,8 @@ public final class MecanumDrive {
 
         this.voltageSensor = voltageSensor;
 
-//        localizer = new TwoDeadWheelLocalizer(par0, perp, imu, expansionImu, PARAMS.inPerTick);
-        localizer = new ThreeDeadWheelLocalizer(par0, par1, perp, PARAMS.inPerTick);
+        localizer = new TwoDeadWheelLocalizer(par0, perp, imu, expansionImu, PARAMS.inPerTick);
+//        localizer = new ThreeDeadWheelLocalizer(par0, par1, perp, PARAMS.inPerTick);
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
@@ -297,8 +297,8 @@ public final class MecanumDrive {
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
 //       // localizer = new DriveLocalizer();
-        //localizer = new TwoDeadWheelLocalizer(hardwareMap, imu, PARAMS.inPerTick);
-        localizer = new ThreeDeadWheelLocalizer(hardwareMap, PARAMS.inPerTick);
+        localizer = new TwoDeadWheelLocalizer(hardwareMap, imu, PARAMS.inPerTick);
+        //localizer = new ThreeDeadWheelLocalizer(hardwareMap, PARAMS.inPerTick);
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
@@ -407,8 +407,12 @@ public final class MecanumDrive {
             c.setStroke("#3F51B5");
             drawRobot(c, pose);
 
+            c.setStroke("FFFFFFF");
+            drawRobot(c, error);
+
             c.setStroke("#4CAF50FF");
             c.setStrokeWidth(1);
+
             c.strokePolyline(xPoints, yPoints);
 
             return true;
