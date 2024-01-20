@@ -18,7 +18,9 @@ import com.qualcomm.robotcore.util.ThreadPool;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 public class RobotHardware {
@@ -66,10 +68,22 @@ public class RobotHardware {
 
     public boolean hangMotorHoming = false;
 
+    private ExecutorService monitorCurrentExecutor;
+
+    private Runnable monitorCurrentRunnable = () -> {
+        monitorCurrent();
+    };
+
+    public boolean monitoringCurrent = false;
+
+    public List<LynxModule> lynxModules;
+
     public RobotHardware(HardwareMap hardwareMap) {
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
 
-        for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
+        lynxModules = hardwareMap.getAll(LynxModule.class);
+
+        for (LynxModule module : lynxModules) {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
@@ -199,8 +213,8 @@ public class RobotHardware {
 
         robotHangerMotor.setPower(0);
         robotHangerMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robotHangerMotor.setTargetPosition(RobotConfiguration.getInstance().hangMotorInitPosition);
+        robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robotHangerMotor.setPower(.75);
 
         while (robotHangerMotor.isBusy()) {
@@ -220,11 +234,31 @@ public class RobotHardware {
         hangMotorHoming = false;
     }
 
+    public void monitorCurrent() {
+        while (monitoringCurrent) {
+            try {
+                Thread.sleep(100);
+            } catch (Exception x) {
+            }
+            double current = getCurrent();
+        }
+    }
+
     public void homeHangMotorAsync() {
         if (!hangMotorHoming) {
             homeHangMotorExecutor = ThreadPool.newSingleThreadExecutor("home hang motor");
             homeHangMotorExecutor.submit(homeHangMotorRunnable);
             hangMotorHoming = true;
         }
+    }
+
+    public double getCurrent() {
+        double totalCurrent = 0;
+
+        for (LynxModule module : lynxModules) {
+            totalCurrent += module.getCurrent(CurrentUnit.MILLIAMPS);
+        }
+
+        return totalCurrent;
     }
 }

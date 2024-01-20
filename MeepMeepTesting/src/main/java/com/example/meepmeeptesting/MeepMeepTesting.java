@@ -11,7 +11,7 @@ import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 public class MeepMeepTesting {
     public static void main(String[] args) {
-        MeepMeep meepMeep = new MeepMeep(800);
+        MeepMeep meepMeep = new MeepMeep(640);
 
         // blue maps
 
@@ -476,19 +476,19 @@ public class MeepMeepTesting {
                 .lineToX(-48)
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(10, -60), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(49,-38, Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(10, -60), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(49,-38), Math.toRadians(0))
                 .lineToX(44)
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(0, -60, Math.toRadians(-180)), Math.toRadians(180))
-                .splineTo(new Vector2d(-40, -58), Math.toRadians(180))
-                .splineTo(new Vector2d(-52, -33), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-40, -58), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-52, -33), Math.toRadians(180))
                 .lineToX(-60)
                 .lineToX(-48)
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(10, -60), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(49,-38, Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(10, -60), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(49,-38), Math.toRadians(0))
                 .build());
 
         RoadRunnerBotEntity redAudienceWallParkCorner = new DefaultBotBuilder(meepMeep)
@@ -655,40 +655,40 @@ public class MeepMeepTesting {
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_OFFICIAL)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-                // blue
-                .addEntity(blueAudience)
-                // blue audience center
-                .addEntity(blueAudienceCenterParkCenter)
-                .addEntity(blueAudienceCenterParkCorner)
-                .addEntity(blueAudienceCenterTwoWhitesOnBackStage)
-                .addEntity(blueAudienceCenterTwoWhitesOnBackDrop) // dpad up
-                // blue audience wall
-                .addEntity(blueAudienceWallParkCorner)
-                .addEntity(blueAudienceWallParkCenter)
-                .addEntity(blueAudienceWallBackdropCenterWithTwoWhites) // dpad up
-                .addEntity(blueAudienceWallParkCornerWithTwoWhites) // dpad down
-                // blue backstage
-                .addEntity(blueBackstageParkCenter)
-                .addEntity(blueBackstageParkCorner)
-                .addEntity(blueBackstageTwoWhites)
-                .addEntity(blueBackstageFourWhites)
-                // red
-                .addEntity(redAudience)
-                // red audience center
-                .addEntity(redAudienceCenterParkCenter)
-                .addEntity(redAudienceCenterParkCorner)
-                .addEntity(redAudienceCenterTwoWhitesOnBackStage) // dpad down
-                .addEntity(redAudienceCenterTwoWhitesOnBackDrop) // dpad up
-                // red audience wall
-                .addEntity(redAudienceWallParkCorner)
-                .addEntity(redAudienceWallParkCenter)
-                .addEntity(redAudienceWallParkCornerWithTwoWhites) // dpad down
+//                // blue
+//                .addEntity(blueAudience)
+//                // blue audience center
+//                .addEntity(blueAudienceCenterParkCenter)
+//                .addEntity(blueAudienceCenterParkCorner)
+//                .addEntity(blueAudienceCenterTwoWhitesOnBackStage)
+//                .addEntity(blueAudienceCenterTwoWhitesOnBackDrop) // dpad up
+//                // blue audience wall
+//                .addEntity(blueAudienceWallParkCorner)
+//                .addEntity(blueAudienceWallParkCenter)
+//                .addEntity(blueAudienceWallBackdropCenterWithTwoWhites) // dpad up
+//                .addEntity(blueAudienceWallParkCornerWithTwoWhites) // dpad down
+//                // blue backstage
+//                .addEntity(blueBackstageParkCenter)
+//                .addEntity(blueBackstageParkCorner)
+//                .addEntity(blueBackstageTwoWhites)
+//                .addEntity(blueBackstageFourWhites)
+//                // red
+//                .addEntity(redAudience)
+//                // red audience center
+//                .addEntity(redAudienceCenterParkCenter)
+//                .addEntity(redAudienceCenterParkCorner)
+//                .addEntity(redAudienceCenterTwoWhitesOnBackStage) // dpad down
+//                .addEntity(redAudienceCenterTwoWhitesOnBackDrop) // dpad up
+//                // red audience wall
+//                .addEntity(redAudienceWallParkCorner)
+//                .addEntity(redAudienceWallParkCenter)
+//                .addEntity(redAudienceWallParkCornerWithTwoWhites) // dpad down
                 .addEntity(redAudienceWallBackdropCenterWithTwoWhites) // dpad up
-                // red backstage
-                .addEntity(redBackstageParkCenter)
-                .addEntity(redBackstageParkCorner)
-                .addEntity(redBackstageTwoWhites)
-                .addEntity(redBackstageFourWhites)
+//                // red backstage
+//                .addEntity(redBackstageParkCenter)
+//                .addEntity(redBackstageParkCorner)
+//                .addEntity(redBackstageTwoWhites)
+//                .addEntity(redBackstageFourWhites)
                 .start();
     }
 }

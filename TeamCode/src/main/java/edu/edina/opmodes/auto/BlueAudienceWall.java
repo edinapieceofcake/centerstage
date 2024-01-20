@@ -10,7 +10,7 @@ import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.teamcode.PoCMecanumDrive;
 
 import edu.edina.library.actions.roadrunner.ActionManager;
 import edu.edina.library.enums.Alliance;
@@ -25,7 +25,7 @@ import edu.edina.library.util.SmartGamepad;
 public class BlueAudienceWall extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;
-    protected MecanumDrive drive;
+    protected PoCMecanumDrive drive;
     protected RevBlinkinLedDriver.BlinkinPattern pattern;
     protected PoCHuskyLens poCHuskyLens;
     protected PropLocation propLocation = PropLocation.Center;
@@ -44,11 +44,11 @@ public class BlueAudienceWall extends LinearOpMode {
         hardware = new RobotHardware(hardwareMap);
         manager = new ActionManager(hardware);
 
-        drive = new MecanumDrive(hardware.leftFront,
+        drive = new PoCMecanumDrive(hardware.leftFront,
                 hardware.leftBack, hardware.rightBack, hardware.rightFront,
                 hardware.par0, hardware.par1, hardware.perp,
                 hardware.externalImu, hardware.expansionImu,
-                hardware.voltageSensor, getStartPose());
+                hardware.voltageSensor, hardware.beamBreak, getStartPose());
 
         // Heartbeat Red to signify Red alliance
         pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_GRAY;
@@ -249,45 +249,33 @@ public class BlueAudienceWall extends LinearOpMode {
     protected void runPaths() {
         Vector2d propDropLocation;
         double propAngle = 270;
-        Pose2d backdropDropLocation;
-        Pose2d secondBackdropDropLocation;
+        Vector2d backdropDropLocation;
+        Vector2d secondBackdropDropLocation;
 
         // Determine location for purple pixel
         switch(propLocation) {
             case Left:
                 propDropLocation = new Vector2d(-33, 35);
                 propAngle = 315.0;
+                backdropDropLocation = new Vector2d(51.5,39);
+                secondBackdropDropLocation = new Vector2d(52,39);
                 break;
             case Center:
                 propDropLocation = new Vector2d(-38, 34.5);
                 propAngle = 270.0;
+                backdropDropLocation = new Vector2d(51.5,33);
+                secondBackdropDropLocation = new Vector2d(52,39);
                 break;
             case Right:
                 propDropLocation = new Vector2d(-48, 40);
                 propAngle = 270.0;
+                backdropDropLocation = new Vector2d(51.5,27);
+                secondBackdropDropLocation = new Vector2d(52,39);
                 break;
             default:
                 propDropLocation = new Vector2d(-38, 33);  // default to Center if all goes bad
                 propAngle = 270.0;
-                break;
-        }
-
-        // Determine location for yellow pixel
-        switch (propLocation) {
-            case Left:
-                backdropDropLocation = new Pose2d(51.5,39, Math.toRadians(0));
-                secondBackdropDropLocation = new Pose2d(52,39, Math.toRadians(0));
-                break;
-            case Center:
-                backdropDropLocation = new Pose2d(51.5,33, Math.toRadians(0));
-                secondBackdropDropLocation = new Pose2d(52,39, Math.toRadians(0));
-                break;
-            case Right:
-                backdropDropLocation = new Pose2d(51.5,27, Math.toRadians(0));
-                secondBackdropDropLocation = new Pose2d(52,39, Math.toRadians(0));
-                break;
-            default:
-                backdropDropLocation = secondBackdropDropLocation = new Pose2d(51.5,35, Math.toRadians(0)); // default to center if all goes bad
+                backdropDropLocation = secondBackdropDropLocation = new Vector2d(51.5,35); // default to center if all goes bad
                 break;
         }
 
@@ -324,6 +312,8 @@ public class BlueAudienceWall extends LinearOpMode {
             }
 
             // Prepare lift, grab pixel, and raise lift
+            drive.turnBeamBreakOn();
+
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
@@ -340,6 +330,8 @@ public class BlueAudienceWall extends LinearOpMode {
                     )
             );
 
+            drive.turnBeamBreakOff();
+
             // Check to see if there is delay - if so, run special version with wait during return
             if (delayTime > 0) {  // Yes, there's a delay
                 // drive to backstage - 1st trip with delay at center field
@@ -355,10 +347,10 @@ public class BlueAudienceWall extends LinearOpMode {
                                         ))
                                 .setReversed(true)
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-30, 59), Math.toRadians(0)), Math.toRadians(0))
-                                .splineTo(new Vector2d(0, 58), Math.toRadians(0))
+                                .splineToConstantHeading(new Vector2d(0, 58), Math.toRadians(0))
                                 .waitSeconds(delayTime/1000)
                                 .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                                .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
+                                .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
                                 .lineToX(51.5)
                                 .afterDisp(0, new SequentialAction(
                                         manager.openRightClaw(),
@@ -381,9 +373,9 @@ public class BlueAudienceWall extends LinearOpMode {
                                         ))
                                 .setReversed(true)
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-30, 59), Math.toRadians(0)), Math.toRadians(0))
-                                .splineTo(new Vector2d(0, 58), Math.toRadians(0))
+                                .splineToConstantHeading(new Vector2d(0, 58), Math.toRadians(0))
                                 .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                                .splineToSplineHeading(backdropDropLocation, Math.toRadians(0))
+                                .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
                                 .lineToX(51.5)
                                 .afterDisp(0, new SequentialAction(
                                         manager.openRightClaw(),
@@ -423,13 +415,15 @@ public class BlueAudienceWall extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .lineToX(44)
                                     .splineToSplineHeading(new Pose2d(0, 59, Math.toRadians(180)), Math.toRadians(180))
-                                    .splineTo(new Vector2d(-30, 59), Math.toRadians(180))
+                                    .splineToConstantHeading(new Vector2d(-30, 59), Math.toRadians(180))
                                     .splineToConstantHeading(new Vector2d(-52, 38.5), Math.toRadians(180))
                                     .build()
                     )
             );
 
             // Reach out, grab pixels, close the claws
+            drive.turnBeamBreakOn();
+
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
@@ -449,6 +443,8 @@ public class BlueAudienceWall extends LinearOpMode {
                     )
             );
 
+            drive.turnBeamBreakOff();
+
             // If we're going to drop on the background
             if (dropOnBackdrop) {
                 // drive to backstage - 2nd trip
@@ -462,9 +458,9 @@ public class BlueAudienceWall extends LinearOpMode {
                                         ))
                                 .setReversed(true)
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-30, 59), Math.toRadians(0)), Math.toRadians(0))
-                                .splineTo(new Vector2d(0, 59), Math.toRadians(0))
+                                .splineToConstantHeading(new Vector2d(0, 59), Math.toRadians(0))
                                 .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                                .splineToSplineHeading(secondBackdropDropLocation, Math.toRadians(0))
+                                .splineToConstantHeading(secondBackdropDropLocation, Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openAutoClaw(),
                                         manager.openLeftClaw(),
