@@ -5,11 +5,6 @@ import static edu.edina.library.enums.LiftDriveState.HighDropOff;
 import static edu.edina.library.enums.LiftDriveState.LowDropOff;
 import static edu.edina.library.enums.LiftDriveState.Manual;
 
-import androidx.annotation.NonNull;
-
-import com.acmerobotics.dashboard.canvas.Canvas;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.PwmControl;
 
@@ -18,7 +13,6 @@ import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 import java.util.concurrent.TimeUnit;
 
 import edu.edina.library.enums.AngleClawState;
-import edu.edina.library.enums.ClawState;
 import edu.edina.library.enums.DropOffState;
 import edu.edina.library.enums.HangState;
 import edu.edina.library.enums.HangerState;
@@ -405,8 +399,8 @@ public class Lift implements Subsystem {
         if (state.dropOffState == DropOffState.SecondExtension) {
             // twist the claw as soon as we get to 600 just in case the batter doesn't have enough to get to the high position
             if (state.currentTopMotorPosition < (config.liftTwistPosition)) {
-                state.twistServoState = TwistServoState.DropOff;
-                state.angleClawState = AngleClawState.DropOff;
+                state.twistServoState = TwistServoState.CenterDropOff;
+                state.angleClawState = AngleClawState.CenterDropOff;
             }
 
             if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {

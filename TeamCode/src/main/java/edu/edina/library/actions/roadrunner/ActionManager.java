@@ -69,7 +69,7 @@ public class ActionManager {
     }
 
     public Action positionTheClawToDropPixels() {
-        return new AngleClawAction(claw, AngleClawState.DropOff);
+        return new AngleClawAction(claw, AngleClawState.CenterDropOff);
     }
 
     public Action twistClawForPickup() {
@@ -77,7 +77,7 @@ public class ActionManager {
     }
 
     public Action twistClawForDropOff() {
-        return new TwistClawAction(claw, TwistServoState.DropOff);
+        return new TwistClawAction(claw, TwistServoState.CenterDropOff);
     }
 
     public Action runLiftToPosition(int liftPosition) {

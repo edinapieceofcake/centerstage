@@ -103,7 +103,7 @@ public class Claw implements Subsystem {
                 case Pickup:
                     hardware.twistClawServo.setPosition(config.twistClawServoPickUpPosition);
                     break;
-                case DropOff:
+                case CenterDropOff:
                     hardware.twistClawServo.setPosition(config.twistClawServoDropOffPosition);
                     break;
                 case LeftDropOff:
@@ -121,7 +121,7 @@ public class Claw implements Subsystem {
                 case Pickup:
                     hardware.angleClawServo.setPosition(config.angleClawPickupPosition);
                     break;
-                case DropOff:
+                case CenterDropOff:
                     switch (state.currentLiftServoState) {
                         case High:
                             hardware.angleClawServo.setPosition(config.angleClawHighDropOffPosition);
@@ -131,11 +131,32 @@ public class Claw implements Subsystem {
                             break;
                     }
                     break;
+                case LeftDropOff:
+                    switch (state.currentLiftServoState) {
+                        case High:
+                            hardware.angleClawServo.setPosition(config.leftHighAngleClawServoDropOffPosition);
+                            break;
+                        default:
+                            hardware.angleClawServo.setPosition(config.leftLowAngleClawServoDropOffPosition);
+                            break;
+                    }
+                    break;
+                case RightDropOff:
+                    switch (state.currentLiftServoState) {
+                        case High:
+                            hardware.angleClawServo.setPosition(config.rightHighAngleClawServoDropOffPosition);
+                            break;
+                        default:
+                            hardware.angleClawServo.setPosition(config.rightLowAngleClawServoDropOffPosition);
+                            break;
+                    }
+                    break;
+
             }
         }
     }
 
-    public void setProperties(boolean toggleLeftClaw, boolean toggleRightClaw, boolean toggleAutoClaw, boolean leftDpad, boolean rightDpad) {
+    public void setProperties(boolean toggleLeftClaw, boolean toggleRightClaw, boolean toggleAutoClaw, boolean leftDpad, boolean rightDpad, boolean leftAngleDrop, boolean rightAngleDrop) {
         RobotState state = RobotState.getInstance();
 
         if (toggleLeftClaw) {
@@ -163,9 +184,25 @@ public class Claw implements Subsystem {
         }
 
         if (leftDpad) {
-            RobotState.getInstance().twistServoState = TwistServoState.DropOff;
+            RobotState.getInstance().twistServoState = TwistServoState.CenterDropOff;
         } else if (rightDpad) {
             RobotState.getInstance().twistServoState = TwistServoState.Pickup;
+        }
+
+        if (leftAngleDrop) {
+            if (state.twistServoState == TwistServoState.CenterDropOff) {
+                state.twistServoState = TwistServoState.LeftDropOff;
+            } else if (state.twistServoState == TwistServoState.RightDropOff) {
+                state.twistServoState = TwistServoState.CenterDropOff;
+            }
+        }
+
+        if (rightAngleDrop) {
+            if (state.twistServoState == TwistServoState.CenterDropOff) {
+                state.twistServoState = TwistServoState.RightDropOff;
+            } else if (state.twistServoState == TwistServoState.LeftDropOff) {
+                state.twistServoState = TwistServoState.CenterDropOff;
+            }
         }
     }
 }

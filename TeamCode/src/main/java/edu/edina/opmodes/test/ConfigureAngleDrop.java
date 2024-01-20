@@ -68,8 +68,8 @@ public class ConfigureAngleDrop extends LinearOpMode {
 
             if (pad1.y) {
                 // raise lift
-                leftLiftServo.setPosition(config.leftLowDropOffServoPosition);
-                rightLiftServo.setPosition(config.rightLowDropOffServoPosition);
+                leftLiftServo.setPosition(config.leftMediumDropOffServoPosition);
+                rightLiftServo.setPosition(config.rightMediumDropOffServoPosition);
                 liftRaised = true;
             }
 
