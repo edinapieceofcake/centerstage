@@ -7,6 +7,7 @@ import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.OpModeManagerImpl;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -243,6 +244,9 @@ public class RobotHardware {
             } catch (Exception x) {
             }
             Log.d("CURRENT_MONITOR", String.format("%f %f %f", getCurrent(), getLiftCurrent(), getDriveCurrent()));
+            if(getLiftCurrent() > 16000){
+                throw new OpModeManagerImpl.ForceStopException();
+            }
         }
     }
 
