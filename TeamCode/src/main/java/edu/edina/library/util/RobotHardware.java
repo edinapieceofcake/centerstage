@@ -1,5 +1,7 @@
 package edu.edina.library.util;
 
+import android.util.Log;
+
 import com.acmerobotics.roadrunner.ftc.LynxFirmware;
 import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.hardware.lynx.LynxModule;
@@ -240,7 +242,7 @@ public class RobotHardware {
                 Thread.sleep(100);
             } catch (Exception x) {
             }
-            double current = getCurrent();
+            Log.d("CURRENT_MONITOR", String.format("%f %f %f", getCurrent(), getLiftCurrent(), getDriveCurrent()));
         }
     }
 
@@ -252,6 +254,18 @@ public class RobotHardware {
         }
     }
 
+    public void startCurrentMonitor() {
+        if (!monitoringCurrent) {
+            monitorCurrentExecutor = ThreadPool.newSingleThreadExecutor("monitor current");
+            monitorCurrentExecutor.submit(monitorCurrentRunnable);
+            monitoringCurrent = true;
+        }
+    }
+
+    public void stopCurrentMonitor() {
+        monitoringCurrent = false;
+    }
+
     public double getCurrent() {
         double totalCurrent = 0;
 
@@ -260,5 +274,14 @@ public class RobotHardware {
         }
 
         return totalCurrent;
+    }
+
+    public double getLiftCurrent() {
+        return topLiftMotor.getCurrent(CurrentUnit.MILLIAMPS) + bottomLiftMotor.getCurrent(CurrentUnit.MILLIAMPS);
+    }
+
+    public double getDriveCurrent() {
+        return  leftFront.getCurrent(CurrentUnit.MILLIAMPS) + leftBack.getCurrent(CurrentUnit.MILLIAMPS)
+                + rightFront.getCurrent(CurrentUnit.MILLIAMPS) + rightBack.getCurrent(CurrentUnit.MILLIAMPS);
     }
 }

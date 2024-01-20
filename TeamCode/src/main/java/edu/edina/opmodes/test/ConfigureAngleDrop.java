@@ -10,15 +10,17 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import edu.edina.library.util.RobotConfiguration;
+import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @TeleOp
-@Disabled
+//@Disabled
 public class ConfigureAngleDrop extends LinearOpMode {
     private final double maxLiftTicks = 2000;
 
     @Override
     public void runOpMode() throws InterruptedException {
+        RobotHardware hardware = new RobotHardware(hardwareMap);
         boolean leftOpened = true;
         boolean rightOpened = true;
         boolean liftRaised = false;
@@ -59,6 +61,8 @@ public class ConfigureAngleDrop extends LinearOpMode {
 
         waitForStart();
 
+        hardware.startCurrentMonitor();
+
         while (opModeIsActive()) {
             pad1.update();
 
@@ -81,31 +85,34 @@ public class ConfigureAngleDrop extends LinearOpMode {
                 int currentPosition = topLiftMotor.getCurrentPosition();
                 int newPosition = currentPosition - (int)(config.liftExtenstionStep * Math.abs(gamepad1.right_trigger));
 
-                topLiftMotor.setPower(newPosition);
-                bottomLiftMotor.setPower(newPosition);
+                topLiftMotor.setTargetPosition(newPosition);
+                bottomLiftMotor.setTargetPosition(newPosition);
+                topLiftMotor.setPower(config.liftExtendingPower);
+                bottomLiftMotor.setPower(config.liftExtendingPower);
+
             } else if (gamepad1.left_trigger != 0) {
                 // intake
                 if (liftRaised && (topLiftMotor.getCurrentPosition() > config.minimumExtensionBeforeRaisingLiftInTicks)) {
-                    topLiftMotor.setPower(0);
-                    bottomLiftMotor.setPower(0);
+                    ;
                 } else {
                     int currentPosition = topLiftMotor.getCurrentPosition();
                     int newPosition = currentPosition + (int)(config.liftRetractingStep * Math.abs(gamepad1.left_trigger));
 
-                    topLiftMotor.setPower(newPosition);
-                    bottomLiftMotor.setPower(newPosition);
+                    topLiftMotor.setTargetPosition(newPosition);
+                    bottomLiftMotor.setTargetPosition(newPosition);
+                    topLiftMotor.setPower(config.liftRetractingPower);
+                    bottomLiftMotor.setPower(config.liftRetractingPower);
                 }
-            } else {
-                topLiftMotor.setPower(0);
-                bottomLiftMotor.setPower(0);
             }
 
             if (pad1.right_bumper) {
                 if (!rightOpened) {
                     rightClawServo.setPosition(config.clawRightOpenPosition);
+                    autoClawServo.setPosition(config.autoClawServoOpenPosition);
                     rightOpened = true;
                 } else {
                     rightClawServo.setPosition(config.clawRightClosedPosition);
+                    autoClawServo.setPosition(config.autoClawServoClosePosition);
                     rightOpened = false;
                 }
             }
@@ -113,11 +120,9 @@ public class ConfigureAngleDrop extends LinearOpMode {
             if (pad1.left_bumper) {
                 if (!leftOpened) {
                     leftClawServo.setPosition(config.clawLeftOpenPosition);
-                    leftClawServo.setPosition(config.clawLeftClosedPosition);
                     leftOpened = true;
                 } else {
-                    autoClawServo.setPosition(config.autoClawServoOpenPosition);
-                    autoClawServo.setPosition(config.autoClawServoClosePosition);
+                    leftClawServo.setPosition(config.clawLeftClosedPosition);
                     leftOpened = false;
                 }
             }
@@ -170,5 +175,6 @@ public class ConfigureAngleDrop extends LinearOpMode {
 
             telemetry.update();
         }
+        hardware.stopCurrentMonitor();
     }
 }

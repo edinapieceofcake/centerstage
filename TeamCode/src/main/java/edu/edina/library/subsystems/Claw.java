@@ -106,6 +106,12 @@ public class Claw implements Subsystem {
                 case DropOff:
                     hardware.twistClawServo.setPosition(config.twistClawServoDropOffPosition);
                     break;
+                case LeftDropOff:
+                    hardware.twistClawServo.setPosition(config.leftTwistClawDropOffPosition);
+                    break;
+                case RightDropOff:
+                    hardware.twistClawServo.setPosition(config.rightTwistClawDropOffPosition);
+                    break;
             }
 
             switch (state.angleClawState) {
