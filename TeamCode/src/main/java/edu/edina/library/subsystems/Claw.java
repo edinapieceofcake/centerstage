@@ -134,20 +134,48 @@ public class Claw implements Subsystem {
                 case LeftDropOff:
                     switch (state.currentLiftServoState) {
                         case High:
-                            hardware.angleClawServo.setPosition(config.leftHighAngleClawServoDropOffPosition);
+                            switch (state.liftServoRange) {
+                                case High:
+                                    hardware.angleClawServo.setPosition(config.leftHighAngleClawServoDropOffPosition);
+                                    break;
+                                case Low:
+                                    hardware.angleClawServo.setPosition(config.leftMediumAngleClawServoDropOffPosition);
+                                    break;
+                            }
                             break;
                         default:
-                            hardware.angleClawServo.setPosition(config.leftLowAngleClawServoDropOffPosition);
+                            switch (state.liftServoRange) {
+                                case High:
+                                    hardware.angleClawServo.setPosition(config.leftMediumAngleClawServoDropOffPosition);
+                                    break;
+                                case Low:
+                                    hardware.angleClawServo.setPosition(config.leftLowAngleClawServoDropOffPosition);
+                                    break;
+                            }
                             break;
                     }
                     break;
                 case RightDropOff:
                     switch (state.currentLiftServoState) {
                         case High:
-                            hardware.angleClawServo.setPosition(config.rightHighAngleClawServoDropOffPosition);
+                            switch (state.liftServoRange) {
+                                case High:
+                                    hardware.angleClawServo.setPosition(config.rightHighAngleClawServoDropOffPosition);
+                                    break;
+                                case Low:
+                                    hardware.angleClawServo.setPosition(config.rightMediumAngleClawServoDropOffPosition);
+                                    break;
+                            }
                             break;
                         default:
-                            hardware.angleClawServo.setPosition(config.rightLowAngleClawServoDropOffPosition);
+                            switch (state.liftServoRange) {
+                                case High:
+                                    hardware.angleClawServo.setPosition(config.rightMediumAngleClawServoDropOffPosition);
+                                    break;
+                                case Low:
+                                    hardware.angleClawServo.setPosition(config.rightLowAngleClawServoDropOffPosition);
+                                    break;
+                            }
                             break;
                     }
                     break;
@@ -195,6 +223,7 @@ public class Claw implements Subsystem {
             } else if (state.twistServoState == TwistServoState.RightDropOff) {
                 state.twistServoState = TwistServoState.CenterDropOff;
             }
+            state.angleClawState = AngleClawState.LeftDropOff;
         }
 
         if (rightAngleDrop) {
@@ -203,6 +232,7 @@ public class Claw implements Subsystem {
             } else if (state.twistServoState == TwistServoState.LeftDropOff) {
                 state.twistServoState = TwistServoState.CenterDropOff;
             }
+            state.angleClawState = AngleClawState.LeftDropOff;
         }
     }
 }

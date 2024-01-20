@@ -23,10 +23,12 @@ public class RobotConfiguration {
     public double angleClawDrivePosition = .77;
     public double angleClawLowDropOffPosition = .52;
     public double angleClawHighDropOffPosition = .15;
-    public double leftLowAngleClawServoDropOffPosition = 0.52;
-    public double rightLowAngleClawServoDropOffPosition = 0.52;
-    public double leftHighAngleClawServoDropOffPosition = 0.52;
-    public double rightHighAngleClawServoDropOffPosition = 0.52;
+    public double leftLowAngleClawServoDropOffPosition = 0.62;
+    public double rightLowAngleClawServoDropOffPosition = 0.62;
+    public double leftMediumAngleClawServoDropOffPosition = 0.52;
+    public double rightMediumAngleClawServoDropOffPosition = 0.52;
+    public double leftHighAngleClawServoDropOffPosition = 0.42;
+    public double rightHighAngleClawServoDropOffPosition = 0.42;
 
     // odo pod servo positions
     public double par0UpPosition = 0.0;
