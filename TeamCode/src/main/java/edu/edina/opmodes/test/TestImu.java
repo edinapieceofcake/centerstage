@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ThreadPool;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 import java.util.concurrent.ExecutorService;
 
@@ -47,21 +48,25 @@ public class TestImu extends LinearOpMode {
         externalImu.resetYaw();
         while (opModeIsActive()) {
             idle();
-            double imuValue = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-            double externalImuValue = externalImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-            double expansionImuValue = expansionImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+            YawPitchRollAngles imuAngles = imu.getRobotYawPitchRollAngles();
+            YawPitchRollAngles externalAngles = externalImu.getRobotYawPitchRollAngles();
+            YawPitchRollAngles expansionAngles = expansionImu.getRobotYawPitchRollAngles();
+
+            double imuValue = imuAngles.getYaw(AngleUnit.RADIANS);
+            double externalImuValue = externalAngles.getYaw(AngleUnit.RADIANS);
+            double expansionImuValue = expansionAngles.getYaw(AngleUnit.RADIANS);
             double finalImuValue;
-            Log.d("IMU-MainThread Yaw", String.format("%f", imuValue));
-            Log.d("IMUExternal-MainThread Yaw", String.format("%f", externalImuValue));
-            Log.d("IMUExpansion-MainThread Yaw", String.format("%f", expansionImuValue));
+            Log.d("IMU-MainThread Yaw", String.format("%d %f", imuAngles.getAcquisitionTime(), imuValue));
+            Log.d("IMUExternal-MainThread Yaw", String.format("%d %f", externalAngles.getAcquisitionTime(), externalImuValue));
+            Log.d("IMUExpansion-MainThread Yaw", String.format("%d %f", expansionAngles.getAcquisitionTime(), expansionImuValue));
 
-            telemetry.addData("IMU-MainThread Yaw","%f", imuValue);
-            telemetry.addData("IMUExternal-MainThread Yaw","%f", externalImuValue);
-            telemetry.addData("IMUExpansion-MainThread Yaw","%f", expansionImuValue);
+            telemetry.addData("IMU-MainThread Yaw","%d %f", imuAngles.getAcquisitionTime(), imuValue);
+            telemetry.addData("IMUExternal-MainThread Yaw","%d %f", externalAngles.getAcquisitionTime(), externalImuValue);
+            telemetry.addData("IMUExpansion-MainThread Yaw","%d %f", expansionAngles.getAcquisitionTime(), expansionImuValue);
 
-            if (imuValue != 0.0){
+            if (imuAngles.getAcquisitionTime() != 0){
                 finalImuValue = imuValue;
-            } else if (externalImuValue != 0.0) {
+            } else if (externalAngles.getAcquisitionTime() != 0) {
                 finalImuValue = externalImuValue;
             } else {
                 finalImuValue = expansionImuValue;

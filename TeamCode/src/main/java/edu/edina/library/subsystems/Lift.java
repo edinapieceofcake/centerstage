@@ -61,6 +61,9 @@ public class Lift implements Subsystem {
         state.currentLiftServoState = LiftServoState.Start;
         state.currentTopMotorTargetPosition = 0;
         state.currentBottomMotorTargetPosition = 0;
+        state.liftServoRange = LiftServoRange.Low;
+        state.currentLowDropOffPosition = config.liftLowDropOffPosition;
+        state.currentHighDropOffPostiion = config.liftMediumDropOffPosition;
         currentLowLiftDelay = lowLiftDelay;
         currentHighLiftDelay = mediumLiftDelay;
         hardware.leftLiftServo.setPosition(config.startingLeftLiftServoPosition);
@@ -168,6 +171,7 @@ public class Lift implements Subsystem {
     public void setProperties(double rightTrigger, double leftTrigger, boolean a, boolean x, boolean y, boolean b, boolean gm2y,
                               boolean dpadUp, boolean dpadDown) {
         RobotState state = RobotState.getInstance();
+        RobotConfiguration config = RobotConfiguration.getInstance();
 
         if (leftTrigger != 0) {
             state.currentLiftDriveState = Manual;
@@ -253,12 +257,16 @@ public class Lift implements Subsystem {
             state.liftServoRange = LiftServoRange.High;
             currentLowLiftDelay = mediumLiftDelay;
             currentHighLiftDelay = highLiftDelay;
+            state.currentLowDropOffPosition = config.liftMediumDropOffPosition;
+            state.currentHighDropOffPostiion = config.liftHighDropOffPosition;
         }
 
         if (dpadDown) {
             state.liftServoRange = LiftServoRange.Low;
             currentLowLiftDelay = lowLiftDelay;
             currentHighLiftDelay = mediumLiftDelay;
+            state.currentLowDropOffPosition = config.liftLowDropOffPosition;
+            state.currentHighDropOffPostiion = config.liftMediumDropOffPosition;
         }
     }
 
@@ -272,9 +280,10 @@ public class Lift implements Subsystem {
             } else {
                 if ((state.currentLiftServoState != LiftServoState.Start) &&
                         (state.currentTopMotorPosition > config.minimumExtensionBeforeRaisingLiftInTicks)) {
-                    // if we are above the bottom of the hubs, don't let the lift back down into it
-                    state.currentLiftSlidePower = 0;
-                    state.currentLiftSlideState = LiftSlideState.Idle;
+                    // if we are above the bottom of the hubs, don't let the lift back down into it so push it out a bit
+                    state.currentTopMotorTargetPosition = config.minimumExtensionBeforeRaisingLiftInTicks - 10;
+                    state.currentBottomMotorTargetPosition = config.minimumExtensionBeforeRaisingLiftInTicks - 10;
+                    state.currentLiftSlidePower = config.liftExtendingPower;
                 } else {
                     int currentPosition = state.currentTopMotorPosition;
                     int newPosition = currentPosition + (int)(config.liftRetractingStep * state.currentTriggerStrength);
@@ -378,8 +387,8 @@ public class Lift implements Subsystem {
             if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {
                 if (currentLowLiftDelay.hasExpired()) {
                     state.currentLiftServoState = LiftServoState.Low;
-                    state.currentTopMotorTargetPosition = config.liftLowDropOffPosition;
-                    state.currentBottomMotorTargetPosition = config.liftLowDropOffPosition;
+                    state.currentTopMotorTargetPosition = state.currentLowDropOffPosition;
+                    state.currentBottomMotorTargetPosition = state.currentLowDropOffPosition;
                     state.dropOffState = DropOffState.SecondExtension;
 
                     secondExtensionTimeout.reset();
@@ -387,8 +396,8 @@ public class Lift implements Subsystem {
             } else {
                 if (currentHighLiftDelay.hasExpired()) {
                     state.currentLiftServoState = LiftServoState.High;
-                    state.currentTopMotorTargetPosition = config.liftHighDropOffPosition;
-                    state.currentBottomMotorTargetPosition = config.liftHighDropOffPosition;
+                    state.currentTopMotorTargetPosition = state.currentHighDropOffPostiion;
+                    state.currentBottomMotorTargetPosition = state.currentHighDropOffPostiion;
                     state.dropOffState = DropOffState.SecondExtension;
 
                     secondExtensionTimeout.reset();
@@ -409,7 +418,7 @@ public class Lift implements Subsystem {
                     state.currentLiftSlideState = LiftSlideState.Idle;
                     state.lastKnownLiftState = LowDropOff;
                 } else {
-                    if(PoCMath.between(state.currentTopMotorPosition, config.liftLowDropOffPosition - 10, config.liftLowDropOffPosition + 10)){
+                    if(PoCMath.between(state.currentTopMotorPosition, state.currentLowDropOffPosition - 10, state.currentLowDropOffPosition + 10)){
                         state.dropOffState = DropOffState.Finished;
                         state.currentLiftSlideState = LiftSlideState.Idle;
                         state.lastKnownLiftState = LowDropOff;
@@ -420,7 +429,7 @@ public class Lift implements Subsystem {
                     state.dropOffState = DropOffState.Finished;
                     state.currentLiftSlideState = LiftSlideState.Idle;
                     state.lastKnownLiftState = HighDropOff;
-                } else if (state.currentTopMotorPosition < (config.liftHighDropOffPosition + 10)) {
+                } else if (state.currentTopMotorPosition < (state.currentHighDropOffPostiion + 10)) {
                     state.dropOffState = DropOffState.Finished;
                     state.currentLiftSlideState = LiftSlideState.Idle;
                     state.lastKnownLiftState = HighDropOff;

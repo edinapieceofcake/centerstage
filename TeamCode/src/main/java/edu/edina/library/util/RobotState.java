@@ -36,6 +36,8 @@ public class RobotState {
     public int currentHangerPosition;
     public LiftServoRange liftServoRange;
     public double currentTriggerStrength;
+    public int currentLowDropOffPosition;
+    public int currentHighDropOffPostiion;
 
     // claw properties
     public TwistServoState twistServoState;

@@ -16,6 +16,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 @Config
@@ -28,8 +29,8 @@ public final class TwoDeadWheelLocalizer implements Localizer {
     public static Params PARAMS = new Params();
 
     public final Encoder par, perp;
-    public final IMU imu;
-    public final IMU expansionImu;
+    public final IMU primaryImu;
+    public final IMU secondaryImu;
 
     private int lastParPos, lastPerpPos;
     private Rotation2d lastHeading;
@@ -40,11 +41,11 @@ public final class TwoDeadWheelLocalizer implements Localizer {
 
     private boolean usePrimary = true;
 
-    public TwoDeadWheelLocalizer(DcMotorEx par, DcMotorEx perp, IMU imu, IMU expansionImu, double inPerTick) {
+    public TwoDeadWheelLocalizer(DcMotorEx par, DcMotorEx perp, IMU primaryImu, IMU secondaryImu, double inPerTick) {
         this.par = new RawEncoder(par);
         this.perp = new RawEncoder(perp);
-        this.imu = imu;
-        this.expansionImu = expansionImu;
+        this.primaryImu = primaryImu;
+        this.secondaryImu = secondaryImu;
 
         lastParPos = this.par.getPositionAndVelocity().position;
         lastPerpPos = this.perp.getPositionAndVelocity().position;
@@ -55,11 +56,11 @@ public final class TwoDeadWheelLocalizer implements Localizer {
         FlightRecorder.write("TWO_DEAD_WHEEL_PARAMS", PARAMS);
     }
 
-    public TwoDeadWheelLocalizer(HardwareMap hardwareMap, IMU imu, double inPerTick) {
+    public TwoDeadWheelLocalizer(HardwareMap hardwareMap, IMU primaryImu, double inPerTick) {
         par = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "par")));
         perp = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "perp")));
-        this.imu = imu;
-        this.expansionImu = imu;
+        this.primaryImu = primaryImu;
+        this.secondaryImu = primaryImu;
 
         lastParPos = par.getPositionAndVelocity().position;
         lastPerpPos = perp.getPositionAndVelocity().position;
@@ -119,33 +120,33 @@ public final class TwoDeadWheelLocalizer implements Localizer {
         YawPitchRollAngles angles = null;
 
         if (usePrimary) {
-            angles = imu.getRobotYawPitchRollAngles();
+            angles = primaryImu.getRobotYawPitchRollAngles();
 
             if (angles.getAcquisitionTime() == 0) {
                 usePrimary = false;
-                return expansionImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+                return secondaryImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
             } else {
-                return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+                return angles.getYaw(AngleUnit.RADIANS);
             }
         } else {
-            return expansionImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+            return secondaryImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
         }
     }
 
     private double getRobotAngularVelocity() {
-        YawPitchRollAngles angles = null;
+        AngularVelocity velocities = null;
 
          if (usePrimary) {
-                angles = imu.getRobotYawPitchRollAngles();
+             velocities = primaryImu.getRobotAngularVelocity(AngleUnit.RADIANS);
 
-                if (angles.getAcquisitionTime() == 0) {
-                    usePrimary = false;
-                    return expansionImu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
-                } else {
-                    return imu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
-                }
+            if (velocities.acquisitionTime == 0) {
+                usePrimary = false;
+                return secondaryImu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
             } else {
-                return expansionImu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
+                return velocities.zRotationRate;
             }
+        } else {
+            return secondaryImu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
+        }
     }
 }

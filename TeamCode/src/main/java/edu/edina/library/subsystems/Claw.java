@@ -107,10 +107,52 @@ public class Claw implements Subsystem {
                     hardware.twistClawServo.setPosition(config.twistClawServoDropOffPosition);
                     break;
                 case LeftDropOff:
-                    hardware.twistClawServo.setPosition(config.leftTwistClawDropOffPosition);
+                    switch (state.currentLiftServoState) {
+                        case High:
+                            switch (state.liftServoRange) {
+                                case High:
+                                    hardware.twistClawServo.setPosition(config.leftHighTwistClawServoDropOffPosition);
+                                    break;
+                                default:
+                                    hardware.twistClawServo.setPosition(config.leftMediumTwistClawServoDropOffPosition);
+                                    break;
+                            }
+                            break;
+                        default:
+                            switch (state.liftServoRange) {
+                                case High:
+                                    hardware.twistClawServo.setPosition(config.leftMediumTwistClawServoDropOffPosition);
+                                    break;
+                                default:
+                                    hardware.twistClawServo.setPosition(config.leftLowTwistClawServoDropOffPosition);
+                                    break;
+                            }
+                            break;
+                    }
                     break;
                 case RightDropOff:
-                    hardware.twistClawServo.setPosition(config.rightTwistClawDropOffPosition);
+                    switch (state.currentLiftServoState) {
+                        case High:
+                            switch (state.liftServoRange) {
+                                case High:
+                                    hardware.twistClawServo.setPosition(config.rightHighTwistClawServoDropOffPosition);
+                                    break;
+                                default:
+                                    hardware.twistClawServo.setPosition(config.rightMediumTwistClawServoDropOffPosition);
+                                    break;
+                            }
+                            break;
+                        default:
+                            switch (state.liftServoRange) {
+                                case High:
+                                    hardware.twistClawServo.setPosition(config.rightMediumTwistClawServoDropOffPosition);
+                                    break;
+                                default:
+                                    hardware.twistClawServo.setPosition(config.rightLowTwistClawServoDropOffPosition);
+                                    break;
+                            }
+                            break;
+                    }
                     break;
             }
 

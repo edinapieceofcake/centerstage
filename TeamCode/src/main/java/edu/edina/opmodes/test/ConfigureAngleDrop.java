@@ -80,6 +80,13 @@ public class ConfigureAngleDrop extends LinearOpMode {
                 liftRaised = false;
             }
 
+            if (pad1.x) {
+                topLiftMotor.setTargetPosition(config.liftHighDropOffPosition);
+                bottomLiftMotor.setTargetPosition(config.liftHighDropOffPosition);
+                topLiftMotor.setPower(config.liftExtendingPower);
+                bottomLiftMotor.setPower(config.liftExtendingPower);
+            }
+
             if (gamepad1.right_trigger != 0) {
                 // extend
                 int currentPosition = topLiftMotor.getCurrentPosition();
@@ -93,7 +100,10 @@ public class ConfigureAngleDrop extends LinearOpMode {
             } else if (gamepad1.left_trigger != 0) {
                 // intake
                 if (liftRaised && (topLiftMotor.getCurrentPosition() > config.minimumExtensionBeforeRaisingLiftInTicks)) {
-                    ;
+                    topLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks - 10);
+                    bottomLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks - 10);
+                    topLiftMotor.setPower(config.liftExtendingPower);
+                    bottomLiftMotor.setPower(config.liftExtendingPower);
                 } else {
                     int currentPosition = topLiftMotor.getCurrentPosition();
                     int newPosition = currentPosition + (int)(config.liftRetractingStep * Math.abs(gamepad1.left_trigger));
@@ -139,12 +149,12 @@ public class ConfigureAngleDrop extends LinearOpMode {
 
             if (pad1.dpad_up) {
                 // angle claw
-                angleClawServo.setPosition(angleClawServo.getPosition() + .1);
+                angleClawServo.setPosition(angleClawServo.getPosition() + .05);
             }
 
             if (pad1.dpad_down) {
                 // angle claw
-                angleClawServo.setPosition(angleClawServo.getPosition() - .1);
+                angleClawServo.setPosition(angleClawServo.getPosition() - .05);
             }
 
             if (gamepad1.left_stick_button) {
@@ -159,8 +169,10 @@ public class ConfigureAngleDrop extends LinearOpMode {
 
             telemetry.addData("Triggers control the lift motor", "");
             telemetry.addData("Bumpers control the claws", "");
+            telemetry.addData("X to raise the lift to low position", "");
             telemetry.addData("Y to raise the lift", "");
             telemetry.addData("A to lower lift", "");
+            telemetry.addData("B to raise the lift to medium position", "");
             telemetry.addData("Dpad up/down controls the angle servo", "");
             telemetry.addData("Dpad left/right controls twist servo", "");
             telemetry.addData("Press left stick to move claw to pickup position", "");
@@ -175,6 +187,7 @@ public class ConfigureAngleDrop extends LinearOpMode {
 
             telemetry.update();
         }
+
         hardware.stopCurrentMonitor();
     }
 }
