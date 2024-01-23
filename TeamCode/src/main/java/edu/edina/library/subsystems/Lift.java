@@ -13,6 +13,7 @@ import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 import java.util.concurrent.TimeUnit;
 
 import edu.edina.library.enums.AngleClawState;
+import edu.edina.library.enums.DropOffOrientation;
 import edu.edina.library.enums.DropOffState;
 import edu.edina.library.enums.HangState;
 import edu.edina.library.enums.HangerState;
@@ -408,8 +409,16 @@ public class Lift implements Subsystem {
         if (state.dropOffState == DropOffState.SecondExtension) {
             // twist the claw as soon as we get to 600 just in case the batter doesn't have enough to get to the high position
             if (state.currentTopMotorPosition < (config.liftTwistPosition)) {
-                state.twistServoState = TwistServoState.CenterDropOff;
-                state.angleClawState = AngleClawState.CenterDropOff;
+                if (state.dropOffOrientation == DropOffOrientation.Left) {
+                    state.twistServoState = TwistServoState.LeftDropOff;
+                    state.angleClawState = AngleClawState.LeftDropOff;
+                } else if (state.dropOffOrientation == DropOffOrientation.Right) {
+                    state.twistServoState = TwistServoState.RightDropOff;
+                    state.angleClawState = AngleClawState.RightDropOff;
+                } else {
+                    state.twistServoState = TwistServoState.CenterDropOff;
+                    state.angleClawState = AngleClawState.CenterDropOff;
+                }
             }
 
             if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {

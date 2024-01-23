@@ -2,6 +2,7 @@ package edu.edina.library.subsystems;
 
 import edu.edina.library.enums.AngleClawState;
 import edu.edina.library.enums.ClawState;
+import edu.edina.library.enums.DropOffOrientation;
 import edu.edina.library.enums.TwistServoState;
 import edu.edina.library.util.Robot;
 import edu.edina.library.util.RobotConfiguration;
@@ -257,9 +258,11 @@ public class Claw implements Subsystem {
             if (state.twistServoState == TwistServoState.CenterDropOff) {
                 state.twistServoState = TwistServoState.LeftDropOff;
                 state.angleClawState = AngleClawState.LeftDropOff;
+                        state.dropOffOrientation = DropOffOrientation.Left;
             } else if (state.twistServoState == TwistServoState.RightDropOff) {
                 state.twistServoState = TwistServoState.CenterDropOff;
                 state.angleClawState = AngleClawState.CenterDropOff;
+                        state.dropOffOrientation = DropOffOrientation.Center;
             }
         }
 
@@ -267,9 +270,11 @@ public class Claw implements Subsystem {
             if (state.twistServoState == TwistServoState.CenterDropOff) {
                 state.twistServoState = TwistServoState.RightDropOff;
                 state.angleClawState = AngleClawState.RightDropOff;
+                        state.dropOffOrientation = DropOffOrientation.Right;
             } else if (state.twistServoState == TwistServoState.LeftDropOff) {
                 state.twistServoState = TwistServoState.CenterDropOff;
                 state.angleClawState = AngleClawState.CenterDropOff;
+                        state.dropOffOrientation = DropOffOrientation.Center;
             }
         }
     }

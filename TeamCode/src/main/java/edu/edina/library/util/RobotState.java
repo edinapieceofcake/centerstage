@@ -6,6 +6,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 import edu.edina.library.enums.AngleClawState;
 import edu.edina.library.enums.ClawState;
+import edu.edina.library.enums.DropOffOrientation;
 import edu.edina.library.enums.DropOffState;
 import edu.edina.library.enums.HangState;
 import edu.edina.library.enums.HangerState;
@@ -30,6 +31,7 @@ public class RobotState {
     public LiftSlideState currentLiftSlideState;
     public LiftDriveState lastKnownLiftState;
     public DropOffState dropOffState;
+    public DropOffOrientation dropOffOrientation;
     public PickUpState pickUpState;
     public HangState hangState;
     public HangerState hangerState;
@@ -60,6 +62,7 @@ public class RobotState {
         leftClawState = ClawState.Opened;
         autoClawState = ClawState.Opened;
         liftServoRange = LiftServoRange.Low;
+        dropOffOrientation = DropOffOrientation.Center;
     }
 
     public static synchronized RobotState getInstance()
