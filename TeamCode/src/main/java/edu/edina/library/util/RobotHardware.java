@@ -2,6 +2,7 @@ package edu.edina.library.util;
 
 import android.util.Log;
 
+import com.acmerobotics.roadrunner.ftc.FlightRecorder;
 import com.acmerobotics.roadrunner.ftc.LynxFirmware;
 import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.hardware.lynx.LynxModule;
@@ -243,10 +244,11 @@ public class RobotHardware {
                 Thread.sleep(100);
             } catch (Exception x) {
             }
+
             Log.d("CURRENT_MONITOR", String.format("%f %f %f", getCurrent(), getLiftCurrent(), getDriveCurrent()));
-                if(getLiftCurrent() > 16000){
-//                    throw new OpModeManagerImpl.ForceStopException();
-            }
+//            if(getLiftCurrent() > 16000){
+//                throw new OpModeManagerImpl.ForceStopException();
+//            }
         }
     }
 

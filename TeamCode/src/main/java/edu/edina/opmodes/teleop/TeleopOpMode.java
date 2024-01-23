@@ -34,6 +34,8 @@ public class TeleopOpMode extends OpMode {
         robot.RobotHardware.blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
 
         robot.start();
+
+        robot.RobotHardware.startCurrentMonitor();
     }
 
     @Override
@@ -66,5 +68,7 @@ public class TeleopOpMode extends OpMode {
         robot.RobotHardware.blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
 
         robot.stop();
+
+        robot.RobotHardware.stopCurrentMonitor();
     }
 }
