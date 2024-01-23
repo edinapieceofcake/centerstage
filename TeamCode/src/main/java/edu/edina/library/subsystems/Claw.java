@@ -258,11 +258,9 @@ public class Claw implements Subsystem {
             if (state.twistServoState == TwistServoState.CenterDropOff) {
                 state.twistServoState = TwistServoState.LeftDropOff;
                 state.angleClawState = AngleClawState.LeftDropOff;
-                        state.dropOffOrientation = DropOffOrientation.Left;
             } else if (state.twistServoState == TwistServoState.RightDropOff) {
                 state.twistServoState = TwistServoState.CenterDropOff;
                 state.angleClawState = AngleClawState.CenterDropOff;
-                        state.dropOffOrientation = DropOffOrientation.Center;
             }
         }
 
@@ -270,11 +268,9 @@ public class Claw implements Subsystem {
             if (state.twistServoState == TwistServoState.CenterDropOff) {
                 state.twistServoState = TwistServoState.RightDropOff;
                 state.angleClawState = AngleClawState.RightDropOff;
-                        state.dropOffOrientation = DropOffOrientation.Right;
             } else if (state.twistServoState == TwistServoState.LeftDropOff) {
                 state.twistServoState = TwistServoState.CenterDropOff;
                 state.angleClawState = AngleClawState.CenterDropOff;
-                        state.dropOffOrientation = DropOffOrientation.Center;
             }
         }
     }

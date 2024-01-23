@@ -65,6 +65,7 @@ public class Lift implements Subsystem {
         state.liftServoRange = LiftServoRange.Low;
         state.currentLowDropOffPosition = config.liftLowDropOffPosition;
         state.currentHighDropOffPostiion = config.liftMediumDropOffPosition;
+        state.dropOffOrientation = DropOffOrientation.Center;
         currentLowLiftDelay = lowLiftDelay;
         currentHighLiftDelay = mediumLiftDelay;
         hardware.leftLiftServo.setPosition(config.startingLeftLiftServoPosition);

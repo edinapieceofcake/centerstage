@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 
+import edu.edina.library.enums.DropOffOrientation;
 import edu.edina.library.enums.DropOffState;
 import edu.edina.library.enums.LiftDriveState;
 import edu.edina.library.enums.LiftSlideState;
@@ -40,6 +41,7 @@ public class DropOffPixelAction implements Action {
             state.lastKnownLiftState = LiftDriveState.Drive;
             state.currentLiftDriveState = LiftDriveState.LowDropOff;
             state.currentLiftSlideState = LiftSlideState.Extending;
+            state.dropOffOrientation = DropOffOrientation.Center;
             state.dropOffState = DropOffState.Start;
             if (isBackstage) {
                 config.leftLowDropOffServoPosition = .6;
