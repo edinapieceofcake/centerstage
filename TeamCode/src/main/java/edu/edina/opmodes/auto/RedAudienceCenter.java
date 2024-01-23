@@ -348,6 +348,7 @@ public class RedAudienceCenter extends LinearOpMode {
             );
 
             drive.turnBeamBreakOff();
+            drive.turnErrorPoseStopOn();
 
             // Check to see if there is delay - if so, run special version with wait during return
             if (delayTime > 0) {  // Yes, there's a delay
@@ -437,7 +438,9 @@ public class RedAudienceCenter extends LinearOpMode {
             );
 
             // Reach out, grab pixels, close the claws
+            drive.turnErrorPoseStopOff();
             drive.turnBeamBreakOn();
+
 
             Actions.runBlocking(
                     new SequentialAction(
@@ -459,6 +462,7 @@ public class RedAudienceCenter extends LinearOpMode {
             );
 
             drive.turnBeamBreakOff();
+            drive.turnErrorPoseStopOn();
 
             // If we're going to drop on the background
             if (dropOnBackdrop) {
@@ -520,6 +524,7 @@ public class RedAudienceCenter extends LinearOpMode {
 
             }
         }
+        drive.turnErrorPoseStopOff();
 
         // park
         switch (parkLocation) {

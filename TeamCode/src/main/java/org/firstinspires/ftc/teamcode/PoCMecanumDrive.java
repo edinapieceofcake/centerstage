@@ -140,6 +140,7 @@ public final class PoCMecanumDrive {
     private boolean beamUsage = false;
     private final Deadline beamBreakDelay = new Deadline(100, TimeUnit.MILLISECONDS);
     private boolean beamBreakTripped = false;
+    private boolean poseErrorStopUsage = false;
 
     public class DriveLocalizer implements Localizer {
         public final Encoder leftFront, leftBack, rightBack, rightFront;
@@ -321,6 +322,8 @@ public final class PoCMecanumDrive {
     public void turnBeamBreakOff(){
         beamUsage = false;
     }
+    public void turnErrorPoseStopOn(){poseErrorStopUsage = true;}
+    public void turnErrorPoseStopOff(){poseErrorStopUsage = false;}
 
     public final class FollowTrajectoryAction implements Action {
         public final TimeTrajectory timeTrajectory;
@@ -421,8 +424,12 @@ public final class PoCMecanumDrive {
             /*p.put("xError", error.position.x);
             p.put("yError", error.position.y);
             p.put("headingError (deg)", Math.toDegrees(error.heading.toDouble()));*/
-            if(error.position.norm()>3.0){
-                throw new OpModeManagerImpl.ForceStopException();
+
+            if(poseErrorStopUsage){
+                if(error.position.norm()>3.5) {
+                    throw new OpModeManagerImpl.ForceStopException();
+                }
+
             }
 
             // only draw when active; only one drive action should be active at a time
