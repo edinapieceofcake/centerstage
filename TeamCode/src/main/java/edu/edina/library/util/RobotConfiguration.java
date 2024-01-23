@@ -60,7 +60,7 @@ public class RobotConfiguration {
     public double hangerRetractingPower = -1;
     public double hangerExtendingPower = 1;
     public double liftRetractingPower = .75;
-    public double liftExtendingPower = 1;
+    public double liftExtendingPower = 0.9;
     public double slowLiftRetractingPower = .4;
     public double superSlowLiftRetractingPower = .1;
     public double liftRetractingStep = 100;

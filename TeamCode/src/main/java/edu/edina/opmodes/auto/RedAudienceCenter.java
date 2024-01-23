@@ -99,8 +99,8 @@ public class RedAudienceCenter extends LinearOpMode {
             telemetry.addData("DPAD-DN for P, Y, 3Ws and park in center", "");
             telemetry.addData("L-BUMPER to increase delay, R-BUMPER to decrease delay.", "");
             telemetry.addData("L-TRIGGER to close claws, L-TRIGGER to open", "");
-//            telemetry.addData("LEFT-STICK-DOWN : manual rotate prop position", "");
-//            telemetry.addData("RIGHT-STICK-DOWN : manual or auto camera", "");
+            telemetry.addData("LEFT-STICK-DOWN : manual rotate prop position", "");
+            telemetry.addData("RIGHT-STICK-DOWN : manual or auto camera", "");
 
             if (pad1.a) {
                 yellowPixel = false;
@@ -239,7 +239,11 @@ public class RedAudienceCenter extends LinearOpMode {
             pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
             hardware.blinkinLedDriver.setPattern(pattern);
 
+            hardware.startCurrentMonitor();
+
             runPaths();
+
+            hardware.stopCurrentMonitor();
 
             pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_WHITE;
             hardware.blinkinLedDriver.setPattern(pattern);
@@ -478,9 +482,11 @@ public class RedAudienceCenter extends LinearOpMode {
                                         ))
                                 .setReversed(true)
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
-                                .splineToConstantHeading(new Vector2d(10, -11), Math.toRadians(0))
+                                .splineTo(new Vector2d(10, -11), Math.toRadians(0))
                                 .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                                .splineToConstantHeading(secondBackdropDropLocation, Math.toRadians(0))
+//                                .setReversed(false)
+                                .splineTo(new Vector2d(48, -25), Math.toRadians(-25))
+//                                .splineToConstantHeading(secondBackdropDropLocation, Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openAutoClaw(),
                                         manager.openLeftClaw(),

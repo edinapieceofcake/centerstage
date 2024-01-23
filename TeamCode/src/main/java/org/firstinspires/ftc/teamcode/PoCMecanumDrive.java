@@ -70,10 +70,9 @@ public final class PoCMecanumDrive {
                 RevHubOrientationOnRobot.UsbFacingDirection.UP;
 
         // drive model parameters
-        public double inPerTick = 0.005952374028;
-        public double lateralInPerTick = 0.00385635;
-        public double trackWidthTicks = 1588.7188147429838;
-
+        public double inPerTick = 0.00599224697552627;
+        public double lateralInPerTick = 0.003051;
+        public double trackWidthTicks = 1671.531512305301;
         // feedforward parameters (in tick units)
         public double kS = 1.6010516969025215;
         public double kV = 0.00062;
@@ -169,8 +168,8 @@ public final class PoCMecanumDrive {
             PositionVelocityPair rightBackPosVel = rightBack.getPositionAndVelocity();
             PositionVelocityPair rightFrontPosVel = rightFront.getPositionAndVelocity();
 
-            FlightRecorder.write("MECANUM_ENCODERS", new MecanumEncodersMessage(
-                    leftFrontPosVel, leftBackPosVel, rightBackPosVel, rightFrontPosVel));
+//            FlightRecorder.write("MECANUM_ENCODERS", new MecanumEncodersMessage(
+//                    leftFrontPosVel, leftBackPosVel, rightBackPosVel, rightFrontPosVel));
 
             Rotation2d heading = Rotation2d.exp(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
             double headingDelta = heading.minus(lastHeading);
@@ -232,7 +231,7 @@ public final class PoCMecanumDrive {
         localizer = new TwoDeadWheelLocalizer(par0, perp, imu, imu, PARAMS.inPerTick);
 //        localizer = new ThreeDeadWheelLocalizer(par0, par1, perp, PARAMS.inPerTick);
 
-        FlightRecorder.write("MECANUM_PARAMS", PARAMS);
+//        FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
 
     public PoCMecanumDrive(DcMotorEx leftFront, DcMotorEx leftBack, DcMotorEx rightBack, DcMotorEx rightFront,
@@ -260,7 +259,7 @@ public final class PoCMecanumDrive {
         localizer = new TwoDeadWheelLocalizer(par0, perp, imu, expansionImu, PARAMS.inPerTick);
 //        localizer = new ThreeDeadWheelLocalizer(par0, par1, perp, PARAMS.inPerTick);
 
-        FlightRecorder.write("MECANUM_PARAMS", PARAMS);
+//        FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
 
     public PoCMecanumDrive(HardwareMap hardwareMap, Pose2d pose) {
@@ -296,7 +295,7 @@ public final class PoCMecanumDrive {
         localizer = new TwoDeadWheelLocalizer(hardwareMap, imu, PARAMS.inPerTick);
 //        localizer = new ThreeDeadWheelLocalizer(hardwareMap, PARAMS.inPerTick);
 
-        FlightRecorder.write("MECANUM_PARAMS", PARAMS);
+//        FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
 
     public void setDrivePowers(PoseVelocity2d powers) {
@@ -396,7 +395,7 @@ public final class PoCMecanumDrive {
                     PARAMS.axialVelGain, PARAMS.lateralVelGain, PARAMS.headingVelGain
             )
                     .compute(txWorldTarget, pose, robotVelRobot);
-            driveCommandWriter.write(new DriveCommandMessage(command));
+//            driveCommandWriter.write(new DriveCommandMessage(command));
 
             MecanumKinematics.WheelVelocities<Time> wheelVels = kinematics.inverse(command);
             double voltage = voltageSensor.getVoltage();
@@ -416,10 +415,8 @@ public final class PoCMecanumDrive {
             rightBack.setPower(rightBackPower);
             rightFront.setPower(rightFrontPower);
 
-            p.put("x", pose.position.x);
-            p.put("y", pose.position.y);
-            p.put("heading (deg)", Math.toDegrees(pose.heading.toDouble()));
             Pose2d error = txWorldTarget.value().minusExp(pose);
+
             Log.d("POSE_ERROR", String.format("%f", error.position.norm()));
             /*p.put("xError", error.position.x);
             p.put("yError", error.position.y);
@@ -429,22 +426,7 @@ public final class PoCMecanumDrive {
                 if(error.position.norm()>3.5) {
                     throw new OpModeManagerImpl.ForceStopException();
                 }
-
             }
-
-            // only draw when active; only one drive action should be active at a time
-            Canvas c = p.fieldOverlay();
-            drawPoseHistory(c);
-
-            c.setStroke("#4CAF50");
-            drawRobot(c, txWorldTarget.value());
-
-            c.setStroke("#3F51B5");
-            drawRobot(c, pose);
-
-            c.setStroke("#4CAF50FF");
-            c.setStrokeWidth(1);
-            c.strokePolyline(xPoints, yPoints);
 
             return true;
         }
@@ -495,7 +477,7 @@ public final class PoCMecanumDrive {
                     PARAMS.axialVelGain, PARAMS.lateralVelGain, PARAMS.headingVelGain
             )
                     .compute(txWorldTarget, pose, robotVelRobot);
-            driveCommandWriter.write(new DriveCommandMessage(command));
+//            driveCommandWriter.write(new DriveCommandMessage(command));
 
             MecanumKinematics.WheelVelocities<Time> wheelVels = kinematics.inverse(command);
             double voltage = voltageSensor.getVoltage();
@@ -513,18 +495,6 @@ public final class PoCMecanumDrive {
             leftBack.setPower(feedforward.compute(wheelVels.leftBack) / voltage);
             rightBack.setPower(feedforward.compute(wheelVels.rightBack) / voltage);
             rightFront.setPower(feedforward.compute(wheelVels.rightFront) / voltage);
-
-            Canvas c = p.fieldOverlay();
-            drawPoseHistory(c);
-
-            c.setStroke("#4CAF50");
-            drawRobot(c, txWorldTarget.value());
-
-            c.setStroke("#3F51B5");
-            drawRobot(c, pose);
-
-            c.setStroke("#7C4DFFFF");
-            c.fillCircle(turn.beginPose.position.x, turn.beginPose.position.y, 2);
 
             return true;
         }
@@ -548,35 +518,6 @@ public final class PoCMecanumDrive {
         estimatedPoseWriter.write(new PoseMessage(pose));
 
         return twist.velocity().value();
-    }
-
-    private void drawPoseHistory(Canvas c) {
-        double[] xPoints = new double[poseHistory.size()];
-        double[] yPoints = new double[poseHistory.size()];
-
-        int i = 0;
-        for (Pose2d t : poseHistory) {
-            xPoints[i] = t.position.x;
-            yPoints[i] = t.position.y;
-
-            i++;
-        }
-
-        c.setStrokeWidth(1);
-        c.setStroke("#3F51B5");
-        c.strokePolyline(xPoints, yPoints);
-    }
-
-    private static void drawRobot(Canvas c, Pose2d t) {
-        final double ROBOT_RADIUS = 9;
-
-        c.setStrokeWidth(1);
-        c.strokeCircle(t.position.x, t.position.y, ROBOT_RADIUS);
-
-        Vector2d halfv = t.heading.vec().times(0.5 * ROBOT_RADIUS);
-        Vector2d p1 = t.position.plus(halfv);
-        Vector2d p2 = p1.plus(halfv);
-        c.strokeLine(p1.x, p1.y, p2.x, p2.y);
     }
 
     public TrajectoryActionBuilder actionBuilder(Pose2d beginPose) {
