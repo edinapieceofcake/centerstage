@@ -226,7 +226,7 @@ public class Claw implements Subsystem {
         }
     }
 
-    public void setProperties(boolean toggleLeftClaw, boolean toggleRightClaw, boolean toggleAutoClaw, boolean leftDpad, boolean rightDpad, boolean leftAngleDrop, boolean rightAngleDrop) {
+    public void setProperties(boolean toggleLeftClaw, boolean toggleRightClaw, boolean leftAngleDrop, boolean rightAngleDrop) {
         RobotState state = RobotState.getInstance();
 
         if (toggleLeftClaw) {
@@ -253,28 +253,24 @@ public class Claw implements Subsystem {
             }
         }
 
-        if (leftDpad) {
-            RobotState.getInstance().twistServoState = TwistServoState.CenterDropOff;
-        } else if (rightDpad) {
-            RobotState.getInstance().twistServoState = TwistServoState.Pickup;
-        }
-
         if (leftAngleDrop) {
             if (state.twistServoState == TwistServoState.CenterDropOff) {
                 state.twistServoState = TwistServoState.LeftDropOff;
+                state.angleClawState = AngleClawState.LeftDropOff;
             } else if (state.twistServoState == TwistServoState.RightDropOff) {
                 state.twistServoState = TwistServoState.CenterDropOff;
+                state.angleClawState = AngleClawState.CenterDropOff;
             }
-            state.angleClawState = AngleClawState.LeftDropOff;
         }
 
         if (rightAngleDrop) {
             if (state.twistServoState == TwistServoState.CenterDropOff) {
                 state.twistServoState = TwistServoState.RightDropOff;
+                state.angleClawState = AngleClawState.RightDropOff;
             } else if (state.twistServoState == TwistServoState.LeftDropOff) {
                 state.twistServoState = TwistServoState.CenterDropOff;
+                state.angleClawState = AngleClawState.CenterDropOff;
             }
-            state.angleClawState = AngleClawState.LeftDropOff;
         }
     }
 }
