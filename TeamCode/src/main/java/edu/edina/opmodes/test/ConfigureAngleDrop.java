@@ -41,7 +41,7 @@ public class ConfigureAngleDrop extends LinearOpMode {
         ServoImplEx angleClawServo = hardwareMap.get(ServoImplEx.class, "angleClawServo");
 
         twistClawServo.setPosition(config.twistClawServoPickUpPosition);
-        angleClawServo.setPosition(config.angleClawDrivePosition);
+        angleClawServo.setPosition(config.angleClawPickupPosition);
 
         leftClawServo.setPosition(config.clawLeftOpenPosition);
         rightClawServo.setPosition(config.clawRightOpenPosition);
@@ -139,12 +139,12 @@ public class ConfigureAngleDrop extends LinearOpMode {
 
             if (pad1.dpad_left) {
                 // twist claw
-                twistClawServo.setPosition(twistClawServo.getPosition() + .01);
+                twistClawServo.setPosition(twistClawServo.getPosition() + .001);
             }
 
             if (pad1.dpad_right) {
                 // twist claw
-                twistClawServo.setPosition(twistClawServo.getPosition() - .01);
+                twistClawServo.setPosition(twistClawServo.getPosition() - .001);
             }
 
             if (pad1.dpad_up) {
