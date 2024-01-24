@@ -96,6 +96,14 @@ public class ActionManager {
         return new DropOffPixelAction(claw, lift, robotHanger, false);
     }
 
+    public Action getLiftReadyToDropPixelFromRight() {
+        return new DropOffPixelRightSideAction(claw, lift, robotHanger, false);
+    }
+
+    public Action getLiftReadyToDropPixelFromLeft() {
+        return new DropOffPixelLeftSideAction(claw, lift, robotHanger, false);
+    }
+
     public Action getLiftReadyToDrive() {
         return new RetractLiftAction(claw, lift, robotHanger);
     }

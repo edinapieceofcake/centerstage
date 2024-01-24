@@ -139,12 +139,12 @@ public class ConfigureAngleDrop extends LinearOpMode {
 
             if (pad1.dpad_left) {
                 // twist claw
-                twistClawServo.setPosition(twistClawServo.getPosition() + .001);
+                twistClawServo.setPosition(twistClawServo.getPosition() + .01);
             }
 
             if (pad1.dpad_right) {
                 // twist claw
-                twistClawServo.setPosition(twistClawServo.getPosition() - .001);
+                twistClawServo.setPosition(twistClawServo.getPosition() - .01);
             }
 
             if (pad1.dpad_up) {

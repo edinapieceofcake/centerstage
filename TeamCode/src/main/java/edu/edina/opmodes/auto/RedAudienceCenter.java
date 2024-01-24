@@ -483,7 +483,7 @@ public class RedAudienceCenter extends LinearOpMode {
                                 .setReversed(true)
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
                                 .splineTo(new Vector2d(10, -11), Math.toRadians(0))
-                                .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
+                                .afterDisp(0, manager.getLiftReadyToDropPixelFromLeft())
 //                                .setReversed(false)
                                 .splineTo(new Vector2d(48, -25), Math.toRadians(-25))
 //                                .splineToConstantHeading(secondBackdropDropLocation, Math.toRadians(0))
