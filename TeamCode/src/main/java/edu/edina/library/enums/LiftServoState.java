@@ -5,5 +5,6 @@ public enum LiftServoState {
     Low,
     High,
     Hang,
+    Hung,
     StackPickup,
 }

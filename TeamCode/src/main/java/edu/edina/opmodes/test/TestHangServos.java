@@ -4,13 +4,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.PwmControl;
+import com.qualcomm.robotcore.hardware.ServoController;
 
 import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @TeleOp
-//@Disabled
+@Disabled
 public class TestHangServos extends LinearOpMode {
 
     @Override
@@ -22,6 +23,8 @@ public class TestHangServos extends LinearOpMode {
         hardware.rightLiftServo.setPosition(config.startingRightLiftServoPosition);
         hardware.leftLiftServo.setPosition(config.startingLeftLiftServoPosition);
         waitForStart();
+
+        hardware.liftServosForTeleop();
 
         while (opModeIsActive()) {
             pad1.update();
@@ -36,8 +39,11 @@ public class TestHangServos extends LinearOpMode {
                 ((PwmControl)hardware.rightLiftServo).setPwmDisable();
             }
 
+            hardware.rightClawServo.setPosition(config.clawRightClosedPosition);
+
             telemetry.addData("Press the y button raise the lift", "");
             telemetry.addData("Press a to kill the PWM signal", "");
+            hardware.logServoConnectionInfo(telemetry);
             telemetry.update();
         }
     }

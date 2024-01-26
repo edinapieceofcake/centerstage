@@ -155,9 +155,9 @@ public class Lift implements Subsystem {
                 case Hang:
                     hardware.leftLiftServo.setPosition(config.startingLeftLiftServoPosition);
                     hardware.rightLiftServo.setPosition(config.startingRightLiftServoPosition);
-                    try {
-                        Thread.sleep(72);
-                    } catch (Exception ex) {}
+                    state.currentLiftServoState = LiftServoState.Hung;
+                    break;
+                case Hung:
                     ((PwmControl) hardware.leftLiftServo).setPwmDisable();
                     ((PwmControl) hardware.rightLiftServo).setPwmDisable();
                     break;
@@ -324,15 +324,15 @@ public class Lift implements Subsystem {
         if (state.hangState == HangState.FirstExtension) {
             if (state.currentTopMotorPosition < (config.minimumExtensionBeforeRaisingLiftInTicks + 10)) {
                 state.hangState = HangState.LiftArm;
-                state.liftServoRange = LiftServoRange.Low;
-                state.currentLiftServoState = LiftServoState.Low;
+                state.liftServoRange = LiftServoRange.High;
+                state.currentLiftServoState = LiftServoState.High;
                 highLiftDelay.reset();
             }
         }
 
         if (state.hangState == HangState.LiftArm) {
             if (highLiftDelay.hasExpired()) {
-                state.currentLiftServoState = LiftServoState.Low;
+                state.currentLiftServoState = LiftServoState.High;
                 state.hangState = HangState.RaiseHanger;
             }
         }

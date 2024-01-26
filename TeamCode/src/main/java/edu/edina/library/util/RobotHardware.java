@@ -41,13 +41,13 @@ public class RobotHardware {
 
     public final DcMotorEx lights;
 
-    public final Servo par0Servo, par1Servo, perpServo;
+    public final ServoImplEx par0Servo, par1Servo, perpServo;
 
     public final ServoImplEx leftClawServo, rightClawServo, twistClawServo, autoClawServo, angleClawServo;
 
     public final ServoImplEx leftLiftServo, rightLiftServo;
 
-    public final Servo droneLaunchServo;
+    public final ServoImplEx droneLaunchServo;
 
     public final DcMotorEx robotHangerMotor;
 
@@ -123,9 +123,9 @@ public class RobotHardware {
         par1 = hardwareMap.get(DcMotorEx.class, "rightBack");
         perp = hardwareMap.get(DcMotorEx.class, "leftFront");
 
-        par0Servo = hardwareMap.get(Servo.class, "par0Servo");
-        par1Servo = hardwareMap.get(Servo.class, "par1Servo");
-        perpServo = hardwareMap.get(Servo.class, "perpServo");
+        par0Servo = hardwareMap.get(ServoImplEx.class, "par0Servo");
+        par1Servo = hardwareMap.get(ServoImplEx.class, "par1Servo");
+        perpServo = hardwareMap.get(ServoImplEx.class, "perpServo");
 
         leftClawServo = hardwareMap.get(ServoImplEx.class, "leftClawServo");
         rightClawServo = hardwareMap.get(ServoImplEx.class, "rightClawServo");
@@ -136,7 +136,7 @@ public class RobotHardware {
         leftLiftServo = hardwareMap.get(ServoImplEx.class, "rightLiftServo");
         rightLiftServo = hardwareMap.get(ServoImplEx.class, "leftLiftServo");
 
-        droneLaunchServo = hardwareMap.get(Servo.class, "droneLaunchServo");
+        droneLaunchServo = hardwareMap.get(ServoImplEx.class, "droneLaunchServo");
 
         robotHangerMotor = hardwareMap.get(DcMotorEx.class, "robotHangerMotor");
         robotHangerMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -289,5 +289,22 @@ public class RobotHardware {
     public double getDriveCurrent() {
         return  leftFront.getCurrent(CurrentUnit.MILLIAMPS) + leftBack.getCurrent(CurrentUnit.MILLIAMPS)
                 + rightFront.getCurrent(CurrentUnit.MILLIAMPS) + rightBack.getCurrent(CurrentUnit.MILLIAMPS);
+    }
+
+    public void logServoConnectionInfo(Telemetry telemetry) {
+        telemetry.addData("par0Servo", par0Servo.getConnectionInfo());
+        telemetry.addData("par1Servo", par1Servo.getConnectionInfo());
+        telemetry.addData("perpServo", perpServo.getConnectionInfo());
+
+        telemetry.addData("leftClawServo", leftClawServo.getConnectionInfo());
+        telemetry.addData("rightClawServo", rightClawServo.getConnectionInfo());
+        telemetry.addData("twistClawServo", twistClawServo.getConnectionInfo());
+        telemetry.addData("autoClawServo", autoClawServo.getConnectionInfo());
+        telemetry.addData("angleClawServo", angleClawServo.getConnectionInfo());
+
+        telemetry.addData("leftLiftServo", leftLiftServo.getConnectionInfo());
+        telemetry.addData("rightLiftServo", rightLiftServo.getConnectionInfo());
+
+        telemetry.addData("droneLaunchServo", droneLaunchServo.getConnectionInfo());
     }
 }
