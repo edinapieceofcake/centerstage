@@ -137,7 +137,7 @@ public final class PoCMecanumDrive {
     private final DownsampledWriter mecanumCommandWriter = new DownsampledWriter("MECANUM_COMMAND", 50_000_000);
     private DigitalChannel beamBreak = null;
     private boolean beamUsage = false;
-    private final Deadline beamBreakDelay = new Deadline(100, TimeUnit.MILLISECONDS);
+    private final Deadline beamBreakDelay = new Deadline(225, TimeUnit.MILLISECONDS);
     private boolean beamBreakTripped = false;
     private boolean poseErrorStopUsage = false;
 
@@ -422,11 +422,11 @@ public final class PoCMecanumDrive {
             p.put("yError", error.position.y);
             p.put("headingError (deg)", Math.toDegrees(error.heading.toDouble()));*/
 
-            if(poseErrorStopUsage){
-                if(error.position.norm()>3.5) {
-                    throw new OpModeManagerImpl.ForceStopException();
-                }
-            }
+//            if(poseErrorStopUsage){
+//                if(error.position.norm()>3.5) {
+//                    throw new OpModeManagerImpl.ForceStopException();
+//                }
+//            }
 
             return true;
         }

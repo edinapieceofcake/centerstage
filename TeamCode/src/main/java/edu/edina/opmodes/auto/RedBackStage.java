@@ -237,7 +237,7 @@ public class RedBackStage extends LinearOpMode {
         // Determine location for the purple and yellow pixel
         switch(propLocation) {
             case Left:
-                propDropLocation = new Vector2d(15.5, -43);
+                propDropLocation = new Vector2d(15.5, -42);
                 propDropAngle = 135.0;
                 backdropLocation = new Pose2d(48,-32, Math.toRadians(0));
                 break;
@@ -246,8 +246,9 @@ public class RedBackStage extends LinearOpMode {
                 backdropLocation = new Pose2d(48,-38, Math.toRadians(0));
                 break;
             case Right:
-                propDropLocation = new Vector2d(31.5, -43);
-                backdropLocation = new Pose2d(48,-47, Math.toRadians(0));
+                propDropLocation = new Vector2d(27, -43);
+                propDropAngle =65.0;
+                backdropLocation = new Pose2d(48.5,-45, Math.toRadians(0));
                 break;
             default:
                 propDropLocation = new Vector2d(16.5, -35.5);  // default to Center if all goes bad
@@ -270,8 +271,9 @@ public class RedBackStage extends LinearOpMode {
                 new SequentialAction(
                         new ParallelAction(
                                 drive.actionBuilder(drive.pose)
-                                        .setReversed(true)
-                                        .waitSeconds(.5)
+//                                        .setReversed(true)
+                                        .setTangent((propLocation==PropLocation.Right) ? Math.toRadians(-30) : Math.toRadians(0))
+//                                        .waitSeconds(.5)
                                         .splineToSplineHeading(backdropLocation, Math.toRadians(0))
                                         .lineToX(53.5)
                                         .build(),
@@ -281,28 +283,38 @@ public class RedBackStage extends LinearOpMode {
                 )
         );
 
+        if (!twoWhites) {
         // back away and pack up
-        Actions.runBlocking(
-                new ParallelAction(
-                        drive.actionBuilder(drive.pose)
-                                .lineToX(50)
-                                .build(),
-                        new SequentialAction(
-                            new SleepAction(0.5),
-                            manager.getLiftReadyToDrive()
-                        )
-                )
-        );
+            Actions.runBlocking(
+                    new ParallelAction(
+                            drive.actionBuilder(drive.pose)
+                                    .lineToX(50)
+                                    .build(),
+                            new SequentialAction(
+                                new SleepAction(0.25),
+                                manager.getLiftReadyToDrive()
+                            )
+                    )
+            );
+        }
 
         if (twoWhites) {
             // drive to stack - 1st trip
             Actions.runBlocking(
-                    drive.actionBuilder(drive.pose)
-                            .turnTo(Math.toRadians(90))
-                            // Head to Stacks VIA C-Row
-                            .splineToSplineHeading(new Pose2d(24, -11, Math.toRadians(180)), Math.toRadians(180))
-                            .splineTo(new Vector2d(-44, -11), Math.toRadians(180))
-                            .build());
+                    new ParallelAction(
+                        drive.actionBuilder(drive.pose)
+                                .lineToX(50)
+                                .turnTo(Math.toRadians(90))
+                                // Head to Stacks VIA C-Row
+                                .splineToSplineHeading(new Pose2d(24, -11, Math.toRadians(180)), Math.toRadians(180))
+                                .splineTo(new Vector2d(-44, -11), Math.toRadians(180))
+                                .build(),
+                        new SequentialAction(
+                                new SleepAction(0.25),
+                                manager.getLiftReadyToDrive()
+                        )
+                    )
+            );
 
             drive.turnBeamBreakOn();
 
@@ -340,13 +352,23 @@ public class RedBackStage extends LinearOpMode {
                                     .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
                                     .setReversed(false)
                                     .splineTo(new Vector2d(40, -13), Math.toRadians(0))
-                                    .splineTo(new Vector2d(60, -14), Math.toRadians(0))
+                                    .afterDisp(0, manager.getLiftReadyToDropPixelFromLeft())
+//                                .setReversed(false)
+                                    .splineTo(new Vector2d(52, -20), Math.toRadians(-25))
+//                                .splineToConstantHeading(secondBackdropDropLocation, Math.toRadians(0))
+                                    .afterDisp(0, new SequentialAction(
+                                            manager.openAutoClaw(),
+                                            manager.openLeftClaw(),
+                                            manager.openRightClaw()
+                                    ))
+//                                    .splineTo(new Vector2d(60, -14), Math.toRadians(0))
                                     .build(),
-                            new ParallelAction(
-                                    manager.openAutoClaw(),
-                                    manager.openLeftClaw(),
-                                    manager.openRightClaw()
-                            )
+                                    manager.getLiftReadyToDrive()
+//                            new ParallelAction(
+//                                    manager.openAutoClaw(),
+//                                    manager.openLeftClaw(),
+//                                    manager.openRightClaw()
+//                            )
                     )
             );
         }
