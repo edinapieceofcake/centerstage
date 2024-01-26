@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<Robot type="FirstInspires-FTC">
+    <LynxUsbDevice name="Control Hub Portal" serialNumber="(embedded)" parentModuleAddress="173">
+        <LynxModule name="Expansion Hub 3" port="3">
+            <goBILDA5202SeriesMotor name="topLiftMotor" port="0" />
+            <goBILDA5202SeriesMotor name="bottomLiftMotor" port="1" />
+            <Motor name="lights" port="2" />
+            <goBILDA5202SeriesMotor name="robotHangerMotor" port="3" />
+            <Servo name="par0Servo" port="0" />
+            <Servo name="leftClawServo" port="1" />
+            <Servo name="autoClawServo" port="2" />
+            <Servo name="twistClawServo" port="3" />
+            <Servo name="angleClawServo" port="4" />
+            <Servo name="droneLaunchServo" port="5" />
+            <DigitalDevice name="leftClawRed" port="0" />
+            <DigitalDevice name="leftClawGreen" port="1" />
+            <DigitalDevice name="rightClawRed" port="2" />
+            <DigitalDevice name="rightClawGreen" port="3" />
+            <DigitalDevice name="hangSwitch" port="6" />
+            <LynxEmbeddedIMU name="imu1" port="0" bus="0" />
+        </LynxModule>
+        <LynxModule name="Control Hub" port="173">
+            <goBILDA5202SeriesMotor name="rightFront" port="0" />
+            <goBILDA5202SeriesMotor name="leftFront" port="1" />
+            <goBILDA5202SeriesMotor name="leftBack" port="2" />
+            <goBILDA5202SeriesMotor name="rightBack" port="3" />
+            <Servo name="rightClawServo" port="0" />
+            <Servo name="perpServo" port="1" />
+            <Servo name="par1Servo" port="2" />
+            <Servo name="rightLiftServo" port="3" />
+            <Servo name="leftLiftServo" port="4" />
+            <RevBlinkinLedDriver name="blinkin" port="5" />
+            <AnalogInput name="leftClawInput" port="0" />
+            <AnalogInput name="rightClawInput" port="1" />
+            <AnalogInput name="autoClawInput" port="2" />
+            <DigitalDevice name="liftSwitch" port="0" />
+            <DigitalDevice name="beamBreak" port="2" />
+            <ControlHubImuBHI260AP name="imu" port="0" bus="0" />
+            <HuskyLens name="huskylens" port="0" bus="1" />
+            <AdafruitBNO055IMU name="externalImu" port="0" bus="2" />
+            <KauaiLabsNavxMicro name="navx" port="0" bus="3" />
+        </LynxModule>
+    </LynxUsbDevice>
+</Robot>
