@@ -161,6 +161,9 @@ public class Claw implements Subsystem {
                 case Drive:
                     hardware.angleClawServo.setPosition(config.angleClawDrivePosition);
                     break;
+                case Stack:
+                    hardware.angleClawServo.setPosition(config.angleClawStackPickupPosition);
+                    break;
                 case Pickup:
                     hardware.angleClawServo.setPosition(config.angleClawPickupPosition);
                     break;

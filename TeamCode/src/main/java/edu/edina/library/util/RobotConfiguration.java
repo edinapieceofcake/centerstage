@@ -9,7 +9,7 @@ public class RobotConfiguration {
 
     // claw servo positions
     public double clawLeftOpenPosition = 0.55;// 0.92;
-    public double clawLeftClosedPosition = 0.73;//0.75;
+    public double clawLeftClosedPosition = 0.75;//0.75;
     public double clawRightClosedPosition = 0.2;//0.25;
     public double clawRightOpenPosition = 0.45;//0.08;
     public double autoClawServoOpenPosition = 0.70;
@@ -18,6 +18,7 @@ public class RobotConfiguration {
     public double twistClawServoDropOffPosition = 0.621;//0.97;
 
     public double angleClawPickupPosition = .55; //.57
+    public double angleClawStackPickupPosition = .62;
     public double angleClawDrivePosition = .77;
     public double angleClawLowDropOffPosition = .52;
     public double angleClawHighDropOffPosition = .15;

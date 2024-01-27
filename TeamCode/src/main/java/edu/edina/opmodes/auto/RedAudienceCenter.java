@@ -251,56 +251,39 @@ public class RedAudienceCenter extends LinearOpMode {
     }
 
     protected void runPaths() {
-        Vector2d propDropLocation;
+        Pose2d propDropLocation;
         Vector2d backdropDropLocation;
         Vector2d secondBackdropDropLocation;
 
         // Determine location for purple pixel
         switch(propLocation) {
             case Left:
-                propDropLocation = new Vector2d(-46, -40);
-                backdropDropLocation = secondBackdropDropLocation = new Vector2d(49,-32);
+                propDropLocation = new Pose2d(-39, -38, Math.toRadians(135));
+                backdropDropLocation = secondBackdropDropLocation = new Vector2d(49,-36);
                 break;
             case Center:
-                propDropLocation = new Vector2d(-30, -36);
-                backdropDropLocation = new Vector2d(49,-42);
-                secondBackdropDropLocation = new Vector2d(48.5,-42);
+                propDropLocation = new Pose2d(-30, -36, Math.toRadians(90));
+                backdropDropLocation = new Vector2d(49,-43);
+                secondBackdropDropLocation = new Vector2d(48.5,-43);
                 break;
             case Right:
-                propDropLocation = new Vector2d(-30, -37);
-                backdropDropLocation = new Vector2d(49,-47);
+                propDropLocation = new Pose2d(-30, -37, Math.toRadians(45));
+                backdropDropLocation = new Vector2d(49.5,-46);
                 secondBackdropDropLocation = new Vector2d(50,-40);
                 break;
             default:
-                propDropLocation = new Vector2d(-38, -33);  // default to Center if all goes bad
+                propDropLocation = new Pose2d(-38, -33, Math.toRadians(90));  // default to Center if all goes bad
                 backdropDropLocation = secondBackdropDropLocation = new Vector2d(49,-38); // default to center if all goes bad
                 break;
         }
 
         // Run to drop PURPLE pixel
-        switch (propLocation) {
-            case Right:
-                Actions.runBlocking(
-                        new SequentialAction(
-                                drive.actionBuilder(drive.pose)
-                                        .splineTo(propDropLocation, Math.toRadians(45))
-                                        .build(),
-                                manager.openLeftClaw()
-                        )
-                );
-                break;
-            default:
-                // Execute drive to prop drop spot and drop
-                Actions.runBlocking(
-                        new SequentialAction(
-                                drive.actionBuilder(drive.pose)
-                                        .splineToConstantHeading(propDropLocation, Math.toRadians(90))
-                                        .build(),
-                                manager.openLeftClaw()
-                        )
-                );
-                break;
-        }
+        Actions.runBlocking(
+            drive.actionBuilder(drive.pose)
+                    .splineToSplineHeading(propDropLocation, Math.toRadians(90))
+                    .stopAndAdd(manager.openLeftClaw())
+                    .build()
+        );
 
         // If we want to drop Yellow..
         if (yellowPixel) {
@@ -309,7 +292,7 @@ public class RedAudienceCenter extends LinearOpMode {
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks
                                 .setReversed(true)
-                                .splineToSplineHeading(new Pose2d(-35, -11, Math.toRadians(180)), Math.toRadians(90))
+                                .splineToSplineHeading(new Pose2d(-35, -11, Math.toRadians(180)), Math.toRadians(45))
                                 .build()
                 );
             } else if (propLocation == PropLocation.Center) {
@@ -338,16 +321,16 @@ public class RedAudienceCenter extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
-                                    manager.runLiftToPosition(-240),
+                                    manager.runLiftToPosition(-210),
                                     manager.positionTheClawToPickupPixels()
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
                                     .lineToX(-58)
-                                    .build(),
-                            manager.closeLeftClaw(),
-                            new SleepAction(.2),
-                            manager.raiseLiftAfterStackPickup()
+                                    .stopAndAdd(manager.closeLeftClaw())
+                                    .lineToX(-57.5)
+                                    .stopAndAdd(manager.raiseLiftAfterStackPickup())
+                                    .build()
                     )
             );
 
@@ -394,14 +377,11 @@ public class RedAudienceCenter extends LinearOpMode {
                                         ))
                                 .setReversed(true)
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
+                                .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
                                 .splineToConstantHeading(new Vector2d(10, -11), Math.toRadians(0))
-                                .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
                                 .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
-                                .afterDisp(0, new SequentialAction(
-                                        manager.openRightClaw(),
-                                        new SleepAction(0.25),
-                                        manager.openLeftClaw()
-                                ))
+                                .stopAndAdd(manager.openRightClaw())
+                                .afterTime(0.25, manager.openLeftClaw())
                                 .build()
                 );
             }

@@ -290,7 +290,7 @@ public class RedAudienceWall extends LinearOpMode {
                 secondBackdropDropLocation = new Vector2d(48,-43);
                 break;
             case Right:
-                backdropDropLocation = new Vector2d(48,-47);
+                backdropDropLocation = new Vector2d(47.5,-47);
                 secondBackdropDropLocation = new Vector2d(48,-40);
                 break;
             default:
@@ -354,16 +354,16 @@ public class RedAudienceWall extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
-                                    manager.runLiftToPosition(-210),
-                                    manager.positionTheClawToPickupPixels()
+                                    manager.runLiftToPosition(-170),
+                                    manager.positionTheClawToPickupPixelsFromStack()
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
                                     .lineToX(-58)
-                                    .build(),
-                            manager.closeLeftClaw(),
-                            new SleepAction(.2),
-                            manager.raiseLiftAfterStackPickup()
+                                    .stopAndAdd(manager.closeLeftClaw())
+                                    .lineToX(-57.5)
+                                    .stopAndAdd(manager.raiseLiftAfterStackPickup())
+                                    .build()
                     )
             );
 
@@ -409,14 +409,11 @@ public class RedAudienceWall extends LinearOpMode {
                                         ))
                                 .setReversed(true)
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
+                                .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
                                 .splineToConstantHeading(new Vector2d(10, -60), Math.toRadians(0))
-                                .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
                                 .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
-                                .afterDisp(0, new SequentialAction(
-                                        manager.openRightClaw(),
-                                        new SleepAction(0.25),
-                                        manager.openLeftClaw()
-                                ))
+                                .stopAndAdd(manager.openRightClaw())
+                                .afterTime(0.25, manager.openLeftClaw())
                                 .build()
                 );
             }
@@ -425,15 +422,10 @@ public class RedAudienceWall extends LinearOpMode {
             if (!makeSecondTrip) {
                 // back away and pack up
                 Actions.runBlocking(
-                        new ParallelAction(
-                                drive.actionBuilder(drive.pose)
-                                        .lineToX(44)
-                                        .build(),
-                                new SequentialAction(
-                                        new SleepAction(.2),
-                                        manager.getLiftReadyToDrive()
-                                )
-                        )
+                    drive.actionBuilder(drive.pose)
+                            .lineToX(40)
+                            .stopAndAdd(manager.getLiftReadyToDrive())
+                            .build()
                 );
             }
         }
@@ -554,7 +546,7 @@ public class RedAudienceWall extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(58, -60), Math.toRadians(0))
+                                .splineTo(new Vector2d(58, -62), Math.toRadians(0))
                                 .build()));
                 break;
             default:
