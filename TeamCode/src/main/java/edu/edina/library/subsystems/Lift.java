@@ -190,11 +190,19 @@ public class Lift implements Subsystem {
         if (a) {
             // Pickup
             if (state.lastKnownLiftState == LiftDriveState.Drive || state.lastKnownLiftState == LiftDriveState.Pickup) {
-                state.angleClawState = AngleClawState.Pickup;
-                state.lastKnownLiftState = LiftDriveState.Pickup;
-                state.pickUpState = PickUpState.Finished;
-                state.currentLiftSlideState = LiftSlideState.Idle;
-                state.currentLiftDriveState = Manual;
+                if (state.dropOffState == DropOffState.Finished) {
+                    state.angleClawState = AngleClawState.Pickup;
+                    state.lastKnownLiftState = LiftDriveState.Pickup;
+                    state.pickUpState = PickUpState.Finished;
+                    state.currentLiftSlideState = LiftSlideState.Idle;
+                    state.currentLiftDriveState = Manual;
+                } else {
+                    state.dropOffState = DropOffState.Finished;
+                    state.pickUpState = PickUpState.Start;
+                    state.lastKnownLiftState = state.currentLiftDriveState;
+                    state.currentLiftDriveState = LiftDriveState.Pickup;
+                    state.currentLiftSlideState = LiftSlideState.Retracting;
+                }
             } else {
                 state.pickUpState = PickUpState.Start;
                 state.currentLiftDriveState = LiftDriveState.Pickup;
@@ -205,11 +213,19 @@ public class Lift implements Subsystem {
         if (x) {
             // drive
             if (state.lastKnownLiftState == LiftDriveState.Drive  || state.lastKnownLiftState == LiftDriveState.Pickup) {
-                state.angleClawState = AngleClawState.Drive;
-                state.lastKnownLiftState = LiftDriveState.Drive;
-                state.pickUpState = PickUpState.Finished;
-                state.currentLiftSlideState = LiftSlideState.Idle;
-                state.currentLiftDriveState = Manual;
+                if (state.dropOffState == DropOffState.Finished) {
+                    state.angleClawState = AngleClawState.Drive;
+                    state.lastKnownLiftState = LiftDriveState.Drive;
+                    state.pickUpState = PickUpState.Finished;
+                    state.currentLiftSlideState = LiftSlideState.Idle;
+                    state.currentLiftDriveState = Manual;
+                } else {
+                    state.dropOffState = DropOffState.Finished;
+                    state.pickUpState = PickUpState.Start;
+                    state.lastKnownLiftState = state.currentLiftDriveState;
+                    state.currentLiftDriveState = LiftDriveState.Drive;
+                    state.currentLiftSlideState = LiftSlideState.Retracting;
+                }
             } else {
                 state.pickUpState = PickUpState.Start;
                 state.currentLiftDriveState = LiftDriveState.Drive;
@@ -220,7 +236,24 @@ public class Lift implements Subsystem {
         if (y) {
             // low
             if (state.lastKnownLiftState == LowDropOff) {
-                state.currentLiftDriveState = Manual;
+                if (state.pickUpState == PickUpState.Finished) {
+                    state.currentLiftDriveState = Manual;
+                } else {
+                    state.currentLiftDriveState = LiftDriveState.LowDropOff;
+                    state.currentLiftSlideState = LiftSlideState.Extending;
+                    switch (state.pickUpState) {
+                        case FirstRetraction:
+                            state.dropOffState = DropOffState.SecondExtension;
+                            break;
+                        case DropArm:
+                            state.dropOffState = DropOffState.LiftArm;
+                            break;
+                        default:
+                            state.dropOffState = DropOffState.Start;
+                            break;
+                    }
+                    state.pickUpState = PickUpState.Finished;
+                }
             } else {
                 state.currentLiftDriveState = LiftDriveState.LowDropOff;
                 if (state.lastKnownLiftState == HighDropOff) {
@@ -236,23 +269,41 @@ public class Lift implements Subsystem {
         if (b) {
             // high
             if (state.lastKnownLiftState == LiftDriveState.HighDropOff) {
-                state.currentLiftDriveState = Manual;
+                if (state.pickUpState == PickUpState.Finished) {
+                    state.currentLiftDriveState = Manual;
+                } else {
+                    state.currentLiftDriveState = LiftDriveState.HighDropOff;
+                    state.currentLiftSlideState = LiftSlideState.Extending;
+                    switch (state.pickUpState) {
+                        case FirstRetraction:
+                            state.dropOffState = DropOffState.SecondExtension;
+                            break;
+                        case DropArm:
+                            state.dropOffState = DropOffState.LiftArm;
+                            break;
+                        default:
+                            state.dropOffState = DropOffState.Start;
+                            break;
+                    }
+                    state.pickUpState = PickUpState.Finished;
+                }
             } else {
                 state.currentLiftDriveState = LiftDriveState.HighDropOff;
                 if (state.lastKnownLiftState == LiftDriveState.LowDropOff) {
                     state.dropOffState = DropOffState.FirstExtension;
-                } else {
+                } else if (state.dropOffState != DropOffState.Start) {
                     state.dropOffState = DropOffState.Start;
                 }
-
                 state.currentLiftSlideState = LiftSlideState.Extending;
             }
         }
 
         if (gm2y) {
-            state.currentLiftDriveState = Hang;
-            state.hangState = HangState.Start;
-            state.currentLiftSlideState = LiftSlideState.Extending;
+            if (state.currentLiftDriveState != Hang) {
+                state.currentLiftDriveState = Hang;
+                state.hangState = HangState.Start;
+                state.currentLiftSlideState = LiftSlideState.Extending;
+            }
         }
 
         if (dpadUp) {
