@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.teamcode.PoCMecanumDrive;
 import org.firstinspires.ftc.teamcode.TankDrive;
 import org.firstinspires.ftc.teamcode.ThreeDeadWheelLocalizer;
 import org.firstinspires.ftc.teamcode.TwoDeadWheelLocalizer;
@@ -18,9 +19,13 @@ public final class ManualFeedbackTuner extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         if (TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class)) {
-            MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
-
             RobotHardware hardware = new RobotHardware(hardwareMap);
+
+            PoCMecanumDrive drive = new PoCMecanumDrive(hardware.leftFront,
+                    hardware.leftBack, hardware.rightBack, hardware.rightFront,
+                    hardware.par0, hardware.perp,
+                    hardware.gyro, hardware.expansionImu, hardware.voltageSensor,
+                    hardware.beamBreak, new Pose2d(0, 0, 0));
 
             hardware.dropServosForAutonomous();
 

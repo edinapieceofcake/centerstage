@@ -125,11 +125,11 @@ public class SensorKLNavxMicro extends LinearOpMode {
                 .addData("pitch", "%s deg", formatAngle(angles.angleUnit, angles.thirdAngle));
 
             YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
-            AngularVelocity angularVelocity = imu.getRobotAngularVelocity(AngleUnit.DEGREES);
+            AngularVelocity angularVelocity = imu.getRobotAngularVelocity(AngleUnit.RADIANS);
 
-            telemetry.addData("Yaw (Z)", "%.5f Deg. (Heading)", orientation.getYaw(AngleUnit.DEGREES));
-            telemetry.addData("Pitch (X)", "%.5f Deg.", orientation.getPitch(AngleUnit.DEGREES));
-            telemetry.addData("Roll (Y)", "%.5f Deg.\n", orientation.getRoll(AngleUnit.DEGREES));
+            telemetry.addData("Yaw (Z)", "%.5f Deg. (Heading)", orientation.getYaw(AngleUnit.RADIANS));
+            telemetry.addData("Pitch (X)", "%.5f Deg.", orientation.getPitch(AngleUnit.RADIANS));
+            telemetry.addData("Roll (Y)", "%.5f Deg.\n", orientation.getRoll(AngleUnit.RADIANS));
             telemetry.addData("Yaw (Z) velocity", "%.5f Deg/Sec", angularVelocity.zRotationRate);
             telemetry.addData("Pitch (X) velocity", "%.5f Deg/Sec", angularVelocity.xRotationRate);
             telemetry.addData("Roll (Y) velocity", "%.5f Deg/Sec", angularVelocity.yRotationRate);
