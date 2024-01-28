@@ -236,8 +236,8 @@ public final class PoCMecanumDrive {
     }
 
     public PoCMecanumDrive(DcMotorEx leftFront, DcMotorEx leftBack, DcMotorEx rightBack, DcMotorEx rightFront,
-                           DcMotorEx par0, DcMotorEx perp, IMU imu, IMU expansionImu, VoltageSensor voltageSensor,
-                           DigitalChannel beamBreak, Pose2d pose) {
+                           DcMotorEx par0, DcMotorEx par1, DcMotorEx perp,
+                           IMU imu, IMU expansionImu, VoltageSensor voltageSensor, DigitalChannel beamBreak, Pose2d pose) {
         this.pose = pose;
         this.leftFront = leftFront;
         this.leftBack = leftBack;
@@ -264,8 +264,8 @@ public final class PoCMecanumDrive {
     }
 
     public PoCMecanumDrive(DcMotorEx leftFront, DcMotorEx leftBack, DcMotorEx rightBack, DcMotorEx rightFront,
-                           DcMotorEx par0, DcMotorEx perp, IntegratingGyroscope gyro,
-                           IMU expansionImu, VoltageSensor voltageSensor, DigitalChannel beamBreak, Pose2d pose) {
+                           DcMotorEx par0, DcMotorEx perp,
+                           IntegratingGyroscope gyro, IMU expansionImu, VoltageSensor voltageSensor, DigitalChannel beamBreak, Pose2d pose) {
         this.pose = pose;
         this.leftFront = leftFront;
         this.leftBack = leftBack;
