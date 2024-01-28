@@ -10,7 +10,7 @@ import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.SmartGamepad;
 
 @TeleOp
-//@Disabled
+@Disabled
 public class TestOdometryServoAndWheels extends LinearOpMode {
 
     @Override

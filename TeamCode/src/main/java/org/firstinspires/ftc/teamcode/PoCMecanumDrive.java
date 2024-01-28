@@ -46,7 +46,6 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -258,34 +257,6 @@ public final class PoCMecanumDrive {
         this.voltageSensor = voltageSensor;
 
         localizer = new TwoDeadWheelLocalizer(par0, perp, imu, expansionImu, PARAMS.inPerTick);
-//        localizer = new ThreeDeadWheelLocalizer(par0, par1, perp, PARAMS.inPerTick);
-
-//        FlightRecorder.write("MECANUM_PARAMS", PARAMS);
-    }
-
-    public PoCMecanumDrive(DcMotorEx leftFront, DcMotorEx leftBack, DcMotorEx rightBack, DcMotorEx rightFront,
-                           DcMotorEx par0, DcMotorEx perp,
-                           IntegratingGyroscope gyro, IMU expansionImu, VoltageSensor voltageSensor, DigitalChannel beamBreak, Pose2d pose) {
-        this.pose = pose;
-        this.leftFront = leftFront;
-        this.leftBack = leftBack;
-        this.rightBack = rightBack;
-        this.rightFront = rightFront;
-        this.beamBreak = beamBreak;
-
-        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        this.imu = null;
-
-        this.voltageSensor = voltageSensor;
-
-        localizer = new TwoDeadWheelLocalizer(par0, perp, gyro, expansionImu, PARAMS.inPerTick);
 //        localizer = new ThreeDeadWheelLocalizer(par0, par1, perp, PARAMS.inPerTick);
 
 //        FlightRecorder.write("MECANUM_PARAMS", PARAMS);

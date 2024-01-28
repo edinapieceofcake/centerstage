@@ -6,7 +6,6 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.PoCMecanumDrive;
 
@@ -25,25 +24,14 @@ public class TestStackPickup extends LinearOpMode  {
         RobotState state = RobotState.getInstance();
         ActionManager manager = new ActionManager(hardware);
         boolean toggleBeamBreak = true;
-        ElapsedTime timer = new ElapsedTime();
-
         // Start Position
         PoCMecanumDrive drive = new org.firstinspires.ftc.teamcode.PoCMecanumDrive(hardware.leftFront,
                 hardware.leftBack, hardware.rightBack, hardware.rightFront,
-                hardware.par0, hardware.perp, hardware.gyro,
+                hardware.par0, hardware.par1, hardware.perp, hardware.externalImu,
                 hardware.expansionImu, hardware.voltageSensor, hardware.beamBreak,
                 new Pose2d(12.5, -64, Math.toRadians(90)));
 
         // use out version of the drive based off the hardware that we created above.
-
-        timer.reset();
-        while (hardware.navxMicro.isCalibrating())  {
-            telemetry.addData("calibrating", "%s", Math.round(timer.seconds())%2==0 ? "|.." : "..|");
-            telemetry.update();
-            Thread.sleep(50);
-        }
-        telemetry.log().clear(); telemetry.log().add("Gyro Calibrated. Press Start.");
-        telemetry.clear(); telemetry.update();
 
         manager.init();
 

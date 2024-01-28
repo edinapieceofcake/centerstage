@@ -29,15 +29,11 @@
 
 package org.firstinspires.ftc.robotcontroller.external.samples;
 
-import android.util.Log;
-
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gyroscope;
-import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -45,7 +41,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 /*
  * This OpMode shows how to use Kauai Labs navX Micro Robotics Navigation
@@ -55,7 +50,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 @TeleOp(name = "Sensor: KL navX Micro", group = "Sensor")
-//@Disabled
+@Disabled
 public class SensorKLNavxMicro extends LinearOpMode {
 
     /** In this sample, for illustration purposes we use two interfaces on the one gyro object.
@@ -71,19 +66,11 @@ public class SensorKLNavxMicro extends LinearOpMode {
     // A timer helps provide feedback while calibration is taking place
     ElapsedTime timer = new ElapsedTime();
 
-    IMU imu;
-
     @Override public void runOpMode() throws InterruptedException {
         // Get a reference to a Modern Robotics GyroSensor object. We use several interfaces
         // on this object to illustrate which interfaces support which functionality.
         navxMicro = hardwareMap.get(NavxMicroNavigationSensor.class, "navx");
         gyro = (IntegratingGyroscope)navxMicro;
-        imu = hardwareMap.get(IMU.class, "externalImu");
-        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.RIGHT));
-        imu.initialize(parameters);
-
         // If you're only interested int the IntegratingGyroscope interface, the following will suffice.
         // gyro = hardwareMap.get(IntegratingGyroscope.class, "navx");
 
@@ -101,8 +88,6 @@ public class SensorKLNavxMicro extends LinearOpMode {
         telemetry.clear(); telemetry.update();
 
         // Wait for the start button to be pressed
-        imu.resetYaw();
-
         waitForStart();
         telemetry.log().clear();
 
@@ -111,8 +96,8 @@ public class SensorKLNavxMicro extends LinearOpMode {
             // Read dimensionalized data from the gyro. This gyro can report angular velocities
             // about all three axes. Additionally, it internally integrates the Z axis to
             // be able to report an absolute angular Z orientation.
-            AngularVelocity rates = gyro.getAngularVelocity(AngleUnit.RADIANS);
-            Orientation angles = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
+            AngularVelocity rates = gyro.getAngularVelocity(AngleUnit.DEGREES);
+            Orientation angles = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
             telemetry.addLine()
                 .addData("dx", formatRate(rates.xRotationRate))
@@ -123,34 +108,21 @@ public class SensorKLNavxMicro extends LinearOpMode {
                 .addData("heading", formatAngle(angles.angleUnit, angles.firstAngle))
                 .addData("roll", formatAngle(angles.angleUnit, angles.secondAngle))
                 .addData("pitch", "%s deg", formatAngle(angles.angleUnit, angles.thirdAngle));
-
-            YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
-            AngularVelocity angularVelocity = imu.getRobotAngularVelocity(AngleUnit.DEGREES);
-
-            telemetry.addData("Yaw (Z)", "%.5f Deg. (Heading)", orientation.getYaw(AngleUnit.DEGREES));
-            telemetry.addData("Pitch (X)", "%.5f Deg.", orientation.getPitch(AngleUnit.DEGREES));
-            telemetry.addData("Roll (Y)", "%.5f Deg.\n", orientation.getRoll(AngleUnit.DEGREES));
-            telemetry.addData("Yaw (Z) velocity", "%.5f Deg/Sec", angularVelocity.zRotationRate);
-            telemetry.addData("Pitch (X) velocity", "%.5f Deg/Sec", angularVelocity.xRotationRate);
-            telemetry.addData("Roll (Y) velocity", "%.5f Deg/Sec", angularVelocity.yRotationRate);
-
             telemetry.update();
-
-            Log.d("HEADING_COMPARE", String.format("%.5f %.5f", angles.firstAngle, orientation.getYaw(AngleUnit.DEGREES)));
 
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
     }
 
     String formatRate(float rate) {
-        return String.format("%.5f", rate);
+        return String.format("%.3f", rate);
     }
 
     String formatAngle(AngleUnit angleUnit, double angle) {
-        return formatDegrees(angle);
+        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
     }
 
     String formatDegrees(double degrees){
-        return String.format("%.5f", degrees);
+        return String.format("%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 }

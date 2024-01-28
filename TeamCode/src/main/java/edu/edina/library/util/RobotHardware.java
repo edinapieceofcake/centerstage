@@ -5,7 +5,6 @@ import android.util.Log;
 import com.acmerobotics.roadrunner.ftc.FlightRecorder;
 import com.acmerobotics.roadrunner.ftc.LynxFirmware;
 import com.qualcomm.hardware.dfrobot.HuskyLens;
-import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
@@ -16,7 +15,6 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
@@ -65,10 +63,6 @@ public class RobotHardware {
 
     public final DigitalChannel beamBreak;
     public final DigitalChannel hangSwitch;
-    public IntegratingGyroscope gyro;
-    public NavxMicroNavigationSensor navxMicro;
-
-
 
     private ExecutorService homeHangMotorExecutor;
 
@@ -186,10 +180,6 @@ public class RobotHardware {
 
         beamBreak = hardwareMap.get(DigitalChannel.class, "beamBreak");
         beamBreak.setMode(DigitalChannel.Mode.INPUT);
-
-        navxMicro = hardwareMap.get(NavxMicroNavigationSensor.class, "navx");
-        gyro = (IntegratingGyroscope)navxMicro;
-
     }
 
     public void liftServosForTeleop() {
