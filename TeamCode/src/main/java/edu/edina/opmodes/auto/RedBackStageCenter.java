@@ -98,13 +98,13 @@ public class RedBackStageCenter extends LinearOpMode {
             if (pad1.y) {
                 twoWhites = true;
                 fourWhites = false;
-                parkLocation = ParkLocation.None;
+                parkLocation = ParkLocation.Center;
             }
 
             if (pad1.b) {
                 twoWhites = true;
                 fourWhites = true;
-                parkLocation = ParkLocation.None;
+                parkLocation = ParkLocation.Center;
             }
 
             // Delay - Max of 10000ms, Min of 0ms
@@ -205,13 +205,13 @@ public class RedBackStageCenter extends LinearOpMode {
                 backdropLocation = new Pose2d(48,-32, Math.toRadians(0));
                 break;
             case Center:
-                propDropLocation = new Vector2d(16.5, -35.5);
+                propDropLocation = new Vector2d(16.5, -34.5);
                 backdropLocation = new Pose2d(48,-38, Math.toRadians(0));
                 break;
             case Right:
                 propDropLocation = new Vector2d(27, -43);
                 propDropAngle =65.0;
-                backdropLocation = new Pose2d(48.5,-45, Math.toRadians(0));
+                backdropLocation = new Pose2d(48,-45, Math.toRadians(0));
                 break;
             default:
                 propDropLocation = new Vector2d(16.5, -35.5);  // default to Center if all goes bad
@@ -228,15 +228,11 @@ public class RedBackStageCenter extends LinearOpMode {
                         .stopAndAdd(manager.openLeftClaw())
 
                         // Drive to backdrop and release
-                        .setTangent((propLocation==PropLocation.Right) ? Math.toRadians(-30) : Math.toRadians(0))
-                        .afterDisp(2, manager.getLiftReadyToDropThePixelLowOnTheWall())
+                        .setTangent((propLocation==PropLocation.Right) ? Math.toRadians(-180) : Math.toRadians(0))
+                        .afterTime(0, manager.getLiftReadyToDropThePixelLowOnTheWall())
                         .splineToSplineHeading(backdropLocation, Math.toRadians(0))
-                        .lineToX(53.5)
+                        .lineToX(56.5)
                         .stopAndAdd(manager.openRightClaw())
-
-                        // Back up and pack up
-                        .lineToX(50)
-                        .afterDisp(2, manager.getLiftReadyToDrive())
                         .build()
         );
 
@@ -245,22 +241,20 @@ public class RedBackStageCenter extends LinearOpMode {
             Actions.runBlocking(
                     drive.actionBuilder(drive.pose)
 
+                            // Back up and pack up
+                            .lineToX(50)
+                            .afterDisp(0, manager.getLiftReadyToDrive())
+
                             // Drive to stacks - first trip
-                            .splineToSplineHeading(new Pose2d(24, -11, Math.toRadians(180)), Math.toRadians(180))
-                            .splineTo(new Vector2d(-44, -11), Math.toRadians(180))
+                            .setReversed(true)
+                            .splineToSplineHeading(new Pose2d(24, -10.5, Math.toRadians(180)), Math.toRadians(180))
+                            .splineTo(new Vector2d(-44, -10.5), Math.toRadians(180))
 
                             // Prepare for grabbing - Trip 1
-                            .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn()))
-                            .afterDisp(0, manager.runLiftToPosition(-143))
+                            .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
+                            .afterDisp(0, manager.runLiftToPosition(-123))
                             .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                            .lineToX(-51.25)
-
-                            // Move in and grab pixels until beam break
-                            .afterTime(0, manager.closeAutoClaw())
-                            .afterTime(0, manager.closeLeftClaw())
-                            .afterTime(0, manager.closeRightClaw())
-                            .waitSeconds(0.2)
-                            .lineToX(-51)
+                            .lineToX(-53)
                             .build()
             );
         }
@@ -268,47 +262,44 @@ public class RedBackStageCenter extends LinearOpMode {
         if (fourWhites) {  // Make the middle trip
             Actions.runBlocking(
                     drive.actionBuilder(drive.pose)
+                            // Move in and grab pixels until beam break
+                            .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOff()))
 
+                            .afterTime(0, manager.closeAutoClaw())
+                            .afterTime(0, manager.closeLeftClaw())
+                            .afterTime(0, manager.closeRightClaw())
+                            .waitSeconds(0.1)
+                            .lineToX(-51)
                             // Back away and pack up
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
-                            .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOff()))
-                            .lineToX(-44)
+
                             .afterDisp(3, manager.lowerLiftForDriving())
                             .afterDisp(3, manager.zeroLift())
                             .afterDisp(3, manager.positionTheClawToDriveWithPixels())
+                            .lineToX(-44)
 
                             // Return to backdrop and angle drop
                             .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
                             .setReversed(false)
                             .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
                             .splineTo(new Vector2d(40, -12), Math.toRadians(0))
-                            .splineTo(new Vector2d(52, -20), Math.toRadians(-25))
+                            .splineTo(new Vector2d(55, -24), Math.toRadians(-35))
                             .afterTime(0, manager.openAutoClaw())
                             .afterTime(0, manager.openLeftClaw())
                             .afterTime(0, manager.openRightClaw())
-
-                            // Pause, then pack up
-                            .waitSeconds(0.5)
-                            // TODO - Back away??!
-                            .stopAndAdd(manager.getLiftReadyToDrive())
+                            .waitSeconds(0.25)
 
                             // Head to Stacks VIA C-Row
                             .setReversed(true)
+                            .afterDisp(0, manager.getLiftReadyToDrive())
                             .splineToSplineHeading(new Pose2d(24, -11, Math.toRadians(180)), Math.toRadians(180))
                             .splineTo(new Vector2d(-44, -11), Math.toRadians(180))
 
                             // Prepare for grabbing - Trip 2
-                            .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn()))
-                            .afterDisp(0, manager.runLiftToPosition(-143))
-                            .afterDisp(0, manager.positionTheClawToPickupPixels())
-                            .lineToX(-51.25)
-
-                            // Move in and grab pixels until beam break
-                            .afterTime(0, manager.closeAutoClaw())
-                            .afterTime(0, manager.closeLeftClaw())
-                            .afterTime(0, manager.closeRightClaw())
-                            .waitSeconds(0.2)
-                            .lineToX(-51)
+                            .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(175)))
+                            .afterDisp(0, manager.runLiftToPosition(-23))
+                            .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
+                            .lineToX(-57)
                             .build()
             );
         }
@@ -317,8 +308,15 @@ public class RedBackStageCenter extends LinearOpMode {
             Actions.runBlocking(
                     drive.actionBuilder(drive.pose)
                             // Back away and pack up
-                            .stopAndAdd(manager.raiseLiftAfterStackPickup())
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOff()))
+
+                            // Move in and grab pixels until beam break
+                            .afterTime(0, manager.closeAutoClaw())
+                            .afterTime(0, manager.closeLeftClaw())
+                            .afterTime(0, manager.closeRightClaw())
+
+                            .lineToX(-51)
+                            .stopAndAdd(manager.raiseLiftAfterStackPickup())
                             .lineToX(-44)
                             .afterDisp(3, manager.lowerLiftForDriving())
                             .afterDisp(3, manager.zeroLift())
@@ -329,15 +327,12 @@ public class RedBackStageCenter extends LinearOpMode {
                             .setReversed(false)
                             .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
                             .splineTo(new Vector2d(40, -12), Math.toRadians(0))
-                            .splineTo(new Vector2d(52, -20), Math.toRadians(-25))
+                            .splineTo(new Vector2d(55, -24), Math.toRadians(-35))
                             .afterTime(0, manager.openAutoClaw())
                             .afterTime(0, manager.openLeftClaw())
                             .afterTime(0, manager.openRightClaw())
 
                             // Pause, then pack up
-                            .waitSeconds(0.5)
-                            // TODO - Back away??!
-                            .stopAndAdd(manager.getLiftReadyToDrive())
                             .build()
             );
         }
@@ -347,6 +342,9 @@ public class RedBackStageCenter extends LinearOpMode {
             case Center:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
+                                // Back up and pack up
+                                .lineToX(48)
+                                .afterDisp(2, manager.getLiftReadyToDrive())
                                 .setReversed(true)
                                 .splineTo(new Vector2d(58, -14), Math.toRadians(0))
                                 .build()));
@@ -354,13 +352,21 @@ public class RedBackStageCenter extends LinearOpMode {
             case Corner:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
+                                // Back up and pack up
+                                .lineToX(48)
+                                .afterDisp(2, manager.getLiftReadyToDrive())
                                 .setReversed(true)
                                 .splineTo(new Vector2d(58, -64), Math.toRadians(0))
                                 .build()));
                 break;
             default:
+                Actions.runBlocking(new SequentialAction(
+                        drive.actionBuilder(drive.pose)
+                                // Back up and pack up
+                                .lineToX(50)
+                                .afterDisp(1, manager.getLiftReadyToDrive())
+                                .build()));
                 break;
         }
-
     }
 }
