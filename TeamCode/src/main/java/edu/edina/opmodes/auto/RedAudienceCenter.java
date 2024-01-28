@@ -9,6 +9,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.PoCMecanumDrive;
 
@@ -41,13 +42,26 @@ public class RedAudienceCenter extends LinearOpMode {
     private long delayTime = 0;
 
     protected void initHardware() {
+        ElapsedTime timer = new ElapsedTime();
+
         hardware = new RobotHardware(hardwareMap);
         manager = new ActionManager(hardware);
 
+        timer.reset();
+        while (hardware.navxMicro.isCalibrating())  {
+            telemetry.addData("calibrating", "%s", Math.round(timer.seconds())%2==0 ? "|.." : "..|");
+            telemetry.update();
+            try {
+                Thread.sleep(50);
+            } catch (Exception ex) {}
+        }
+        telemetry.log().clear(); telemetry.log().add("Gyro Calibrated. Press Start.");
+        telemetry.clear(); telemetry.update();
+
         drive = new PoCMecanumDrive(hardware.leftFront,
                 hardware.leftBack, hardware.rightBack, hardware.rightFront,
-                hardware.par0, hardware.par1, hardware.perp,
-                hardware.externalImu, hardware.expansionImu, hardware.voltageSensor, hardware.beamBreak, getStartPose());
+                hardware.par0, hardware.perp,
+                hardware.gyro, hardware.expansionImu, hardware.voltageSensor, hardware.beamBreak, getStartPose());
 
         // Heartbeat Red to signify Red alliance
         pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_GRAY;

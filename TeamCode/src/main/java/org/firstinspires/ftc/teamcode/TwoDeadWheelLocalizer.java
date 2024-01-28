@@ -14,9 +14,13 @@ import com.acmerobotics.roadrunner.ftc.RawEncoder;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 @Config
@@ -31,6 +35,7 @@ public final class TwoDeadWheelLocalizer implements Localizer {
     public final Encoder par, perp;
     public final IMU primaryImu;
     public final IMU secondaryImu;
+    public final IntegratingGyroscope gyro;
 
     private int lastParPos, lastPerpPos;
     private Rotation2d lastHeading;
@@ -46,6 +51,23 @@ public final class TwoDeadWheelLocalizer implements Localizer {
         this.perp = new RawEncoder(perp);
         this.primaryImu = primaryImu;
         this.secondaryImu = secondaryImu;
+        this.gyro = null;
+
+        lastParPos = this.par.getPositionAndVelocity().position;
+        lastPerpPos = this.perp.getPositionAndVelocity().position;
+        lastHeading = Rotation2d.exp(getRobotYawPitchRollAngles());
+
+        this.inPerTick = inPerTick;
+
+        FlightRecorder.write("TWO_DEAD_WHEEL_PARAMS", PARAMS);
+    }
+
+    public TwoDeadWheelLocalizer(DcMotorEx par, DcMotorEx perp, IntegratingGyroscope gyro, IMU secondaryImu, double inPerTick) {
+        this.par = new RawEncoder(par);
+        this.perp = new RawEncoder(perp);
+        this.primaryImu = secondaryImu;
+        this.secondaryImu = secondaryImu;
+        this.gyro = gyro;
 
         lastParPos = this.par.getPositionAndVelocity().position;
         lastPerpPos = this.perp.getPositionAndVelocity().position;
@@ -61,6 +83,7 @@ public final class TwoDeadWheelLocalizer implements Localizer {
         perp = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "perp")));
         this.primaryImu = primaryImu;
         this.secondaryImu = primaryImu;
+        this.gyro = null;
 
         lastParPos = par.getPositionAndVelocity().position;
         lastPerpPos = perp.getPositionAndVelocity().position;
@@ -117,16 +140,14 @@ public final class TwoDeadWheelLocalizer implements Localizer {
     }
 
     private double getRobotYawPitchRollAngles() {
-        YawPitchRollAngles angles = null;
-
         if (usePrimary) {
-            angles = primaryImu.getRobotYawPitchRollAngles();
+            Orientation angles = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
 
-            if (angles.getAcquisitionTime() == 0) {
+            if (angles.acquisitionTime == 0) {
                 usePrimary = false;
                 return secondaryImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
             } else {
-                return angles.getYaw(AngleUnit.RADIANS);
+                return angles.firstAngle;
             }
         } else {
             return secondaryImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
@@ -134,16 +155,14 @@ public final class TwoDeadWheelLocalizer implements Localizer {
     }
 
     private double getRobotAngularVelocity() {
-        AngularVelocity velocities = null;
-
          if (usePrimary) {
-             velocities = primaryImu.getRobotAngularVelocity(AngleUnit.RADIANS);
+             AngularVelocity rates = gyro.getAngularVelocity(AngleUnit.RADIANS);
 
-            if (velocities.acquisitionTime == 0) {
+            if (rates.acquisitionTime == 0) {
                 usePrimary = false;
                 return secondaryImu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
             } else {
-                return velocities.zRotationRate;
+                return rates.zRotationRate;
             }
         } else {
             return secondaryImu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
