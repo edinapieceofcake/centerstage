@@ -140,32 +140,63 @@ public final class TwoDeadWheelLocalizer implements Localizer {
     }
 
     private double getRobotYawPitchRollAngles() {
-        if (usePrimary) {
-            Orientation angles = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
+        if (gyro != null) {
+            if (usePrimary) {
+                Orientation angles = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
 
-            if (angles.acquisitionTime == 0) {
-                usePrimary = false;
-                return secondaryImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+                if (angles.acquisitionTime == 0) {
+                    usePrimary = false;
+                    return secondaryImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+                } else {
+                    return angles.firstAngle;
+                }
             } else {
-                return angles.firstAngle;
+                return secondaryImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
             }
         } else {
-            return secondaryImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+            if (usePrimary) {
+                YawPitchRollAngles angles = primaryImu.getRobotYawPitchRollAngles();
+
+                if (angles.getAcquisitionTime() == 0) {
+                    usePrimary = false;
+                    return secondaryImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+                } else {
+                    return angles.getYaw(AngleUnit.RADIANS);
+                }
+            } else {
+                return secondaryImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+            }
         }
     }
 
     private double getRobotAngularVelocity() {
-         if (usePrimary) {
-             AngularVelocity rates = gyro.getAngularVelocity(AngleUnit.RADIANS);
+        if (gyro != null) {
+            if (usePrimary) {
+                AngularVelocity rates = gyro.getAngularVelocity(AngleUnit.RADIANS);
 
-            if (rates.acquisitionTime == 0) {
-                usePrimary = false;
-                return secondaryImu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
+                if (rates.acquisitionTime == 0) {
+                    usePrimary = false;
+                    return secondaryImu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
+                } else {
+                    return rates.zRotationRate;
+                }
             } else {
-                return rates.zRotationRate;
+                return secondaryImu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
             }
         } else {
-            return secondaryImu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
+            if (usePrimary) {
+                AngularVelocity  velocities = primaryImu.getRobotAngularVelocity(AngleUnit.RADIANS);
+
+                if (velocities.acquisitionTime == 0) {
+                    usePrimary = false;
+                    return secondaryImu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
+                } else {
+                    return velocities.zRotationRate;
+                }
+            } else {
+                return secondaryImu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
+            }
+
         }
     }
 }

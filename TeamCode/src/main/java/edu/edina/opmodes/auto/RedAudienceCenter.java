@@ -61,7 +61,7 @@ public class RedAudienceCenter extends LinearOpMode {
         drive = new PoCMecanumDrive(hardware.leftFront,
                 hardware.leftBack, hardware.rightBack, hardware.rightFront,
                 hardware.par0, hardware.perp,
-                hardware.gyro, hardware.expansionImu, hardware.voltageSensor, hardware.beamBreak, getStartPose());
+                hardware.externalImu, hardware.expansionImu, hardware.voltageSensor, hardware.beamBreak, getStartPose());
 
         // Heartbeat Red to signify Red alliance
         pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_GRAY;

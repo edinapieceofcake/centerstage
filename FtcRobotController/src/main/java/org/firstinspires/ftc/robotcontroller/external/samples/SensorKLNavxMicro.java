@@ -136,7 +136,7 @@ public class SensorKLNavxMicro extends LinearOpMode {
 
             telemetry.update();
 
-            Log.d("HEADING_COMPARE", String.format("%.5f %.5f", angles.firstAngle, orientation.getYaw(AngleUnit.DEGREES)));
+            Log.d("HEADING_COMPARE", String.format("%.5f %.5f", angles.firstAngle, orientation.getYaw(AngleUnit.RADIANS)));
 
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
