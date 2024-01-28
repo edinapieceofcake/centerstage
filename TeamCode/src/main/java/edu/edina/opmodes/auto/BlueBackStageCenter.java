@@ -6,7 +6,6 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -22,11 +21,10 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
-public class RedBackStage extends LinearOpMode {
+public class BlueBackStageCenter extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;
     protected PoCMecanumDrive drive;
-    protected RevBlinkinLedDriver.BlinkinPattern pattern;
     protected PoCHuskyLens poCHuskyLens;
 
     protected PropLocation propLocation = PropLocation.Center;
@@ -61,11 +59,11 @@ public class RedBackStage extends LinearOpMode {
     }
 
     protected Alliance getAlliance() {
-        return Alliance.Red;
+        return Alliance.Blue;
     }
 
     protected Pose2d getStartPose() {
-        return new Pose2d(14.5, -64, Math.toRadians(90));
+        return new Pose2d(17.5, 64, Math.toRadians(270));
     }
 
     @Override
@@ -197,30 +195,29 @@ public class RedBackStage extends LinearOpMode {
 
         Vector2d propDropLocation;
         Pose2d backdropLocation;
-        double propDropAngle = 90.0;
+        double propDropAngle = -90.0;
 
         // Determine location for the purple and yellow pixel
         switch(propLocation) {
             case Left:
-                propDropLocation = new Vector2d(15.5, -42);
-                propDropAngle = 135.0;
-                backdropLocation = new Pose2d(48,-32, Math.toRadians(0));
+                propDropLocation = new Vector2d(20.5, 44);
+                propDropAngle = -65.0;
+                backdropLocation = new Pose2d(47.5,41, Math.toRadians(0));
                 break;
             case Center:
-                propDropLocation = new Vector2d(16.5, -35.5);
-                backdropLocation = new Pose2d(48,-38, Math.toRadians(0));
+                propDropLocation = new Vector2d(12, 35.5);
+                backdropLocation = new Pose2d(47.5,35, Math.toRadians(0));
                 break;
             case Right:
-                propDropLocation = new Vector2d(27, -43);
-                propDropAngle =65.0;
-                backdropLocation = new Pose2d(48.5,-45, Math.toRadians(0));
+                propDropLocation = new Vector2d(6, 38);
+                propDropAngle = -135.0;
+                backdropLocation = new Pose2d(47.5,28, Math.toRadians(0));
                 break;
             default:
-                propDropLocation = new Vector2d(16.5, -35.5);  // default to Center if all goes bad
-                backdropLocation = new Pose2d(48,-38, Math.toRadians(0)); // default to center if all goes bad
+                propDropLocation = new Vector2d(16.5, 35.5);  // default to Center if all goes bad
+                backdropLocation = new Pose2d(47.5,38, Math.toRadians(0)); // default to center if all goes bad
                 break;
         }
-
         // Purple + Yellow
         Actions.runBlocking(
                 drive.actionBuilder(drive.pose)
@@ -230,7 +227,7 @@ public class RedBackStage extends LinearOpMode {
                         .stopAndAdd(manager.openLeftClaw())
 
                         // Drive to backdrop and release
-                        .setTangent((propLocation==PropLocation.Right) ? Math.toRadians(-30) : Math.toRadians(0))
+                        .setTangent((propLocation==PropLocation.Right) ? Math.toRadians(30) : Math.toRadians(0))
                         .afterDisp(2, manager.getLiftReadyToDropThePixelLowOnTheWall())
                         .splineToSplineHeading(backdropLocation, Math.toRadians(0))
                         .lineToX(53.5)
@@ -248,8 +245,8 @@ public class RedBackStage extends LinearOpMode {
                     drive.actionBuilder(drive.pose)
 
                             // Drive to stacks - first trip
-                            .splineToSplineHeading(new Pose2d(24, -11, Math.toRadians(180)), Math.toRadians(180))
-                            .splineTo(new Vector2d(-44, -11), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(24, 11, Math.toRadians(180)), Math.toRadians(180))
+                            .splineTo(new Vector2d(-44, 11), Math.toRadians(180))
 
                             // Prepare for grabbing - Trip 1
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn()))
@@ -280,11 +277,11 @@ public class RedBackStage extends LinearOpMode {
                             .afterDisp(3, manager.positionTheClawToDriveWithPixels())
 
                             // Return to backdrop and angle drop
-                            .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(-11, 12, Math.toRadians(0)), Math.toRadians(0))
                             .setReversed(false)
                             .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
-                            .splineTo(new Vector2d(40, -12), Math.toRadians(0))
-                            .splineTo(new Vector2d(52, -20), Math.toRadians(-25))
+                            .splineTo(new Vector2d(40, 12), Math.toRadians(0))
+                            .splineTo(new Vector2d(52, 20), Math.toRadians(25))
                             .afterTime(0, manager.openAutoClaw())
                             .afterTime(0, manager.openLeftClaw())
                             .afterTime(0, manager.openRightClaw())
@@ -296,8 +293,8 @@ public class RedBackStage extends LinearOpMode {
 
                             // Head to Stacks VIA C-Row
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(24, -11, Math.toRadians(180)), Math.toRadians(180))
-                            .splineTo(new Vector2d(-44, -11), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(24, 11, Math.toRadians(180)), Math.toRadians(180))
+                            .splineTo(new Vector2d(-44, 11), Math.toRadians(180))
 
                             // Prepare for grabbing - Trip 2
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn()))
@@ -330,8 +327,8 @@ public class RedBackStage extends LinearOpMode {
                             .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
                             .setReversed(false)
                             .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
-                            .splineTo(new Vector2d(40, -12), Math.toRadians(0))
-                            .splineTo(new Vector2d(52, -20), Math.toRadians(-25))
+                            .splineTo(new Vector2d(40, 12), Math.toRadians(0))
+                            .splineTo(new Vector2d(52, 20), Math.toRadians(25))
                             .afterTime(0, manager.openAutoClaw())
                             .afterTime(0, manager.openLeftClaw())
                             .afterTime(0, manager.openRightClaw())
@@ -350,14 +347,14 @@ public class RedBackStage extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(58, -14), Math.toRadians(0))
+                                .splineTo(new Vector2d(58, 14), Math.toRadians(0))
                                 .build()));
                 break;
             case Corner:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(58, -64), Math.toRadians(0))
+                                .splineTo(new Vector2d(58, 64), Math.toRadians(0))
                                 .build()));
                 break;
             default:
