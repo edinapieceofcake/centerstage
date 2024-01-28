@@ -68,8 +68,8 @@ public class ConfigureAngleDrop extends LinearOpMode {
 
             if (pad1.y) {
                 // raise lift
-                leftLiftServo.setPosition(config.leftHighDropOffServoPosition);
-                rightLiftServo.setPosition(config.rightHighDropOffServoPosition);
+                leftLiftServo.setPosition(config.leftLowDropOffServoPosition);
+                rightLiftServo.setPosition(config.rightLowDropOffServoPosition);
                 liftRaised = true;
             }
 
@@ -81,8 +81,8 @@ public class ConfigureAngleDrop extends LinearOpMode {
             }
 
             if (pad1.x) {
-                topLiftMotor.setTargetPosition(config.liftHighDropOffPosition);
-                bottomLiftMotor.setTargetPosition(config.liftHighDropOffPosition);
+                topLiftMotor.setTargetPosition(config.liftLowDropOffPosition);
+                bottomLiftMotor.setTargetPosition(config.liftLowDropOffPosition);
                 topLiftMotor.setPower(config.liftExtendingPower);
                 bottomLiftMotor.setPower(config.liftExtendingPower);
             }

@@ -137,7 +137,8 @@ public final class PoCMecanumDrive {
     private final DownsampledWriter mecanumCommandWriter = new DownsampledWriter("MECANUM_COMMAND", 50_000_000);
     private DigitalChannel beamBreak = null;
     private boolean beamUsage = false;
-    private final Deadline beamBreakDelay = new Deadline(225, TimeUnit.MILLISECONDS);
+    private Deadline beamBreakDelay = new Deadline(225, TimeUnit.MILLISECONDS);
+    private long beamBreakDuration = 225;
     private boolean beamBreakTripped = false;
     private boolean poseErrorStopUsage = false;
 
@@ -314,6 +315,11 @@ public final class PoCMecanumDrive {
     }
 
     public void turnBeamBreakOn(){
+        turnBeamBreakOn(beamBreakDuration);
+    }
+
+    public void turnBeamBreakOn(long beamBreakDuration){
+        this.beamBreakDuration = beamBreakDuration;
         beamUsage = true;
         beamBreakTripped = false;
     }
@@ -381,6 +387,7 @@ public final class PoCMecanumDrive {
                 } else if(!beamBreak.getState()) {
                     // bream break hit so start the timer to let it move a little more forward
                     beamBreakTripped = true;
+                    beamBreakDelay = new Deadline(beamBreakDuration, TimeUnit.MILLISECONDS);
                     beamBreakDelay.reset();
                 }
             }
