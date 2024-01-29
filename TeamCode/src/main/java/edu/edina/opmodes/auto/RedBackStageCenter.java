@@ -192,7 +192,6 @@ public class RedBackStageCenter extends LinearOpMode {
     }
 
     protected void runPaths() {
-
         Vector2d propDropLocation;
         Pose2d backdropLocation;
         double propDropAngle = 90.0;
@@ -279,8 +278,7 @@ public class RedBackStageCenter extends LinearOpMode {
                             .lineToX(-50)
 
                             // Return to backdrop and angle drop
-                            //.setReversed(true)
-                            .setTangent(-90)
+                            .setReversed(true)
                             .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
                             .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
                             .splineTo(new Vector2d(40, -12), Math.toRadians(0))
@@ -324,8 +322,7 @@ public class RedBackStageCenter extends LinearOpMode {
                             .afterDisp(3, manager.positionTheClawToDriveWithPixels())
 
                             // Return to backdrop and angle drop
-                            //.setReversed(true)
-                            .setTangent(-90)
+                            .setReversed(true)
                             .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
                             .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
                             .splineTo(new Vector2d(40, -12), Math.toRadians(0))

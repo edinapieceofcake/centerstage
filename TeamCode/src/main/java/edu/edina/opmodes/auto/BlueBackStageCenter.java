@@ -279,8 +279,7 @@ public class BlueBackStageCenter extends LinearOpMode {
                             .lineToX(-50)
 
                             // Return to backdrop and angle drop
-                            //.setReversed(true)
-                            .setTangent(-90)
+                            .setReversed(true)
                             .splineToSplineHeading(new Pose2d(-11, 12, Math.toRadians(0)), Math.toRadians(0))
                             .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
                             .splineTo(new Vector2d(40, 12), Math.toRadians(0))
@@ -324,8 +323,7 @@ public class BlueBackStageCenter extends LinearOpMode {
                             .afterDisp(3, manager.positionTheClawToDriveWithPixels())
 
                             // Return to backdrop and angle drop
-                            //.setReversed(true)
-                            .setTangent(-90)
+                            .setReversed(true)
                             .splineToSplineHeading(new Pose2d(-11, 12, Math.toRadians(0)), Math.toRadians(0))
                             .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
                             .splineTo(new Vector2d(40, 12), Math.toRadians(0))
