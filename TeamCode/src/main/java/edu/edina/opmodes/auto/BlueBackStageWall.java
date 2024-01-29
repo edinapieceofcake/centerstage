@@ -21,7 +21,7 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
-public class BlueBackStageCenter extends LinearOpMode {
+public class BlueBackStageWall extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;
     protected PoCMecanumDrive drive;
@@ -80,8 +80,8 @@ public class BlueBackStageCenter extends LinearOpMode {
 
             telemetry.addData("A for P, Y and park in corner", "");
             telemetry.addData("X for P, Y and park in center", "");
-            telemetry.addData("Y for P, Y, 2Ws and park in center", "");
-            telemetry.addData("B for P, Y, 4Ws and park in center", "");
+            telemetry.addData("Y for P, Y, 2Ws and park in corner", "");
+            telemetry.addData("B for P, Y, 4Ws and park in corner", "");
             telemetry.addData("L-BUMPER to increase delay, R-BUMPER to decrease delay", "");
             telemetry.addData("L-TRIGGER to close claws, R-TRIGGER to open", "");
             //telemetry.addData("left stick down manual rotate prop position", "");
@@ -98,13 +98,13 @@ public class BlueBackStageCenter extends LinearOpMode {
             if (pad1.y) {
                 twoWhites = true;
                 fourWhites = false;
-                parkLocation = ParkLocation.Center;
+                parkLocation = ParkLocation.Corner;
             }
 
             if (pad1.b) {
                 twoWhites = true;
                 fourWhites = true;
-                parkLocation = ParkLocation.Center;
+                parkLocation = ParkLocation.Corner;
             }
 
             // Delay - Max of 10000ms, Min of 0ms
@@ -228,7 +228,7 @@ public class BlueBackStageCenter extends LinearOpMode {
                         .stopAndAdd(manager.openLeftClaw())
 
                         // Drive to backdrop and release
-                        .setTangent((propLocation==PropLocation.Right) ? Math.toRadians(-180) : Math.toRadians(0))
+                        .setTangent((propLocation==PropLocation.Left) ? Math.toRadians(-180) : Math.toRadians(0))
                         .afterTime(0, manager.getLiftReadyToDropThePixelLowOnTheWall())
                         .splineToSplineHeading(backdropLocation, Math.toRadians(0))
                         .lineToX(56.5)
@@ -246,14 +246,15 @@ public class BlueBackStageCenter extends LinearOpMode {
 
                             // Drive to stacks - first trip
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(24, 10.5, Math.toRadians(180)), Math.toRadians(180))
-                            .splineTo(new Vector2d(-44, 10.5), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(0, 56, Math.toRadians(-180)), Math.toRadians(180))
+                            .splineToConstantHeading(new Vector2d(-38, 56), Math.toRadians(180))
+                            .splineToConstantHeading(new Vector2d(-50, 34), Math.toRadians(180))
 
                             // Prepare for grabbing - Trip 1
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                            .afterDisp(0, manager.runLiftToPosition(-123))
+                            .afterDisp(0, manager.runLiftToPosition(-133))
                             .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                            .lineToX(-53)
+                            .lineToX(-52.5)
                             .build()
             );
         }
@@ -268,7 +269,6 @@ public class BlueBackStageCenter extends LinearOpMode {
                             .afterTime(0, manager.closeLeftClaw())
                             .afterTime(0, manager.closeRightClaw())
                             .waitSeconds(0.1)
-                            .lineToX(-52.75)
 
                             // Back away and pack up
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
@@ -276,28 +276,30 @@ public class BlueBackStageCenter extends LinearOpMode {
                             .afterDisp(3, manager.lowerLiftForDriving())
                             .afterDisp(3, manager.zeroLift())
                             .afterDisp(3, manager.positionTheClawToDriveWithPixels())
-                            .lineToX(-50)
 
                             // Return to backdrop and angle drop
-                            //.setReversed(true)
-                            .setTangent(-90)
-                            .splineToSplineHeading(new Pose2d(-11, 12, Math.toRadians(0)), Math.toRadians(0))
-                            .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
-                            .splineTo(new Vector2d(40, 12), Math.toRadians(0))
-                            .splineTo(new Vector2d(55, 24), Math.toRadians(35))
+                            .setReversed(true)
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, 56), Math.toRadians(0)), Math.toRadians(0))
+                            .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
+                            .splineToConstantHeading(new Vector2d(10, 56), Math.toRadians(0))
+                            .splineTo(new Vector2d(40, 56), Math.toRadians(0))
+                            .splineTo(new Vector2d(52, 51), Math.toRadians(-35))
                             .afterTime(0, manager.openAutoClaw())
                             .afterTime(0, manager.openLeftClaw())
                             .afterTime(0, manager.openRightClaw())
                             .waitSeconds(0.25)
 
-                            // Head to Stacks VIA C-Row
+                            // Head to Stacks VIA A-Row
                             .setReversed(true)
                             .afterDisp(0, manager.getLiftReadyToDrive())
-                            .splineToSplineHeading(new Pose2d(24, 11, Math.toRadians(180)), Math.toRadians(180))
-                            .splineTo(new Vector2d(-44, 11), Math.toRadians(180))
+
+                            // Head to Stacks VIA Wall
+                            .splineToSplineHeading(new Pose2d(0, 56, Math.toRadians(-180)), Math.toRadians(180))
+                            .splineToConstantHeading(new Vector2d(-38, 56), Math.toRadians(180))
+                            .splineToConstantHeading(new Vector2d(-50, 32), Math.toRadians(180))
 
                             // Prepare for grabbing - Trip 2
-                            .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(175)))
+                            .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
                             .afterDisp(0, manager.runLiftToPosition(-23))
                             .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
                             .lineToX(-57)
@@ -315,21 +317,21 @@ public class BlueBackStageCenter extends LinearOpMode {
                             .afterTime(0, manager.closeAutoClaw())
                             .afterTime(0, manager.closeLeftClaw())
                             .afterTime(0, manager.closeRightClaw())
+                            .waitSeconds(0.1)
 
-                            .lineToX(-56.5)
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
-                            .lineToX(-53)
+
                             .afterDisp(3, manager.lowerLiftForDriving())
                             .afterDisp(3, manager.zeroLift())
                             .afterDisp(3, manager.positionTheClawToDriveWithPixels())
 
                             // Return to backdrop and angle drop
-                            //.setReversed(true)
-                            .setTangent(-90)
-                            .splineToSplineHeading(new Pose2d(-11, 12, Math.toRadians(0)), Math.toRadians(0))
-                            .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
-                            .splineTo(new Vector2d(40, 12), Math.toRadians(0))
-                            .splineTo(new Vector2d(55, 24), Math.toRadians(35))
+                            .setReversed(true)
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, 56), Math.toRadians(0)), Math.toRadians(0))
+                            .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
+                            .splineToConstantHeading(new Vector2d(10, 56), Math.toRadians(0))
+                            .splineTo(new Vector2d(40, 56), Math.toRadians(0))
+                            .splineTo(new Vector2d(52, 51), Math.toRadians(-35))
                             .afterTime(0, manager.openAutoClaw())
                             .afterTime(0, manager.openLeftClaw())
                             .afterTime(0, manager.openRightClaw())
@@ -354,10 +356,10 @@ public class BlueBackStageCenter extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 // Back up and pack up
+                                .afterTime(0, manager.getLiftReadyToDrive())
                                 .lineToX(48)
-                                .afterDisp(2, manager.getLiftReadyToDrive())
-                                .setReversed(true)
-                                .splineTo(new Vector2d(58, 64), Math.toRadians(0))
+                                //.setReversed(true)
+                                //.splineTo(new Vector2d(58, -64), Math.toRadians(0))
                                 .build()));
                 break;
             default:
@@ -369,5 +371,6 @@ public class BlueBackStageCenter extends LinearOpMode {
                                 .build()));
                 break;
         }
+
     }
 }
