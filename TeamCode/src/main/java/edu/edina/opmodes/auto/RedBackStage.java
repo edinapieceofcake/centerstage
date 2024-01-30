@@ -3,6 +3,7 @@ package edu.edina.opmodes.auto;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -71,6 +72,8 @@ public class RedBackStage extends LinearOpMode {
 
         initHardware();
 
+        Actions.runBlocking(manager.positionTheClawToPickupPixels());
+
         // Turn on prop illumination
         hardware.lights.setPower(1);
 
@@ -79,8 +82,8 @@ public class RedBackStage extends LinearOpMode {
 
             telemetry.addData("A for P, Y and park in corner", "");
             telemetry.addData("X for P, Y and park in center", "");
-            telemetry.addData("Y for P, Y, 2Ws and park in corner", "");
-            telemetry.addData("B for P, Y, 4Ws and park in corner", "");
+            telemetry.addData("Y for P, Y, 2Ws and park in front", "");
+            telemetry.addData("B for P, Y, 4Ws and park in front", "");
             telemetry.addData("L-BUMPER to increase delay, R-BUMPER to decrease delay", "");
             telemetry.addData("L-TRIGGER to close claws, R-TRIGGER to open", "");
             telemetry.addData("left stick down manual rotate prop position", "");
@@ -97,13 +100,13 @@ public class RedBackStage extends LinearOpMode {
             if (pad1.y) {
                 twoWhites = true;
                 fourWhites = false;
-                parkLocation = ParkLocation.Corner;
+                parkLocation = ParkLocation.None;
             }
 
             if (pad1.b) {
                 twoWhites = true;
                 fourWhites = true;
-                parkLocation = ParkLocation.Corner;
+                parkLocation = ParkLocation.None;
             }
 
             // Delay - Max of 10000ms, Min of 0ms
@@ -118,17 +121,22 @@ public class RedBackStage extends LinearOpMode {
 
             // Close the claws
             if (gamepad1.left_trigger != 0) {
-                Actions.runBlocking(new ParallelAction(
-                        manager.closeRightClaw(),
-                        manager.closeLeftClaw()
-                ));
+                Actions.runBlocking(
+                        new SequentialAction(
+                            new ParallelAction(
+                                    manager.closeRightClaw(),
+                                    manager.closeLeftClaw()
+                            ),
+                        manager.positionTheClawToDriveWithPixels())
+                );
             }
 
             // Open the claws
             if (gamepad1.right_trigger != 0) {
                 Actions.runBlocking(new ParallelAction(
                         manager.openRightClaw(),
-                        manager.openLeftClaw()
+                        manager.openLeftClaw(),
+                        manager.positionTheClawToPickupPixels()
                 ));
             }
 

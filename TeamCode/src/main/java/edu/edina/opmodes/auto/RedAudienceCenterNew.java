@@ -21,40 +21,7 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
-public class RedAudienceCenterNew extends RedAudienceNew {
-    // PATH TO GO FROM START TO PURPLE DROP
-    // (A)
-    @Override
-    protected void purplePath(Pose2d propLocation, double propAngle) {
-        // Run to drop PURPLE pixel
-        Actions.runBlocking(
-            drive.actionBuilder(drive.pose)
-                .splineToSplineHeading(propLocation, Math.toRadians(propAngle))
-                .endTrajectory()
-                .stopAndAdd(manager.openLeftClaw())
-                .build()
-        );
-    }
-
-    // PATH TO GO FROM PURPLE DROP TO STACK
-    // (B)
-    @Override
-    protected void purpleToStack(double stackTangent) {
-        Actions.runBlocking(
-            drive.actionBuilder(drive.pose)
-                // Maneuver to the stack
-                .splineToSplineHeading(new Pose2d(-50, -11, Math.toRadians(180)), Math.toRadians(stackTangent))
-
-                // Prepare for grabbing - Trip 1
-                .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                .afterDisp(0, manager.runLiftToPosition(-123))
-                .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                .lineToX(-53)
-                .build()
-        );
-    }
-
-    // PATH TO GO FROM STACK TO BACKDROP TO DROP YELLOW
+public class RedAudienceCenterNew extends RedAudienceNew {    // PATH TO GO FROM STACK TO BACKDROP TO DROP YELLOW
     // (C)
     @Override
     protected void stackToYellow(Vector2d backdropLocation) {

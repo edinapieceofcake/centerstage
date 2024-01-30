@@ -1,5 +1,6 @@
 package edu.edina.opmodes.auto;
 
+import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -66,6 +67,8 @@ public class RedAudienceNew extends LinearOpMode {
         SmartGamepad pad1 = new SmartGamepad(gamepad1);
 
         initHardware();
+
+        Actions.runBlocking(manager.positionTheClawToPickupPixels());
 
         // Turn on prop illumination
         hardware.lights.setPower(1);
@@ -135,17 +138,22 @@ public class RedAudienceNew extends LinearOpMode {
 
             // Close claws
             if (gamepad1.left_trigger != 0) {
-                Actions.runBlocking(new ParallelAction(
-                        manager.closeRightClaw(),
-                        manager.closeLeftClaw()
-                ));
+                Actions.runBlocking(
+                        new SequentialAction(
+                                new ParallelAction(
+                                        manager.closeRightClaw(),
+                                        manager.closeLeftClaw()
+                                ),
+                                manager.positionTheClawToDriveWithPixels())
+                );
             }
 
             // Open claws
             if (gamepad1.right_trigger != 0) {
                 Actions.runBlocking(new ParallelAction(
                         manager.openRightClaw(),
-                        manager.openLeftClaw()
+                        manager.openLeftClaw(),
+                        manager.positionTheClawToPickupPixels()
                 ));
             }
 
@@ -251,24 +259,53 @@ public class RedAudienceNew extends LinearOpMode {
         // Drop the Purple
         purplePath(propDropLocation, propDropAngle);  // A
 
-        // If we are doing anything but stopping after purple
-        if (makeSecondTrip) {  // P + Y + 3W path
+        if (yellowPixel) {  // P + Y + 1W path
             purpleToStack(stackTangent); // B
-            stackToYellowToStack(backdropLocation); // D
-            stackToAngleDrop(); // E
-        } else {
-            if (yellowPixel) {  // P + Y + 1W path
+
+        // If we are doing anything but stopping after purple
+            if (makeSecondTrip) {  // P + Y + 3W path
+                stackToYellowToStack(backdropLocation); // D
+                stackToAngleDrop(); // E
+            } else {
                 stackToYellow(backdropLocation); // C
             }
         }
 
-        // Park
-        park(parkLocation); // PK
+        if (makeSecondTrip || yellowPixel) {
+            // Park
+            park(); // PK
+        }
     }
 
-    protected void purplePath(Pose2d propLocation, double propAngle) {}
+    // PATH TO GO FROM START TO PURPLE DROP
+    // (A)
+    private void purplePath(Pose2d propLocation, double propAngle) {
+        // Run to drop PURPLE pixel
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        .splineToSplineHeading(propLocation, Math.toRadians(propAngle))
+                        .endTrajectory()
+                        .stopAndAdd(manager.openLeftClaw())
+                        .build()
+        );
+    }
 
-    protected void purpleToStack(double stackTangent) {}
+    // PATH TO GO FROM PURPLE DROP TO STACK
+    // (B)
+    private void purpleToStack(double stackTangent) {
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        // Maneuver to the stack
+                        .splineToSplineHeading(new Pose2d(-50, -36, Math.toRadians(180)), Math.toRadians(stackTangent))
+
+                        // Prepare for grabbing - Trip 1
+                        .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
+                        .afterDisp(0, manager.runLiftToPosition(-123))
+                        .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
+                        .lineToX(-53)
+                        .build()
+        );
+    }
 
     protected void stackToYellow(Vector2d backdropLocation) {}
 
@@ -278,7 +315,7 @@ public class RedAudienceNew extends LinearOpMode {
 
     // PARK
     // (PK)
-    private void park(ParkLocation parkLocation) {
+    private void park() {
         switch (parkLocation) {
             case Center:
                 Actions.runBlocking(new SequentialAction(

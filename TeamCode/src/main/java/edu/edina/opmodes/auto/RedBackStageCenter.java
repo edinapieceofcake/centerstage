@@ -34,8 +34,8 @@ public class RedBackStageCenter extends RedBackStage {
 
                             // Drive to stacks - first trip
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(24, -10.5, Math.toRadians(180)), Math.toRadians(180))
-                            .splineTo(new Vector2d(-44, -10.5), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(24, -10, Math.toRadians(180)), Math.toRadians(180))
+                            .splineTo(new Vector2d(-44, -10), Math.toRadians(180))
 
                             // Prepare for grabbing - Trip 1
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
@@ -71,7 +71,8 @@ public class RedBackStageCenter extends RedBackStage {
                             .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
                             .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
                             .splineTo(new Vector2d(40, -12), Math.toRadians(0))
-                            .splineTo(new Vector2d(61, -20), Math.toRadians(-35))
+                            .splineTo(new Vector2d(59.5, -20), Math.toRadians(-35))
+                            .waitSeconds(0.25)
                             .afterTime(0, manager.openAutoClaw())
                             .afterTime(0, manager.openLeftClaw())
                             .afterTime(0, manager.openRightClaw())
@@ -114,10 +115,12 @@ public class RedBackStageCenter extends RedBackStage {
                             .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
                             .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
                             .splineTo(new Vector2d(40, -12), Math.toRadians(0))
-                            .splineTo(new Vector2d(61, -20), Math.toRadians(-35))
+                            .splineTo(new Vector2d(59.5, -20), Math.toRadians(-35))
+                            .waitSeconds(0.25)
                             .afterTime(0, manager.openAutoClaw())
                             .afterTime(0, manager.openLeftClaw())
                             .afterTime(0, manager.openRightClaw())
+                            .waitSeconds(0.25)
                             .build()
             );
         }
