@@ -323,7 +323,7 @@ public class RedAudienceCenter extends LinearOpMode {
                 );
             }
 
-            // Run to backdrop.  HELLO SHISHIR
+            // Run to backdrop.
             Actions.runBlocking(
                     drive.actionBuilder(drive.pose)
                             // Back away and pack up

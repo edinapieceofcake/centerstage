@@ -59,12 +59,10 @@ public class BlueBackStageCenter extends LinearOpMode {
     }
 
     protected Alliance getAlliance() {
-        return Alliance.Blue;
+        return Alliance.Red;
     }
 
-    protected Pose2d getStartPose() {
-        return new Pose2d(17.5, 64, Math.toRadians(270));
-    }
+    protected Pose2d getStartPose() { return new Pose2d(17.5, 64, Math.toRadians(270)); }
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -104,7 +102,7 @@ public class BlueBackStageCenter extends LinearOpMode {
             if (pad1.b) {
                 twoWhites = true;
                 fourWhites = true;
-                parkLocation = ParkLocation.Center;
+                parkLocation = ParkLocation.None;
             }
 
             // Delay - Max of 10000ms, Min of 0ms
@@ -192,10 +190,9 @@ public class BlueBackStageCenter extends LinearOpMode {
     }
 
     protected void runPaths() {
-
         Vector2d propDropLocation;
         Pose2d backdropLocation;
-        double propDropAngle = 90.0;
+        double propDropAngle = 270.0;
 
         // Determine location for the purple and yellow pixel
         switch(propLocation) {
@@ -228,7 +225,7 @@ public class BlueBackStageCenter extends LinearOpMode {
                         .stopAndAdd(manager.openLeftClaw())
 
                         // Drive to backdrop and release
-                        .setTangent((propLocation==PropLocation.Right) ? Math.toRadians(-180) : Math.toRadians(0))
+                        .setTangent((propLocation==PropLocation.Left) ? Math.toRadians(-180) : Math.toRadians(0))
                         .afterTime(0, manager.getLiftReadyToDropThePixelLowOnTheWall())
                         .splineToSplineHeading(backdropLocation, Math.toRadians(0))
                         .lineToX(56.5)
@@ -280,10 +277,10 @@ public class BlueBackStageCenter extends LinearOpMode {
 
                             // Return to backdrop and angle drop
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(-11, 12, Math.toRadians(0)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
                             .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
                             .splineTo(new Vector2d(40, 12), Math.toRadians(0))
-                            .splineTo(new Vector2d(55, 24), Math.toRadians(35))
+                            .splineTo(new Vector2d(61, 20), Math.toRadians(35))
                             .afterTime(0, manager.openAutoClaw())
                             .afterTime(0, manager.openLeftClaw())
                             .afterTime(0, manager.openRightClaw())
@@ -315,7 +312,6 @@ public class BlueBackStageCenter extends LinearOpMode {
                             .afterTime(0, manager.closeLeftClaw())
                             .afterTime(0, manager.closeRightClaw())
 
-                            .lineToX(-56.5)
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
                             .lineToX(-53)
                             .afterDisp(3, manager.lowerLiftForDriving())
@@ -327,11 +323,10 @@ public class BlueBackStageCenter extends LinearOpMode {
                             .splineToSplineHeading(new Pose2d(-11, 12, Math.toRadians(0)), Math.toRadians(0))
                             .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
                             .splineTo(new Vector2d(40, 12), Math.toRadians(0))
-                            .splineTo(new Vector2d(55, 24), Math.toRadians(35))
+                            .splineTo(new Vector2d(61, 20), Math.toRadians(35))
                             .afterTime(0, manager.openAutoClaw())
                             .afterTime(0, manager.openLeftClaw())
                             .afterTime(0, manager.openRightClaw())
-
                             .build()
             );
         }
