@@ -60,6 +60,9 @@ public class ActionManager {
         return new AutoClawAction(claw, ClawState.Closed);
     }
 
+    public Action openAllClaws() {return new AllClawsAction(claw, ClawState.Opened); }
+    public Action closeAllClaws() {return new AllClawsAction(claw, ClawState.Closed); }
+
     public Action positionTheClawToDriveWithPixels() {
         return new AngleClawAction(claw, AngleClawState.Drive);
     }

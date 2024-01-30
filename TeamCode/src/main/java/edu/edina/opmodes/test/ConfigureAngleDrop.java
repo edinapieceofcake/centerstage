@@ -157,14 +157,24 @@ public class ConfigureAngleDrop extends LinearOpMode {
                 angleClawServo.setPosition(angleClawServo.getPosition() - .05);
             }
 
-            if (gamepad1.left_stick_button) {
+            if (pad1.left_stick_button) {
                 twistClawServo.setPosition(config.twistClawServoPickUpPosition);
                 angleClawServo.setPosition(config.angleClawDrivePosition);
             }
 
-            if (gamepad1.right_stick_button) {
+            if (pad1.right_stick_button) {
                 twistClawServo.setPosition(config.twistClawServoDropOffPosition);
                 angleClawServo.setPosition(config.angleClawLowDropOffPosition);
+            }
+
+            if (gamepad1.left_stick_x != 0) {
+                twistClawServo.setPosition(config.leftAutoLowTwistClawServoDropOffPosition);
+                angleClawServo.setPosition(config.leftAutoLowAngleClawServoDropOffPosition);
+            }
+
+            if (gamepad1.right_stick_x != 0) {
+                twistClawServo.setPosition(config.rightLowTwistClawServoDropOffPosition);
+                angleClawServo.setPosition(config.rightLowAngleClawServoDropOffPosition);
             }
 
             telemetry.addData("Triggers control the lift motor", "");

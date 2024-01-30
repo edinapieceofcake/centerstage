@@ -104,7 +104,7 @@ public class RedBackStageCenter extends LinearOpMode {
             if (pad1.b) {
                 twoWhites = true;
                 fourWhites = true;
-                parkLocation = ParkLocation.Center;
+                parkLocation = ParkLocation.None;
             }
 
             // Delay - Max of 10000ms, Min of 0ms
@@ -282,7 +282,7 @@ public class RedBackStageCenter extends LinearOpMode {
                             .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
                             .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
                             .splineTo(new Vector2d(40, -12), Math.toRadians(0))
-                            .splineTo(new Vector2d(55, -24), Math.toRadians(-35))
+                            .splineTo(new Vector2d(61, -20), Math.toRadians(-35))
                             .afterTime(0, manager.openAutoClaw())
                             .afterTime(0, manager.openLeftClaw())
                             .afterTime(0, manager.openRightClaw())
@@ -314,7 +314,6 @@ public class RedBackStageCenter extends LinearOpMode {
                             .afterTime(0, manager.closeLeftClaw())
                             .afterTime(0, manager.closeRightClaw())
 
-                            .lineToX(-56.5)
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
                             .lineToX(-53)
                             .afterDisp(3, manager.lowerLiftForDriving())
@@ -326,11 +325,10 @@ public class RedBackStageCenter extends LinearOpMode {
                             .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
                             .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
                             .splineTo(new Vector2d(40, -12), Math.toRadians(0))
-                            .splineTo(new Vector2d(55, -24), Math.toRadians(-35))
+                            .splineTo(new Vector2d(61, -20), Math.toRadians(-35))
                             .afterTime(0, manager.openAutoClaw())
                             .afterTime(0, manager.openLeftClaw())
                             .afterTime(0, manager.openRightClaw())
-
                             .build()
             );
         }

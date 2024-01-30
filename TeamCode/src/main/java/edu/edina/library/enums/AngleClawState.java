@@ -5,6 +5,7 @@ public enum AngleClawState {
     Stack,
     Pickup,
     CenterDropOff,
+    LeftAutoDropOff,
     LeftDropOff,
     RightDropOff,
 }

@@ -40,7 +40,7 @@ public class DropOffPixelRightSideAction implements Action {
             state.lastKnownLiftState = LiftDriveState.Drive;
             state.currentLiftDriveState = LiftDriveState.LowDropOff;
             state.currentLiftSlideState = LiftSlideState.Extending;
-            state.dropOffOrientation = DropOffOrientation.Left;
+            state.dropOffOrientation = DropOffOrientation.Right;
             state.dropOffState = DropOffState.Start;
             if (isBackstage) {
                 config.leftLowDropOffServoPosition = .6;

@@ -248,11 +248,11 @@ public class RedBackStageWall extends LinearOpMode {
                             .setReversed(true)
                             .splineToSplineHeading(new Pose2d(0, -56, Math.toRadians(-180)), Math.toRadians(180))
                             .splineToConstantHeading(new Vector2d(-38, -56), Math.toRadians(180))
-                            .splineToConstantHeading(new Vector2d(-50, -34), Math.toRadians(180))
+                            .splineToConstantHeading(new Vector2d(-50, -32), Math.toRadians(180))
 
                             // Prepare for grabbing - Trip 1
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                            .afterDisp(0, manager.runLiftToPosition(-133))
+                            .afterDisp(0, manager.runLiftToPosition(-123))
                             .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
                             .lineToX(-52.5)
                             .build()
@@ -283,10 +283,10 @@ public class RedBackStageWall extends LinearOpMode {
                             .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
                             .splineToConstantHeading(new Vector2d(10, -56), Math.toRadians(0))
                             .splineTo(new Vector2d(40, -56), Math.toRadians(0))
-                            .splineTo(new Vector2d(52, -51), Math.toRadians(35))
-                            .afterTime(0, manager.openAutoClaw())
-                            .afterTime(0, manager.openLeftClaw())
-                            .afterTime(0, manager.openRightClaw())
+                            .splineTo(new Vector2d(59, -53), Math.toRadians(35))
+                            .afterTime(0.1, manager.openAutoClaw())
+                            .afterTime(0.1, manager.openLeftClaw())
+                            .afterTime(0.1, manager.openRightClaw())
                             .waitSeconds(0.25)
 
                             // Head to Stacks VIA A-Row
@@ -294,9 +294,9 @@ public class RedBackStageWall extends LinearOpMode {
                             .afterDisp(0, manager.getLiftReadyToDrive())
 
                             // Head to Stacks VIA Wall
-                            .splineToSplineHeading(new Pose2d(0, -56, Math.toRadians(-180)), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(0, -54, Math.toRadians(-180)), Math.toRadians(180))
                             .splineToConstantHeading(new Vector2d(-38, -56), Math.toRadians(180))
-                            .splineToConstantHeading(new Vector2d(-50, -32), Math.toRadians(180))
+                            .splineToConstantHeading(new Vector2d(-50, -31), Math.toRadians(180))
 
                             // Prepare for grabbing - Trip 2
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
@@ -331,10 +331,11 @@ public class RedBackStageWall extends LinearOpMode {
                             .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
                             .splineToConstantHeading(new Vector2d(10, -56), Math.toRadians(0))
                             .splineTo(new Vector2d(40, -56), Math.toRadians(0))
-                            .splineTo(new Vector2d(52, -51), Math.toRadians(35))
-                            .afterTime(0, manager.openAutoClaw())
-                            .afterTime(0, manager.openLeftClaw())
-                            .afterTime(0, manager.openRightClaw())
+                            .splineTo(new Vector2d(59.5, -53), Math.toRadians(35))
+                            .afterTime(0.1, manager.openAutoClaw())
+                            .afterTime(0.1, manager.openLeftClaw())
+                            .afterTime(0.1, manager.openRightClaw())
+                            .waitSeconds(.25)
 
                             .build()
             );

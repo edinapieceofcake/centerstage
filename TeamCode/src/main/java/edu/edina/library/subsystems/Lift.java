@@ -464,6 +464,9 @@ public class Lift implements Subsystem {
                 if (state.dropOffOrientation == DropOffOrientation.Left) {
                     state.twistServoState = TwistServoState.LeftDropOff;
                     state.angleClawState = AngleClawState.LeftDropOff;
+                } else if (state.dropOffOrientation == DropOffOrientation.LeftAuto) {
+                    state.twistServoState = TwistServoState.LeftAutoDropOff;
+                    state.angleClawState = AngleClawState.LeftAutoDropOff;
                 } else if (state.dropOffOrientation == DropOffOrientation.Right) {
                     state.twistServoState = TwistServoState.RightDropOff;
                     state.angleClawState = AngleClawState.RightDropOff;
