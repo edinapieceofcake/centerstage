@@ -21,7 +21,7 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
-public class RedAudienceCenterNew extends LinearOpMode {
+public class RedAudienceWallNew extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;
     protected PoCMecanumDrive drive;
@@ -259,7 +259,7 @@ public class RedAudienceCenterNew extends LinearOpMode {
         purplePath(propDropLocation, propDropAngle);  // A
 
         // If we are doing anything but stopping after purple
-        if (makeSecondTrip) {  // P + Y + 3W path
+        if (makeSecondTrip) { // P + Y + 3W path
             purpleToStack(stackTangent); // B
             stackToYellowToStack(backdropLocation); // D
             stackToAngleDrop(); // E
@@ -293,7 +293,7 @@ public class RedAudienceCenterNew extends LinearOpMode {
         Actions.runBlocking(
             drive.actionBuilder(drive.pose)
                 // Maneuver to the stack
-                .splineToSplineHeading(new Pose2d(-50, -11, Math.toRadians(180)), Math.toRadians(stackTangent))
+                .splineToSplineHeading(new Pose2d(-50, -36, Math.toRadians(180)), Math.toRadians(stackTangent))
 
                 // Prepare for grabbing - Trip 1
                 .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
@@ -331,9 +331,9 @@ public class RedAudienceCenterNew extends LinearOpMode {
 
                         // Head to backdrop
                         .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
-                        .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                        .splineToConstantHeading(new Vector2d(10, -11), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -56), Math.toRadians(0)), Math.toRadians(0))
+                        .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
+                        .splineToConstantHeading(new Vector2d(10, -56), Math.toRadians(0))
                         .splineToConstantHeading(backdropLocation, Math.toRadians(0))
 
                         // Release Yellow + White
@@ -370,9 +370,9 @@ public class RedAudienceCenterNew extends LinearOpMode {
 
                         // Return to backdrop
                         .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
-                        .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                        .splineToConstantHeading(new Vector2d(10, -11), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -56), Math.toRadians(0)), Math.toRadians(0))
+                        .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
+                        .splineToConstantHeading(new Vector2d(10, -56), Math.toRadians(0))
                         .splineToConstantHeading(backdropLocation, Math.toRadians(0))
 
                         // Release Yellow + White
@@ -384,16 +384,16 @@ public class RedAudienceCenterNew extends LinearOpMode {
                         .lineToX(50)
                         .afterDisp(0, manager.getLiftReadyToDrive())
 
-                        // Drive back to stacks
-                        .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(24, -10.5, Math.toRadians(180)), Math.toRadians(180))
-                        .splineTo(new Vector2d(-44, -10.5), Math.toRadians(180))
+                        // Head to Stacks VIA Wall
+                        .splineToSplineHeading(new Pose2d(0, -54, Math.toRadians(-180)), Math.toRadians(180))
+                        .splineToConstantHeading(new Vector2d(-38, -56), Math.toRadians(180))
+                        .splineToConstantHeading(new Vector2d(-50, -31), Math.toRadians(180))
 
                         // Prepare for grabbing - Trip 2
                         .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                        .afterDisp(0, manager.runLiftToPosition(-123))
+                        .afterDisp(0, manager.runLiftToPosition(-23))
                         .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                        .lineToX(-53)
+                        .lineToX(-57)
                         .build()
             );
     }
@@ -402,38 +402,39 @@ public class RedAudienceCenterNew extends LinearOpMode {
     // (E)
     void stackToAngleDrop () {
         Actions.runBlocking(
-            drive.actionBuilder(drive.pose)
-                // Turn off Beam Break
-                .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOff()))
+                drive.actionBuilder(drive.pose)
+                    // Turn off Beam Break
+                    .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOff()))
 
-                // Grab Pixels
-                .afterTime(0, manager.closeAutoClaw())
-                .afterTime(0, manager.closeLeftClaw())
-                .afterTime(0, manager.closeRightClaw())
+                    // Grab Pixels
+                    .afterTime(0, manager.closeAutoClaw())
+                    .afterTime(0, manager.closeLeftClaw())
+                    .afterTime(0, manager.closeRightClaw())
 
-                // Back away a little and raise the lift
-                .waitSeconds(0.1)
-                .stopAndAdd(manager.raiseLiftAfterStackPickup())
+                    // Back away a little and raise the lift
+                    .waitSeconds(0.1)
+                    .stopAndAdd(manager.raiseLiftAfterStackPickup())
 
-                // Finish backing away and prepare to drive
-                .afterDisp(3, manager.lowerLiftForDriving())
-                .afterDisp(3, manager.zeroLift())
-                .afterDisp(3, manager.positionTheClawToDriveWithPixels())
-                .lineToX(-50)
+                    // Finish backing away and prepare to drive
+                    .afterDisp(3, manager.lowerLiftForDriving())
+                    .afterDisp(3, manager.zeroLift())
+                    .afterDisp(3, manager.positionTheClawToDriveWithPixels())
 
-                // Return to backdrop and angle drop
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
-                .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
-                .splineTo(new Vector2d(40, -12), Math.toRadians(0))
-                .splineTo(new Vector2d(61, -20), Math.toRadians(-35))
+                    // Return to backdrop and angle drop
+                    .setReversed(true)
+                    .splineToSplineHeading(new Pose2d(new Vector2d(-35, -56), Math.toRadians(0)), Math.toRadians(0))
+                    .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
+                    .splineToConstantHeading(new Vector2d(10, -56), Math.toRadians(0))
+                    .splineTo(new Vector2d(40, -56), Math.toRadians(0))
+                    .splineTo(new Vector2d(59.5, -53), Math.toRadians(35))
 
-                // Release all pixels
-                .afterTime(0, manager.openAutoClaw())
-                .afterTime(0, manager.openLeftClaw())
-                .afterTime(0, manager.openRightClaw())
-                .waitSeconds(0.25)
-                .build()
+                    // Release all pixels
+                    .afterTime(0.1, manager.openAutoClaw())
+                    .afterTime(0.1, manager.openLeftClaw())
+                    .afterTime(0.1, manager.openRightClaw())
+                    .waitSeconds(.25)
+
+                    .build()
         );
     }
 
@@ -462,7 +463,6 @@ public class RedAudienceCenterNew extends LinearOpMode {
                                 .build()));
                 break;
             case None:
-                // No park - just pack
                 manager.getLiftReadyToDrive();
                 break;
             default:
