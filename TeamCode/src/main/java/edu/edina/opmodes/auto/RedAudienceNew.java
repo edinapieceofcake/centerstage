@@ -290,22 +290,7 @@ public class RedAudienceNew extends LinearOpMode {
         );
     }
 
-    // PATH TO GO FROM PURPLE DROP TO STACK
-    // (B)
-    private void purpleToStack(double stackTangent) {
-        Actions.runBlocking(
-                drive.actionBuilder(drive.pose)
-                        // Maneuver to the stack
-                        .splineToSplineHeading(new Pose2d(-50, -36, Math.toRadians(180)), Math.toRadians(stackTangent))
-
-                        // Prepare for grabbing - Trip 1
-                        .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                        .afterDisp(0, manager.runLiftToPosition(-123))
-                        .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                        .lineToX(-53)
-                        .build()
-        );
-    }
+    protected void purpleToStack(double stackTangent) {}
 
     protected void stackToYellow(Vector2d backdropLocation) {}
 
