@@ -29,7 +29,7 @@ public class RedAudienceCenterNew extends RedAudienceNew {
         Actions.runBlocking(
                 drive.actionBuilder(drive.pose)
                         // Maneuver to the stack
-                        .splineToSplineHeading(new Pose2d(-50, -36, Math.toRadians(180)), Math.toRadians(stackTangent))
+                        .splineToSplineHeading(new Pose2d(-50, -11, Math.toRadians(180)), Math.toRadians(stackTangent))
 
                         // Prepare for grabbing - Trip 1
                         .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
