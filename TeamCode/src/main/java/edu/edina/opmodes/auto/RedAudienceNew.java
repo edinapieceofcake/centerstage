@@ -228,26 +228,19 @@ public class RedAudienceNew extends LinearOpMode {
         Pose2d propDropLocation;
         Vector2d backdropLocation;
         double propDropAngle = 90;
-        double stackTangent = 180;
 
         // Determine location for purple pixel
         switch(propLocation) {
             case Left:
                 propDropLocation = new Pose2d(-39, -38, Math.toRadians(135));
-                propDropAngle = 135;
-                stackTangent = 45;
                 backdropLocation = new Vector2d(49,-36);
                 break;
             case Center:
                 propDropLocation = new Pose2d(-30, -36, Math.toRadians(90));
-                propDropAngle = 90;
-                stackTangent = 180;
                 backdropLocation = new Vector2d(49,-43);
                 break;
             case Right:
                 propDropLocation = new Pose2d(-30, -37, Math.toRadians(45));
-                propDropAngle = 65;
-                stackTangent = 180;
                 backdropLocation = new Vector2d(49.5,-46);
                 break;
             default:
@@ -257,10 +250,10 @@ public class RedAudienceNew extends LinearOpMode {
         }
 
         // Drop the Purple
-        purplePath(propDropLocation, propDropAngle);  // A
+        purplePath(propDropLocation);  // A
 
         if (yellowPixel) {  // P + Y + 1W path
-            purpleToStack(stackTangent); // B
+            purpleToStack(propLocation); // B
 
         // If we are doing anything but stopping after purple
             if (makeSecondTrip) {  // P + Y + 3W path
@@ -279,18 +272,17 @@ public class RedAudienceNew extends LinearOpMode {
 
     // PATH TO GO FROM START TO PURPLE DROP
     // (A)
-    private void purplePath(Pose2d propLocation, double propAngle) {
+    private void purplePath(Pose2d propLocation) {
         // Run to drop PURPLE pixel
         Actions.runBlocking(
                 drive.actionBuilder(drive.pose)
-                        .splineToSplineHeading(propLocation, Math.toRadians(propAngle))
-                        .endTrajectory()
+                        .splineToSplineHeading(propLocation, Math.toRadians(90))
                         .stopAndAdd(manager.openLeftClaw())
                         .build()
         );
     }
 
-    protected void purpleToStack(double stackTangent) {}
+    protected void purpleToStack(PropLocation propLocation) {}
 
     protected void stackToYellow(Vector2d backdropLocation) {}
 

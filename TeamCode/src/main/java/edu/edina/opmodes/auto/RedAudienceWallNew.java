@@ -25,19 +25,29 @@ public class RedAudienceWallNew extends RedAudienceNew {
     // PATH TO GO FROM PURPLE DROP TO STACK
     // (B)
     @Override
-    protected void purpleToStack(double stackTangent) {
-        Actions.runBlocking(
-                drive.actionBuilder(drive.pose)
-                        // Maneuver to the stack
-                        .splineToSplineHeading(new Pose2d(-50, -36, Math.toRadians(180)), Math.toRadians(stackTangent))
-
-                        // Prepare for grabbing - Trip 1
-                        .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                        .afterDisp(0, manager.runLiftToPosition(-123))
-                        .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                        .lineToX(-53)
-                        .build()
-        );
+    protected void purpleToStack(PropLocation propLocation) {
+        switch (propLocation) {
+            case Left:
+                Actions.runBlocking(
+                        drive.actionBuilder(drive.pose)
+                                // Head to Stacks
+                                .setReversed(true)
+                                .turnTo(Math.toRadians(180))
+                                .lineToX(-52)
+                                .build()
+                );
+                break;
+            default:
+                // Drive to Stack Pick up 1st white
+                Actions.runBlocking(
+                        drive.actionBuilder(drive.pose)
+                                // Head to Stacks
+                                .setReversed(true)
+                                .splineToSplineHeading(new Pose2d(-52, -36, Math.toRadians(180)), Math.toRadians(180))
+                                .build()
+                );
+                break;
+        }
     }
 
     // PATH TO GO FROM STACK TO BACKDROP TO DROP YELLOW

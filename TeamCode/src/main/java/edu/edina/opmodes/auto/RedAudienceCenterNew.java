@@ -25,19 +25,55 @@ public class RedAudienceCenterNew extends RedAudienceNew {
     // PATH TO GO FROM PURPLE DROP TO STACK
     // (B)
     @Override
-    protected void purpleToStack(double stackTangent) {
-        Actions.runBlocking(
-                drive.actionBuilder(drive.pose)
-                        // Maneuver to the stack
-                        .splineToSplineHeading(new Pose2d(-50, -11, Math.toRadians(180)), Math.toRadians(stackTangent))
+    protected void purpleToStack(PropLocation propLocation) {
 
-                        // Prepare for grabbing - Trip 1
-                        .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                        .afterDisp(0, manager.runLiftToPosition(-123))
-                        .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                        .lineToX(-53)
-                        .build()
-        );
+        if (propLocation == PropLocation.Left) {
+            Actions.runBlocking(
+                    drive.actionBuilder(drive.pose)
+                            // Head to Stacks
+                            .setReversed(true)
+                            .splineToSplineHeading(new Pose2d(-35, -11, Math.toRadians(180)), Math.toRadians(45))
+                            // Prepare for grabbing - Trip 1
+                            .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
+                            .afterDisp(0, manager.runLiftToPosition(-123))
+                            .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
+                            .setReversed(false)
+                            .splineToSplineHeading(new Pose2d(-50, -11, Math.toRadians(180)), Math.toRadians(180))
+                            .lineToX(-53)
+                            .build()
+            );
+        } else if (propLocation == PropLocation.Center) {
+            // Drive to Stack Pick up 1st white
+            Actions.runBlocking(
+                    drive.actionBuilder(drive.pose)
+                            // Head to Stacks
+                            .setReversed(true)
+                            .splineToSplineHeading(new Pose2d(-48, -18, Math.toRadians(180)), Math.toRadians(90))
+                            .splineToSplineHeading(new Pose2d(-48, -11, Math.toRadians(180)), Math.toRadians(90))
+                            .setReversed(false)
+                            // Prepare for grabbing - Trip 1
+                            .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
+                            .afterDisp(0, manager.runLiftToPosition(-123))
+                            .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
+                            .lineToX(-53)
+                            .build()
+            );
+        } else {
+            // Drive to Stack Pick up 1st white
+            Actions.runBlocking(
+                    drive.actionBuilder(drive.pose)
+                            // Head to Stacks
+                            .setReversed(true)
+                            .splineToSplineHeading(new Pose2d(-48, -11, Math.toRadians(180)), Math.toRadians(90))
+                            // Prepare for grabbing - Trip 1
+                            .setReversed(false)
+                            .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
+                            .afterDisp(0, manager.runLiftToPosition(-123))
+                            .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
+                            .lineToX(-56)
+                            .build()
+            );
+        }
     }
 
     // PATH TO GO FROM STACK TO BACKDROP TO DROP YELLOW
