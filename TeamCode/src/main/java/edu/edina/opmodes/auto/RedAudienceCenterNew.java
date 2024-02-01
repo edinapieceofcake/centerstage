@@ -174,9 +174,9 @@ public class RedAudienceCenterNew extends RedAudienceNew {
     }
 
     // STACK TO ANGLE DROP
-    // (E)
+    // (DPAD_UP)
     @Override
-    protected void stackToAngleDrop () {
+    protected void stackToAngleDrop() {
         Actions.runBlocking(
             drive.actionBuilder(drive.pose)
                 // Turn off Beam Break
@@ -211,6 +211,57 @@ public class RedAudienceCenterNew extends RedAudienceNew {
                 .waitSeconds(0.25)
                 .build()
         );
+
+        Actions.runBlocking(new SequentialAction(
+                drive.actionBuilder(drive.pose)
+                        // Back up and pack up
+                        .lineToX(58)
+                        .afterDisp(1, manager.getLiftReadyToDrive())
+                        .build()));
     }
 
+    // STACK TO ANGLE DROP
+    // (DPAD_UP)
+    @Override
+    protected void stackToBackStageDrop() {
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        // Turn off Beam Break
+                        .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOff()))
+
+                        // Grab Pixels
+                        .afterTime(0, manager.closeAutoClaw())
+                        .afterTime(0, manager.closeLeftClaw())
+                        .afterTime(0, manager.closeRightClaw())
+
+                        // Back away a little and raise the lift
+                        .waitSeconds(0.1)
+                        .stopAndAdd(manager.raiseLiftAfterStackPickup())
+
+                        // Finish backing away and prepare to drive
+                        .afterDisp(3, manager.lowerLiftForDriving())
+                        .afterDisp(3, manager.zeroLift())
+                        .afterDisp(3, manager.positionTheClawToDriveWithPixels())
+                        .lineToX(-50)
+
+                        // Return to backdrop and angle drop
+                        .setReversed(true)
+                        .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
+                        .splineTo(new Vector2d(61, -12), Math.toRadians(0))
+
+                        // Release all pixels
+                        .afterTime(0, manager.openAutoClaw())
+                        .afterTime(0, manager.openLeftClaw())
+                        .afterTime(0, manager.openRightClaw())
+                        .waitSeconds(0.25)
+                        .build()
+        );
+
+        Actions.runBlocking(new SequentialAction(
+                drive.actionBuilder(drive.pose)
+                        // Back up
+                        .lineToX(58)
+                        .build()));
+
+    }
 }

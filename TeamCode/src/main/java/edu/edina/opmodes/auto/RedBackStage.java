@@ -34,6 +34,8 @@ public class RedBackStage extends LinearOpMode {
     protected PoCMecanumDrive drive;
     protected boolean twoWhites = false;
     protected boolean fourWhites = false;
+    protected boolean dropOnBackDrop = false;
+    protected boolean dropOnBackStage = false;
 
     private void initHardware() {
         hardware = new RobotHardware(hardwareMap);
@@ -82,8 +84,10 @@ public class RedBackStage extends LinearOpMode {
 
             telemetry.addData("A for P, Y and park in corner", "");
             telemetry.addData("X for P, Y and park in center", "");
-            telemetry.addData("Y for P, Y, 2Ws and park in front", "");
-            telemetry.addData("B for P, Y, 4Ws and park in front", "");
+            telemetry.addData("Y for P, Y, 2Ws on backdrop and park in front", "");
+            telemetry.addData("B for P, Y, 4Ws on backdrop and park in front", "");
+            telemetry.addData("DPAD_UP for P, Y, 2Ws on backstage and park in front", "");
+            telemetry.addData("DPAD_DN for P, Y, 4Ws on backstage and park in front", "");
             telemetry.addData("L-BUMPER to increase delay, R-BUMPER to decrease delay", "");
             telemetry.addData("L-TRIGGER to close claws, R-TRIGGER to open", "");
             telemetry.addData("left stick down manual rotate prop position", "");
@@ -101,12 +105,32 @@ public class RedBackStage extends LinearOpMode {
                 twoWhites = true;
                 fourWhites = false;
                 parkLocation = ParkLocation.None;
+                dropOnBackDrop = true;
+                dropOnBackStage = false;
             }
 
             if (pad1.b) {
                 twoWhites = true;
                 fourWhites = true;
                 parkLocation = ParkLocation.None;
+                dropOnBackDrop = true;
+                dropOnBackStage = false;
+            }
+
+            if (pad1.dpad_up) {
+                twoWhites = true;
+                fourWhites = false;
+                parkLocation = ParkLocation.None;
+                dropOnBackDrop = false;
+                dropOnBackStage = true;
+            }
+
+            if (pad1.dpad_down) {
+                twoWhites = true;
+                fourWhites = true;
+                parkLocation = ParkLocation.None;
+                dropOnBackDrop = false;
+                dropOnBackStage = true;
             }
 
             // Delay - Max of 10000ms, Min of 0ms
@@ -176,6 +200,8 @@ public class RedBackStage extends LinearOpMode {
 
             telemetry.addData("Make first trip", twoWhites);
             telemetry.addData("Make Second Trip", fourWhites);
+            telemetry.addData("Drop on backdrop", dropOnBackDrop);
+            telemetry.addData("Drop on back stage", dropOnBackStage);
             telemetry.addData("Current Park Location", parkLocation);
             telemetry.addData("Delay in seconds", delayTime / 1000);
             telemetry.addData("Location", propLocation);
@@ -196,9 +222,11 @@ public class RedBackStage extends LinearOpMode {
 
             dropPurplePixel();
 
-            runPaths();
-
-            park();
+            if (twoWhites || fourWhites) {
+                runPaths();
+            } else {
+                park();
+            }
         }
     }
 
@@ -265,14 +293,6 @@ public class RedBackStage extends LinearOpMode {
                                 .afterDisp(2, manager.getLiftReadyToDrive())
                                 .setReversed(true)
                                 .splineTo(new Vector2d(58, -64), Math.toRadians(0))
-                                .build()));
-                break;
-            default:
-                Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
-                                // Back up and pack up
-                                .lineToX(50)
-                                .afterDisp(1, manager.getLiftReadyToDrive())
                                 .build()));
                 break;
         }

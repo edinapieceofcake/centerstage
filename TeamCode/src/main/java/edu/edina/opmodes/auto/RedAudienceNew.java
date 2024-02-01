@@ -257,14 +257,18 @@ public class RedAudienceNew extends LinearOpMode {
 
         // If we are doing anything but stopping after purple
             if (makeSecondTrip) {  // P + Y + 3W path
-                stackToYellowToStack(backdropLocation); // D
-                stackToAngleDrop(); // E
+                stackToYellowToStack(backdropLocation); // DPAD_UP/DOWN
+                if (dropOnBackdrop) {
+                    stackToAngleDrop(); // DPAD_UP
+                } else if (dropOnBackstage) {
+                    stackToBackStageDrop(); // DPAD_DOWN
+                }
             } else {
                 stackToYellow(backdropLocation); // C
             }
         }
 
-        if (makeSecondTrip || yellowPixel) {
+        if (!makeSecondTrip) {
             // Park
             park(); // PK
         }
@@ -290,6 +294,8 @@ public class RedAudienceNew extends LinearOpMode {
 
     protected void stackToAngleDrop () {}
 
+    protected void stackToBackStageDrop() {}
+
     // PARK
     // (PK)
     private void park() {
@@ -314,17 +320,7 @@ public class RedAudienceNew extends LinearOpMode {
                                 .splineTo(new Vector2d(58, -64), Math.toRadians(0))
                                 .build()));
                 break;
-            case None:
-                manager.getLiftReadyToDrive();
-                break;
-            default:
-                Actions.runBlocking(new SequentialAction(
-                        drive.actionBuilder(drive.pose)
-                                // Back up and pack up
-                                .lineToX(50)
-                                .afterDisp(1, manager.getLiftReadyToDrive())
-                                .build()));
-                break;
+
         }
     }
 }
