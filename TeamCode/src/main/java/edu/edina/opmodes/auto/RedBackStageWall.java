@@ -55,7 +55,6 @@ public class RedBackStageWall extends RedBackStage {
             if (dropOnBackStage) {
                 runFourWhitesMiddleTripBackStage();
             }
-
         }
 
         if (twoWhites || fourWhites) {  // Drop the last pixels of the run
@@ -228,7 +227,7 @@ public class RedBackStageWall extends RedBackStage {
                         .afterTime(0.1, manager.openLeftClaw())
                         .afterTime(0.1, manager.openRightClaw())
                         .waitSeconds(.25)
-                        .lineToX(57)
+                        .lineToX(53)
 
                         .build()
         );
