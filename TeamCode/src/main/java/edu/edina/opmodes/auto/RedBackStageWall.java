@@ -222,7 +222,7 @@ public class RedBackStageWall extends RedBackStage {
                         // Return to backdrop and angle drop
                         .setReversed(true)
                         .splineToSplineHeading(new Pose2d(new Vector2d(-35, -56), Math.toRadians(0)), Math.toRadians(0))
-                        .splineToConstantHeading(new Vector2d(57, -56), Math.toRadians(0))
+                        .splineToConstantHeading(new Vector2d(57, -58), Math.toRadians(0))
                         .afterTime(0.1, manager.openAutoClaw())
                         .afterTime(0.1, manager.openLeftClaw())
                         .afterTime(0.1, manager.openRightClaw())
