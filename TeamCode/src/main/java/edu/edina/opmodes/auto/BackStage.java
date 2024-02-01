@@ -40,6 +40,8 @@ public class BackStage extends LinearOpMode {
         return new Pose2d(14.5, -64, Math.toRadians(90));
     }
 
+    protected PropLocation getNonePropLocation() { return PropLocation.None; }
+
     protected void runPaths() {}
 
     protected void dropPurplePixel() {}
@@ -149,7 +151,8 @@ public class BackStage extends LinearOpMode {
                         new SequentialAction(
                                 new ParallelAction(
                                         manager.closeRightClaw(),
-                                        manager.closeLeftClaw()
+                                        manager.closeLeftClaw(),
+                                        manager.openAutoClaw()
                                 ),
                                 manager.positionTheClawToDriveWithPixels())
                 );
@@ -160,6 +163,7 @@ public class BackStage extends LinearOpMode {
                 Actions.runBlocking(new ParallelAction(
                         manager.openRightClaw(),
                         manager.openLeftClaw(),
+                        manager.openAutoClaw(),
                         manager.positionTheClawToPickupPixels()
                 ));
             }
@@ -173,6 +177,9 @@ public class BackStage extends LinearOpMode {
             if (useCamera) {
                 poCHuskyLens.update();
                 propLocation = poCHuskyLens.getPropLocation();
+                if (propLocation == PropLocation.None) {
+                    propLocation = getNonePropLocation();
+                }
             } else {
                 if (pad1.left_stick_button) {
                     switch (propLocation) {

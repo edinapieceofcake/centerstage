@@ -19,6 +19,9 @@ public class BlueBackStage extends BackStage {
     protected Pose2d getStartPose() { return new Pose2d(17.5, 64, Math.toRadians(270)); }
 
     @Override
+    protected PropLocation getNonePropLocation() { return PropLocation.Left; }
+
+    @Override
     protected void dropPurplePixel() {
         Vector2d propDropLocation;
         Pose2d backdropLocation;

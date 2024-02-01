@@ -47,6 +47,27 @@ public class BlueBackStageCenter extends BlueBackStage {
         }
 
         if (fourWhites) {  // Make the middle trip
+            if (dropOnBackDrop) {
+                runFourWhitesMiddleTripBackDrop();
+            }
+
+            if (dropOnBackStage) {
+                runFourWhitesMiddleTripBackStage();
+            }
+        }
+
+        if (twoWhites || fourWhites) {  // Drop the last pixels of the run
+            if (dropOnBackDrop) {
+                runLastTwoOrFourWhitesBackDrop();
+            }
+
+            if (dropOnBackStage) {
+                runLastTwoOrFourWhitesBackStage();
+            }
+        }
+    }
+
+    private void runFourWhitesMiddleTripBackDrop() {
             Actions.runBlocking(
                     drive.actionBuilder(drive.pose)
                             // Move in and grab pixels until beam break
@@ -68,7 +89,7 @@ public class BlueBackStageCenter extends BlueBackStage {
 
                             // Return to backdrop and angle drop
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(-11, 12, Math.toRadians(0)), Math.toRadians(0))
                             .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
                             .splineTo(new Vector2d(40, 12), Math.toRadians(0))
                             .splineTo(new Vector2d(61, 20), Math.toRadians(35))
@@ -90,10 +111,52 @@ public class BlueBackStageCenter extends BlueBackStage {
                             .lineToX(-57)
                             .build()
             );
-        }
+    }
 
-        if (twoWhites || fourWhites) {  // Drop the last pixels of the run
-            Actions.runBlocking(
+    private void runFourWhitesMiddleTripBackStage() {
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        // Move in and grab pixels until beam break
+                        .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOff()))
+
+                        .afterTime(0, manager.closeAutoClaw())
+                        .afterTime(0, manager.closeLeftClaw())
+                        .afterTime(0, manager.closeRightClaw())
+                        .waitSeconds(0.1)
+                        .lineToX(-52.75)
+
+                        // Back away and pack up
+                        .stopAndAdd(manager.raiseLiftAfterStackPickup())
+
+                        .afterDisp(3, manager.lowerLiftForDriving())
+                        .afterDisp(3, manager.zeroLift())
+                        .afterDisp(3, manager.positionTheClawToDriveWithPixels())
+                        .lineToX(-50)
+
+                        // Return to backdrop and angle drop
+                        .setReversed(true)
+                        .splineToSplineHeading(new Pose2d(-11, 12, Math.toRadians(0)), Math.toRadians(0))
+                        .splineTo(new Vector2d(61, 12), Math.toRadians(0))
+                        .afterTime(0, manager.openAutoClaw())
+                        .afterTime(0, manager.openLeftClaw())
+                        .afterTime(0, manager.openRightClaw())
+                        .waitSeconds(0.25)
+
+                        // Head to Stacks VIA C-Row
+                        .setReversed(true)
+                        .splineToSplineHeading(new Pose2d(24, 11, Math.toRadians(180)), Math.toRadians(180))
+                        .splineTo(new Vector2d(-44, 11), Math.toRadians(180))
+
+                        // Prepare for grabbing - Trip 2
+                        .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(175)))
+                        .afterDisp(0, manager.runLiftToPosition(-23))
+                        .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
+                        .lineToX(-57)
+                        .build()
+        );    }
+
+    private void runLastTwoOrFourWhitesBackDrop() {
+        Actions.runBlocking(
                     drive.actionBuilder(drive.pose)
                             // Back away and pack up
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOff()))
@@ -120,6 +183,43 @@ public class BlueBackStageCenter extends BlueBackStage {
                             .afterTime(0, manager.openRightClaw())
                             .build()
             );
-        }
+
+            Actions.runBlocking(new SequentialAction(
+                    drive.actionBuilder(drive.pose)
+                            // Back up and pack up
+                            .lineToX(50)
+                            .afterDisp(1, manager.getLiftReadyToDrive())
+                            .build())
+            );
+    }
+
+    private void runLastTwoOrFourWhitesBackStage() {
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        // Back away and pack up
+                        .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOff()))
+
+                        // Move in and grab pixels until beam break
+                        .afterTime(0, manager.closeAutoClaw())
+                        .afterTime(0, manager.closeLeftClaw())
+                        .afterTime(0, manager.closeRightClaw())
+
+                        .stopAndAdd(manager.raiseLiftAfterStackPickup())
+                        .lineToX(-53)
+                        .afterDisp(3, manager.lowerLiftForDriving())
+                        .afterDisp(3, manager.zeroLift())
+                        .afterDisp(3, manager.positionTheClawToDriveWithPixels())
+
+                        // Return to backstage and drop
+                        .setReversed(true)
+                        .splineToSplineHeading(new Pose2d(-11, 12, Math.toRadians(0)), Math.toRadians(0))
+                        .splineTo(new Vector2d(61, 12), Math.toRadians(0))
+                        .afterTime(0, manager.openAutoClaw())
+                        .afterTime(0, manager.openLeftClaw())
+                        .afterTime(0, manager.openRightClaw())
+                        .waitSeconds(0.25)
+                        .lineToX(57)
+                        .build()
+        );
     }
 }

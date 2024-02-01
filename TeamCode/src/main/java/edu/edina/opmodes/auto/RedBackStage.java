@@ -32,6 +32,9 @@ public class RedBackStage extends BackStage {
     }
 
     @Override
+    protected PropLocation getNonePropLocation() { return PropLocation.Left; }
+
+    @Override
     protected void dropPurplePixel() {
         Vector2d propDropLocation;
         Pose2d backdropLocation;
