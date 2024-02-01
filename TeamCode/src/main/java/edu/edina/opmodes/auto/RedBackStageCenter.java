@@ -134,7 +134,7 @@ public class RedBackStageCenter extends RedBackStage {
                         .afterDisp(3, manager.positionTheClawToDriveWithPixels())
                         .lineToX(-50)
 
-                        // Return to backdrop and angle drop
+                        // Return to backstage and drop
                         .setReversed(true)
                         .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
                         .splineTo(new Vector2d(59.5, -12), Math.toRadians(0))
@@ -213,7 +213,7 @@ public class RedBackStageCenter extends RedBackStage {
                         .afterDisp(3, manager.zeroLift())
                         .afterDisp(3, manager.positionTheClawToDriveWithPixels())
 
-                        // Return to backdrop and angle drop
+                        // Return to backstage and drop
                         .setReversed(true)
                         .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
                         .splineTo(new Vector2d(59.5, -12), Math.toRadians(0))
