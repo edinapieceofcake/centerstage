@@ -14,7 +14,7 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @TeleOp
-//@Disabled
+@Disabled
 public class ConfigureAngleDrop extends LinearOpMode {
     private final double maxLiftTicks = 2000;
 

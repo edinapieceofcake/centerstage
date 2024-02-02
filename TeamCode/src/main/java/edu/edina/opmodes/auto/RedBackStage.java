@@ -45,39 +45,58 @@ public class RedBackStage extends BackStage {
             case Left:
                 propDropLocation = new Vector2d(15.5, -42);
                 propDropAngle = 135.0;
-                backdropLocation = new Pose2d(48,-32, Math.toRadians(0));
+                backdropLocation = new Pose2d(42,-32, Math.toRadians(0));
                 break;
             case Center:
                 propDropLocation = new Vector2d(16.5, -34.5);
-                backdropLocation = new Pose2d(48,-38, Math.toRadians(0));
+                backdropLocation = new Pose2d(42,-38, Math.toRadians(0));
                 break;
             case Right:
                 propDropLocation = new Vector2d(27, -43);
                 propDropAngle =65.0;
-                backdropLocation = new Pose2d(48,-45, Math.toRadians(0));
+                backdropLocation = new Pose2d(42,-45, Math.toRadians(0));
                 break;
             default:
                 propDropLocation = new Vector2d(16.5, -35.5);  // default to Center if all goes bad
-                backdropLocation = new Pose2d(48,-38, Math.toRadians(0)); // default to center if all goes bad
+                backdropLocation = new Pose2d(42,-38, Math.toRadians(0)); // default to center if all goes bad
                 break;
         }
 
         // Purple + Yellow
-        Actions.runBlocking(
-                drive.actionBuilder(drive.pose)
-                        // Go to spike and drop
-                        .splineTo(propDropLocation, Math.toRadians(propDropAngle))
-                        .endTrajectory()
-                        .stopAndAdd(manager.openLeftClaw())
+        if (propLocation == PropLocation.Right) {
+            Actions.runBlocking(
+                    drive.actionBuilder(drive.pose)
+                            // Go to spike and drop
+                            .splineTo(propDropLocation, Math.toRadians(propDropAngle))
+                            .endTrajectory()
+                            .stopAndAdd(manager.openLeftClaw())
 
-                        // Drive to backdrop and release
-                        .setTangent((propLocation== PropLocation.Right) ? Math.toRadians(-180) : Math.toRadians(0))
-                        .afterTime(0, manager.getLiftReadyToDropThePixelLowOnTheWall())
-                        .splineToSplineHeading(backdropLocation, Math.toRadians(0))
-                        .lineToX(56.5)
-                        .stopAndAdd(manager.openRightClaw())
-                        .build()
-        );
+                            // Drive to backdrop and release
+                            .setTangent((propLocation == PropLocation.Right) ? Math.toRadians(-180) : Math.toRadians(0))
+                            .afterTime(0, manager.getLiftReadyToDropThePixelLowOnTheWall())
+                            .splineToSplineHeading(backdropLocation, Math.toRadians(0))
+                            .waitSeconds(.1)
+                            .lineToX(51)
+                            .stopAndAdd(manager.openRightClaw())
+                            .build()
+            );
+        } else {
+            Actions.runBlocking(
+                    drive.actionBuilder(drive.pose)
+                            // Go to spike and drop
+                            .splineTo(propDropLocation, Math.toRadians(propDropAngle))
+                            .endTrajectory()
+                            .stopAndAdd(manager.openLeftClaw())
+
+                            // Drive to backdrop and release
+                            .setTangent((propLocation == PropLocation.Right) ? Math.toRadians(-180) : Math.toRadians(0))
+                            .afterTime(0, manager.getLiftReadyToDropThePixelLowOnTheWall())
+                            .splineToSplineHeading(backdropLocation, Math.toRadians(0))
+                            .lineToX(51)
+                            .stopAndAdd(manager.openRightClaw())
+                            .build()
+            );
+        }
     }
 
     @Override
