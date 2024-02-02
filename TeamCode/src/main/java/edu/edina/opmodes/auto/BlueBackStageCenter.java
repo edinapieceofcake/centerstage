@@ -41,7 +41,7 @@ public class BlueBackStageCenter extends BlueBackStage {
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
                             .afterDisp(0, manager.runLiftToPosition(-123))
                             .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                            .lineToX(-58.25)
+                            .lineToX(-59.25)
                             .build()
             );
         }
@@ -88,9 +88,9 @@ public class BlueBackStageCenter extends BlueBackStage {
                             // Return to backdrop and angle drop
                             .setReversed(true)
                             .splineToSplineHeading(new Pose2d(-11, 13, Math.toRadians(0)), Math.toRadians(0))
-                            .afterDisp(10, manager.getLiftReadyToDropPixelFromRight())
+                            .afterDisp(0, manager.getLiftReadyToDropPixelFromRight())
                             .splineTo(new Vector2d(30, 13), Math.toRadians(0))
-                            .splineTo(new Vector2d(49.75, 16), Math.toRadians(35))
+                            .splineTo(new Vector2d(50, 21), Math.toRadians(35))
                             .stopAndAdd(manager.openLeftClaw())
                             .afterTime(0.1, manager.openAutoClaw())
                             .waitSeconds(0.25)
@@ -99,13 +99,13 @@ public class BlueBackStageCenter extends BlueBackStage {
                             .setReversed(true)
                             .afterDisp(0, manager.getLiftReadyToDrive())
                             .splineToSplineHeading(new Pose2d(24, 14, Math.toRadians(180)), Math.toRadians(180))
-                            .splineTo(new Vector2d(-44, 15.5), Math.toRadians(180))
+                            .splineTo(new Vector2d(-44, 16), Math.toRadians(180))
 
                             // Prepare for grabbing - Trip 2
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(175)))
                             .afterDisp(0, manager.runLiftToPosition(-23))
                             .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                            .lineToX(-60.25)
+                            .lineToX(-61.5)
                             .build()
             );
     }
@@ -171,9 +171,9 @@ public class BlueBackStageCenter extends BlueBackStage {
                             // Return to backdrop and angle drop
                             .setReversed(true)
                             .splineToSplineHeading(new Pose2d(-11, 13, Math.toRadians(0)), Math.toRadians(0))
-                            .afterDisp(10, manager.getLiftReadyToDropPixelFromRight())
+                            .afterDisp(0, manager.getLiftReadyToDropPixelFromRight())
                             .splineTo(new Vector2d(30, 13), Math.toRadians(0))
-                            .splineTo(new Vector2d(49.75, 16), Math.toRadians(35))
+                            .splineTo(new Vector2d((fourWhites) ? 50 : 49.75, 20), Math.toRadians(35))
                             .stopAndAdd(manager.openLeftClaw())
                             .afterTime(0.1, manager.openAutoClaw())
                             .build()
@@ -182,7 +182,7 @@ public class BlueBackStageCenter extends BlueBackStage {
             Actions.runBlocking(new SequentialAction(
                     drive.actionBuilder(drive.pose)
                             // Back up and pack up
-                            .lineToX(50)
+                            .lineToX(48)
                             .afterDisp(1, manager.getLiftReadyToDrive())
                             .build())
             );

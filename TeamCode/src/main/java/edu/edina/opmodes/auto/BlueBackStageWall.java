@@ -28,20 +28,20 @@ public class BlueBackStageWall extends BlueBackStage {
              Actions.runBlocking(
                      drive.actionBuilder(drive.pose)
                              // Back up and pack up
-                             .lineToX(50)
+                             .lineToX(46)
                              .afterDisp(0, manager.getLiftReadyToDrive())
 
                              // Drive to stacks - first trip
                              .setReversed(true)
-                             .splineToSplineHeading(new Pose2d(0, 56, Math.toRadians(-180)), Math.toRadians(180))
-                             .splineToConstantHeading(new Vector2d(-38, 56), Math.toRadians(180))
-                             .splineToConstantHeading(new Vector2d(-50, 32), Math.toRadians(180))
+                             .splineToSplineHeading(new Pose2d(0, 60, Math.toRadians(-180)), Math.toRadians(180))
+                             .splineToConstantHeading(new Vector2d(-38, 60), Math.toRadians(180))
+                             .splineToConstantHeading(new Vector2d(-50, 38), Math.toRadians(180))
 
                              // Prepare for grabbing - Trip 1
                              .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
                              .afterDisp(0, manager.runLiftToPosition(-123))
                              .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                             .lineToX(-52.5)
+                             .lineToX(-59)
                              .build()
              );
          }
@@ -73,9 +73,8 @@ public class BlueBackStageWall extends BlueBackStage {
                             // Move in and grab pixels until beam break
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOff()))
 
-                            .afterTime(0, manager.closeAutoClaw())
                             .afterTime(0, manager.closeLeftClaw())
-                            .afterTime(0, manager.closeRightClaw())
+                            .afterTime(0, manager.closeAutoClaw())
                             .waitSeconds(0.1)
 
                             // Back away and pack up
@@ -87,14 +86,13 @@ public class BlueBackStageWall extends BlueBackStage {
 
                             // Return to backdrop and angle drop
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, 56), Math.toRadians(0)), Math.toRadians(0))
-                            .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
-                            .splineToConstantHeading(new Vector2d(10, 56), Math.toRadians(0))
-                            .splineTo(new Vector2d(40, 56), Math.toRadians(0))
-                            .splineTo(new Vector2d(59, 53), Math.toRadians(-35))
-                            .afterTime(0.1, manager.openAutoClaw())
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, 58), Math.toRadians(0)), Math.toRadians(0))
+                            .afterDisp(0, manager.getLiftReadyToDropPixelFromLeft())
+                            .splineToConstantHeading(new Vector2d(10, 60), Math.toRadians(0))
+                            .splineTo(new Vector2d(30, 60), Math.toRadians(0))
+                            .splineTo(new Vector2d(51, 53), Math.toRadians(-35))
                             .afterTime(0.1, manager.openLeftClaw())
-                            .afterTime(0.1, manager.openRightClaw())
+                            .afterTime(0.1, manager.openAutoClaw())
                             .waitSeconds(0.25)
 
                             // Head to Stacks VIA A-Row
@@ -102,15 +100,15 @@ public class BlueBackStageWall extends BlueBackStage {
                             .afterDisp(0, manager.getLiftReadyToDrive())
 
                             // Head to Stacks VIA Wall
-                            .splineToSplineHeading(new Pose2d(0, 54, Math.toRadians(-180)), Math.toRadians(180))
-                            .splineToConstantHeading(new Vector2d(-38, 56), Math.toRadians(180))
-                            .splineToConstantHeading(new Vector2d(-50, 31), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(0, 60, Math.toRadians(-180)), Math.toRadians(180))
+                            .splineToConstantHeading(new Vector2d(-38, 60), Math.toRadians(180))
+                            .splineToConstantHeading(new Vector2d(-50, 38), Math.toRadians(180))
 
                             // Prepare for grabbing - Trip 2
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
                             .afterDisp(0, manager.runLiftToPosition(-23))
                             .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                            .lineToX(-57)
+                            .lineToX(-61)
                             .build()
             );
     }
@@ -121,9 +119,8 @@ public class BlueBackStageWall extends BlueBackStage {
                          // Move in and grab pixels until beam break
                          .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOff()))
 
-                         .afterTime(0, manager.closeAutoClaw())
                          .afterTime(0, manager.closeLeftClaw())
-                         .afterTime(0, manager.closeRightClaw())
+                         .afterTime(0, manager.closeAutoClaw())
                          .waitSeconds(0.1)
 
                          // Back away and pack up
@@ -135,27 +132,26 @@ public class BlueBackStageWall extends BlueBackStage {
 
                          // Return to backstage and drop
                          .setReversed(true)
-                         .splineToSplineHeading(new Pose2d(new Vector2d(-35, 56), Math.toRadians(0)), Math.toRadians(0))
-                         .splineToConstantHeading(new Vector2d(10, 56), Math.toRadians(0))
-                         .splineTo(new Vector2d(59, 56), Math.toRadians(0))
-                         .afterTime(0.1, manager.openAutoClaw())
+                         .splineToSplineHeading(new Pose2d(new Vector2d(-35, 60), Math.toRadians(0)), Math.toRadians(0))
+                         .splineToConstantHeading(new Vector2d(10, 60), Math.toRadians(0))
+                         .splineTo(new Vector2d(59, 60), Math.toRadians(0))
                          .afterTime(0.1, manager.openLeftClaw())
-                         .afterTime(0.1, manager.openRightClaw())
+                         .afterTime(0.1, manager.openAutoClaw())
                          .waitSeconds(0.25)
 
                          // Head to Stacks VIA A-Row
                          .setReversed(true)
 
                          // Head to Stacks VIA Wall
-                         .splineToSplineHeading(new Pose2d(0, 54, Math.toRadians(-180)), Math.toRadians(180))
-                         .splineToConstantHeading(new Vector2d(-38, 56), Math.toRadians(180))
+                         .splineToSplineHeading(new Pose2d(0, 60, Math.toRadians(-180)), Math.toRadians(180))
+                         .splineToConstantHeading(new Vector2d(-38, 60), Math.toRadians(180))
                          .splineToConstantHeading(new Vector2d(-50, 31), Math.toRadians(180))
 
                          // Prepare for grabbing - Trip 2
                          .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
                          .afterDisp(0, manager.runLiftToPosition(-23))
                          .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                         .lineToX(-57)
+                         .lineToX(-61)
                          .build()
          );
      }
@@ -167,9 +163,8 @@ public class BlueBackStageWall extends BlueBackStage {
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOff()))
 
                             // Move in and grab pixels until beam break
-                            .afterTime(0, manager.closeAutoClaw())
                             .afterTime(0, manager.closeLeftClaw())
-                            .afterTime(0, manager.closeRightClaw())
+                            .afterTime(0, manager.closeAutoClaw())
                             .waitSeconds(0.1)
 
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
@@ -180,14 +175,13 @@ public class BlueBackStageWall extends BlueBackStage {
 
                             // Return to backdrop and angle drop
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, 56), Math.toRadians(0)), Math.toRadians(0))
-                            .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
-                            .splineToConstantHeading(new Vector2d(10, 56), Math.toRadians(0))
-                            .splineTo(new Vector2d(40, 56), Math.toRadians(0))
-                            .splineTo(new Vector2d(59.5, 53), Math.toRadians(-35))
-                            .afterTime(0.1, manager.openAutoClaw())
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, 60), Math.toRadians(0)), Math.toRadians(0))
+                            .afterDisp(0, manager.getLiftReadyToDropPixelFromLeft())
+                            .splineToConstantHeading(new Vector2d(10, 60), Math.toRadians(0))
+                            .splineTo(new Vector2d(30, 60), Math.toRadians(0))
+                            .splineTo(new Vector2d(52, 53), Math.toRadians(-35))
                             .afterTime(0.1, manager.openLeftClaw())
-                            .afterTime(0.1, manager.openRightClaw())
+                            .afterTime(0.1, manager.openAutoClaw())
                             .waitSeconds(.25)
 
                             .build()
@@ -196,7 +190,7 @@ public class BlueBackStageWall extends BlueBackStage {
          Actions.runBlocking(new SequentialAction(
                  drive.actionBuilder(drive.pose)
                          // Back up and pack up
-                         .lineToX(50)
+                         .lineToX(46)
                          .afterDisp(1, manager.getLiftReadyToDrive())
                          .build()));
     }
@@ -210,7 +204,6 @@ public class BlueBackStageWall extends BlueBackStage {
                         // Move in and grab pixels until beam break
                         .afterTime(0, manager.closeAutoClaw())
                         .afterTime(0, manager.closeLeftClaw())
-                        .afterTime(0, manager.closeRightClaw())
                         .waitSeconds(0.1)
 
                         .stopAndAdd(manager.raiseLiftAfterStackPickup())
@@ -221,12 +214,11 @@ public class BlueBackStageWall extends BlueBackStage {
 
                         // Return to backstage and drop
                         .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, 56), Math.toRadians(0)), Math.toRadians(0))
-                        .splineToConstantHeading(new Vector2d(10, 56), Math.toRadians(0))
-                        .splineTo(new Vector2d(59.5, 56), Math.toRadians(0))
-                        .afterTime(0.1, manager.openAutoClaw())
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, 60), Math.toRadians(0)), Math.toRadians(0))
+                        .splineToConstantHeading(new Vector2d(10, 60), Math.toRadians(0))
+                        .splineTo(new Vector2d(59.5, 60), Math.toRadians(0))
                         .afterTime(0.1, manager.openLeftClaw())
-                        .afterTime(0.1, manager.openRightClaw())
+                        .afterTime(0.1, manager.openAutoClaw())
                         .waitSeconds(.25)
                         .lineToX(55)
                         .build()
