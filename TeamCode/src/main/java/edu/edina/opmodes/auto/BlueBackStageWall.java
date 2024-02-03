@@ -28,7 +28,7 @@ public class BlueBackStageWall extends BlueBackStage {
              Actions.runBlocking(
                      drive.actionBuilder(drive.pose)
                              // Back up and pack up
-                             .lineToX(46)
+                             .lineToX(43)
                              .afterDisp(0, manager.getLiftReadyToDrive())
 
                              // Drive to stacks - first trip
@@ -90,7 +90,7 @@ public class BlueBackStageWall extends BlueBackStage {
                             .afterDisp(0, manager.getLiftReadyToDropPixelFromLeft())
                             .splineToConstantHeading(new Vector2d(10, 60), Math.toRadians(0))
                             .splineTo(new Vector2d(30, 60), Math.toRadians(0))
-                            .splineTo(new Vector2d(51, 53), Math.toRadians(-35))
+                            .splineTo(new Vector2d(51, 52), Math.toRadians(-35))
                             .afterTime(0.1, manager.openLeftClaw())
                             .afterTime(0.1, manager.openAutoClaw())
                             .waitSeconds(0.25)
@@ -145,13 +145,13 @@ public class BlueBackStageWall extends BlueBackStage {
                          // Head to Stacks VIA Wall
                          .splineToSplineHeading(new Pose2d(0, 60, Math.toRadians(-180)), Math.toRadians(180))
                          .splineToConstantHeading(new Vector2d(-38, 60), Math.toRadians(180))
-                         .splineToConstantHeading(new Vector2d(-50, 31), Math.toRadians(180))
+                         .splineToConstantHeading(new Vector2d(-50, 38), Math.toRadians(180))
 
                          // Prepare for grabbing - Trip 2
                          .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
                          .afterDisp(0, manager.runLiftToPosition(-23))
                          .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                         .lineToX(-61)
+                         .lineToX(-62)
                          .build()
          );
      }

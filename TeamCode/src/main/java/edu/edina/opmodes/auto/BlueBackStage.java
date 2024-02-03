@@ -60,8 +60,9 @@ public class BlueBackStage extends BackStage {
                         // Drive to backdrop and release
                         .setTangent((propLocation==PropLocation.Left) ? Math.toRadians(115) : Math.toRadians(0))
                         .afterTime(0, manager.getLiftReadyToDropThePixelLowOnTheWall())
+                        .waitSeconds(.1)
                         .splineToSplineHeading(backdropLocation, Math.toRadians(0))
-                        .lineToX(44)
+                        .lineToX(44.5)
                         .stopAndAdd(manager.openRightClaw())
                         .waitSeconds(.25)
                         .build()
@@ -76,7 +77,7 @@ public class BlueBackStage extends BackStage {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 // Back up and pack up
-                                .lineToX(43)
+                                .lineToX(45)
                                 .afterDisp(2, manager.getLiftReadyToDrive())
                                 .setReversed(true)
                                 .splineTo(new Vector2d(58, 10), Math.toRadians(0))
@@ -86,7 +87,7 @@ public class BlueBackStage extends BackStage {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 // Back up and pack up
-                                .lineToX(43)
+                                .lineToX(45)
                                 .afterDisp(2, manager.getLiftReadyToDrive())
                                 .setReversed(true)
                                 .splineTo(new Vector2d(58, 64), Math.toRadians(0))
