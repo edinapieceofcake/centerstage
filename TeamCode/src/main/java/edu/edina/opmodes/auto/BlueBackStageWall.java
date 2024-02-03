@@ -88,8 +88,8 @@ public class BlueBackStageWall extends BlueBackStage {
                             .setReversed(true)
                             .splineToSplineHeading(new Pose2d(new Vector2d(-35, 58), Math.toRadians(0)), Math.toRadians(0))
                             .afterDisp(0, manager.getLiftReadyToDropPixelFromLeft())
-                            .splineToConstantHeading(new Vector2d(10, 60), Math.toRadians(0))
-                            .splineTo(new Vector2d(30, 60), Math.toRadians(0))
+                            .splineToConstantHeading(new Vector2d(10, 58), Math.toRadians(0))
+                            .splineTo(new Vector2d(30, 58), Math.toRadians(0))
                             .splineTo(new Vector2d(51, 52), Math.toRadians(-35))
                             .afterTime(0.1, manager.openLeftClaw())
                             .afterTime(0.1, manager.openAutoClaw())
@@ -100,8 +100,8 @@ public class BlueBackStageWall extends BlueBackStage {
                             .afterDisp(0, manager.getLiftReadyToDrive())
 
                             // Head to Stacks VIA Wall
-                            .splineToSplineHeading(new Pose2d(0, 60, Math.toRadians(-180)), Math.toRadians(180))
-                            .splineToConstantHeading(new Vector2d(-38, 60), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(0, 58, Math.toRadians(-180)), Math.toRadians(180))
+                            .splineToConstantHeading(new Vector2d(-38, 58), Math.toRadians(180))
                             .splineToConstantHeading(new Vector2d(-50, 38), Math.toRadians(180))
 
                             // Prepare for grabbing - Trip 2
@@ -132,9 +132,9 @@ public class BlueBackStageWall extends BlueBackStage {
 
                          // Return to backstage and drop
                          .setReversed(true)
-                         .splineToSplineHeading(new Pose2d(new Vector2d(-35, 60), Math.toRadians(0)), Math.toRadians(0))
-                         .splineToConstantHeading(new Vector2d(10, 60), Math.toRadians(0))
-                         .splineTo(new Vector2d(59, 60), Math.toRadians(0))
+                         .splineToSplineHeading(new Pose2d(new Vector2d(-35, 58), Math.toRadians(0)), Math.toRadians(0))
+                         .splineToConstantHeading(new Vector2d(10, 58), Math.toRadians(0))
+                         .splineTo(new Vector2d(59, 58), Math.toRadians(0))
                          .afterTime(0.1, manager.openLeftClaw())
                          .afterTime(0.1, manager.openAutoClaw())
                          .waitSeconds(0.25)
@@ -143,8 +143,8 @@ public class BlueBackStageWall extends BlueBackStage {
                          .setReversed(true)
 
                          // Head to Stacks VIA Wall
-                         .splineToSplineHeading(new Pose2d(0, 60, Math.toRadians(-180)), Math.toRadians(180))
-                         .splineToConstantHeading(new Vector2d(-38, 60), Math.toRadians(180))
+                         .splineToSplineHeading(new Pose2d(0, 58, Math.toRadians(-180)), Math.toRadians(180))
+                         .splineToConstantHeading(new Vector2d(-38, 58), Math.toRadians(180))
                          .splineToConstantHeading(new Vector2d(-50, 38), Math.toRadians(180))
 
                          // Prepare for grabbing - Trip 2
@@ -175,10 +175,10 @@ public class BlueBackStageWall extends BlueBackStage {
 
                             // Return to backdrop and angle drop
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, 60), Math.toRadians(0)), Math.toRadians(0))
-                            .afterDisp(0, manager.getLiftReadyToDropPixelFromLeft())
-                            .splineToConstantHeading(new Vector2d(10, 60), Math.toRadians(0))
-                            .splineTo(new Vector2d(30, 60), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, 58), Math.toRadians(0)), Math.toRadians(0))
+                            .afterDisp(5, manager.getLiftReadyToDropPixelFromLeft())
+                            .splineToConstantHeading(new Vector2d(10, 58), Math.toRadians(0))
+                            .splineTo(new Vector2d(30, 58), Math.toRadians(0))
                             .splineTo(new Vector2d(52, 53), Math.toRadians(-35))
                             .afterTime(0.1, manager.openLeftClaw())
                             .afterTime(0.1, manager.openAutoClaw())
@@ -214,9 +214,9 @@ public class BlueBackStageWall extends BlueBackStage {
 
                         // Return to backstage and drop
                         .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, 60), Math.toRadians(0)), Math.toRadians(0))
-                        .splineToConstantHeading(new Vector2d(10, 60), Math.toRadians(0))
-                        .splineTo(new Vector2d(59.5, 60), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, 58), Math.toRadians(0)), Math.toRadians(0))
+                        .splineToConstantHeading(new Vector2d(10, 58), Math.toRadians(0))
+                        .splineTo(new Vector2d(59.5, 58), Math.toRadians(0))
                         .afterTime(0.1, manager.openLeftClaw())
                         .afterTime(0.1, manager.openAutoClaw())
                         .waitSeconds(.25)

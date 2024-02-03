@@ -32,16 +32,16 @@ public class BlueBackStage extends BackStage {
             case Left:
                 propDropLocation = new Vector2d(16.5, 42);
                 propDropAngle = -65;
-                backdropLocation = new Pose2d(40,41.5, Math.toRadians(0));
+                backdropLocation = new Pose2d(40.5,41.5, Math.toRadians(0));
                 break;
             case Center:
-                propDropLocation = new Vector2d(16.5, 35);
-                backdropLocation = new Pose2d(40,34, Math.toRadians(0));
+                propDropLocation = new Vector2d(15, 35);
+                backdropLocation = new Pose2d(40.5,34, Math.toRadians(0));
                 break;
             case Right:
                 propDropLocation = new Vector2d(7.5, 42);
                 propDropAngle = 225;
-                backdropLocation = new Pose2d(40,26.5, Math.toRadians(0));
+                backdropLocation = new Pose2d(40.5,26.5, Math.toRadians(0));
                 break;
             default:
                 propDropLocation = new Vector2d(16.5, 34.5);  // default to Center if all goes bad
@@ -77,7 +77,7 @@ public class BlueBackStage extends BackStage {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 // Back up and pack up
-                                .lineToX(45)
+                                .lineToX(43)
                                 .afterDisp(2, manager.getLiftReadyToDrive())
                                 .setReversed(true)
                                 .splineTo(new Vector2d(58, 10), Math.toRadians(0))
@@ -87,7 +87,7 @@ public class BlueBackStage extends BackStage {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 // Back up and pack up
-                                .lineToX(45)
+                                .lineToX(43)
                                 .afterDisp(2, manager.getLiftReadyToDrive())
                                 .setReversed(true)
                                 .splineTo(new Vector2d(58, 64), Math.toRadians(0))

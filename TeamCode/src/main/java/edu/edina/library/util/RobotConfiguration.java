@@ -18,7 +18,7 @@ public class RobotConfiguration {
     public double twistClawServoDropOffPosition = 0.621;//0.97;
 
     public double angleClawPickupPosition = .55; //.57
-    public double angleClawStackPickupPosition = .62;
+    public double angleClawStackPickupPosition = .60;
     public double angleClawDrivePosition = .77;
     public double angleClawLowDropOffPosition = .52;
     public double angleClawHighDropOffPosition = .15;
