@@ -62,7 +62,7 @@ public class BlueBackStage extends BackStage {
                         .afterTime(0, manager.getLiftReadyToDropThePixelLowOnTheWall())
                         .waitSeconds(.1)
                         .splineToSplineHeading(backdropLocation, Math.toRadians(0))
-                        .lineToX(44.5)
+                        .lineToX(45.5)
                         .stopAndAdd(manager.openRightClaw())
                         .waitSeconds(.25)
                         .build()

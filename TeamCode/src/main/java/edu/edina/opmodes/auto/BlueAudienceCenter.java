@@ -259,19 +259,19 @@ public class BlueAudienceCenter extends LinearOpMode {
             case Left:
                 propDropLocation = new Vector2d(-33, 35);
                 propAngle = 315.0;
-                backdropDropLocation = new Vector2d(50,39);
+                backdropDropLocation = new Vector2d(50,41);
                 secondBackdropDropLocation = new Vector2d(49, 39);
                 break;
             case Center:
-                propDropLocation = new Vector2d(-38, 34.5);
+                propDropLocation = new Vector2d(-40, 34.5);
                 propAngle = 270.0;
-                backdropDropLocation = new Vector2d(50,32);
+                backdropDropLocation = new Vector2d(50,33 );
                 secondBackdropDropLocation = new Vector2d(49,32);
                 break;
             case Right:
                 propDropLocation = new Vector2d(-48, 40);
                 propAngle = 270.0;
-                backdropDropLocation = new Vector2d(50,28);
+                backdropDropLocation = new Vector2d(50,26);
                 secondBackdropDropLocation = new Vector2d(49,28);
                 break;
             default:
