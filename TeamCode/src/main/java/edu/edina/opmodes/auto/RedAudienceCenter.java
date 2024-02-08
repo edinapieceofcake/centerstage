@@ -86,6 +86,8 @@ public class RedAudienceCenter extends LinearOpMode {
 
         initHardware();
 
+        Actions.runBlocking(manager.positionTheClawToPickupPixels());
+
         // Turn on prop illumination
         hardware.lights.setPower(1);
 
@@ -152,19 +154,26 @@ public class RedAudienceCenter extends LinearOpMode {
             // If we have ANY delay, don't allow second trip
             makeSecondTrip = (delayTime > 0) ? false : makeSecondTrip;
 
-            // Close claws
+            // Close the claws
             if (gamepad1.left_trigger != 0) {
-                Actions.runBlocking(new ParallelAction(
-                        manager.closeRightClaw(),
-                        manager.closeLeftClaw()
-                ));
+                Actions.runBlocking(
+                        new SequentialAction(
+                                new ParallelAction(
+                                        manager.closeRightClaw(),
+                                        manager.closeLeftClaw(),
+                                        manager.openAutoClaw()
+                                ),
+                                manager.positionTheClawToDriveWithPixels())
+                );
             }
 
-            // Open claws
+            // Open the claws
             if (gamepad1.right_trigger != 0) {
                 Actions.runBlocking(new ParallelAction(
                         manager.openRightClaw(),
-                        manager.openLeftClaw()
+                        manager.openLeftClaw(),
+                        manager.openAutoClaw(),
+                        manager.positionTheClawToPickupPixels()
                 ));
             }
 
