@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.PoCMecanumDrive;
@@ -22,6 +23,7 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
+@Disabled
 public class BlueAudienceWall extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;
@@ -266,19 +268,19 @@ public class BlueAudienceWall extends LinearOpMode {
             case Left:
                 propDropLocation = new Vector2d(-33, 35);
                 propAngle = 315.0;
-                backdropDropLocation = new Vector2d(51.5,41.5);
+                backdropDropLocation = new Vector2d(50,41.5);
                 secondBackdropDropLocation = new Vector2d(52,39);
                 break;
             case Center:
                 propDropLocation = new Vector2d(-38, 34.5);
                 propAngle = 270.0;
-                backdropDropLocation = new Vector2d(51.5,33);
+                backdropDropLocation = new Vector2d(50,33);
                 secondBackdropDropLocation = new Vector2d(52,39);
                 break;
             case Right:
                 propDropLocation = new Vector2d(-48, 38.5);
                 propAngle = 270.0;
-                backdropDropLocation = new Vector2d(51.5,27);
+                backdropDropLocation = new Vector2d(50,27);
                 secondBackdropDropLocation = new Vector2d(52,39);
                 break;
             default:

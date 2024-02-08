@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.PoCMecanumDrive;
@@ -22,7 +23,8 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
-public class BlueAudienceCenterCenter extends LinearOpMode {
+@Disabled
+public class BlueAudienceCenterOld extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;
     protected PoCMecanumDrive drive;
@@ -86,6 +88,8 @@ public class BlueAudienceCenterCenter extends LinearOpMode {
         SmartGamepad pad1 = new SmartGamepad(gamepad1);
 
         initHardware();
+
+        Actions.runBlocking(manager.positionTheClawToPickupPixels());
 
         // Turn on prop illumination
         hardware.lights.setPower(1);
@@ -153,19 +157,27 @@ public class BlueAudienceCenterCenter extends LinearOpMode {
             // If we have ANY delay, don't allow second trip
             makeSecondTrip = (delayTime > 0) ? false : makeSecondTrip;
 
-            // Close claws
+
+            // Close the claws
             if (gamepad1.left_trigger != 0) {
-                Actions.runBlocking(new ParallelAction(
-                        manager.closeRightClaw(),
-                        manager.closeLeftClaw()
-                ));
+                Actions.runBlocking(
+                        new SequentialAction(
+                                new ParallelAction(
+                                        manager.closeRightClaw(),
+                                        manager.closeLeftClaw(),
+                                        manager.openAutoClaw()
+                                ),
+                                manager.positionTheClawToDriveWithPixels())
+                );
             }
 
-            // Open claws
+            // Open the claws
             if (gamepad1.right_trigger != 0) {
                 Actions.runBlocking(new ParallelAction(
                         manager.openRightClaw(),
-                        manager.openLeftClaw()
+                        manager.openLeftClaw(),
+                        manager.openAutoClaw(),
+                        manager.positionTheClawToPickupPixels()
                 ));
             }
 
@@ -293,33 +305,24 @@ public class BlueAudienceCenterCenter extends LinearOpMode {
 
         // If we want to drop Yellow..
         if (yellowPixel) {
-            if (propLocation == PropLocation.Left) {
-                Actions.runBlocking(
-                        drive.actionBuilder(drive.pose)
-                                // Head to Stacks
-                                .setReversed(true)
-                                .splineToSplineHeading(new Pose2d(-35, 15.5, Math.toRadians(180)), Math.toRadians(90))
-                                .build()
-                );
-            } else if (propLocation == PropLocation.Center) {
-                // Drive to Stack Pick up 1st white
-                Actions.runBlocking(
-                        drive.actionBuilder(drive.pose)
-                                // Head to Stacks
-                                .setReversed(true)
-                                .splineToSplineHeading(new Pose2d(-48, 18, Math.toRadians(180)), Math.toRadians(90))
-                                .splineToSplineHeading(new Pose2d(-48, 15.5, Math.toRadians(180)), Math.toRadians(90))
-                                .build()
-                );
-            } else {
-                // Drive to Stack Pick up 1st white
-                Actions.runBlocking(
-                        drive.actionBuilder(drive.pose)
-                                // Head to Stacks
-                                .setReversed(true)
-                                .splineToSplineHeading(new Pose2d(-48, 15.5, Math.toRadians(180)), Math.toRadians(-45))
-                                .build()
-                );
+            // Drive to Stack Pick up 1st white
+            switch (propLocation) {
+                case Right:
+                    Actions.runBlocking(
+                            drive.actionBuilder(drive.pose)
+                                    .turnTo(Math.toRadians(180))
+                                    .build()
+                            );
+                    break;
+                default:
+                    Actions.runBlocking(
+                            drive.actionBuilder(drive.pose)
+                                    // Head to Stacks
+                                    .setReversed(true)
+                                    .splineToSplineHeading(new Pose2d(-52, 39, Math.toRadians(180)), Math.toRadians(180))
+                                    .build()
+                    );
+                    break;
             }
 
             // Prepare lift, grab pixel, and raise lift
@@ -348,8 +351,7 @@ public class BlueAudienceCenterCenter extends LinearOpMode {
                 Actions.runBlocking(
                         drive.actionBuilder(drive.pose)
                                 // Turn, then pack up and drive to backdrop
-                                //.turnTo(Math.toRadians(270))
-                                .lineToX(-54)
+                                .turnTo(Math.toRadians(270))
                                 .afterDisp(0,
                                         new ParallelAction(
                                                 manager.lowerLiftForDriving(),
@@ -374,7 +376,7 @@ public class BlueAudienceCenterCenter extends LinearOpMode {
                 Actions.runBlocking(
                         drive.actionBuilder(drive.pose)
                                 // Turn, then pack up and drive to backdrop
-                                .lineToX(-54)
+                                .turnTo(Math.toRadians(270))
                                 .afterDisp(0,
                                         new ParallelAction(
                                                 manager.lowerLiftForDriving(),

@@ -46,6 +46,9 @@ public class DropOffPixelAction implements Action {
             if (isBackstage) {
                 config.leftLowDropOffServoPosition = .68;
                 config.rightLowDropOffServoPosition = .38;
+            } else {
+                config.leftLowDropOffServoPosition = .58;
+                config.rightLowDropOffServoPosition = .47;
             }
 
             config.liftLowDropOffPosition = -600;
