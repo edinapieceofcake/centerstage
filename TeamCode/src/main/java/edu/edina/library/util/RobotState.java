@@ -115,6 +115,7 @@ public class RobotState {
             telemetry.addData("Bottom Motor Mode", hardware.bottomLiftMotor.getMode());
             telemetry.addData("Top Power, Current", "%f %f", hardware.topLiftMotor.getPower(), hardware.topLiftMotor.getCurrent(CurrentUnit.MILLIAMPS));
             telemetry.addData("Bottom Front Power, Current", "%f %f", hardware.bottomLiftMotor.getPower(), hardware.bottomLiftMotor.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Hang Motor Power, Current", "%f %f", hardware.robotHangerMotor.getPower(), hardware.robotHangerMotor.getCurrent(CurrentUnit.MILLIAMPS));
 
             telemetry.addData("Lift Switch", hardware.liftSwitch.getState());
             telemetry.addData("Hanger Motor Position", hardware.robotHangerMotor.getCurrentPosition());

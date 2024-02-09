@@ -403,15 +403,15 @@ public class Lift implements Subsystem {
         if (state.hangState == HangState.FirstExtension) {
             if (state.currentTopMotorPosition < (config.minimumExtensionBeforeRaisingLiftInTicks + 10)) {
                 state.hangState = HangState.LiftArm;
-                state.liftServoRange = LiftServoRange.High;
-                state.currentLiftServoState = LiftServoState.High;
+                state.liftServoRange = LiftServoRange.Low;
+                state.currentLiftServoState = LiftServoState.Low;
                 highLiftDelay.reset();
             }
         }
 
         if (state.hangState == HangState.LiftArm) {
             if (highLiftDelay.hasExpired()) {
-                state.currentLiftServoState = LiftServoState.High;
+                state.currentLiftServoState = LiftServoState.Low;
                 state.hangState = HangState.RaiseHanger;
             }
         }
