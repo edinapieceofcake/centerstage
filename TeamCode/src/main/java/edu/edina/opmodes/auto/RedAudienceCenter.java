@@ -262,39 +262,66 @@ public class RedAudienceCenter extends LinearOpMode {
     }
 
     protected void runPaths() {
-        Pose2d propDropLocation;
+        Vector2d propDropLocation;
         Vector2d backdropDropLocation;
         Vector2d secondBackdropDropLocation;
 
         // Determine location for purple pixel
         switch(propLocation) {
             case Left:
-                propDropLocation = new Pose2d(-39, -38, Math.toRadians(135));
-                backdropDropLocation = secondBackdropDropLocation = new Vector2d(49,-36);
+                propDropLocation = new Vector2d(-40, -38);
+                backdropDropLocation = secondBackdropDropLocation = new Vector2d(49,-33);
                 break;
             case Center:
-                propDropLocation = new Pose2d(-30, -36, Math.toRadians(90));
-                backdropDropLocation = new Vector2d(49,-43);
+                propDropLocation = new Vector2d(-31, -33);
+                backdropDropLocation = new Vector2d(49,-39);
                 secondBackdropDropLocation = new Vector2d(48.5,-43);
                 break;
             case Right:
-                propDropLocation = new Pose2d(-30, -37, Math.toRadians(45));
+                propDropLocation = new Vector2d(-30, -38);
                 backdropDropLocation = new Vector2d(49.5,-46);
                 secondBackdropDropLocation = new Vector2d(50,-40);
                 break;
             default:
-                propDropLocation = new Pose2d(-38, -33, Math.toRadians(90));  // default to Center if all goes bad
-                backdropDropLocation = secondBackdropDropLocation = new Vector2d(49,-38); // default to center if all goes bad
+                propDropLocation = new Vector2d(-31, -33);  // default to Center if all goes bad
+                backdropDropLocation = secondBackdropDropLocation = new Vector2d(49,-39); // default to center if all goes bad
                 break;
         }
 
         // Run to drop PURPLE pixel
-        Actions.runBlocking(
-                drive.actionBuilder(drive.pose)
-                        .splineToSplineHeading(propDropLocation, Math.toRadians(90))
-                        .stopAndAdd(manager.openLeftClaw())
-                        .build()
-        );
+        switch (propLocation) {
+            case Right:
+                Actions.runBlocking(
+                        new SequentialAction(
+                                drive.actionBuilder(drive.pose)
+                                        .splineTo(propDropLocation, Math.toRadians(45))
+                                        .build(),
+                                manager.openLeftClaw()
+                        )
+                );
+                break;
+            case Left:
+                Actions.runBlocking(
+                        new SequentialAction(
+                                drive.actionBuilder(drive.pose)
+                                        .splineTo(propDropLocation, Math.toRadians(135))
+                                        .build(),
+                                manager.openLeftClaw()
+                        )
+                );
+                break;
+            default:
+                // Execute drive to prop drop spot and drop
+                Actions.runBlocking(
+                        new SequentialAction(
+                                drive.actionBuilder(drive.pose)
+                                        .splineTo(propDropLocation, Math.toRadians(90))
+                                        .build(),
+                                manager.openLeftClaw()
+                        )
+                );
+                break;
+        }
 
         // If we want to drop Yellow..
         if (yellowPixel) {
@@ -303,7 +330,7 @@ public class RedAudienceCenter extends LinearOpMode {
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks
                                 .setReversed(true)
-                                .splineToSplineHeading(new Pose2d(-35, -11, Math.toRadians(180)), Math.toRadians(45))
+                                .splineToSplineHeading(new Pose2d(-35, -12.5, Math.toRadians(180)), Math.toRadians(45))
                                 .build()
                 );
             } else if (propLocation == PropLocation.Center) {
@@ -313,7 +340,7 @@ public class RedAudienceCenter extends LinearOpMode {
                                 // Head to Stacks
                                 .setReversed(true)
                                 .splineToSplineHeading(new Pose2d(-48, -18, Math.toRadians(180)), Math.toRadians(90))
-                                .splineToSplineHeading(new Pose2d(-48, -11, Math.toRadians(180)), Math.toRadians(90))
+                                .splineToSplineHeading(new Pose2d(-48, -10, Math.toRadians(180)), Math.toRadians(90))
                                 .build()
                 );
             } else {
@@ -322,7 +349,7 @@ public class RedAudienceCenter extends LinearOpMode {
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks
                                 .setReversed(true)
-                                .splineToSplineHeading(new Pose2d(-48, -11, Math.toRadians(180)), Math.toRadians(90))
+                                .splineToSplineHeading(new Pose2d(-48, -10, Math.toRadians(180)), Math.toRadians(90))
                                 .build()
                 );
             }

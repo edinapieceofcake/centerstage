@@ -279,7 +279,7 @@ public class RedAudienceWall extends LinearOpMode {
                 propDropLocation = new Vector2d(-45, -35);
                 break;
             case Center:
-                propDropLocation = new Vector2d(-38, -36);
+                propDropLocation = new Vector2d(-38, -33);
                 break;
             case Right:
                 propDropLocation = new Vector2d(-30, -38);
@@ -301,7 +301,7 @@ public class RedAudienceWall extends LinearOpMode {
                 secondBackdropDropLocation = new Vector2d(48,-43);
                 break;
             case Right:
-                backdropDropLocation = new Vector2d(47.5,-47);
+                backdropDropLocation = new Vector2d(47.5,-44);
                 secondBackdropDropLocation = new Vector2d(48,-40);
                 break;
             default:
@@ -370,7 +370,7 @@ public class RedAudienceWall extends LinearOpMode {
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
-                                    .lineToX(-58)
+                                    .lineToX(-58.5)
                                     .stopAndAdd(manager.closeLeftClaw())
                                     .lineToX(-57.5)
                                     .stopAndAdd(manager.raiseLiftAfterStackPickup())
