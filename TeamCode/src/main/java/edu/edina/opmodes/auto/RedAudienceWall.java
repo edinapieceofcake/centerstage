@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.PoCMecanumDrive;
@@ -22,6 +23,7 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
+@Disabled
 public class RedAudienceWall extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;
@@ -92,6 +94,8 @@ public class RedAudienceWall extends LinearOpMode {
 
         initHardware();
 
+        Actions.runBlocking(manager.positionTheClawToPickupPixels());
+
         // Turn on prop illumination
         hardware.lights.setPower(1);
 
@@ -158,19 +162,26 @@ public class RedAudienceWall extends LinearOpMode {
             // If we have ANY delay, don't allow second trip
             makeSecondTrip = (delayTime > 0) ? false : makeSecondTrip;
 
-            // Close claws
+            // Close the claws
             if (gamepad1.left_trigger != 0) {
-                Actions.runBlocking(new ParallelAction(
-                        manager.closeRightClaw(),
-                        manager.closeLeftClaw()
-                ));
+                Actions.runBlocking(
+                        new SequentialAction(
+                                new ParallelAction(
+                                        manager.closeRightClaw(),
+                                        manager.closeLeftClaw(),
+                                        manager.openAutoClaw()
+                                ),
+                                manager.positionTheClawToDriveWithPixels())
+                );
             }
 
-            // Open claws
+            // Open the claws
             if (gamepad1.right_trigger != 0) {
                 Actions.runBlocking(new ParallelAction(
                         manager.openRightClaw(),
-                        manager.openLeftClaw()
+                        manager.openLeftClaw(),
+                        manager.openAutoClaw(),
+                        manager.positionTheClawToPickupPixels()
                 ));
             }
 
@@ -268,7 +279,7 @@ public class RedAudienceWall extends LinearOpMode {
                 propDropLocation = new Vector2d(-45, -35);
                 break;
             case Center:
-                propDropLocation = new Vector2d(-38, -36);
+                propDropLocation = new Vector2d(-38, -33);
                 break;
             case Right:
                 propDropLocation = new Vector2d(-30, -38);
@@ -290,7 +301,7 @@ public class RedAudienceWall extends LinearOpMode {
                 secondBackdropDropLocation = new Vector2d(48,-43);
                 break;
             case Right:
-                backdropDropLocation = new Vector2d(47.5,-47);
+                backdropDropLocation = new Vector2d(47.5,-44);
                 secondBackdropDropLocation = new Vector2d(48,-40);
                 break;
             default:
@@ -359,7 +370,7 @@ public class RedAudienceWall extends LinearOpMode {
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
-                                    .lineToX(-58)
+                                    .lineToX(-58.5)
                                     .stopAndAdd(manager.closeLeftClaw())
                                     .lineToX(-57.5)
                                     .stopAndAdd(manager.raiseLiftAfterStackPickup())

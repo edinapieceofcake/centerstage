@@ -5,6 +5,8 @@ import static edu.edina.library.enums.LiftDriveState.HighDropOff;
 import static edu.edina.library.enums.LiftDriveState.LowDropOff;
 import static edu.edina.library.enums.LiftDriveState.Manual;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.PwmControl;
 
@@ -235,23 +237,34 @@ public class Lift implements Subsystem {
 
         if (y) {
             // low
+            Log.d("IAMHERE", String.format("YS P:%s, L:%s, C:%s, D:%s, M:%d, T:%d", state.pickUpState, state.lastKnownLiftState,
+                    state.currentLiftSlideState, state.currentLiftDriveState, state.currentTopMotorPosition, config.liftTwistPosition));
             if (state.lastKnownLiftState == LowDropOff) {
                 if (state.pickUpState == PickUpState.Finished) {
                     state.currentLiftDriveState = Manual;
                 } else {
+                    state.lastKnownLiftState = state.currentLiftDriveState;
                     state.currentLiftDriveState = LiftDriveState.LowDropOff;
-                    state.currentLiftSlideState = LiftSlideState.Extending;
-                    switch (state.pickUpState) {
-                        case FirstRetraction:
-                            state.dropOffState = DropOffState.SecondExtension;
-                            break;
-                        case DropArm:
-                            state.dropOffState = DropOffState.LiftArm;
-                            break;
-                        default:
-                            state.dropOffState = DropOffState.Start;
-                            break;
+                    if (state.currentLiftSlideState == LiftSlideState.Retracting || state.currentLiftSlideState == LiftSlideState.Idle) {
+                        switch (state.pickUpState) {
+                            case FirstRetraction:
+                                state.dropOffState = DropOffState.SecondExtension;
+                                state.currentTopMotorTargetPosition = state.currentLowDropOffPosition;
+                                state.currentBottomMotorTargetPosition = state.currentLowDropOffPosition;
+                                state.currentLiftSlidePower = config.liftExtendingPower;
+                                secondExtensionTimeout.reset();
+                                break;
+                            case DropArm:
+                                state.dropOffState = DropOffState.LiftArm;
+                                break;
+                            default:
+                                state.dropOffState = DropOffState.Start;
+                                break;
+                        }
+                    } else {
+                        Log.d("IAMHERE", "Y Pressed");
                     }
+                    state.currentLiftSlideState = LiftSlideState.Extending;
                     state.pickUpState = PickUpState.Finished;
                 }
             } else {
@@ -264,27 +277,40 @@ public class Lift implements Subsystem {
 
                 state.currentLiftSlideState = LiftSlideState.Extending;
             }
+            Log.d("IAMHERE", String.format("YF D:%s, L:%s, C:%s, D:%s, M:%d, T:%d", state.dropOffState, state.lastKnownLiftState,
+                    state.currentLiftSlideState, state.currentLiftDriveState, state.currentTopMotorPosition, config.liftTwistPosition));
         }
 
         if (b) {
             // high
+            Log.d("IAMHERE", String.format("BS P:%s, L:%s, C:%s, D:%s, M:%d, T:%d", state.pickUpState, state.lastKnownLiftState,
+                    state.currentLiftSlideState, state.currentLiftDriveState, state.currentTopMotorPosition, config.liftTwistPosition));
             if (state.lastKnownLiftState == LiftDriveState.HighDropOff) {
                 if (state.pickUpState == PickUpState.Finished) {
                     state.currentLiftDriveState = Manual;
                 } else {
+                    state.lastKnownLiftState = state.currentLiftDriveState;
                     state.currentLiftDriveState = LiftDriveState.HighDropOff;
-                    state.currentLiftSlideState = LiftSlideState.Extending;
-                    switch (state.pickUpState) {
-                        case FirstRetraction:
-                            state.dropOffState = DropOffState.SecondExtension;
-                            break;
-                        case DropArm:
-                            state.dropOffState = DropOffState.LiftArm;
-                            break;
-                        default:
-                            state.dropOffState = DropOffState.Start;
-                            break;
+                    if (state.currentLiftSlideState == LiftSlideState.Retracting || state.currentLiftSlideState == LiftSlideState.Idle) {
+                        switch (state.pickUpState) {
+                            case FirstRetraction:
+                                state.currentTopMotorTargetPosition = state.currentHighDropOffPostiion;
+                                state.currentBottomMotorTargetPosition = state.currentHighDropOffPostiion;
+                                state.currentLiftSlidePower = config.liftExtendingPower;
+                                state.dropOffState = DropOffState.SecondExtension;
+                                secondExtensionTimeout.reset();
+                                break;
+                            case DropArm:
+                                state.dropOffState = DropOffState.LiftArm;
+                                break;
+                            default:
+                                state.dropOffState = DropOffState.Start;
+                                break;
+                        }
+                    } else {
+                        Log.d("IAMHERE", "B Pressed");
                     }
+                    state.currentLiftSlideState = LiftSlideState.Extending;
                     state.pickUpState = PickUpState.Finished;
                 }
             } else {
@@ -296,6 +322,8 @@ public class Lift implements Subsystem {
                 }
                 state.currentLiftSlideState = LiftSlideState.Extending;
             }
+            Log.d("IAMHERE", String.format("BF D:%s, L:%s, C:%s, D:%s, M:%d, T:%d", state.dropOffState, state.lastKnownLiftState,
+                    state.currentLiftSlideState, state.currentLiftDriveState, state.currentTopMotorPosition, config.liftTwistPosition));
         }
 
         if (gm2y) {
@@ -375,15 +403,15 @@ public class Lift implements Subsystem {
         if (state.hangState == HangState.FirstExtension) {
             if (state.currentTopMotorPosition < (config.minimumExtensionBeforeRaisingLiftInTicks + 10)) {
                 state.hangState = HangState.LiftArm;
-                state.liftServoRange = LiftServoRange.High;
-                state.currentLiftServoState = LiftServoState.High;
+                state.liftServoRange = LiftServoRange.Low;
+                state.currentLiftServoState = LiftServoState.Low;
                 highLiftDelay.reset();
             }
         }
 
         if (state.hangState == HangState.LiftArm) {
             if (highLiftDelay.hasExpired()) {
-                state.currentLiftServoState = LiftServoState.High;
+                state.currentLiftServoState = LiftServoState.Low;
                 state.hangState = HangState.RaiseHanger;
             }
         }

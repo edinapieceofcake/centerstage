@@ -18,7 +18,7 @@ public class RobotConfiguration {
     public double twistClawServoDropOffPosition = 0.621;//0.97;
 
     public double angleClawPickupPosition = .55; //.57
-    public double angleClawStackPickupPosition = .62;
+    public double angleClawStackPickupPosition = .60;
     public double angleClawDrivePosition = .77;
     public double angleClawLowDropOffPosition = .52;
     public double angleClawHighDropOffPosition = .15;
@@ -48,11 +48,11 @@ public class RobotConfiguration {
     public double rightHighTwistClawServoDropOffPosition = 0.5677; //0.92
 
     // odo pod servo positions
-    public double par0UpPosition = 0.0;
+    public double par0UpPosition = 0.01;
     public double par0DownPosition = 0.5;
     public double par1DownPosition = 0.39;
-    public double par1UpPosition = 1.0;
-    public double perpUpPosition = 0.0;
+    public double par1UpPosition = 0.99;
+    public double perpUpPosition = 0.01;
     public double perpDownPosition = 0.39;
 
     // lift servo positions
