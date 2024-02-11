@@ -23,7 +23,7 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
-@Disabled
+//@Disabled
 public class RedAudienceWall extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;

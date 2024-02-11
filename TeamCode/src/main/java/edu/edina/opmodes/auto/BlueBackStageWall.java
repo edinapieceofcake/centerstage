@@ -22,7 +22,7 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
-@Disabled
+//@Disabled
 public class BlueBackStageWall extends BlueBackStage {
      protected void runPaths() {
          if (twoWhites) {
@@ -92,7 +92,7 @@ public class BlueBackStageWall extends BlueBackStage {
                             .afterDisp(0, manager.getLiftReadyToDropPixelFromLeft())
                             .splineToConstantHeading(new Vector2d(10, 58), Math.toRadians(0))
                             .splineTo(new Vector2d(30, 58), Math.toRadians(0))
-                            .splineTo(new Vector2d(51, 52), Math.toRadians(-35))
+                            .splineTo(new Vector2d(51.5, 52), Math.toRadians(-35))
                             .afterTime(0.1, manager.openLeftClaw())
                             .afterTime(0.1, manager.openAutoClaw())
                             .waitSeconds(0.25)
@@ -181,7 +181,7 @@ public class BlueBackStageWall extends BlueBackStage {
                             .afterDisp(5, manager.getLiftReadyToDropPixelFromLeft())
                             .splineToConstantHeading(new Vector2d(10, 58), Math.toRadians(0))
                             .splineTo(new Vector2d(30, 58), Math.toRadians(0))
-                            .splineTo(new Vector2d(52, 53), Math.toRadians(-35))
+                            .splineTo(new Vector2d(54, 53), Math.toRadians(-35))
                             .afterTime(0.1, manager.openLeftClaw())
                             .afterTime(0.1, manager.openAutoClaw())
                             .waitSeconds(.25)

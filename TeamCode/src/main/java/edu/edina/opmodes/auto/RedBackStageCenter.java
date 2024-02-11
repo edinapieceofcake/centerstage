@@ -22,7 +22,7 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
-@Disabled
+//@Disabled
 public class RedBackStageCenter extends RedBackStage {
     @Override
     protected void runPaths() {

@@ -23,7 +23,7 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
-@Disabled
+//@Disabled
 public class RedAudienceCenter extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;
@@ -270,7 +270,7 @@ public class RedAudienceCenter extends LinearOpMode {
         switch(propLocation) {
             case Left:
                 propDropLocation = new Vector2d(-40, -38);
-                backdropDropLocation = secondBackdropDropLocation = new Vector2d(49,-33);
+                backdropDropLocation = secondBackdropDropLocation = new Vector2d(49,-31);
                 break;
             case Center:
                 propDropLocation = new Vector2d(-31, -33);
@@ -476,8 +476,7 @@ public class RedAudienceCenter extends LinearOpMode {
                                     .build(),
                             new ParallelAction(
                                     manager.closeLeftClaw(),
-                                    manager.closeAutoClaw(),
-                                    manager.closeRightClaw()
+                                    manager.closeAutoClaw()
                             ),
                             new SleepAction(0.2)
                     )
@@ -503,12 +502,11 @@ public class RedAudienceCenter extends LinearOpMode {
                                 .splineTo(new Vector2d(10, -11), Math.toRadians(0))
                                 .afterDisp(0, manager.getLiftReadyToDropPixelFromLeft())
 //                                .setReversed(false)
-                                .splineTo(new Vector2d(48, -25), Math.toRadians(-25))
+                                .splineTo(new Vector2d(49, -20), Math.toRadians(-25))
 //                                .splineToConstantHeading(secondBackdropDropLocation, Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openAutoClaw(),
-                                        manager.openLeftClaw(),
-                                        manager.openRightClaw()
+                                        manager.openLeftClaw()
                                 ))
                                 .build());
 
@@ -540,8 +538,7 @@ public class RedAudienceCenter extends LinearOpMode {
                                 .splineTo(new Vector2d(54, -11), Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openAutoClaw(),
-                                        manager.openLeftClaw(),
-                                        manager.openRightClaw()
+                                        manager.openLeftClaw()
                                 ))
                                 .lineToX(50)
                                 .build());

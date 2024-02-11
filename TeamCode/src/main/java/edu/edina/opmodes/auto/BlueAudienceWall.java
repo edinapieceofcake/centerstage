@@ -23,7 +23,7 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
-@Disabled
+//@Disabled
 public class BlueAudienceWall extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;
@@ -104,8 +104,8 @@ public class BlueAudienceWall extends LinearOpMode {
             telemetry.addData("DPAD-DN for P, Y, 3Ws and park in corner", "");
             telemetry.addData("L-BUMPER to increase delay, R-BUMPER to decrease delay.", "");
             telemetry.addData("L-TRIGGER to close claws, R-TRIGGER to open", "");
-//            telemetry.addData("LEFT-STICK-DOWN : manual rotate prop position", "");
-//            telemetry.addData("RIGHT-STICK-DOWN :  manual or auto camera", "");
+            telemetry.addData("LEFT-STICK-DOWN : manual rotate prop position", "");
+            telemetry.addData("RIGHT-STICK-DOWN :  manual or auto camera", "");
 
             if (pad1.a) {
                 yellowPixel = false;
@@ -261,7 +261,9 @@ public class BlueAudienceWall extends LinearOpMode {
         Vector2d propDropLocation;
         double propAngle = 270;
         Vector2d backdropDropLocation;
-        Vector2d secondBackdropDropLocation;
+
+        double stack1Y = 38.5;
+        double stack2Y = 35.5;
 
         // Determine location for purple pixel
         switch(propLocation) {
@@ -269,24 +271,21 @@ public class BlueAudienceWall extends LinearOpMode {
                 propDropLocation = new Vector2d(-33, 35);
                 propAngle = 315.0;
                 backdropDropLocation = new Vector2d(50,41.5);
-                secondBackdropDropLocation = new Vector2d(52,39);
                 break;
             case Center:
                 propDropLocation = new Vector2d(-38, 34.5);
                 propAngle = 270.0;
-                backdropDropLocation = new Vector2d(50,33);
-                secondBackdropDropLocation = new Vector2d(52,39);
+                backdropDropLocation = new Vector2d(50,34);
                 break;
             case Right:
                 propDropLocation = new Vector2d(-48, 38.5);
                 propAngle = 270.0;
-                backdropDropLocation = new Vector2d(50,27);
-                secondBackdropDropLocation = new Vector2d(52,39);
+                backdropDropLocation = new Vector2d(50,26);
                 break;
             default:
                 propDropLocation = new Vector2d(-38, 33);  // default to Center if all goes bad
                 propAngle = 270.0;
-                backdropDropLocation = secondBackdropDropLocation = new Vector2d(51.5,35); // default to center if all goes bad
+                backdropDropLocation = new Vector2d(51.5,35); // default to center if all goes bad
                 break;
         }
 
@@ -316,7 +315,7 @@ public class BlueAudienceWall extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
                                     .setReversed(true)
-                                    .splineToSplineHeading(new Pose2d(-52, 38.5, Math.toRadians(180)), Math.toRadians(180))
+                                    .splineToSplineHeading(new Pose2d(-52, stack1Y, Math.toRadians(180)), Math.toRadians(180))
                                     .build()
                     );
                     break;
@@ -329,7 +328,7 @@ public class BlueAudienceWall extends LinearOpMode {
                     new SequentialAction(
                             new ParallelAction(
                                     manager.runLiftToPosition(-200),
-                                    manager.positionTheClawToPickupPixels()
+                                    manager.positionTheClawToPickupPixelsFromStack()
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
@@ -429,7 +428,7 @@ public class BlueAudienceWall extends LinearOpMode {
                                     .lineToX(44)
                                     .splineToSplineHeading(new Pose2d(0, 59, Math.toRadians(180)), Math.toRadians(180))
                                     .splineToConstantHeading(new Vector2d(-30, 59), Math.toRadians(180))
-                                    .splineToConstantHeading(new Vector2d(-52, 38.5), Math.toRadians(180))
+                                    .splineToConstantHeading(new Vector2d(-52, stack2Y), Math.toRadians(180))
                                     .build()
                     )
             );
@@ -440,17 +439,16 @@ public class BlueAudienceWall extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
-                                    manager.positionTheClawToPickupPixels(),
-                                    manager.runLiftToPosition(-130)
+                                    manager.positionTheClawToPickupPixelsFromStack(),
+                                    manager.runLiftToPosition(-100)
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
-                                    .lineToX(-57.5)
+                                    .lineToX(-59)
                                     .build(),
                             new ParallelAction(
                                     manager.closeLeftClaw(),
-                                    manager.closeAutoClaw(),
-                                    manager.closeRightClaw()
+                                    manager.closeAutoClaw()
                             ),
                             new SleepAction(.2)
                     )
@@ -470,15 +468,14 @@ public class BlueAudienceWall extends LinearOpMode {
                                                 manager.positionTheClawToDriveWithPixels()
                                         ))
                                 .setReversed(true)
-                                .splineToSplineHeading(new Pose2d(new Vector2d(-30, 59), Math.toRadians(0)), Math.toRadians(0))
-                                .splineToConstantHeading(new Vector2d(0, 59), Math.toRadians(0))
-                                .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                                .splineToConstantHeading(secondBackdropDropLocation, Math.toRadians(0))
-                                .afterDisp(0, new SequentialAction(
-                                        manager.openAutoClaw(),
-                                        manager.openLeftClaw(),
-                                        manager.openRightClaw()
-                                ))
+                                .splineToSplineHeading(new Pose2d(new Vector2d(-35, 58), Math.toRadians(0)), Math.toRadians(0))
+                                .splineToConstantHeading(new Vector2d(10, 58), Math.toRadians(0))
+                                .afterDisp(0, manager.getLiftReadyToDropPixelFromLeft())
+                                .splineTo(new Vector2d(30, 58), Math.toRadians(0))
+                                .splineTo(new Vector2d(55.5, 48), Math.toRadians(-35))
+                                .afterTime(0.3, manager.openLeftClaw())
+                                .afterTime(0.4, manager.openAutoClaw())
+                                .waitSeconds(0.25)
                                 .build());
 
                 // back away and pack up

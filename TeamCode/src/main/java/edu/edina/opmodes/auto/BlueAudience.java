@@ -9,7 +9,6 @@ import edu.edina.library.enums.PropLocation;
 
 public class BlueAudience extends Audience {
     protected Vector2d backdropDropLocation;
-    protected Vector2d secondBackdropDropLocation;
     @Override
     protected Alliance getAlliance() {
             return Alliance.Blue;
@@ -28,25 +27,22 @@ public class BlueAudience extends Audience {
             case Left:
                 propDropLocation = new Vector2d(-33, 35);
                 propAngle = 315.0;
-                backdropDropLocation = new Vector2d(50,41);
-                secondBackdropDropLocation = new Vector2d(49, 39);
+                backdropDropLocation = new Vector2d(50,44);
                 break;
             case Center:
                 propDropLocation = new Vector2d(-33, 34.5);
                 propAngle = 270.0;
-                backdropDropLocation = new Vector2d(50,33 );
-                secondBackdropDropLocation = new Vector2d(49,32);
+                backdropDropLocation = new Vector2d(50,35 );
                 break;
             case Right:
-                propDropLocation = new Vector2d(-48, 40);
-                propAngle = 270.0;
-                backdropDropLocation = new Vector2d(50,26);
-                secondBackdropDropLocation = new Vector2d(49,28);
+                propDropLocation = new Vector2d(-40, 40);
+                propAngle = 225.0;
+                backdropDropLocation = new Vector2d(50,32);
                 break;
             default:
                 propDropLocation = new Vector2d(-38, 33);  // default to Center if all goes bad
                 propAngle = 270.0;
-                backdropDropLocation = secondBackdropDropLocation = new Vector2d(50,35); // default to center if all goes bad
+                backdropDropLocation = new Vector2d(50,35); // default to center if all goes bad
                 break;
         }
 
