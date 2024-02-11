@@ -278,12 +278,10 @@ public class RedAudienceWall extends LinearOpMode {
             case Left:
                 propDropLocation = new Vector2d(-45, -35);
                 break;
-            case Center:
-                propDropLocation = new Vector2d(-38, -33);
-                break;
             case Right:
                 propDropLocation = new Vector2d(-30, -38);
                 break;
+            case Center:
             default:
                 propDropLocation = new Vector2d(-38, -33);  // default to Center if all goes bad
                 break;
@@ -296,16 +294,14 @@ public class RedAudienceWall extends LinearOpMode {
                 secondBackdropDropLocation = new Vector2d(48,-40);
                 secondLineToX = -65;
                 break;
-            case Center:
-                backdropDropLocation = new Vector2d(48,-40);
-                secondBackdropDropLocation = new Vector2d(48,-43);
-                break;
             case Right:
                 backdropDropLocation = new Vector2d(47.5,-44);
                 secondBackdropDropLocation = new Vector2d(48,-40);
                 break;
+            case Center:
             default:
-                backdropDropLocation = secondBackdropDropLocation = new Vector2d(48,-40); // default to center if all goes bad
+                backdropDropLocation = new Vector2d(48,-40);
+                secondBackdropDropLocation = new Vector2d(48,-43);
                 break;
         }
 

@@ -47,18 +47,15 @@ public class RedBackStage extends BackStage {
                 propDropAngle = 135.0;
                 backdropLocation = new Pose2d(42,-32, Math.toRadians(0));
                 break;
-            case Center:
-                propDropLocation = new Vector2d(16.5, -34.5);
-                backdropLocation = new Pose2d(42,-38, Math.toRadians(0));
-                break;
             case Right:
                 propDropLocation = new Vector2d(27, -43);
                 propDropAngle =65.0;
                 backdropLocation = new Pose2d(42,-45, Math.toRadians(0));
                 break;
+            case Center:
             default:
-                propDropLocation = new Vector2d(16.5, -35.5);  // default to Center if all goes bad
-                backdropLocation = new Pose2d(42,-38, Math.toRadians(0)); // default to center if all goes bad
+                propDropLocation = new Vector2d(16.5, -34.5);
+                backdropLocation = new Pose2d(42,-38, Math.toRadians(0));
                 break;
         }
 

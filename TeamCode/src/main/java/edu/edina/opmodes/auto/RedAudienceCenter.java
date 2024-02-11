@@ -272,19 +272,16 @@ public class RedAudienceCenter extends LinearOpMode {
                 propDropLocation = new Vector2d(-40, -38);
                 backdropDropLocation = secondBackdropDropLocation = new Vector2d(49,-31);
                 break;
-            case Center:
-                propDropLocation = new Vector2d(-31, -33);
-                backdropDropLocation = new Vector2d(49,-39);
-                secondBackdropDropLocation = new Vector2d(48.5,-43);
-                break;
             case Right:
                 propDropLocation = new Vector2d(-30, -38);
                 backdropDropLocation = new Vector2d(49.5,-46);
                 secondBackdropDropLocation = new Vector2d(50,-40);
                 break;
+            case Center:
             default:
-                propDropLocation = new Vector2d(-31, -33);  // default to Center if all goes bad
-                backdropDropLocation = secondBackdropDropLocation = new Vector2d(49,-39); // default to center if all goes bad
+                propDropLocation = new Vector2d(-31, -33);
+                backdropDropLocation = new Vector2d(49,-39);
+                secondBackdropDropLocation = new Vector2d(48.5,-43);
                 break;
         }
 
