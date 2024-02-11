@@ -48,6 +48,11 @@ public class BlueBackStageCenter extends BlueBackStage {
             );
         }
 
+        if ((propLocation == PropLocation.Left || propLocation == PropLocation.Center) && dropOnBackDrop) {
+            dropOnBackDrop = false;
+            dropOnBackStage = true;
+        }
+
         if (fourWhites) {  // Make the middle trip
             if (dropOnBackDrop) {
                 runFourWhitesMiddleTripBackDrop();
