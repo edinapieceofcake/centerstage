@@ -194,10 +194,23 @@ public class Claw implements Subsystem {
                 case CenterDropOff:
                     switch (state.currentLiftServoState) {
                         case High:
-                            hardware.angleClawServo.setPosition(config.angleClawHighDropOffPosition);
-                            break;
+                            switch (state.liftServoRange) {
+                                case High:
+                                    hardware.angleClawServo.setPosition(config.angleClawHighDropOffPosition);
+                                    break;
+                                case Low:
+                                    hardware.angleClawServo.setPosition(config.angleClawMediumDropOffPosition);
+                                    break;
+                            }
                         default:
-                            hardware.angleClawServo.setPosition(config.angleClawLowDropOffPosition);
+                            switch (state.liftServoRange) {
+                                case High:
+                                    hardware.angleClawServo.setPosition(config.angleClawMediumDropOffPosition);
+                                    break;
+                                case Low:
+                                    hardware.angleClawServo.setPosition(config.angleClawLowDropOffPosition);
+                                    break;
+                            }
                             break;
                     }
                     break;
