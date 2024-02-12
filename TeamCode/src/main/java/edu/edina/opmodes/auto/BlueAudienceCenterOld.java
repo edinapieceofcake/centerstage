@@ -52,10 +52,6 @@ public class BlueAudienceCenterOld extends LinearOpMode {
                 hardware.externalImu, hardware.expansionImu,
                 hardware.voltageSensor, hardware.beamBreak, getStartPose());
 
-        // Heartbeat Red to signify Red alliance
-        pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_GRAY;
-        hardware.blinkinLedDriver.setPattern(pattern);
-
         // HuskyLens Init
         poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, getAlliance());
         poCHuskyLens.init();
@@ -69,14 +65,6 @@ public class BlueAudienceCenterOld extends LinearOpMode {
 
     protected Alliance getAlliance() {
         return Alliance.Blue;
-    }
-
-    protected RevBlinkinLedDriver.BlinkinPattern getUnsuccessfulPropMatchColor() {
-        return RevBlinkinLedDriver.BlinkinPattern.GREEN;
-    }
-
-    protected RevBlinkinLedDriver.BlinkinPattern getSuccessfulPropMatchColor() {
-        return RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_GRAY;
     }
 
     protected Pose2d getStartPose() {
@@ -233,30 +221,15 @@ public class BlueAudienceCenterOld extends LinearOpMode {
             telemetry.addData("Use Camera", useCamera);
 
             telemetry.update();
-
-            // Show solid pattern if block seen, otherwise heartbeat
-            if (propLocation != PropLocation.None) {
-                pattern = getSuccessfulPropMatchColor();
-            } else {
-                pattern = getUnsuccessfulPropMatchColor();
-            }
-
-            hardware.blinkinLedDriver.setPattern(pattern);
         }
 
         // Turn off prop lighting
         hardware.lights.setPower(0);
 
         if (opModeIsActive()) {
-            // Signal GREEN for successful run
-            pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
-            hardware.blinkinLedDriver.setPattern(pattern);
 
             // Execute the Autonomous Paths
             runPaths();
-
-            pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_WHITE;
-            hardware.blinkinLedDriver.setPattern(pattern);
         }
     }
 

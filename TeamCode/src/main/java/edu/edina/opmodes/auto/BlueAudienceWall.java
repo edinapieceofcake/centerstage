@@ -1,5 +1,6 @@
 package edu.edina.opmodes.auto;
 
+import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -52,10 +53,6 @@ public class BlueAudienceWall extends LinearOpMode {
                 hardware.externalImu, hardware.expansionImu,
                 hardware.voltageSensor, hardware.beamBreak, getStartPose());
 
-        // Heartbeat Red to signify Red alliance
-        pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_GRAY;
-        hardware.blinkinLedDriver.setPattern(pattern);
-
         // HuskyLens Init
         poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, getAlliance());
         poCHuskyLens.init();
@@ -69,14 +66,6 @@ public class BlueAudienceWall extends LinearOpMode {
 
     protected Alliance getAlliance() {
         return Alliance.Blue;
-    }
-
-    protected RevBlinkinLedDriver.BlinkinPattern getUnsuccessfulPropMatchColor() {
-        return RevBlinkinLedDriver.BlinkinPattern.GREEN;
-    }
-
-    protected RevBlinkinLedDriver.BlinkinPattern getSuccessfulPropMatchColor() {
-        return RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_GRAY;
     }
 
     protected Pose2d getStartPose() {
@@ -231,15 +220,6 @@ public class BlueAudienceWall extends LinearOpMode {
             telemetry.addData("Location", propLocation);
             telemetry.addData("Use Camera", useCamera);
             telemetry.update();
-
-            // Show solid pattern if block seen, otherwise heartbeat
-            if (propLocation != PropLocation.None) {
-                pattern = getSuccessfulPropMatchColor();
-            } else {
-                pattern = getUnsuccessfulPropMatchColor();
-            }
-
-            hardware.blinkinLedDriver.setPattern(pattern);
         }
 
         // Turn off prop lighting
@@ -247,13 +227,11 @@ public class BlueAudienceWall extends LinearOpMode {
 
         if (opModeIsActive()) {
             // Signal GREEN for successful run
-            pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
-            hardware.blinkinLedDriver.setPattern(pattern);
+            hardware.startCurrentMonitor();
 
             runPaths();
 
-            pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_WHITE;
-            hardware.blinkinLedDriver.setPattern(pattern);
+            hardware.stopCurrentMonitor();
         }
     }
 
@@ -345,6 +323,7 @@ public class BlueAudienceWall extends LinearOpMode {
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks VIA A-Row
                                 .lineToX(-50)
+                                .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                                 .afterDisp(0,
                                         new ParallelAction(
                                                 manager.lowerLiftForDriving(),
@@ -359,6 +338,7 @@ public class BlueAudienceWall extends LinearOpMode {
                                 .splineToSplineHeading(new Pose2d(new Vector2d(24, 58), Math.toRadians(0)), Math.toRadians(0))
                                 .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
                                 .lineToX(51.5)
+                                .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openRightClaw(),
                                         new SleepAction(0.25),
@@ -372,6 +352,7 @@ public class BlueAudienceWall extends LinearOpMode {
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks VIA A-Row
                                 .lineToX(-50)
+                                .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                                 .afterDisp(0,
                                         new ParallelAction(
                                                 manager.lowerLiftForDriving(),
@@ -385,6 +366,7 @@ public class BlueAudienceWall extends LinearOpMode {
                                 .splineToSplineHeading(new Pose2d(new Vector2d(24, 58), Math.toRadians(0)), Math.toRadians(0))
                                 .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
                                 .lineToX(51.5)
+                                .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openRightClaw(),
                                         new SleepAction(0.25),
@@ -426,9 +408,11 @@ public class BlueAudienceWall extends LinearOpMode {
                             ),
                             drive.actionBuilder(drive.pose)
                                     .lineToX(44)
+                                    .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                                     .splineToSplineHeading(new Pose2d(0, 59, Math.toRadians(180)), Math.toRadians(180))
                                     .splineToConstantHeading(new Vector2d(-30, 59), Math.toRadians(180))
                                     .splineToConstantHeading(new Vector2d(-52, stack2Y), Math.toRadians(180))
+                                    .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                                     .build()
                     )
             );
@@ -463,6 +447,7 @@ public class BlueAudienceWall extends LinearOpMode {
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks VIA A-Row
                                 .lineToX(-48)
+                                .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                                 .afterDisp(0,
                                         new ParallelAction(
                                                 manager.positionTheClawToDriveWithPixels()
@@ -473,6 +458,7 @@ public class BlueAudienceWall extends LinearOpMode {
                                 .afterDisp(0, manager.getLiftReadyToDropPixelFromLeft())
                                 .splineTo(new Vector2d(30, 58), Math.toRadians(0))
                                 .splineTo(new Vector2d(55.5, 48), Math.toRadians(-35))
+                                .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                                 .afterTime(0.3, manager.openLeftClaw())
                                 .afterTime(0.4, manager.openAutoClaw())
                                 .waitSeconds(0.25)
@@ -502,8 +488,10 @@ public class BlueAudienceWall extends LinearOpMode {
                                                 manager.positionTheClawToDriveWithPixels()
                                         ))
                                 .setReversed(true)
+                                .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, 59), Math.toRadians(0)), Math.toRadians(0))
                                 .splineTo(new Vector2d(54, 64), Math.toRadians(0))
+                                .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openAutoClaw(),
                                         manager.openLeftClaw(),

@@ -229,9 +229,13 @@ public class Audience extends LinearOpMode {
             // Execute the Autonomous Paths
             dropPurplePixel();
 
+            hardware.startCurrentMonitor();
+
             runPaths();
 
             park();
+
+            hardware.stopCurrentMonitor();
         }
     }
 }

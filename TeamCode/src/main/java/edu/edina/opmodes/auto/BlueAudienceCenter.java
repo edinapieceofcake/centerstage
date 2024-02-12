@@ -1,5 +1,6 @@
 package edu.edina.opmodes.auto;
 
+import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -86,12 +87,14 @@ public class BlueAudienceCenter extends BlueAudience {
                                                 manager.positionTheClawToDriveWithPixels()
                                         )
                                 )
+                                .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-30, 12), Math.toRadians(0)), Math.toRadians(0))
                                 .splineToConstantHeading(new Vector2d(11, 12), Math.toRadians(0))
                                 .waitSeconds(delayTime/1000)  // Wait at midfield
                                 .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
                                 .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
                                 .lineToX(51.5)
+                                .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openRightClaw(),
                                         new SleepAction(0.25),
@@ -111,11 +114,13 @@ public class BlueAudienceCenter extends BlueAudience {
                                                 manager.positionTheClawToDriveWithPixels()
                                         )
                                 )
+                                .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-30, 12), Math.toRadians(0)), Math.toRadians(0))
                                 .splineToConstantHeading(new Vector2d(11, 12), Math.toRadians(0))
                                 .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
                                 .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
                                 .lineToX(51.5)
+                                .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openRightClaw(),
                                         new SleepAction(0.25),
@@ -157,8 +162,10 @@ public class BlueAudienceCenter extends BlueAudience {
                             ),
                             drive.actionBuilder(drive.pose)
                                     .lineToX(46)
+                                    .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                                     .splineToSplineHeading(new Pose2d(11, stack2Y, Math.toRadians(180)), Math.toRadians(180))
                                     .splineToConstantHeading(new Vector2d(-48, stack2Y), Math.toRadians(180))
+                                    .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                                     .build()
                     )
             );
@@ -193,6 +200,7 @@ public class BlueAudienceCenter extends BlueAudience {
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks VIA A-Row
                                 .lineToX(-50)
+                                .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                                 .afterDisp(0,
                                         new ParallelAction(
                                                 manager.zeroLift(),
@@ -203,6 +211,7 @@ public class BlueAudienceCenter extends BlueAudience {
                                 .afterDisp(2, manager.getLiftReadyToDropPixelFromRight())
                                 .splineTo(new Vector2d(30, 13), Math.toRadians(0))
                                 .splineTo(new Vector2d(50, 21), Math.toRadians(35))
+                                .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                                 .stopAndAdd(manager.openLeftClaw())
                                 .afterTime(0.1, manager.openAutoClaw())
                                 .waitSeconds(0.25)
@@ -225,6 +234,7 @@ public class BlueAudienceCenter extends BlueAudience {
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks VIA A-Row
                                 .lineToX(-48)
+                                .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                                 .afterDisp(0,
                                         new ParallelAction(
                                                 manager.lowerLiftForDriving(),
@@ -234,6 +244,7 @@ public class BlueAudienceCenter extends BlueAudience {
                                 .setReversed(true)
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, 12), Math.toRadians(0)), Math.toRadians(0))
                                 .splineToConstantHeading(new Vector2d(54, 14), Math.toRadians(0))
+                                .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openAutoClaw(),
                                         manager.openLeftClaw()

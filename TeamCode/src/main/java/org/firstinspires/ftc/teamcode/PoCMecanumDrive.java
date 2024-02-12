@@ -141,6 +141,7 @@ public final class PoCMecanumDrive {
     private long beamBreakDuration = 225;
     private boolean beamBreakTripped = false;
     private boolean poseErrorStopUsage = false;
+    private double poseErrorDistance = 4.0;
 
     public class DriveLocalizer implements Localizer {
         public final Encoder leftFront, leftBack, rightBack, rightFront;
@@ -327,7 +328,16 @@ public final class PoCMecanumDrive {
     public void turnBeamBreakOff(){
         beamUsage = false;
     }
-    public void turnErrorPoseStopOn(){poseErrorStopUsage = true;}
+
+    public void turnErrorPoseStopOn() {
+        turnErrorPoseStopOn(4.0);
+    }
+
+    public void turnErrorPoseStopOn(double distance){
+        poseErrorStopUsage = true;
+        poseErrorDistance = distance;
+    }
+
     public void turnErrorPoseStopOff(){poseErrorStopUsage = false;}
 
     public final class FollowTrajectoryAction implements Action {
@@ -429,11 +439,11 @@ public final class PoCMecanumDrive {
             p.put("yError", error.position.y);
             p.put("headingError (deg)", Math.toDegrees(error.heading.toDouble()));*/
 
-//            if(poseErrorStopUsage){
-//                if(error.position.norm()>3.5) {
-//                    throw new OpModeManagerImpl.ForceStopException();
-//                }
-//            }
+            if (poseErrorStopUsage) {
+                if (error.position.norm() > poseErrorDistance) {
+                    throw new OpModeManagerImpl.ForceStopException();
+                }
+            }
 
             return true;
         }
