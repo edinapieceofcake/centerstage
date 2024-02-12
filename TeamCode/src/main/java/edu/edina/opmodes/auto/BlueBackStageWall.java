@@ -86,6 +86,7 @@ public class BlueBackStageWall extends BlueBackStage {
 
                             // Back away and pack up
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
+                            .lineToX(-56.5)
 
                             .afterDisp(3, manager.lowerLiftForDriving())
                             .afterDisp(3, manager.zeroLift())
@@ -132,6 +133,7 @@ public class BlueBackStageWall extends BlueBackStage {
 
                          // Back away and pack up
                          .stopAndAdd(manager.raiseLiftAfterStackPickup())
+                         .lineToX(-56.5)
 
                          .afterDisp(3, manager.lowerLiftForDriving())
                          .afterDisp(3, manager.zeroLift())
@@ -175,6 +177,7 @@ public class BlueBackStageWall extends BlueBackStage {
                             .waitSeconds(0.1)
 
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
+                            .lineToX(-56.5)
 
                             .afterDisp(3, manager.lowerLiftForDriving())
                             .afterDisp(3, manager.zeroLift())
@@ -214,6 +217,7 @@ public class BlueBackStageWall extends BlueBackStage {
                         .waitSeconds(0.1)
 
                         .stopAndAdd(manager.raiseLiftAfterStackPickup())
+                        .lineToX(-56.5)
 
                         .afterDisp(3, manager.lowerLiftForDriving())
                         .afterDisp(3, manager.zeroLift())
