@@ -48,7 +48,7 @@ public class BlueBackStageWall extends BlueBackStage {
              );
          }
 
-         if ((propLocation == PropLocation.Right || propLocation == PropLocation.Center) && dropOnBackDrop) {
+         if ((propLocation == PropLocation.Left || propLocation == PropLocation.Center) && dropOnBackDrop) {
              dropOnBackDrop = false;
              dropOnBackStage = true;
          }
