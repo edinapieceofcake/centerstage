@@ -36,8 +36,8 @@ public class BlueBackStageCenter extends BlueBackStage {
 
                             // Drive to stacks - first trip
                             .setReversed(true)
-                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineToSplineHeading(new Pose2d(24, 14, Math.toRadians(180)), Math.toRadians(180))
+                            .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineTo(new Vector2d(-48, 15.5), Math.toRadians(180))
 
                             // Prepare for grabbing - Trip 1
@@ -50,7 +50,7 @@ public class BlueBackStageCenter extends BlueBackStage {
             );
         }
 
-        if ((propLocation == PropLocation.Left || propLocation == PropLocation.Center) && dropOnBackDrop) {
+        if ((propLocation == PropLocation.Right || propLocation == PropLocation.Center) && dropOnBackDrop) {
             dropOnBackDrop = false;
             dropOnBackStage = true;
         }
@@ -109,8 +109,8 @@ public class BlueBackStageCenter extends BlueBackStage {
                             // Head to Stacks VIA C-Row
                             .setReversed(true)
                             .afterDisp(0, manager.getLiftReadyToDrive())
-                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineToSplineHeading(new Pose2d(24, 14, Math.toRadians(180)), Math.toRadians(180))
+                            .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineTo(new Vector2d(-44, 16), Math.toRadians(180))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 

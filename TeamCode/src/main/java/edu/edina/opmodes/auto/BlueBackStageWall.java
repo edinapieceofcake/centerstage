@@ -35,8 +35,8 @@ public class BlueBackStageWall extends BlueBackStage {
 
                              // Drive to stacks - first trip
                              .setReversed(true)
-                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                              .splineToSplineHeading(new Pose2d(0, 60, Math.toRadians(-180)), Math.toRadians(180))
+                             .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                              .splineToConstantHeading(new Vector2d(-38, 60), Math.toRadians(180))
                              .splineToConstantHeading(new Vector2d(-50, 38), Math.toRadians(180))
                              .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
@@ -50,10 +50,10 @@ public class BlueBackStageWall extends BlueBackStage {
              );
          }
 
-//         if ((propLocation == PropLocation.Right || propLocation == PropLocation.Center) && dropOnBackDrop) {
-//             dropOnBackDrop = false;
-//             dropOnBackStage = true;
-//         }
+         if ((propLocation == PropLocation.Left || propLocation == PropLocation.Center) && dropOnBackDrop) {
+             dropOnBackDrop = false;
+             dropOnBackStage = true;
+         }
 
          if (fourWhites) {  // Make the middle trip
              if (dropOnBackDrop) {
@@ -112,8 +112,8 @@ public class BlueBackStageWall extends BlueBackStage {
                             .afterDisp(0, manager.getLiftReadyToDrive())
 
                             // Head to Stacks VIA Wall
-                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineToSplineHeading(new Pose2d(0, 58, Math.toRadians(-180)), Math.toRadians(180))
+                            .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineToConstantHeading(new Vector2d(-38, 58), Math.toRadians(180))
                             .splineToConstantHeading(new Vector2d(-50, 38), Math.toRadians(180))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))

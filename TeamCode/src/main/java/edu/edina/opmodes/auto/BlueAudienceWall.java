@@ -396,10 +396,11 @@ public class BlueAudienceWall extends LinearOpMode {
         // If we are making a second trip to the stacks
         if (makeSecondTrip) {
             // go get other white pixels
-            if ((propLocation == PropLocation.Right || propLocation == PropLocation.Center) && dropOnBackdrop) {
+            if ((propLocation == PropLocation.Left || propLocation == PropLocation.Center) && dropOnBackdrop) {
                 dropOnBackdrop = false;
                 dropOnBackstage = true;
             }
+
             Actions.runBlocking(
                     new ParallelAction(
                             new SequentialAction(
@@ -447,7 +448,7 @@ public class BlueAudienceWall extends LinearOpMode {
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks VIA A-Row
                                 .lineToX(-48)
-                                .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
+                                .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn(4.5)))
                                 .afterDisp(0,
                                         new ParallelAction(
                                                 manager.positionTheClawToDriveWithPixels()
@@ -457,7 +458,7 @@ public class BlueAudienceWall extends LinearOpMode {
                                 .splineToConstantHeading(new Vector2d(10, 58), Math.toRadians(0))
                                 .afterDisp(0, manager.getLiftReadyToDropPixelFromLeft())
                                 .splineTo(new Vector2d(30, 58), Math.toRadians(0))
-                                .splineTo(new Vector2d(55.5, 48), Math.toRadians(-35))
+                                .splineTo(new Vector2d(57, 53), Math.toRadians(-35))
                                 .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                                 .afterTime(0.3, manager.openLeftClaw())
                                 .afterTime(0.4, manager.openAutoClaw())
@@ -468,7 +469,7 @@ public class BlueAudienceWall extends LinearOpMode {
                 Actions.runBlocking(
                         new SequentialAction(
                                 drive.actionBuilder(drive.pose)
-                                        .lineToX(44)
+                                        .lineToX(50)
                                         .build(),
                                 manager.getLiftReadyToDrive()
                         )
