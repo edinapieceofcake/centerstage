@@ -141,7 +141,7 @@ public final class PoCMecanumDrive {
     private long beamBreakDuration = 225;
     private boolean beamBreakTripped = false;
     private boolean poseErrorStopUsage = false;
-    private double poseErrorDistance = 4.0;
+    private double poseErrorDistance = 4.5;
 
     public class DriveLocalizer implements Localizer {
         public final Encoder leftFront, leftBack, rightBack, rightFront;
@@ -330,7 +330,7 @@ public final class PoCMecanumDrive {
     }
 
     public void turnErrorPoseStopOn() {
-        turnErrorPoseStopOn(4.0);
+        turnErrorPoseStopOn(4.5);
     }
 
     public void turnErrorPoseStopOn(double distance){
