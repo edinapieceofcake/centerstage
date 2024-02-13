@@ -28,7 +28,6 @@ public class RedAudienceCenter extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;
     protected PoCMecanumDrive drive;
-    protected RevBlinkinLedDriver.BlinkinPattern pattern;
     protected PoCHuskyLens poCHuskyLens;
     protected PropLocation propLocation = PropLocation.Center;
 
@@ -50,10 +49,6 @@ public class RedAudienceCenter extends LinearOpMode {
                 hardware.leftBack, hardware.rightBack, hardware.rightFront,
                 hardware.par0, hardware.par1, hardware.perp,
                 hardware.externalImu, hardware.expansionImu, hardware.voltageSensor, hardware.beamBreak, getStartPose());
-
-        // Heartbeat Red to signify Red alliance
-        pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_GRAY;
-        hardware.blinkinLedDriver.setPattern(pattern);
 
         // HuskyLens Init
         poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, getAlliance());
@@ -231,57 +226,39 @@ public class RedAudienceCenter extends LinearOpMode {
             telemetry.addData("Location", propLocation);
             telemetry.addData("Use Camera", useCamera);
             telemetry.update();
-
-            // Show solid pattern if block seen, otherwise heartbeat
-            if (propLocation != PropLocation.None) {
-                pattern = getSuccessfulPropMatchColor();
-            } else {
-                pattern = getUnsuccessfulPropMatchColor();
-            }
-
-            hardware.blinkinLedDriver.setPattern(pattern);
         }
 
         // Turn off prop lighting
         hardware.lights.setPower(0);
 
         if (opModeIsActive()) {
-            // Signal GREEN for successful run
-            pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
-            hardware.blinkinLedDriver.setPattern(pattern);
 
             hardware.startCurrentMonitor();
 
             runPaths();
 
             hardware.stopCurrentMonitor();
-
-            pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_WHITE;
-            hardware.blinkinLedDriver.setPattern(pattern);
         }
     }
 
     protected void runPaths() {
         Vector2d propDropLocation;
         Vector2d backdropDropLocation;
-        Vector2d secondBackdropDropLocation;
 
         // Determine location for purple pixel
         switch(propLocation) {
             case Left:
                 propDropLocation = new Vector2d(-40, -38);
-                backdropDropLocation = secondBackdropDropLocation = new Vector2d(49,-32);
+                backdropDropLocation = new Vector2d(49,-32);
                 break;
             case Right:
                 propDropLocation = new Vector2d(-30, -38);
-                backdropDropLocation = new Vector2d(49.5,-47);
-                secondBackdropDropLocation = new Vector2d(50,-40);
+                backdropDropLocation = new Vector2d(49.5,-45);
                 break;
             case Center:
             default:
                 propDropLocation = new Vector2d(-31, -33);
                 backdropDropLocation = new Vector2d(49,-39);
-                secondBackdropDropLocation = new Vector2d(48.5,-43);
                 break;
         }
 
@@ -391,6 +368,7 @@ public class RedAudienceCenter extends LinearOpMode {
                                 .waitSeconds(delayTime/1000)
                                 .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
                                 .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
+                                .lineToX(51.5)
                                 .afterDisp(0, new SequentialAction(
                                         manager.openRightClaw(),
                                         new SleepAction(0.25),
@@ -415,8 +393,12 @@ public class RedAudienceCenter extends LinearOpMode {
                                 .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
                                 .splineToConstantHeading(new Vector2d(10, -11), Math.toRadians(0))
                                 .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
-                                .stopAndAdd(manager.openRightClaw())
-                                .afterTime(0.25, manager.openLeftClaw())
+                                .lineToX(51.5)
+                                .afterDisp(0, new SequentialAction(
+                                        manager.openRightClaw(),
+                                        new SleepAction(0.25),
+                                        manager.openLeftClaw()
+                                ))
                                 .build()
                 );
             }
@@ -441,10 +423,11 @@ public class RedAudienceCenter extends LinearOpMode {
         // If we are making a second trip to the stacks
         if (makeSecondTrip) {
             // go get other white pixels
-            if ((propLocation == PropLocation.Right || propLocation == PropLocation.Center) && dropOnBackdrop) {
+            if ((propLocation == PropLocation.Left || propLocation == PropLocation.Center) && dropOnBackdrop) {
                 dropOnBackdrop = false;
                 dropOnBackstage = true;
             }
+
             Actions.runBlocking(
                     new ParallelAction(
                             new SequentialAction(
@@ -461,9 +444,7 @@ public class RedAudienceCenter extends LinearOpMode {
             );
 
             // Reach out, grab pixels, close the claws
-            drive.turnErrorPoseStopOff();
             drive.turnBeamBreakOn();
-
 
             Actions.runBlocking(
                     new SequentialAction(
@@ -484,7 +465,6 @@ public class RedAudienceCenter extends LinearOpMode {
             );
 
             drive.turnBeamBreakOff();
-            drive.turnErrorPoseStopOn();
 
             // If we're going to drop on the background
             if (dropOnBackdrop) {
@@ -495,6 +475,7 @@ public class RedAudienceCenter extends LinearOpMode {
                                 .lineToX(-48)
                                 .afterDisp(0,
                                         new ParallelAction(
+                                                manager.lowerLiftForDriving(),
                                                 manager.zeroLift(),
                                                 manager.positionTheClawToDriveWithPixels()
                                         ))
@@ -502,13 +483,10 @@ public class RedAudienceCenter extends LinearOpMode {
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
                                 .splineTo(new Vector2d(10, -11), Math.toRadians(0))
                                 .afterDisp(0, manager.getLiftReadyToDropPixelFromLeft())
-//                                .setReversed(false)
-                                .splineTo(new Vector2d(49, -20), Math.toRadians(-25))
-//                                .splineToConstantHeading(secondBackdropDropLocation, Math.toRadians(0))
-                                .afterDisp(0, new SequentialAction(
-                                        manager.openAutoClaw(),
-                                        manager.openLeftClaw()
-                                ))
+                                .splineTo(new Vector2d(48, -19), Math.toRadians(-25))
+                                .stopAndAdd(manager.openLeftClaw())
+                                .afterTime(0.1, manager.openAutoClaw())
+                                .waitSeconds(0.25)
                                 .build());
 
                 // back away and pack up
@@ -536,17 +514,16 @@ public class RedAudienceCenter extends LinearOpMode {
                                         ))
                                 .setReversed(true)
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
-                                .splineTo(new Vector2d(54, -11), Math.toRadians(0))
-                                .afterDisp(0, new SequentialAction(
-                                        manager.openAutoClaw(),
-                                        manager.openLeftClaw()
-                                ))
-                                .lineToX(50)
+                                .splineTo(new Vector2d(10, -11), Math.toRadians(0))
+                                .splineTo(new Vector2d(48, -12), Math.toRadians(0))
+                                .stopAndAdd(manager.openLeftClaw())
+                                .afterTime(0.1, manager.openAutoClaw())
+                                .waitSeconds(0.25)
+                                .lineToX(44)
                                 .build());
 
             }
         }
-        drive.turnErrorPoseStopOff();
 
         // park
         switch (parkLocation) {
