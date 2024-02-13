@@ -30,9 +30,6 @@ public class TeleopOpMode extends OpMode {
     @Override
     public void start() {
 
-        // Set Lights to Green
-        robot.RobotHardware.blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-
         robot.start();
 
         robot.RobotHardware.startCurrentMonitor();
@@ -63,9 +60,6 @@ public class TeleopOpMode extends OpMode {
 
     @Override
     public  void stop() {
-
-        // Set Lights to Green
-        robot.RobotHardware.blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
 
         robot.stop();
 
