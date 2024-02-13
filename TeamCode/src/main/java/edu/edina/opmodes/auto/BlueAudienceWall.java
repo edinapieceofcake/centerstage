@@ -476,11 +476,10 @@ public class BlueAudienceWall extends LinearOpMode {
                                         ))
                                 .setReversed(true)
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, 59), Math.toRadians(0)), Math.toRadians(0))
-                                .splineTo(new Vector2d(52, 64), Math.toRadians(0))
+                                .splineTo(new Vector2d(54, 58), Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openAutoClaw(),
-                                        manager.openLeftClaw(),
-                                        manager.openRightClaw()
+                                        manager.openLeftClaw()
                                 ))
                                 .lineToX(50)
                                 .build());
