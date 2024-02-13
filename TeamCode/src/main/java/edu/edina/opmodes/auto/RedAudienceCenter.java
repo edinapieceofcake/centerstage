@@ -1,5 +1,6 @@
 package edu.edina.opmodes.auto;
 
+import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -347,7 +348,6 @@ public class RedAudienceCenter extends LinearOpMode {
             );
 
             drive.turnBeamBreakOff();
-            drive.turnErrorPoseStopOn();
 
             // Check to see if there is delay - if so, run special version with wait during return
             if (delayTime > 0) {  // Yes, there's a delay
@@ -364,11 +364,13 @@ public class RedAudienceCenter extends LinearOpMode {
                                         ))
                                 .setReversed(true)
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
+                                .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                                 .splineTo(new Vector2d(10, -11), Math.toRadians(0))
                                 .waitSeconds(delayTime/1000)
                                 .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
                                 .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
                                 .lineToX(51.5)
+                                .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openRightClaw(),
                                         new SleepAction(0.25),
@@ -390,10 +392,12 @@ public class RedAudienceCenter extends LinearOpMode {
                                         ))
                                 .setReversed(true)
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
+                                .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                                 .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
                                 .splineToConstantHeading(new Vector2d(10, -11), Math.toRadians(0))
                                 .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
                                 .lineToX(51.5)
+                                .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openRightClaw(),
                                         new SleepAction(0.25),
@@ -437,8 +441,10 @@ public class RedAudienceCenter extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .lineToX(44)
                                     .setReversed(true)
+                                    .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                                     .splineToSplineHeading(new Pose2d(10, -11.5, Math.toRadians(-180)), Math.toRadians(180))
                                     .splineToConstantHeading(new Vector2d(-54, -11.5), Math.toRadians(180))
+                                    .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                                     .build()
                     )
             );
@@ -473,6 +479,7 @@ public class RedAudienceCenter extends LinearOpMode {
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks VIA A-Row
                                 .lineToX(-48)
+                                .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                                 .afterDisp(0,
                                         new ParallelAction(
                                                 manager.lowerLiftForDriving(),
@@ -484,6 +491,7 @@ public class RedAudienceCenter extends LinearOpMode {
                                 .splineTo(new Vector2d(10, -11), Math.toRadians(0))
                                 .afterDisp(0, manager.getLiftReadyToDropPixelFromLeft())
                                 .splineTo(new Vector2d(48, -19), Math.toRadians(-25))
+                                .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                                 .stopAndAdd(manager.openLeftClaw())
                                 .afterTime(0.1, manager.openAutoClaw())
                                 .waitSeconds(0.25)
@@ -506,6 +514,7 @@ public class RedAudienceCenter extends LinearOpMode {
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks VIA A-Row
                                 .lineToX(-48)
+                                .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                                 .afterDisp(0,
                                         new ParallelAction(
                                                 manager.lowerLiftForDriving(),
@@ -516,6 +525,7 @@ public class RedAudienceCenter extends LinearOpMode {
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
                                 .splineTo(new Vector2d(10, -11), Math.toRadians(0))
                                 .splineTo(new Vector2d(48, -12), Math.toRadians(0))
+                                .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                                 .stopAndAdd(manager.openLeftClaw())
                                 .afterTime(0.1, manager.openAutoClaw())
                                 .waitSeconds(0.25)
