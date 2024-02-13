@@ -196,6 +196,7 @@ public class BlueAudienceCenter extends BlueAudience {
                                 .lineToX(-50)
                                 .afterDisp(0,
                                         new ParallelAction(
+                                                manager.lowerLiftForDriving(),
                                                 manager.zeroLift(),
                                                 manager.positionTheClawToDriveWithPixels()
                                         ))
