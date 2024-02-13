@@ -204,6 +204,7 @@ public class BlueAudienceCenter extends BlueAudience {
                                 .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn(4.5)))
                                 .afterDisp(0,
                                         new ParallelAction(
+                                                manager.lowerLiftForDriving(),
                                                 manager.zeroLift(),
                                                 manager.positionTheClawToDriveWithPixels()
                                         ))

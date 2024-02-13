@@ -83,7 +83,6 @@ public class RedBackStageWall extends RedBackStage {
 
                         .afterTime(0, manager.closeAutoClaw())
                         .afterTime(0, manager.closeLeftClaw())
-                        .afterTime(0, manager.closeRightClaw())
                         .waitSeconds(0.1)
 
                         // Back away and pack up
@@ -102,7 +101,6 @@ public class RedBackStageWall extends RedBackStage {
                         .splineTo(new Vector2d(57, -53), Math.toRadians(35))
                         .afterTime(0.1, manager.openAutoClaw())
                         .afterTime(0.1, manager.openLeftClaw())
-                        .afterTime(0.1, manager.openRightClaw())
                         .waitSeconds(0.25)
 
                         // Head to Stacks VIA A-Row
@@ -131,7 +129,6 @@ public class RedBackStageWall extends RedBackStage {
 
                         .afterTime(0, manager.closeAutoClaw())
                         .afterTime(0, manager.closeLeftClaw())
-                        .afterTime(0, manager.closeRightClaw())
                         .waitSeconds(0.1)
 
                         // Back away and pack up
@@ -147,7 +144,6 @@ public class RedBackStageWall extends RedBackStage {
                         .splineToConstantHeading(new Vector2d(57, -56), Math.toRadians(0))
                         .afterTime(0.1, manager.openAutoClaw())
                         .afterTime(0.1, manager.openLeftClaw())
-                        .afterTime(0.1, manager.openRightClaw())
                         .waitSeconds(0.25)
 
                         // Head to Stacks VIA A-Row
@@ -176,7 +172,6 @@ public class RedBackStageWall extends RedBackStage {
                         // Move in and grab pixels until beam break
                         .afterTime(0, manager.closeAutoClaw())
                         .afterTime(0, manager.closeLeftClaw())
-                        .afterTime(0, manager.closeRightClaw())
                         .waitSeconds(0.1)
 
                         .stopAndAdd(manager.raiseLiftAfterStackPickup())
@@ -194,7 +189,6 @@ public class RedBackStageWall extends RedBackStage {
                         .splineTo(new Vector2d(57, -53), Math.toRadians(35))
                         .afterTime(0.1, manager.openAutoClaw())
                         .afterTime(0.1, manager.openLeftClaw())
-                        .afterTime(0.1, manager.openRightClaw())
                         .waitSeconds(.25)
 
                         .build()
@@ -217,7 +211,6 @@ public class RedBackStageWall extends RedBackStage {
                         // Move in and grab pixels until beam break
                         .afterTime(0, manager.closeAutoClaw())
                         .afterTime(0, manager.closeLeftClaw())
-                        .afterTime(0, manager.closeRightClaw())
                         .waitSeconds(0.1)
 
                         .stopAndAdd(manager.raiseLiftAfterStackPickup())
@@ -232,7 +225,6 @@ public class RedBackStageWall extends RedBackStage {
                         .splineToConstantHeading(new Vector2d(57, -58), Math.toRadians(0))
                         .afterTime(0.1, manager.openAutoClaw())
                         .afterTime(0.1, manager.openLeftClaw())
-                        .afterTime(0.1, manager.openRightClaw())
                         .waitSeconds(.25)
                         .lineToX(53)
 
