@@ -37,7 +37,7 @@ public class BlueBackStageCenter extends BlueBackStage {
                             // Drive to stacks - first trip
                             .setReversed(true)
                             .splineToSplineHeading(new Pose2d(24, 14, Math.toRadians(180)), Math.toRadians(180))
-                            .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
+                            .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn(4.6)))
                             .splineTo(new Vector2d(-48, 15.5), Math.toRadians(180))
 
                             // Prepare for grabbing - Trip 1
