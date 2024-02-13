@@ -98,7 +98,8 @@ public class RobotHanger implements Subsystem {
             state.hangerState = HangerState.Extending;
         } else if (toggleRetract) {
             state.hangerState = HangerState.Retracting;
-        } else {
+        } else if (hardware.robotHangerMotor.getMode() == DcMotor.RunMode.RUN_USING_ENCODER){
+            // only go to idle if we are running in manual mode
             state.hangerState = HangerState.Idle;
         }
 

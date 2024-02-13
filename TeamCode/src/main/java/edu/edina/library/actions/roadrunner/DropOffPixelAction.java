@@ -44,8 +44,8 @@ public class DropOffPixelAction implements Action {
             state.dropOffOrientation = DropOffOrientation.Center;
             state.dropOffState = DropOffState.Start;
             if (isBackstage) {
-                config.leftLowDropOffServoPosition = .68;
-                config.rightLowDropOffServoPosition = .38;
+                config.leftLowDropOffServoPosition = .66;
+                config.rightLowDropOffServoPosition = .40;
             } else {
                 config.leftLowDropOffServoPosition = .56;
                 config.rightLowDropOffServoPosition = .49;
