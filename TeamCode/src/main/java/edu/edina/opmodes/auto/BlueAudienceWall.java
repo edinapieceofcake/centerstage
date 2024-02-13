@@ -29,7 +29,6 @@ public class BlueAudienceWall extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;
     protected PoCMecanumDrive drive;
-    protected RevBlinkinLedDriver.BlinkinPattern pattern;
     protected PoCHuskyLens poCHuskyLens;
     protected PropLocation propLocation = PropLocation.Center;
 
