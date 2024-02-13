@@ -154,6 +154,10 @@ public class Lift implements Subsystem {
                         hardware.rightLiftServo.setPosition(config.rightHighDropOffServoPosition);
                     }
                     break;
+                case Latch:
+                    hardware.leftLiftServo.setPosition(config.leftLatchServoPosition);
+                    hardware.rightLiftServo.setPosition(config.rightLatchServoPosition);
+                    break;
                 case Hang:
                     hardware.leftLiftServo.setPosition(config.startingLeftLiftServoPosition);
                     hardware.rightLiftServo.setPosition(config.startingRightLiftServoPosition);
@@ -404,14 +408,14 @@ public class Lift implements Subsystem {
             if (state.currentTopMotorPosition < (config.minimumExtensionBeforeRaisingLiftInTicks + 10)) {
                 state.hangState = HangState.LiftArm;
                 state.liftServoRange = LiftServoRange.Low;
-                state.currentLiftServoState = LiftServoState.Low;
+                state.currentLiftServoState = LiftServoState.Latch;
                 highLiftDelay.reset();
             }
         }
 
         if (state.hangState == HangState.LiftArm) {
             if (highLiftDelay.hasExpired()) {
-                state.currentLiftServoState = LiftServoState.Low;
+                state.currentLiftServoState = LiftServoState.Latch;
                 state.hangState = HangState.RaiseHanger;
             }
         }
