@@ -1,4 +1,4 @@
-package edu.edina.opmodes.auto;
+package edu.edina.opmodes.auto.hold;
 
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
