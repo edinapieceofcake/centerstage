@@ -63,10 +63,8 @@ public class BlueAudienceCenter extends BlueAudience {
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
                                     .lineToX(-57)
-                                    .build(),
-                            manager.closeLeftClaw(),
-                            new SleepAction(.2),
-                            manager.raiseLiftAfterStackPickup()
+                                    .stopAndAdd(manager.closeLeftClaw())
+                                    .build()
                     )
             );
 
@@ -77,7 +75,8 @@ public class BlueAudienceCenter extends BlueAudience {
                 Actions.runBlocking(
                         drive.actionBuilder(drive.pose)
                                 // Turn, then pack up and drive to backdrop
-                                //.turnTo(Math.toRadians(270))
+                                .lineToX(-56.5)
+                                .stopAndAdd(manager.raiseLiftAfterStackPickup())
                                 .lineToX(-50)
                                 .afterDisp(0,
                                         new ParallelAction(
@@ -103,6 +102,8 @@ public class BlueAudienceCenter extends BlueAudience {
                 Actions.runBlocking(
                         drive.actionBuilder(drive.pose)
                                 // Turn, then pack up and drive to backdrop
+                                .lineToX(-56.5)
+                                .stopAndAdd(manager.raiseLiftAfterStackPickup())
                                 .lineToX(-50)
                                 .afterDisp(0,
                                         new ParallelAction(
@@ -171,11 +172,11 @@ public class BlueAudienceCenter extends BlueAudience {
                     new SequentialAction(
                             new ParallelAction(
                                     manager.positionTheClawToPickupPixelsFromStack(),
-                                    manager.runLiftToPosition(-115)
+                                    manager.runLiftToPosition(-95)
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
-                                    .lineToX(-59)
+                                    .lineToX(-59.5)
                                     .build(),
                             new ParallelAction(
                                     manager.closeLeftClaw(),

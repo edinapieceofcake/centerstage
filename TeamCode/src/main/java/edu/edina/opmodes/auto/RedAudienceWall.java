@@ -251,31 +251,20 @@ public class RedAudienceWall extends LinearOpMode {
         Vector2d backdropDropLocation;
         double secondLineToX = -60;
 
-        // Determine location for purple pixel
-        switch(propLocation) {
-            case Left:
-                propDropLocation = new Vector2d(-45, -35);
-                break;
-            case Right:
-                propDropLocation = new Vector2d(-30, -38);
-                break;
-            case Center:
-            default:
-                propDropLocation = new Vector2d(-38, -33);  // default to Center if all goes bad
-                break;
-        }
-
         // Determine location for yellow pixel
         switch (propLocation) {
             case Left:
+                propDropLocation = new Vector2d(-45, -35);
                 backdropDropLocation = new Vector2d(48,-32);
                 secondLineToX = -65;
                 break;
             case Right:
+                propDropLocation = new Vector2d(-30, -38);
                 backdropDropLocation = new Vector2d(47.5,-44);
                 break;
             case Center:
             default:
+                propDropLocation = new Vector2d(-38, -33);  // default to Center if all goes bad\
                 backdropDropLocation = new Vector2d(48,-39);
                 break;
         }
@@ -324,7 +313,7 @@ public class RedAudienceWall extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
                                     .setReversed(true)
-                                    .splineToSplineHeading(new Pose2d(-52, -36, Math.toRadians(180)), Math.toRadians(180))
+                                    .splineToSplineHeading(new Pose2d(-52, -35, Math.toRadians(180)), Math.toRadians(180))
                                     .build()
                     );
                     break;
@@ -336,15 +325,13 @@ public class RedAudienceWall extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
-                                    manager.runLiftToPosition(-175),
+                                    manager.runLiftToPosition(-200),
                                     manager.positionTheClawToPickupPixelsFromStack()
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
                                     .lineToX(-58.5)
                                     .stopAndAdd(manager.closeLeftClaw())
-                                    .lineToX(-57.5)
-                                    .stopAndAdd(manager.raiseLiftAfterStackPickup())
                                     .build()
                     )
             );
@@ -357,6 +344,8 @@ public class RedAudienceWall extends LinearOpMode {
                 Actions.runBlocking(
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks VIA A-Row
+                                .lineToX(-58)
+                                .stopAndAdd(manager.raiseLiftAfterStackPickup())
                                 .lineToX(-48)
                                 .afterDisp(0,
                                         new ParallelAction(
@@ -383,6 +372,8 @@ public class RedAudienceWall extends LinearOpMode {
                 Actions.runBlocking(
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks VIA A-Row
+                                .lineToX(-57.5)
+                                .stopAndAdd(manager.raiseLiftAfterStackPickup())
                                 .lineToX(-48)
                                 .afterDisp(0,
                                         new ParallelAction(

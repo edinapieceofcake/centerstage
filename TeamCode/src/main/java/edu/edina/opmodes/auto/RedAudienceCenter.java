@@ -258,7 +258,7 @@ public class RedAudienceCenter extends LinearOpMode {
             case Center:
             default:
                 propDropLocation = new Vector2d(-31, -33);
-                backdropDropLocation = new Vector2d(49,-39);
+                backdropDropLocation = new Vector2d(49,-38);
                 break;
         }
 
@@ -333,15 +333,13 @@ public class RedAudienceCenter extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
-                                    manager.runLiftToPosition(-210),
+                                    manager.runLiftToPosition(-200),
                                     manager.positionTheClawToPickupPixelsFromStack()
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
                                     .lineToX(-58)
                                     .stopAndAdd(manager.closeLeftClaw())
-                                    .lineToX(-57.5)
-                                    .stopAndAdd(manager.raiseLiftAfterStackPickup())
                                     .build()
                     )
             );
@@ -355,6 +353,8 @@ public class RedAudienceCenter extends LinearOpMode {
                 Actions.runBlocking(
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks VIA C-Row
+                                .lineToX(-57.5)
+                                .stopAndAdd(manager.raiseLiftAfterStackPickup())
                                 .lineToX(-48)
                                 .afterDisp(0,
                                         new ParallelAction(
@@ -381,6 +381,8 @@ public class RedAudienceCenter extends LinearOpMode {
                 Actions.runBlocking(
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks VIA C-Row
+                                .lineToX(-57.5)
+                                .stopAndAdd(manager.raiseLiftAfterStackPickup())
                                 .lineToX(-48)
                                 .afterDisp(0,
                                         new ParallelAction(
