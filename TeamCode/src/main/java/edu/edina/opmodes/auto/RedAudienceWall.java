@@ -276,7 +276,7 @@ public class RedAudienceWall extends LinearOpMode {
                 break;
             case Center:
             default:
-                backdropDropLocation = new Vector2d(48,-40);
+                backdropDropLocation = new Vector2d(48,-39);
                 break;
         }
 
@@ -336,7 +336,7 @@ public class RedAudienceWall extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
-                                    manager.runLiftToPosition(-170),
+                                    manager.runLiftToPosition(-175),
                                     manager.positionTheClawToPickupPixelsFromStack()
                             ),
                             drive.actionBuilder(drive.pose)
