@@ -482,7 +482,7 @@ public class RedAudienceWall extends LinearOpMode {
                                         ))
                                 .setReversed(true)
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
-                                .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn(4.5)))
+                                .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                                 .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
                                 .splineToConstantHeading(new Vector2d(10, -56), Math.toRadians(0))
                                 .splineTo(new Vector2d(30, -56), Math.toRadians(0))

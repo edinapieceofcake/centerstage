@@ -202,7 +202,7 @@ public class BlueAudienceCenter extends BlueAudience {
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks VIA A-Row
                                 .lineToX(-50)
-                                .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn(4.5)))
+                                .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                                 .afterDisp(0,
                                         new ParallelAction(
                                                 manager.lowerLiftForDriving(),

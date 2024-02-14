@@ -455,7 +455,7 @@ public class BlueAudienceWall extends LinearOpMode {
                                         ))
                                 .setReversed(true)
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, 58), Math.toRadians(0)), Math.toRadians(0))
-                                .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn(4.5)))
+                                .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                                 .splineToConstantHeading(new Vector2d(10, 58), Math.toRadians(0))
                                 .afterDisp(0, manager.getLiftReadyToDropPixelFromLeft())
                                 .splineTo(new Vector2d(30, 58), Math.toRadians(0))
