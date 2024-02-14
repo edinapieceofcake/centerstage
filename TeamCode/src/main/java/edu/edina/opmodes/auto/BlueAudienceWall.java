@@ -306,10 +306,8 @@ public class BlueAudienceWall extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
                                     .lineToX(-56.5)
-                                    .build(),
-                            manager.closeLeftClaw(),
-                            new SleepAction(.2),
-                            manager.raiseLiftAfterStackPickup()
+                                    .stopAndAdd(manager.closeLeftClaw())
+                                    .build()
                     )
             );
 
@@ -321,6 +319,8 @@ public class BlueAudienceWall extends LinearOpMode {
                 Actions.runBlocking(
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks VIA A-Row
+                                .lineToX(-56)
+                                .stopAndAdd(manager.raiseLiftAfterStackPickup())
                                 .lineToX(-50)
                                 .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                                 .afterDisp(0,
@@ -350,6 +350,8 @@ public class BlueAudienceWall extends LinearOpMode {
                 Actions.runBlocking(
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks VIA A-Row
+                                .lineToX(-56)
+                                .stopAndAdd(manager.raiseLiftAfterStackPickup())
                                 .lineToX(-50)
                                 .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                                 .afterDisp(0,
@@ -424,7 +426,7 @@ public class BlueAudienceWall extends LinearOpMode {
                     new SequentialAction(
                             new ParallelAction(
                                     manager.positionTheClawToPickupPixelsFromStack(),
-                                    manager.runLiftToPosition(-100)
+                                    manager.runLiftToPosition(-95)
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks

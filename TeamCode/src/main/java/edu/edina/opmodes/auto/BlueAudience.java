@@ -38,7 +38,7 @@ public class BlueAudience extends Audience {
             default:
                 propDropLocation = new Vector2d(-33, 34.5);  // default to Center if all goes bad
                 propAngle = 270.0;
-                backdropDropLocation = new Vector2d(50,35); // default to center if all goes bad
+                backdropDropLocation = new Vector2d(50,34 ); // default to center if all goes bad
                 break;
         }
 
