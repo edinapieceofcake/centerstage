@@ -8,12 +8,14 @@ import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import edu.edina.library.enums.PropLocation;
+import edu.edina.library.util.RobotConfiguration;
 
 @Autonomous
 //@Disabled
-public class BlueAudienceCenterOuter extends BlueAudience {
+public class BlueAudienceCenter extends BlueAudience {
 
     private double stack1Y = 14.5;
     private double stack2Y = 15.5;
