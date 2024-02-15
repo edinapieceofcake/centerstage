@@ -47,8 +47,8 @@ public class DropOffPixelAction implements Action {
                 config.leftLowDropOffServoPosition = .66;
                 config.rightLowDropOffServoPosition = .40;
             } else {
-                config.leftLowDropOffServoPosition = .56;
-                config.rightLowDropOffServoPosition = .49;
+                config.leftLowDropOffServoPosition = .555;
+                config.rightLowDropOffServoPosition = .495;
             }
 
             config.liftLowDropOffPosition = -600;

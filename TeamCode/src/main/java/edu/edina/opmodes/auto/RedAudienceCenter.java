@@ -254,7 +254,7 @@ public class RedAudienceCenter extends LinearOpMode {
                 break;
             case Right:
                 propDropLocation = new Vector2d(-30, -38);
-                backdropDropLocation = new Vector2d(49.5,-45);
+                backdropDropLocation = new Vector2d(49.5,-46);
                 break;
             case Center:
             default:
@@ -444,8 +444,8 @@ public class RedAudienceCenter extends LinearOpMode {
                                     .lineToX(44)
                                     .setReversed(true)
                                     .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                                    .splineToSplineHeading(new Pose2d(10, -11.5, Math.toRadians(-180)), Math.toRadians(180))
-                                    .splineToConstantHeading(new Vector2d(-54, -11.5), Math.toRadians(180))
+                                    .splineToSplineHeading(new Pose2d(10, -12.5, Math.toRadians(-180)), Math.toRadians(180))
+                                    .splineToConstantHeading(new Vector2d(-54, -12.5), Math.toRadians(180))
                                     .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                                     .build()
                     )
