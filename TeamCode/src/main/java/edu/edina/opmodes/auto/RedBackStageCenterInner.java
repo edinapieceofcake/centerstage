@@ -1,29 +1,17 @@
 package edu.edina.opmodes.auto;
 
 import com.acmerobotics.roadrunner.InstantAction;
-import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.PoCMecanumDrive;
-
-import edu.edina.library.actions.roadrunner.ActionManager;
-import edu.edina.library.enums.Alliance;
-import edu.edina.library.enums.ParkLocation;
 import edu.edina.library.enums.PropLocation;
-import edu.edina.library.util.PoCHuskyLens;
-import edu.edina.library.util.RobotConfiguration;
-import edu.edina.library.util.RobotHardware;
-import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
 //@Disabled
-public class RedBackStageCenter extends RedBackStage {
+public class RedBackStageCenterInner extends RedBackStageInner {
     @Override
     protected void runPaths() {
         if (twoWhites) {
