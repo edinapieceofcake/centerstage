@@ -23,7 +23,7 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
-//@Disabled
+@Disabled
 public class RedAudienceCenterHC extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;
@@ -339,7 +339,6 @@ public class RedAudienceCenterHC extends LinearOpMode {
                 );
 
                 drive.turnBeamBreakOff();
-                drive.turnErrorPoseStopOn();
 
                 // Check to see if there is delay - if so, run special version with wait during return
                 if (delayTime > 0) {  // Yes, there's a delay
