@@ -164,10 +164,6 @@ public class BlueAudienceCenterHC extends BlueAudience {
         // If we are making a second trip to the stacks
         if (makeSecondTrip) {
             // go get other white pixels
-            if ((propLocation == PropLocation.Right || propLocation == PropLocation.Center) && dropOnBackdrop) {
-                dropOnBackdrop = false;
-                dropOnBackstage = true;
-            }
 
             Actions.runBlocking(
                     new ParallelAction(
