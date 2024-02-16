@@ -236,11 +236,12 @@ public class BlueAudienceCenter extends BlueAudience {
                                         ))
                                 .setReversed(true)
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, 12), Math.toRadians(0)), Math.toRadians(0))
-                                .splineToConstantHeading(new Vector2d(54, 14), Math.toRadians(0))
+                                .splineToConstantHeading(new Vector2d(56, 14), Math.toRadians(0))
                                 .afterDisp(0, new SequentialAction(
                                         manager.openAutoClaw(),
                                         manager.openLeftClaw()
                                 ))
+                                .waitSeconds(.25)
                                 .lineToX(49)
                                 .build());
 
