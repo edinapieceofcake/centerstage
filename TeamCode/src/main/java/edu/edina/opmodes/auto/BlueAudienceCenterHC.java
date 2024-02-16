@@ -20,6 +20,7 @@ public class BlueAudienceCenterHC extends BlueAudience {
     @Override
     protected void runPaths() {
         int secondPickupHeight = -95;
+        double secondPickupX = -59.5;
 
         // If we want to drop Yellow..
         if (yellowPixel) {
@@ -120,12 +121,14 @@ public class BlueAudienceCenterHC extends BlueAudience {
                 }
             } else {
                 secondPickupHeight = -160;
+                stack2Y = 16;
+                secondPickupX = -63;
                 // just head to the backdrop to drop so we don't collide
                 Actions.runBlocking(
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks VIA C-Row
                                 .setReversed(true)
-                                .setTangent(Math.toRadians(225))
+                                .setTangent(Math.toRadians(200))
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, 11), Math.toRadians(0)), Math.toRadians(0))
                                 .splineToSplineHeading(new Pose2d(new Vector2d(10, 11), Math.toRadians(0)), Math.toRadians(0))
                                 .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
@@ -190,7 +193,7 @@ public class BlueAudienceCenterHC extends BlueAudience {
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
-                                    .lineToX(-59.5)
+                                    .lineToX(secondPickupX)
                                     .build(),
                             new ParallelAction(
                                     manager.closeLeftClaw(),
