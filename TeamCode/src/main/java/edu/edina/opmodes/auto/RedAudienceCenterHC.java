@@ -30,6 +30,7 @@ public class RedAudienceCenterHC extends LinearOpMode {
     protected PoCMecanumDrive drive;
     protected PoCHuskyLens poCHuskyLens;
     protected PropLocation propLocation = PropLocation.Center;
+    protected PropLocation lastPropLocation = PropLocation.Right;
 
     private boolean makeSecondTrip = false;
     private boolean yellowPixel = false;
@@ -189,7 +190,9 @@ public class RedAudienceCenterHC extends LinearOpMode {
                 poCHuskyLens.update();
                 propLocation = poCHuskyLens.getPropLocation();
                 if (propLocation == PropLocation.None) {
-                    propLocation = PropLocation.Right;
+                    propLocation = lastPropLocation;
+                } else {
+                    lastPropLocation = propLocation;
                 }
             } else {
                 if (pad1.left_stick_button) {
