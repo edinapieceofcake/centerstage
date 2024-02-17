@@ -131,6 +131,7 @@ public class BlueAudienceCenterHC extends BlueAudience {
                                 .setReversed(true)
                                 .setTangent(Math.toRadians(200))
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, 11), Math.toRadians(0)), Math.toRadians(0))
+                                .waitSeconds(1)
                                 .splineToSplineHeading(new Pose2d(new Vector2d(10, 11), Math.toRadians(0)), Math.toRadians(0))
                                 .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
                                 .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))

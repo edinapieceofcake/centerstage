@@ -259,7 +259,7 @@ public class RedAudienceCenterHC extends LinearOpMode {
                 break;
             case Center:
             default:
-                propDropLocation = new Vector2d(-31, -33);
+                propDropLocation = new Vector2d(-31, -34);
                 backdropDropLocation = new Vector2d(49,-38);
                 break;
         }
