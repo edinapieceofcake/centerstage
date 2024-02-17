@@ -23,7 +23,7 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
-@Disabled
+//@Disabled
 public class RedAudienceCenterHC extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;
@@ -253,7 +253,7 @@ public class RedAudienceCenterHC extends LinearOpMode {
                 backdropDropLocation = new Vector2d(49,-33);
                 break;
             case Right:
-                propDropLocation = new Vector2d(-32, -38);
+                propDropLocation = new Vector2d(-31, -38);
                 backdropDropLocation = new Vector2d(49.5,-46.5);
                 secondPickupHeight = -170;
                 break;
@@ -405,6 +405,7 @@ public class RedAudienceCenterHC extends LinearOpMode {
                                 .setReversed(true)
                                 .setTangent(Math.toRadians(135))
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
+                                .waitSeconds(1)
                                 .splineToSplineHeading(new Pose2d(new Vector2d(10, -11), Math.toRadians(0)), Math.toRadians(0))
                                 .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
                                 .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))

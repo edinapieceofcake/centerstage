@@ -135,9 +135,9 @@ public class Audience extends LinearOpMode {
                 parkLocation = ParkLocation.None;
             }
 
-            // Delay - Max of 4000ms, Min of 0ms
+            // Delay - Max of 10000ms, Min of 0ms
             if (pad1.left_bumper) {
-                delayTime += (delayTime > 3000) ? 0 : 1000;
+                delayTime += (delayTime > 9000) ? 0 : 1000;
             } else if (pad1.right_bumper) {
                 delayTime -= (delayTime < 1000) ? 0 : 1000;
             }

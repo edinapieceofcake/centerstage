@@ -97,8 +97,8 @@ public class RedBackStageWall extends RedBackStage {
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                         .splineToSplineHeading(new Pose2d(new Vector2d(-35, -56), Math.toRadians(0)), Math.toRadians(0))
                         .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
-                        .splineToConstantHeading(new Vector2d(10, -56), Math.toRadians(0))
-                        .splineTo(new Vector2d(40, -56), Math.toRadians(0))
+                        .splineToConstantHeading(new Vector2d(10, -58), Math.toRadians(0))
+                        .splineTo(new Vector2d(40, -58), Math.toRadians(0))
                         .splineTo(new Vector2d(57, -53), Math.toRadians(35))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                         .afterTime(0.1, manager.openAutoClaw())
@@ -110,9 +110,9 @@ public class RedBackStageWall extends RedBackStage {
                         .afterDisp(0, manager.getLiftReadyToDrive())
 
                         // Head to Stacks VIA Wall
-                        .splineToSplineHeading(new Pose2d(0, -54, Math.toRadians(-180)), Math.toRadians(180))
+                        .splineToSplineHeading(new Pose2d(0, -56, Math.toRadians(-180)), Math.toRadians(180))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                        .splineToConstantHeading(new Vector2d(-38, -56), Math.toRadians(180))
+                        .splineToConstantHeading(new Vector2d(-38, -58), Math.toRadians(180))
                         .splineToConstantHeading(new Vector2d(-50, -31), Math.toRadians(180))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
@@ -157,7 +157,7 @@ public class RedBackStageWall extends RedBackStage {
 
                         // Head to Stacks VIA Wall
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                        .splineToSplineHeading(new Pose2d(0, -54, Math.toRadians(-180)), Math.toRadians(180))
+                        .splineToSplineHeading(new Pose2d(0, -56, Math.toRadians(-180)), Math.toRadians(180))
                         .splineToConstantHeading(new Vector2d(-38, -56), Math.toRadians(180))
                         .splineToConstantHeading(new Vector2d(-50, -31), Math.toRadians(180))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
@@ -194,7 +194,7 @@ public class RedBackStageWall extends RedBackStage {
                         .splineToSplineHeading(new Pose2d(new Vector2d(-35, -56), Math.toRadians(0)), Math.toRadians(0))
                         .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
                         .splineToConstantHeading(new Vector2d(10, -56), Math.toRadians(0))
-                        .splineTo(new Vector2d(40, -56), Math.toRadians(0))
+                        .splineTo(new Vector2d(40, -58), Math.toRadians(0))
                         .splineTo(new Vector2d(57, -53), Math.toRadians(35))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                         .afterTime(0.1, manager.openAutoClaw())
@@ -233,7 +233,7 @@ public class RedBackStageWall extends RedBackStage {
                         .setReversed(true)
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                         .splineToSplineHeading(new Pose2d(new Vector2d(-35, -56), Math.toRadians(0)), Math.toRadians(0))
-                        .splineToConstantHeading(new Vector2d(57, -58), Math.toRadians(0))
+                        .splineToConstantHeading(new Vector2d(57, -56), Math.toRadians(0))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                         .afterTime(0.1, manager.openAutoClaw())
                         .afterTime(0.1, manager.openLeftClaw())
