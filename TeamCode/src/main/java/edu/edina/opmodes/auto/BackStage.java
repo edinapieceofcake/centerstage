@@ -227,6 +227,8 @@ public class BackStage extends LinearOpMode {
                 sleep(delayTime);
             }
 
+            hardware.startCurrentMonitor();
+
             dropPurplePixel();
 
             if (twoWhites || fourWhites) {
@@ -234,6 +236,8 @@ public class BackStage extends LinearOpMode {
             } else {
                 park();
             }
+
+            hardware.stopCurrentMonitor();
         }
     }
 }

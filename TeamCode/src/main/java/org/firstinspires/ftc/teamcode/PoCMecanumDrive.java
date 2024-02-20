@@ -141,6 +141,7 @@ public final class PoCMecanumDrive {
     private long beamBreakDuration = 225;
     private boolean beamBreakTripped = false;
     private boolean poseErrorStopUsage = false;
+    private double poseErrorDistance = 6.0;
 
     public class DriveLocalizer implements Localizer {
         public final Encoder leftFront, leftBack, rightBack, rightFront;
@@ -327,7 +328,16 @@ public final class PoCMecanumDrive {
     public void turnBeamBreakOff(){
         beamUsage = false;
     }
-    public void turnErrorPoseStopOn(){poseErrorStopUsage = true;}
+
+    public void turnErrorPoseStopOn() {
+        turnErrorPoseStopOn(6.0);
+    }
+
+    public void turnErrorPoseStopOn(double distance){
+        poseErrorStopUsage = true;
+        poseErrorDistance = distance;
+    }
+
     public void turnErrorPoseStopOff(){poseErrorStopUsage = false;}
 
     public final class FollowTrajectoryAction implements Action {
@@ -393,7 +403,7 @@ public final class PoCMecanumDrive {
             }
 
             Pose2dDual<Time> txWorldTarget = timeTrajectory.get(t);
-            targetPoseWriter.write(new PoseMessage(txWorldTarget.value()));
+//            targetPoseWriter.write(new PoseMessage(txWorldTarget.value()));
 
             PoseVelocity2d robotVelRobot = updatePoseEstimate();
 
@@ -413,9 +423,9 @@ public final class PoCMecanumDrive {
             double leftBackPower = feedforward.compute(wheelVels.leftBack) / voltage;
             double rightBackPower = feedforward.compute(wheelVels.rightBack) / voltage;
             double rightFrontPower = feedforward.compute(wheelVels.rightFront) / voltage;
-            mecanumCommandWriter.write(new MecanumCommandMessage(
-                    voltage, leftFrontPower, leftBackPower, rightBackPower, rightFrontPower
-            ));
+//            mecanumCommandWriter.write(new MecanumCommandMessage(
+//                    voltage, leftFrontPower, leftBackPower, rightBackPower, rightFrontPower
+//            ));
 
             leftFront.setPower(leftFrontPower);
             leftBack.setPower(leftBackPower);
@@ -424,16 +434,16 @@ public final class PoCMecanumDrive {
 
             Pose2d error = txWorldTarget.value().minusExp(pose);
 
-            Log.d("POSE_ERROR", String.format("%f", error.position.norm()));
             /*p.put("xError", error.position.x);
             p.put("yError", error.position.y);
             p.put("headingError (deg)", Math.toDegrees(error.heading.toDouble()));*/
 
-//            if(poseErrorStopUsage){
-//                if(error.position.norm()>3.5) {
-//                    throw new OpModeManagerImpl.ForceStopException();
-//                }
-//            }
+            if (poseErrorStopUsage) {
+                if (error.position.norm() > poseErrorDistance) {
+                    Log.d("POSE_ERROR", String.format("%f", error.position.norm()));
+                    throw new OpModeManagerImpl.ForceStopException();
+                }
+            }
 
             return true;
         }
@@ -475,7 +485,7 @@ public final class PoCMecanumDrive {
             }
 
             Pose2dDual<Time> txWorldTarget = turn.get(t);
-            targetPoseWriter.write(new PoseMessage(txWorldTarget.value()));
+//            targetPoseWriter.write(new PoseMessage(txWorldTarget.value()));
 
             PoseVelocity2d robotVelRobot = updatePoseEstimate();
 
@@ -494,9 +504,9 @@ public final class PoCMecanumDrive {
             double leftBackPower = feedforward.compute(wheelVels.leftBack) / voltage;
             double rightBackPower = feedforward.compute(wheelVels.rightBack) / voltage;
             double rightFrontPower = feedforward.compute(wheelVels.rightFront) / voltage;
-            mecanumCommandWriter.write(new MecanumCommandMessage(
-                    voltage, leftFrontPower, leftBackPower, rightBackPower, rightFrontPower
-            ));
+//            mecanumCommandWriter.write(new MecanumCommandMessage(
+//                    voltage, leftFrontPower, leftBackPower, rightBackPower, rightFrontPower
+//            ));
 
             leftFront.setPower(feedforward.compute(wheelVels.leftFront) / voltage);
             leftBack.setPower(feedforward.compute(wheelVels.leftBack) / voltage);
@@ -522,7 +532,7 @@ public final class PoCMecanumDrive {
             poseHistory.removeFirst();
         }
 
-        estimatedPoseWriter.write(new PoseMessage(pose));
+//        estimatedPoseWriter.write(new PoseMessage(pose));
 
         return twist.velocity().value();
     }

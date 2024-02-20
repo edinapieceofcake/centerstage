@@ -95,10 +95,12 @@ public class RedBackStageCenter extends RedBackStage {
 
                         // Return to backdrop and angle drop
                         .setReversed(true)
+                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                         .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
                         .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
                         .splineTo(new Vector2d(40, -12), Math.toRadians(0))
                         .splineTo(new Vector2d(59.5, -20), Math.toRadians(-35))
+                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                         .waitSeconds(0.25)
                         .afterTime(0, manager.openAutoClaw())
                         .afterTime(0, manager.openLeftClaw())
@@ -108,7 +110,9 @@ public class RedBackStageCenter extends RedBackStage {
                         .setReversed(true)
                         .afterDisp(0, manager.getLiftReadyToDrive())
                         .splineToSplineHeading(new Pose2d(24, -11, Math.toRadians(180)), Math.toRadians(180))
+                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                         .splineTo(new Vector2d(-44, -11), Math.toRadians(180))
+                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                         // Prepare for grabbing - Trip 2
                         .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(175)))
@@ -140,8 +144,10 @@ public class RedBackStageCenter extends RedBackStage {
 
                         // Return to backstage and drop
                         .setReversed(true)
+                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                         .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
                         .splineTo(new Vector2d(59.5, -12), Math.toRadians(0))
+                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                         .afterTime(0, manager.openAutoClaw())
                         .afterTime(0, manager.openLeftClaw())
                         .waitSeconds(0.25)
@@ -149,7 +155,9 @@ public class RedBackStageCenter extends RedBackStage {
                         // Head to Stacks VIA C-Row
                         .setReversed(true)
                         .splineToSplineHeading(new Pose2d(24, -11, Math.toRadians(180)), Math.toRadians(180))
+                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                         .splineTo(new Vector2d(-44, -11), Math.toRadians(180))
+                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                         // Prepare for grabbing - Trip 2
                         .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(175)))
@@ -178,10 +186,12 @@ public class RedBackStageCenter extends RedBackStage {
 
                         // Return to backdrop and angle drop
                         .setReversed(true)
+                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                         .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
                         .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
                         .splineTo(new Vector2d(40, -12), Math.toRadians(0))
                         .splineTo(new Vector2d(59.5, -20), Math.toRadians(-35))
+                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                         .waitSeconds(0.25)
                         .afterTime(0, manager.openAutoClaw())
                         .afterTime(0, manager.openLeftClaw())
@@ -215,8 +225,10 @@ public class RedBackStageCenter extends RedBackStage {
 
                         // Return to backstage and drop
                         .setReversed(true)
+                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                         .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
                         .splineTo(new Vector2d(59.5, -12), Math.toRadians(0))
+                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                         .afterTime(0, manager.openAutoClaw())
                         .afterTime(0, manager.openLeftClaw())
                         .waitSeconds(0.25)

@@ -245,10 +245,11 @@ public class RobotHardware {
             } catch (Exception x) {
             }
 
-            Log.d("CURRENT_MONITOR", String.format("%f %f %f", getCurrent(), getLiftCurrent(), getDriveCurrent()));
-//            if(getLiftCurrent() > 16000){
-//                throw new OpModeManagerImpl.ForceStopException();
-//            }
+            double liftCurrent = getLiftCurrent();
+            Log.d("CURRENT_MONITOR", String.format("%f %f %f", getCurrent(), liftCurrent, getDriveCurrent()));
+            if(liftCurrent > 16000){
+                throw new OpModeManagerImpl.ForceStopException();
+            }
         }
     }
 

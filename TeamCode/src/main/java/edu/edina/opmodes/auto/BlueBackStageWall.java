@@ -36,8 +36,10 @@ public class BlueBackStageWall extends BlueBackStage {
                              // Drive to stacks - first trip
                              .setReversed(true)
                              .splineToSplineHeading(new Pose2d(0, 60, Math.toRadians(-180)), Math.toRadians(180))
+                             .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                              .splineToConstantHeading(new Vector2d(-38, 60), Math.toRadians(180))
                              .splineToConstantHeading(new Vector2d(-50, 38), Math.toRadians(180))
+                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                              // Prepare for grabbing - Trip 1
                              .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
@@ -94,11 +96,13 @@ public class BlueBackStageWall extends BlueBackStage {
 
                             // Return to backdrop and angle drop
                             .setReversed(true)
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineToSplineHeading(new Pose2d(new Vector2d(-35, 58), Math.toRadians(0)), Math.toRadians(0))
                             .afterDisp(0, manager.getLiftReadyToDropPixelFromLeft())
                             .splineToConstantHeading(new Vector2d(10, 58), Math.toRadians(0))
                             .splineTo(new Vector2d(30, 58), Math.toRadians(0))
                             .splineTo(new Vector2d(51.5, 52), Math.toRadians(-35))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                             .afterTime(0.1, manager.openLeftClaw())
                             .afterTime(0.1, manager.openAutoClaw())
                             .waitSeconds(0.25)
@@ -109,8 +113,10 @@ public class BlueBackStageWall extends BlueBackStage {
 
                             // Head to Stacks VIA Wall
                             .splineToSplineHeading(new Pose2d(0, 58, Math.toRadians(-180)), Math.toRadians(180))
+                            .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineToConstantHeading(new Vector2d(-38, 58), Math.toRadians(180))
                             .splineToConstantHeading(new Vector2d(-50, 38), Math.toRadians(180))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                             // Prepare for grabbing - Trip 2
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
@@ -141,9 +147,11 @@ public class BlueBackStageWall extends BlueBackStage {
 
                          // Return to backstage and drop
                          .setReversed(true)
+                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                          .splineToSplineHeading(new Pose2d(new Vector2d(-35, 58), Math.toRadians(0)), Math.toRadians(0))
                          .splineToConstantHeading(new Vector2d(10, 58), Math.toRadians(0))
                          .splineTo(new Vector2d(59, 58), Math.toRadians(0))
+                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                          .afterTime(0.1, manager.openLeftClaw())
                          .afterTime(0.1, manager.openAutoClaw())
                          .waitSeconds(0.25)
@@ -152,9 +160,11 @@ public class BlueBackStageWall extends BlueBackStage {
                          .setReversed(true)
 
                          // Head to Stacks VIA Wall
+                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                          .splineToSplineHeading(new Pose2d(0, 58, Math.toRadians(-180)), Math.toRadians(180))
                          .splineToConstantHeading(new Vector2d(-38, 58), Math.toRadians(180))
                          .splineToConstantHeading(new Vector2d(-50, 38), Math.toRadians(180))
+                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                          // Prepare for grabbing - Trip 2
                          .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
@@ -185,11 +195,13 @@ public class BlueBackStageWall extends BlueBackStage {
 
                             // Return to backdrop and angle drop
                             .setReversed(true)
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineToSplineHeading(new Pose2d(new Vector2d(-35, 58), Math.toRadians(0)), Math.toRadians(0))
                             .afterDisp(5, manager.getLiftReadyToDropPixelFromLeft())
                             .splineToConstantHeading(new Vector2d(10, 58), Math.toRadians(0))
                             .splineTo(new Vector2d(30, 58), Math.toRadians(0))
                             .splineTo(new Vector2d(54, 53), Math.toRadians(-35))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                             .afterTime(0.1, manager.openLeftClaw())
                             .afterTime(0.1, manager.openAutoClaw())
                             .waitSeconds(.25)
@@ -225,9 +237,11 @@ public class BlueBackStageWall extends BlueBackStage {
 
                         // Return to backstage and drop
                         .setReversed(true)
+                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                         .splineToSplineHeading(new Pose2d(new Vector2d(-35, 58), Math.toRadians(0)), Math.toRadians(0))
                         .splineToConstantHeading(new Vector2d(10, 58), Math.toRadians(0))
                         .splineTo(new Vector2d(59.5, 58), Math.toRadians(0))
+                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                         .afterTime(0.1, manager.openLeftClaw())
                         .afterTime(0.1, manager.openAutoClaw())
                         .waitSeconds(.25)

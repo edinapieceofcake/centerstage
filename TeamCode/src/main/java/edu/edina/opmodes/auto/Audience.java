@@ -24,6 +24,7 @@ public class Audience extends LinearOpMode {
     protected PoCMecanumDrive drive;
     protected PoCHuskyLens poCHuskyLens;
     protected PropLocation propLocation = PropLocation.Center;
+    protected PropLocation lastPropLocation = PropLocation.Right;
 
     protected boolean makeSecondTrip = false;
     protected boolean yellowPixel = false;
@@ -135,9 +136,9 @@ public class Audience extends LinearOpMode {
                 parkLocation = ParkLocation.None;
             }
 
-            // Delay - Max of 4000ms, Min of 0ms
+            // Delay - Max of 10000ms, Min of 0ms
             if (pad1.left_bumper) {
-                delayTime += (delayTime > 3000) ? 0 : 1000;
+                delayTime += (delayTime > 9000) ? 0 : 1000;
             } else if (pad1.right_bumper) {
                 delayTime -= (delayTime < 1000) ? 0 : 1000;
             }
@@ -182,7 +183,9 @@ public class Audience extends LinearOpMode {
                 poCHuskyLens.update();
                 propLocation = poCHuskyLens.getPropLocation();
                 if (propLocation == PropLocation.None) {
-                    propLocation = getNonePropLocation();
+                    propLocation = lastPropLocation;
+                } else {
+                    lastPropLocation = propLocation;
                 }
             } else {
                 if (pad1.left_stick_button) {
@@ -229,9 +232,13 @@ public class Audience extends LinearOpMode {
             // Execute the Autonomous Paths
             dropPurplePixel();
 
+            hardware.startCurrentMonitor();
+
             runPaths();
 
             park();
+
+            hardware.stopCurrentMonitor();
         }
     }
 }

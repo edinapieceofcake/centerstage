@@ -23,13 +23,14 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
-@Disabled
+//@Disabled
 public class RedAudienceCenterHC extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;
     protected PoCMecanumDrive drive;
     protected PoCHuskyLens poCHuskyLens;
     protected PropLocation propLocation = PropLocation.Center;
+    protected PropLocation lastPropLocation = PropLocation.Right;
 
     private boolean makeSecondTrip = false;
     private boolean yellowPixel = false;
@@ -189,7 +190,9 @@ public class RedAudienceCenterHC extends LinearOpMode {
                 poCHuskyLens.update();
                 propLocation = poCHuskyLens.getPropLocation();
                 if (propLocation == PropLocation.None) {
-                    propLocation = PropLocation.Right;
+                    propLocation = lastPropLocation;
+                } else {
+                    lastPropLocation = propLocation;
                 }
             } else {
                 if (pad1.left_stick_button) {
@@ -253,13 +256,13 @@ public class RedAudienceCenterHC extends LinearOpMode {
                 backdropDropLocation = new Vector2d(49,-33);
                 break;
             case Right:
-                propDropLocation = new Vector2d(-32, -38);
+                propDropLocation = new Vector2d(-31, -38);
                 backdropDropLocation = new Vector2d(49.5,-46.5);
                 secondPickupHeight = -170;
                 break;
             case Center:
             default:
-                propDropLocation = new Vector2d(-31, -33);
+                propDropLocation = new Vector2d(-31, -34);
                 backdropDropLocation = new Vector2d(49,-38);
                 break;
         }
@@ -339,7 +342,6 @@ public class RedAudienceCenterHC extends LinearOpMode {
                 );
 
                 drive.turnBeamBreakOff();
-                drive.turnErrorPoseStopOn();
 
                 // Check to see if there is delay - if so, run special version with wait during return
                 if (delayTime > 0) {  // Yes, there's a delay
@@ -406,6 +408,7 @@ public class RedAudienceCenterHC extends LinearOpMode {
                                 .setReversed(true)
                                 .setTangent(Math.toRadians(135))
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
+                                .waitSeconds(1)
                                 .splineToSplineHeading(new Pose2d(new Vector2d(10, -11), Math.toRadians(0)), Math.toRadians(0))
                                 .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
                                 .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
