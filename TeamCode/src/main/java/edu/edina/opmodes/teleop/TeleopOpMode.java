@@ -3,6 +3,7 @@ package edu.edina.opmodes.teleop;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import edu.edina.library.domain.Lift;
 import edu.edina.library.util.Robot;
 import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotHardware;
@@ -45,7 +46,7 @@ public class TeleopOpMode extends OpMode {
 
         robot.Claw.setProperties(driver1Gamepad.left_bumper, driver1Gamepad.right_bumper, driver1Gamepad.dpad_left, driver1Gamepad.dpad_right);
 
-        robot.Lift.setProperties(gamepad1.right_trigger, gamepad1.left_trigger, driver1Gamepad.a,
+        Lift.setProperties(gamepad1.right_trigger, gamepad1.left_trigger, driver1Gamepad.a,
                 driver1Gamepad.x, driver1Gamepad.y, driver1Gamepad.b, driver2Gamepad.y,
                 driver1Gamepad.dpad_up, driver1Gamepad.dpad_down);
 

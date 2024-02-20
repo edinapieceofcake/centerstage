@@ -3,6 +3,9 @@ package edu.edina.library.util;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.robotcore.internal.system.Deadline;
+
+import java.util.concurrent.TimeUnit;
 
 import edu.edina.library.enums.AngleClawState;
 import edu.edina.library.enums.ClawState;
@@ -40,6 +43,13 @@ public class RobotState {
     public double currentTriggerStrength;
     public int currentLowDropOffPosition;
     public int currentHighDropOffPostiion;
+    public Deadline currentLowLiftDelay;
+    public Deadline currentHighLiftDelay;
+    public Deadline secondExtensionTimeout = new Deadline(1000, TimeUnit.MILLISECONDS);
+    public Deadline lowLiftDelay = new Deadline(300, TimeUnit.MILLISECONDS);
+    public Deadline mediumLiftDelay = new Deadline(500, TimeUnit.MILLISECONDS);
+    public Deadline highLiftDelay = new Deadline(600, TimeUnit.MILLISECONDS);
+
 
     // claw properties
     public TwistServoState twistServoState;

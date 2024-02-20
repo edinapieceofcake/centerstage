@@ -23,7 +23,6 @@ public class Robot {
     public RobotHardware RobotHardware;
     private List<Subsystem> subsystems = new ArrayList<>();
     private Telemetry telemetry;
-    public Lift Lift;
     public MecanumDrive MecanumDrive;
     public Claw Claw;
     public DroneLauncher DroneLauncher;
@@ -39,8 +38,7 @@ public class Robot {
         this.runMultiThreaded = runMultiThreaded;
         this.RobotHardware = new RobotHardware(map);
 
-        this.Lift = new Lift(this);
-        subsystems.add(this.Lift);
+        subsystems.add(new Lift(this));
 
         this.MecanumDrive = new MecanumDrive(this);
         subsystems.add(this.MecanumDrive);
