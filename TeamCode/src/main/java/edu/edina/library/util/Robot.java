@@ -24,7 +24,6 @@ public class Robot {
     private List<Subsystem> subsystems = new ArrayList<>();
     private Telemetry telemetry;
     public MecanumDrive MecanumDrive;
-    public DroneLauncher DroneLauncher;
     public RobotHanger RobotHanger;
     private Runnable subsystemUpdateRunnable = () -> {
         while (!Thread.currentThread().isInterrupted()) {
@@ -47,8 +46,7 @@ public class Robot {
         this.RobotHanger = new RobotHanger(this);
         subsystems.add(this.RobotHanger);
 
-        this.DroneLauncher = new DroneLauncher(this);
-        subsystems.add(this.DroneLauncher);
+        subsystems.add(new DroneLauncher(this));
 
         if (this.runMultiThreaded) {
             // setup the thread executor

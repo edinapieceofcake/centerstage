@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import edu.edina.library.enums.AngleClawState;
 import edu.edina.library.enums.ClawState;
+import edu.edina.library.enums.DroneLauncherState;
 import edu.edina.library.enums.DropOffOrientation;
 import edu.edina.library.enums.DropOffState;
 import edu.edina.library.enums.HangState;
@@ -60,6 +61,9 @@ public class RobotState {
     public ClawState leftClawState;
     public ClawState rightClawState;
     public ClawState autoClawState;
+
+//    drone launcher properties
+    public DroneLauncherState droneState;
 
     public RobotState() {
         currentLiftSlidePower = 0.0;

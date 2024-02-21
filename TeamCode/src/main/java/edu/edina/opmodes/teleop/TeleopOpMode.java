@@ -4,6 +4,7 @@ import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import edu.edina.library.domain.Claw;
+import edu.edina.library.domain.DroneLauncher;
 import edu.edina.library.domain.Lift;
 import edu.edina.library.util.Robot;
 import edu.edina.library.util.RobotConfiguration;
@@ -54,7 +55,7 @@ public class TeleopOpMode extends OpMode {
         robot.RobotHanger.setProperties(gamepad2.left_trigger != 0, gamepad2.right_trigger != 0,
                 driver2Gamepad.dpad_up, driver2Gamepad.dpad_down, driver2Gamepad.left_bumper);
 
-        robot.DroneLauncher.setProperties(driver2Gamepad.a);
+        DroneLauncher.setProperties(driver2Gamepad.a);
 
         robot.update();
         robot.telemetry();
