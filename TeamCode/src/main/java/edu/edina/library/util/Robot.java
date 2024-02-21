@@ -24,7 +24,6 @@ public class Robot {
     private List<Subsystem> subsystems = new ArrayList<>();
     private Telemetry telemetry;
     public MecanumDrive MecanumDrive;
-    public Claw Claw;
     public DroneLauncher DroneLauncher;
     public RobotHanger RobotHanger;
     private Runnable subsystemUpdateRunnable = () -> {
@@ -43,8 +42,7 @@ public class Robot {
         this.MecanumDrive = new MecanumDrive(this);
         subsystems.add(this.MecanumDrive);
 
-        this.Claw = new Claw(this);
-        subsystems.add(this.Claw);
+        subsystems.add(new Lift(this));
 
         this.RobotHanger = new RobotHanger(this);
         subsystems.add(this.RobotHanger);
