@@ -3,6 +3,9 @@ package edu.edina.library.subsystems;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
+
+import org.firstinspires.ftc.teamcode.PoCMecanumDrive;
+
 import edu.edina.library.util.Robot;
 import edu.edina.library.util.RobotConfiguration;
 
@@ -11,14 +14,15 @@ public class MecanumDrive implements Subsystem {
     private double leftStickY;
     private double rightStickX;
 
-    private org.firstinspires.ftc.teamcode.MecanumDrive drive;
+    private PoCMecanumDrive drive;
     private Robot robot;
 
     public MecanumDrive(Robot robot) {
-        drive = new org.firstinspires.ftc.teamcode.MecanumDrive(robot.RobotHardware.leftFront,
-                robot.RobotHardware.leftBack, robot.RobotHardware.rightBack, robot.RobotHardware.rightFront,
+        drive = new PoCMecanumDrive(robot.RobotHardware.leftFront, robot.RobotHardware.leftBack,
+                robot.RobotHardware.rightBack, robot.RobotHardware.rightFront,
                 robot.RobotHardware.par0, robot.RobotHardware.par1, robot.RobotHardware.perp,
-                robot.RobotHardware.imu, robot.RobotHardware.voltageSensor, new Pose2d(0, 0, 0));
+                robot.RobotHardware.imu, robot.RobotHardware.expansionImu, robot.RobotHardware.voltageSensor,
+                robot.RobotHardware.beamBreak, new Pose2d(0, 0, 0));
 
         this.robot = robot;
     }
@@ -35,6 +39,7 @@ public class MecanumDrive implements Subsystem {
     @Override
     public void start() {
         robot.RobotHardware.liftServosForTeleop();
+        drive.startLocalizerThread();
     }
 
     @Override
@@ -47,7 +52,12 @@ public class MecanumDrive implements Subsystem {
                 (-rightStickX/1.5)
         ));
 
-        //drive.updatePoseEstimate();
+        drive.updatePoseEstimate();
+    }
+
+    @Override
+    public void stop() {
+        drive.stopLocalizerThread();
     }
 
     public static double ScaleMotorCube(double joyStickPosition) {

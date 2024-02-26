@@ -44,4 +44,7 @@ public class DroneLauncher implements Subsystem {
             }
         }
     }
+
+    @Override
+    public void stop() {}
 }

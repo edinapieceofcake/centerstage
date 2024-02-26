@@ -14,10 +14,13 @@ import com.acmerobotics.roadrunner.ftc.RawEncoder;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.util.ThreadPool;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
+
+import java.util.concurrent.ExecutorService;
 
 @Config
 public final class TwoDeadWheelLocalizer implements Localizer {
@@ -29,8 +32,8 @@ public final class TwoDeadWheelLocalizer implements Localizer {
     public static Params PARAMS = new Params();
 
     public final Encoder par, perp;
-    public final IMU primaryImu;
-    public final IMU secondaryImu;
+    private final IMU primaryImu;
+    private final IMU secondaryImu;
 
     private int lastParPos, lastPerpPos;
     private Rotation2d lastHeading;
@@ -40,6 +43,16 @@ public final class TwoDeadWheelLocalizer implements Localizer {
     private double lastRawHeadingVel, headingVelOffset;
 
     private boolean usePrimary = true;
+
+    private ExecutorService updateCurrentPoseExecutor;
+
+    private Runnable updateCurrentPoseRunnable = () -> {
+        updatePose();
+    };
+
+    private volatile Twist2dDual<Time> twist;
+
+    public volatile boolean updatingPose = false;
 
     public TwoDeadWheelLocalizer(DcMotorEx par, DcMotorEx perp, IMU primaryImu, IMU secondaryImu, double inPerTick) {
         this.par = new RawEncoder(par);
@@ -81,38 +94,54 @@ public final class TwoDeadWheelLocalizer implements Localizer {
         return headingVelOffset + rawHeadingVel;
     }
 
+    public void startUpdatingPose() {
+        if (!updatingPose) {
+            updatingPose = true;
+            updateCurrentPoseExecutor = ThreadPool.newSingleThreadExecutor("update pose");
+            updateCurrentPoseExecutor.submit(updateCurrentPoseRunnable);
+        }
+    }
+
+    public void stopUpdateingPose() {
+        updatingPose = false;
+    }
+
+    private void updatePose() {
+        while (updatingPose) {
+            PositionVelocityPair parPosVel = par.getPositionAndVelocity();
+            PositionVelocityPair perpPosVel = perp.getPositionAndVelocity();
+            Rotation2d heading = Rotation2d.exp(getRobotYawPitchRollAngles());
+
+            int parPosDelta = parPosVel.position - lastParPos;
+            int perpPosDelta = perpPosVel.position - lastPerpPos;
+            double headingDelta = heading.minus(lastHeading);
+
+            double headingVel = getHeadingVelocity();
+
+            twist = new Twist2dDual<>(
+                    new Vector2dDual<>(
+                            new DualNum<Time>(new double[]{
+                                    parPosDelta - PARAMS.parYTicks * headingDelta,
+                                    parPosVel.velocity - PARAMS.parYTicks * headingVel,
+                            }).times(inPerTick),
+                            new DualNum<Time>(new double[]{
+                                    perpPosDelta - PARAMS.perpXTicks * headingDelta,
+                                    perpPosVel.velocity - PARAMS.perpXTicks * headingVel,
+                            }).times(inPerTick)
+                    ),
+                    new DualNum<>(new double[]{
+                            headingDelta,
+                            headingVel,
+                    })
+            );
+
+            lastParPos = parPosVel.position;
+            lastPerpPos = perpPosVel.position;
+            lastHeading = heading;
+        }
+    }
+
     public Twist2dDual<Time> update() {
-        PositionVelocityPair parPosVel = par.getPositionAndVelocity();
-        PositionVelocityPair perpPosVel = perp.getPositionAndVelocity();
-        Rotation2d heading = Rotation2d.exp(getRobotYawPitchRollAngles());
-
-        int parPosDelta = parPosVel.position - lastParPos;
-        int perpPosDelta = perpPosVel.position - lastPerpPos;
-        double headingDelta = heading.minus(lastHeading);
-
-        double headingVel = getHeadingVelocity();
-
-        Twist2dDual<Time> twist = new Twist2dDual<>(
-                new Vector2dDual<>(
-                        new DualNum<Time>(new double[] {
-                                parPosDelta - PARAMS.parYTicks * headingDelta,
-                                parPosVel.velocity - PARAMS.parYTicks * headingVel,
-                        }).times(inPerTick),
-                        new DualNum<Time>(new double[] {
-                                perpPosDelta - PARAMS.perpXTicks * headingDelta,
-                                perpPosVel.velocity - PARAMS.perpXTicks * headingVel,
-                        }).times(inPerTick)
-                ),
-                new DualNum<>(new double[] {
-                        headingDelta,
-                        headingVel,
-                })
-        );
-
-        lastParPos = parPosVel.position;
-        lastPerpPos = perpPosVel.position;
-        lastHeading = heading;
-
         return twist;
     }
 

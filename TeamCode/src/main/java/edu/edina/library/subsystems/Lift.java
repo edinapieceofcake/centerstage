@@ -602,4 +602,7 @@ public class Lift implements Subsystem {
             }
         }
     }
+
+    @Override
+    public void stop() {}
 }

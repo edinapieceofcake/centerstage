@@ -338,4 +338,7 @@ public class Claw implements Subsystem {
             }
         }
     }
+
+    @Override
+    public void stop() {}
 }

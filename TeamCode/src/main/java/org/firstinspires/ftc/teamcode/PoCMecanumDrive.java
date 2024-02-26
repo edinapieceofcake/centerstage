@@ -129,7 +129,7 @@ public final class PoCMecanumDrive {
     public final Localizer localizer;
     public Pose2d pose;
 
-    private final LinkedList<Pose2d> poseHistory = new LinkedList<>();
+//    private final LinkedList<Pose2d> poseHistory = new LinkedList<>();
 
     private final DownsampledWriter estimatedPoseWriter = new DownsampledWriter("ESTIMATED_POSE", 50_000_000);
     private final DownsampledWriter targetPoseWriter = new DownsampledWriter("TARGET_POSE", 50_000_000);
@@ -343,11 +343,19 @@ public final class PoCMecanumDrive {
     public final class FollowTrajectoryAction implements Action {
         public final TimeTrajectory timeTrajectory;
         private double beginTs = -1;
-
+        private final MotorFeedforward feedforward;
+        private final HolonomicController holonomicController;
         private final double[] xPoints, yPoints;
 
         public FollowTrajectoryAction(TimeTrajectory t) {
             timeTrajectory = t;
+            feedforward = new MotorFeedforward(PARAMS.kS,
+                    PARAMS.kV / PARAMS.inPerTick, PARAMS.kA / PARAMS.inPerTick);
+
+            holonomicController = new HolonomicController(
+                    PARAMS.axialGain, PARAMS.lateralGain, PARAMS.headingGain,
+                    PARAMS.axialVelGain, PARAMS.lateralVelGain, PARAMS.headingVelGain
+            );
 
             List<Double> disps = com.acmerobotics.roadrunner.Math.range(
                     0, t.path.length(),
@@ -407,18 +415,12 @@ public final class PoCMecanumDrive {
 
             PoseVelocity2d robotVelRobot = updatePoseEstimate();
 
-            PoseVelocity2dDual<Time> command = new HolonomicController(
-                    PARAMS.axialGain, PARAMS.lateralGain, PARAMS.headingGain,
-                    PARAMS.axialVelGain, PARAMS.lateralVelGain, PARAMS.headingVelGain
-            )
-                    .compute(txWorldTarget, pose, robotVelRobot);
+            PoseVelocity2dDual<Time> command = holonomicController.compute(txWorldTarget, pose, robotVelRobot);
 //            driveCommandWriter.write(new DriveCommandMessage(command));
 
             MecanumKinematics.WheelVelocities<Time> wheelVels = kinematics.inverse(command);
             double voltage = voltageSensor.getVoltage();
 
-            final MotorFeedforward feedforward = new MotorFeedforward(PARAMS.kS,
-                    PARAMS.kV / PARAMS.inPerTick, PARAMS.kA / PARAMS.inPerTick);
             double leftFrontPower = feedforward.compute(wheelVels.leftFront) / voltage;
             double leftBackPower = feedforward.compute(wheelVels.leftBack) / voltage;
             double rightBackPower = feedforward.compute(wheelVels.rightBack) / voltage;
@@ -432,13 +434,13 @@ public final class PoCMecanumDrive {
             rightBack.setPower(rightBackPower);
             rightFront.setPower(rightFrontPower);
 
-            Pose2d error = txWorldTarget.value().minusExp(pose);
+            if (poseErrorStopUsage) {
+                Pose2d error = txWorldTarget.value().minusExp(pose);
 
             /*p.put("xError", error.position.x);
             p.put("yError", error.position.y);
             p.put("headingError (deg)", Math.toDegrees(error.heading.toDouble()));*/
 
-            if (poseErrorStopUsage) {
                 if (error.position.norm() > poseErrorDistance) {
                     Log.d("POSE_ERROR", String.format("%f", error.position.norm()));
                     throw new OpModeManagerImpl.ForceStopException();
@@ -527,10 +529,10 @@ public final class PoCMecanumDrive {
         Twist2dDual<Time> twist = localizer.update();
         pose = pose.plus(twist.value());
 
-        poseHistory.add(pose);
-        while (poseHistory.size() > 100) {
-            poseHistory.removeFirst();
-        }
+//        poseHistory.add(pose);
+//        while (poseHistory.size() > 100) {
+//            poseHistory.removeFirst();
+//        }
 
 //        estimatedPoseWriter.write(new PoseMessage(pose));
 
@@ -546,5 +548,13 @@ public final class PoCMecanumDrive {
                 defaultVelConstraint, defaultAccelConstraint,
                 0.25, 0.1
         );
+    }
+
+    public void startLocalizerThread() {
+        ((TwoDeadWheelLocalizer)localizer).startUpdatingPose();
+    }
+
+    public void stopLocalizerThread() {
+        ((TwoDeadWheelLocalizer)localizer).stopUpdateingPose();
     }
 }

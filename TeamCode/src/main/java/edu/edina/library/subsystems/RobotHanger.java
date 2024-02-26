@@ -113,4 +113,7 @@ public class RobotHanger implements Subsystem {
             hardware.homeHangMotorAsync();
         }
     }
+
+    @Override
+    public void stop() {}
 }

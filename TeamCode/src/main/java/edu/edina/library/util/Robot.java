@@ -104,6 +104,10 @@ public class Robot {
             }
         }
 
+        for (Subsystem subsystem : subsystems) {
+            subsystem.stop();
+        }
+
         Started = false;
     }
 
