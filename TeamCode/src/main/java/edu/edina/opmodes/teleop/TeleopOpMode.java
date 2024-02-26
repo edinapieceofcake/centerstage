@@ -1,5 +1,7 @@
 package edu.edina.opmodes.teleop;
 
+import android.util.Log;
+
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
@@ -56,6 +58,7 @@ public class TeleopOpMode extends OpMode {
 
         robot.update();
         robot.telemetry();
+        Log.d("LOOP_TIME_MAINTHREAD", "");
     }
 
     @Override

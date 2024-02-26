@@ -1,5 +1,7 @@
 package edu.edina.library.util;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ThreadPool;
 
@@ -30,6 +32,7 @@ public class Robot {
     public RobotHanger RobotHanger;
     private Runnable subsystemUpdateRunnable = () -> {
         while (!Thread.currentThread().isInterrupted()) {
+            Log.d("LOOP_TIME_UPDATE", "");
             internal_update();
         }
     };

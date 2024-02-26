@@ -1,10 +1,11 @@
 package edu.edina.opmodes.teleop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import edu.edina.library.util.Robot;
 
-@TeleOp(name = "DriveMe", group = "teleop")
+@TeleOp(name = "DrimeMeFastAndFurious", group = "teleop")
 public class TeleopSingleThread extends TeleopOpMode {
     @Override
     public void init() {
