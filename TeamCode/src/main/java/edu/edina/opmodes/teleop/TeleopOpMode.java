@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import edu.edina.library.domain.Claw;
 import edu.edina.library.domain.DroneLauncher;
 import edu.edina.library.domain.Lift;
+import edu.edina.library.domain.RobotHanger;
 import edu.edina.library.util.Robot;
 import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotHardware;
@@ -52,7 +53,7 @@ public class TeleopOpMode extends OpMode {
                 driver1Gamepad.x, driver1Gamepad.y, driver1Gamepad.b, driver2Gamepad.y,
                 driver1Gamepad.dpad_up, driver1Gamepad.dpad_down);
 
-        robot.RobotHanger.setProperties(gamepad2.left_trigger != 0, gamepad2.right_trigger != 0,
+        RobotHanger.setProperties(gamepad2.left_trigger != 0, gamepad2.right_trigger != 0,
                 driver2Gamepad.dpad_up, driver2Gamepad.dpad_down, driver2Gamepad.left_bumper);
 
         DroneLauncher.setProperties(driver2Gamepad.a);
