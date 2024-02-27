@@ -29,7 +29,7 @@ import java.util.concurrent.ExecutorService;
 
 public class RobotHardware {
 
-    public final DcMotorEx leftFront, leftBack, rightBack, rightFront;
+    public final PoCMotor leftFront, leftBack, rightBack, rightFront;
 
     public final VoltageSensor voltageSensor;
 
@@ -37,7 +37,7 @@ public class RobotHardware {
     public final IMU externalImu;
     public final IMU expansionImu;
 
-    public final DcMotorEx par0, par1, perp;
+    public final PoCMotor par0, par1, perp;
 
     public final DcMotorEx lights;
 
@@ -91,10 +91,10 @@ public class RobotHardware {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
-        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-        leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
-        rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
-        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+        leftFront = new PoCMotor(hardwareMap.get(DcMotorEx.class, "leftFront"));
+        leftBack = new PoCMotor(hardwareMap.get(DcMotorEx.class, "leftBack"));
+        rightBack = new PoCMotor(hardwareMap.get(DcMotorEx.class, "rightBack"));
+        rightFront = new PoCMotor(hardwareMap.get(DcMotorEx.class, "rightFront"));
 
         imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
@@ -119,9 +119,9 @@ public class RobotHardware {
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
-        par0 = hardwareMap.get(DcMotorEx.class, "rightFront");
-        par1 = hardwareMap.get(DcMotorEx.class, "rightBack");
-        perp = hardwareMap.get(DcMotorEx.class, "leftFront");
+        par0 = new PoCMotor(hardwareMap.get(DcMotorEx.class, "rightFront"));
+        par1 = new PoCMotor(hardwareMap.get(DcMotorEx.class, "rightBack"));
+        perp = new PoCMotor(hardwareMap.get(DcMotorEx.class, "leftFront"));
 
         par0Servo = hardwareMap.get(ServoImplEx.class, "par0Servo");
         par1Servo = hardwareMap.get(ServoImplEx.class, "par1Servo");

@@ -75,7 +75,7 @@ public class PoCMotor {
         return motor.isBusy();
     }
 
-    public Object getCurrent(CurrentUnit currentUnit) {
+    public double getCurrent(CurrentUnit currentUnit) {
         return motor.getCurrent(currentUnit);
     }
 }
