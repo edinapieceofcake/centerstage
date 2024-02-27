@@ -40,7 +40,7 @@ public class RedAudienceNew extends LinearOpMode {
 
         drive = new PoCMecanumDrive(hardware.leftFront,
                 hardware.leftBack, hardware.rightBack, hardware.rightFront,
-                hardware.par0, hardware.par1, hardware.perp,
+                hardware.par0, hardware.perp,
                 hardware.externalImu, hardware.expansionImu, hardware.voltageSensor, hardware.beamBreak, getStartPose());
 
         // HuskyLens Init
