@@ -22,7 +22,7 @@ public class PoCServo {
         return currentPosition;
     }
 
-    public Object getConnectionInfo() {
+    public String getConnectionInfo() {
         return servo.getConnectionInfo();
     }
 }
