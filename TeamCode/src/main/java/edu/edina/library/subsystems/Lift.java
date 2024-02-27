@@ -158,8 +158,8 @@ public class Lift implements Subsystem {
                     state.currentLiftServoState = LiftServoState.Hung;
                     break;
                 case Hung:
-                    ((PwmControl) hardware.leftLiftServo).setPwmDisable();
-                    ((PwmControl) hardware.rightLiftServo).setPwmDisable();
+                    hardware.leftLiftServo.setPwmDisable();
+                    hardware.rightLiftServo.setPwmDisable();
                     break;
             }
 

@@ -29,7 +29,7 @@ import java.util.concurrent.ExecutorService;
 
 public class RobotHardware {
 
-    public final DcMotorEx leftFront, leftBack, rightBack, rightFront;
+    public final PoCMotor leftFront, leftBack, rightBack, rightFront;
 
     public final VoltageSensor voltageSensor;
 
@@ -41,17 +41,17 @@ public class RobotHardware {
 
     public final DcMotorEx lights;
 
-    public final ServoImplEx par0Servo, par1Servo, perpServo;
+    public final PoCServo par0Servo, par1Servo, perpServo;
 
-    public final ServoImplEx leftClawServo, rightClawServo, twistClawServo, autoClawServo, angleClawServo;
+    public final PoCServo leftClawServo, rightClawServo, twistClawServo, autoClawServo, angleClawServo;
 
-    public final ServoImplEx leftLiftServo, rightLiftServo;
+    public final PoCServo leftLiftServo, rightLiftServo;
 
-    public final ServoImplEx droneLaunchServo;
+    public final PoCServo droneLaunchServo;
 
-    public final DcMotorEx robotHangerMotor;
+    public final PoCMotor robotHangerMotor;
 
-    public final DcMotorEx topLiftMotor, bottomLiftMotor;
+    public final PoCMotor topLiftMotor, bottomLiftMotor;
 
     public final HuskyLens huskyLens;
 
@@ -91,10 +91,10 @@ public class RobotHardware {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
-        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-        leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
-        rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
-        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+        leftFront = new PoCMotor(hardwareMap.get(DcMotorEx.class, "leftFront"));
+        leftBack = new PoCMotor(hardwareMap.get(DcMotorEx.class, "leftBack"));
+        rightBack = new PoCMotor(hardwareMap.get(DcMotorEx.class, "rightBack"));
+        rightFront = new PoCMotor(hardwareMap.get(DcMotorEx.class, "rightFront"));
 
         imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
@@ -123,28 +123,28 @@ public class RobotHardware {
         par1 = hardwareMap.get(DcMotorEx.class, "rightBack");
         perp = hardwareMap.get(DcMotorEx.class, "leftFront");
 
-        par0Servo = hardwareMap.get(ServoImplEx.class, "par0Servo");
-        par1Servo = hardwareMap.get(ServoImplEx.class, "par1Servo");
-        perpServo = hardwareMap.get(ServoImplEx.class, "perpServo");
+        par0Servo = new PoCServo(hardwareMap.get(ServoImplEx.class, "par0Servo"));
+        par1Servo = new PoCServo(hardwareMap.get(ServoImplEx.class, "par1Servo"));
+        perpServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "perpServo"));
 
-        leftClawServo = hardwareMap.get(ServoImplEx.class, "leftClawServo");
-        rightClawServo = hardwareMap.get(ServoImplEx.class, "rightClawServo");
-        twistClawServo = hardwareMap.get(ServoImplEx.class, "twistClawServo");
-        angleClawServo = hardwareMap.get(ServoImplEx.class, "angleClawServo");
-        autoClawServo = hardwareMap.get(ServoImplEx.class, "autoClawServo");
+        leftClawServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "leftClawServo"));
+        rightClawServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "rightClawServo"));
+        twistClawServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "twistClawServo"));
+        angleClawServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "angleClawServo"));
+        autoClawServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "autoClawServo"));
 
-        leftLiftServo = hardwareMap.get(ServoImplEx.class, "rightLiftServo");
-        rightLiftServo = hardwareMap.get(ServoImplEx.class, "leftLiftServo");
+        leftLiftServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "rightLiftServo"));
+        rightLiftServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "leftLiftServo"));
 
-        droneLaunchServo = hardwareMap.get(ServoImplEx.class, "droneLaunchServo");
+        droneLaunchServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "droneLaunchServo"));
 
-        robotHangerMotor = hardwareMap.get(DcMotorEx.class, "robotHangerMotor");
+        robotHangerMotor = new PoCMotor(hardwareMap.get(DcMotorEx.class, "robotHangerMotor"));
         robotHangerMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robotHangerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robotHangerMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        topLiftMotor = hardwareMap.get(DcMotorEx.class, "topLiftMotor");
-        bottomLiftMotor = hardwareMap.get(DcMotorEx.class, "bottomLiftMotor");
+        topLiftMotor = new PoCMotor(hardwareMap.get(DcMotorEx.class, "topLiftMotor"));
+        bottomLiftMotor = new PoCMotor(hardwareMap.get(DcMotorEx.class, "bottomLiftMotor"));
 
         huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
 

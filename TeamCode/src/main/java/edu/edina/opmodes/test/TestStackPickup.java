@@ -28,7 +28,7 @@ public class TestStackPickup extends LinearOpMode  {
         // Start Position
         PoCMecanumDrive drive = new org.firstinspires.ftc.teamcode.PoCMecanumDrive(hardware.leftFront,
                 hardware.leftBack, hardware.rightBack, hardware.rightFront,
-                hardware.par0, hardware.par1, hardware.perp, hardware.externalImu,
+                hardware.par0, hardware.perp, hardware.externalImu,
                 hardware.expansionImu, hardware.voltageSensor, hardware.beamBreak,
                 new Pose2d(12.5, -64, Math.toRadians(90)));
 

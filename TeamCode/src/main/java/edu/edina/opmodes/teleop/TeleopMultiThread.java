@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import edu.edina.library.util.Robot;
 
-@TeleOp(name = "DrimeMeFastAndFurious", group = "teleop")
+@TeleOp(name = "DrimeMe", group = "teleop")
 //@Disabled
 public class TeleopMultiThread extends TeleopOpMode {
     @Override
