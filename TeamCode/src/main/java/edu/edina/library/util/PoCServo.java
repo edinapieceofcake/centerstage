@@ -18,8 +18,11 @@ public class PoCServo {
     }
 
     public double getPosition() {
-        currentPosition = servo.getPosition();
         return currentPosition;
+    }
+
+    public void setPwmDisable() {
+        servo.setPwmDisable();
     }
 
     public String getConnectionInfo() {

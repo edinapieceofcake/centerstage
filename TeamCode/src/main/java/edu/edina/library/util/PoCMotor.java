@@ -2,6 +2,7 @@ package edu.edina.library.util;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
@@ -11,12 +12,18 @@ public class PoCMotor {
     private double currentPower;
     private DcMotor.RunMode currentMode;
     private DcMotor.ZeroPowerBehavior currentZeroPowerBehavior;
+    private DcMotorSimple.Direction currentDirection;
+    // need this to make sure that even if the current and new are the same, it gets through for
+    // the first time or you get the exception about changing modes without doing the setTarget
+    private boolean targetSetOnce = false;
+
     public PoCMotor(DcMotorEx motor) {
         this.motor = motor;
         currentTargetPosition = motor.getTargetPosition();
         currentPower = motor.getPower();
         currentMode = motor.getMode();
         currentZeroPowerBehavior = motor.getZeroPowerBehavior();
+        currentDirection = motor.getDirection();
     }
 
     public void setPower(double power) {
@@ -27,19 +34,18 @@ public class PoCMotor {
     }
 
     public double getPower() {
-        currentPower = motor.getPower();
         return currentPower;
     }
 
     public void setTargetPosition(int position) {
-        if (currentTargetPosition != position) {
+        if (!targetSetOnce || (currentTargetPosition != position)) {
             currentTargetPosition = position;
             motor.setTargetPosition(currentTargetPosition);
+            targetSetOnce = true;
         }
     }
 
     public int getTargetPosition() {
-        currentTargetPosition = motor.getTargetPosition();
         return currentTargetPosition;
     }
 
@@ -51,7 +57,6 @@ public class PoCMotor {
     }
 
     public DcMotor.RunMode getMode() {
-        currentMode = motor.getMode();
         return currentMode;
     }
 
@@ -63,12 +68,22 @@ public class PoCMotor {
     }
 
     public DcMotor.ZeroPowerBehavior getZeroPowerBehavior() {
-        currentZeroPowerBehavior = motor.getZeroPowerBehavior();
         return currentZeroPowerBehavior;
     }
 
     public int getCurrentPosition() {
         return motor.getCurrentPosition();
+    }
+
+    public void setDirection(DcMotorSimple.Direction direction) {
+        if (currentDirection != direction) {
+            currentDirection = direction;
+            motor.setDirection(currentDirection);
+        }
+    }
+
+    public DcMotorSimple.Direction getDirection() {
+        return currentDirection;
     }
 
     public boolean isBusy() {

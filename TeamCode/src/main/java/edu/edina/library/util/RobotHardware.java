@@ -37,21 +37,21 @@ public class RobotHardware {
     public final IMU externalImu;
     public final IMU expansionImu;
 
-    public final PoCMotor par0, par1, perp;
+    public final DcMotorEx par0, par1, perp;
 
     public final DcMotorEx lights;
 
-    public final ServoImplEx par0Servo, par1Servo, perpServo;
+    public final PoCServo par0Servo, par1Servo, perpServo;
 
     public final PoCServo leftClawServo, rightClawServo, twistClawServo, autoClawServo, angleClawServo;
 
-    public final ServoImplEx leftLiftServo, rightLiftServo;
+    public final PoCServo leftLiftServo, rightLiftServo;
 
-    public final ServoImplEx droneLaunchServo;
+    public final PoCServo droneLaunchServo;
 
     public final PoCMotor robotHangerMotor;
 
-    public final DcMotorEx topLiftMotor, bottomLiftMotor;
+    public final PoCMotor topLiftMotor, bottomLiftMotor;
 
     public final HuskyLens huskyLens;
 
@@ -119,13 +119,13 @@ public class RobotHardware {
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
-        par0 = new PoCMotor(hardwareMap.get(DcMotorEx.class, "rightFront"));
-        par1 = new PoCMotor(hardwareMap.get(DcMotorEx.class, "rightBack"));
-        perp = new PoCMotor(hardwareMap.get(DcMotorEx.class, "leftFront"));
+        par0 = hardwareMap.get(DcMotorEx.class, "rightFront");
+        par1 = hardwareMap.get(DcMotorEx.class, "rightBack");
+        perp = hardwareMap.get(DcMotorEx.class, "leftFront");
 
-        par0Servo = hardwareMap.get(ServoImplEx.class, "par0Servo");
-        par1Servo = hardwareMap.get(ServoImplEx.class, "par1Servo");
-        perpServo = hardwareMap.get(ServoImplEx.class, "perpServo");
+        par0Servo = new PoCServo(hardwareMap.get(ServoImplEx.class, "par0Servo"));
+        par1Servo = new PoCServo(hardwareMap.get(ServoImplEx.class, "par1Servo"));
+        perpServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "perpServo"));
 
         leftClawServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "leftClawServo"));
         rightClawServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "rightClawServo"));
@@ -133,18 +133,18 @@ public class RobotHardware {
         angleClawServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "angleClawServo"));
         autoClawServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "autoClawServo"));
 
-        leftLiftServo = hardwareMap.get(ServoImplEx.class, "rightLiftServo");
-        rightLiftServo = hardwareMap.get(ServoImplEx.class, "leftLiftServo");
+        leftLiftServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "rightLiftServo"));
+        rightLiftServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "leftLiftServo"));
 
-        droneLaunchServo = hardwareMap.get(ServoImplEx.class, "droneLaunchServo");
+        droneLaunchServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "droneLaunchServo"));
 
         robotHangerMotor = new PoCMotor(hardwareMap.get(DcMotorEx.class, "robotHangerMotor"));
         robotHangerMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robotHangerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robotHangerMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        topLiftMotor = hardwareMap.get(DcMotorEx.class, "topLiftMotor");
-        bottomLiftMotor = hardwareMap.get(DcMotorEx.class, "bottomLiftMotor");
+        topLiftMotor = new PoCMotor(hardwareMap.get(DcMotorEx.class, "topLiftMotor"));
+        bottomLiftMotor = new PoCMotor(hardwareMap.get(DcMotorEx.class, "bottomLiftMotor"));
 
         huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
 
