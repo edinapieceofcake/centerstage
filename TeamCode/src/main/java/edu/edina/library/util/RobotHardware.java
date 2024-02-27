@@ -49,7 +49,7 @@ public class RobotHardware {
 
     public final ServoImplEx droneLaunchServo;
 
-    public final DcMotorEx robotHangerMotor;
+    public final PoCMotor robotHangerMotor;
 
     public final DcMotorEx topLiftMotor, bottomLiftMotor;
 
@@ -138,7 +138,7 @@ public class RobotHardware {
 
         droneLaunchServo = hardwareMap.get(ServoImplEx.class, "droneLaunchServo");
 
-        robotHangerMotor = hardwareMap.get(DcMotorEx.class, "robotHangerMotor");
+        robotHangerMotor = new PoCMotor(hardwareMap.get(DcMotorEx.class, "robotHangerMotor"));
         robotHangerMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robotHangerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robotHangerMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
