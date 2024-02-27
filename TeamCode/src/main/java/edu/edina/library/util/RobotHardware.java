@@ -43,7 +43,7 @@ public class RobotHardware {
 
     public final ServoImplEx par0Servo, par1Servo, perpServo;
 
-    public final ServoImplEx leftClawServo, rightClawServo, twistClawServo, autoClawServo, angleClawServo;
+    public final PoCServo leftClawServo, rightClawServo, twistClawServo, autoClawServo, angleClawServo;
 
     public final ServoImplEx leftLiftServo, rightLiftServo;
 
@@ -127,11 +127,11 @@ public class RobotHardware {
         par1Servo = hardwareMap.get(ServoImplEx.class, "par1Servo");
         perpServo = hardwareMap.get(ServoImplEx.class, "perpServo");
 
-        leftClawServo = hardwareMap.get(ServoImplEx.class, "leftClawServo");
-        rightClawServo = hardwareMap.get(ServoImplEx.class, "rightClawServo");
-        twistClawServo = hardwareMap.get(ServoImplEx.class, "twistClawServo");
-        angleClawServo = hardwareMap.get(ServoImplEx.class, "angleClawServo");
-        autoClawServo = hardwareMap.get(ServoImplEx.class, "autoClawServo");
+        leftClawServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "leftClawServo"));
+        rightClawServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "rightClawServo"));
+        twistClawServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "twistClawServo"));
+        angleClawServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "angleClawServo"));
+        autoClawServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "autoClawServo"));
 
         leftLiftServo = hardwareMap.get(ServoImplEx.class, "rightLiftServo");
         rightLiftServo = hardwareMap.get(ServoImplEx.class, "leftLiftServo");
