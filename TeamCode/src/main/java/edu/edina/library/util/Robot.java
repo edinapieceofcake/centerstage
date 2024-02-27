@@ -36,12 +36,12 @@ public class Robot {
         this.runMultiThreaded = runMultiThreaded;
         this.RobotHardware = new RobotHardware(map);
 
-        subsystems.add(new Lift(this));
+        subsystems.add(new Lift(this.RobotHardware, true));
 
         this.MecanumDrive = new MecanumDrive(this);
         subsystems.add(this.MecanumDrive);
 
-        subsystems.add(new Lift(this));
+        subsystems.add(new Claw(this));
 
         this.RobotHanger = new RobotHanger(this);
         subsystems.add(this.RobotHanger);

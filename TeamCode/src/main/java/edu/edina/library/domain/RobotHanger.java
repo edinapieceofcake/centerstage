@@ -9,10 +9,9 @@ import edu.edina.library.util.RobotState;
 
 public class RobotHanger {
     public static void setProperties(boolean toggleExtend, boolean toggleRetract,
-                                     boolean hangServo, boolean latchServo, boolean resetLift) {
+                                     boolean hangServo, boolean latchServo, boolean resetLift,
+                                     RobotHardware hardware) {
         RobotState state = RobotState.getInstance();
-
-        RobotHardware hardware = null;
 
         if (toggleExtend) {
             state.hangerState = HangerState.Extending;

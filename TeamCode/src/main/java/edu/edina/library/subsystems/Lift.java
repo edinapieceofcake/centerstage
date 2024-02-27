@@ -43,11 +43,6 @@ public class Lift implements Subsystem {
         this.isTeleop = isTeleop;
     }
 
-    public Lift(Robot robot) {
-        this.hardware = robot.RobotHardware;
-        this.isTeleop = true;
-    }
-
     @Override
     public void init() {
         RobotState state = RobotState.getInstance();
