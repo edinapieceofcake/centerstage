@@ -18,10 +18,6 @@ public class RobotHanger implements Subsystem {
         this.hardware = hardware;
     }
 
-    public RobotHanger(Robot robot) {
-        this.hardware = robot.RobotHardware;
-    }
-
     @Override
     public void init() {
         RobotState.getInstance().hangerState = HangerState.Idle;
@@ -31,6 +27,11 @@ public class RobotHanger implements Subsystem {
     public void start() {
         hardware.homeHangMotorAsync();
         started = true;
+    }
+
+    @Override
+    public void stop() {
+        started = false;
     }
 
     @Override
@@ -90,30 +91,4 @@ public class RobotHanger implements Subsystem {
             }
         }
     }
-    public void setProperties(boolean toggleExtend, boolean toggleRetract,
-                              boolean hangServo, boolean latchServo, boolean resetLift) {
-        RobotState state = RobotState.getInstance();
-
-        if (toggleExtend) {
-            state.hangerState = HangerState.Extending;
-        } else if (toggleRetract) {
-            state.hangerState = HangerState.Retracting;
-        } else if (hardware.robotHangerMotor.getMode() == DcMotor.RunMode.RUN_USING_ENCODER){
-            // only go to idle if we are running in manual mode
-            state.hangerState = HangerState.Idle;
-        }
-
-        if (hangServo) {
-            state.currentLiftServoState = LiftServoState.Low;
-        } else if (latchServo) {
-            state.currentLiftServoState = LiftServoState.Hang;
-        }
-
-        if (resetLift) {
-            hardware.homeHangMotorAsync();
-        }
-    }
-
-    @Override
-    public void stop() {}
 }

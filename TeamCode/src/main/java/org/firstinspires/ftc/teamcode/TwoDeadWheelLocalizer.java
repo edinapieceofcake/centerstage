@@ -54,7 +54,8 @@ public final class TwoDeadWheelLocalizer implements Localizer {
 
     public volatile boolean updatingPose = false;
 
-    public TwoDeadWheelLocalizer(DcMotorEx par, DcMotorEx perp, IMU primaryImu, IMU secondaryImu, double inPerTick) {
+    public TwoDeadWheelLocalizer(DcMotorEx par, DcMotorEx perp, IMU primaryImu, IMU secondaryImu,
+                                 double inPerTick) {
         this.par = new RawEncoder(par);
         this.perp = new RawEncoder(perp);
         this.primaryImu = primaryImu;

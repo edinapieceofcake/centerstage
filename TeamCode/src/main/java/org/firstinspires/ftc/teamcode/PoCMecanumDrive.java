@@ -60,6 +60,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import edu.edina.library.util.PoCMotor;
+
 @Config
 public final class PoCMecanumDrive {
     public static class Params {
@@ -120,11 +122,9 @@ public final class PoCMecanumDrive {
     public final AccelConstraint defaultAccelConstraint =
             new ProfileAccelConstraint(PARAMS.minProfileAccel, PARAMS.maxProfileAccel);
 
-    public final DcMotorEx leftFront, leftBack, rightBack, rightFront;
+    public final PoCMotor leftFront, leftBack, rightBack, rightFront;
 
     public final VoltageSensor voltageSensor;
-
-    public final IMU imu;
 
     public final Localizer localizer;
     public Pose2d pose;
@@ -143,102 +143,9 @@ public final class PoCMecanumDrive {
     private boolean poseErrorStopUsage = false;
     private double poseErrorDistance = 6.0;
 
-    public class DriveLocalizer implements Localizer {
-        public final Encoder leftFront, leftBack, rightBack, rightFront;
-
-        private int lastLeftFrontPos, lastLeftBackPos, lastRightBackPos, lastRightFrontPos;
-        private Rotation2d lastHeading;
-
-        public DriveLocalizer() {
-            leftFront = new OverflowEncoder(new RawEncoder(PoCMecanumDrive.this.leftFront));
-            leftBack = new OverflowEncoder(new RawEncoder(PoCMecanumDrive.this.leftBack));
-            rightBack = new OverflowEncoder(new RawEncoder(PoCMecanumDrive.this.rightBack));
-            rightFront = new OverflowEncoder(new RawEncoder(PoCMecanumDrive.this.rightFront));
-
-            lastLeftFrontPos = leftFront.getPositionAndVelocity().position;
-            lastLeftBackPos = leftBack.getPositionAndVelocity().position;
-            lastRightBackPos = rightBack.getPositionAndVelocity().position;
-            lastRightFrontPos = rightFront.getPositionAndVelocity().position;
-
-            lastHeading = Rotation2d.exp(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
-        }
-
-        @Override
-        public Twist2dDual<Time> update() {
-            PositionVelocityPair leftFrontPosVel = leftFront.getPositionAndVelocity();
-            PositionVelocityPair leftBackPosVel = leftBack.getPositionAndVelocity();
-            PositionVelocityPair rightBackPosVel = rightBack.getPositionAndVelocity();
-            PositionVelocityPair rightFrontPosVel = rightFront.getPositionAndVelocity();
-
-//            FlightRecorder.write("MECANUM_ENCODERS", new MecanumEncodersMessage(
-//                    leftFrontPosVel, leftBackPosVel, rightBackPosVel, rightFrontPosVel));
-
-            Rotation2d heading = Rotation2d.exp(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
-            double headingDelta = heading.minus(lastHeading);
-
-            Twist2dDual<Time> twist = kinematics.forward(new MecanumKinematics.WheelIncrements<>(
-                    new DualNum<Time>(new double[]{
-                            (leftFrontPosVel.position - lastLeftFrontPos),
-                            leftFrontPosVel.velocity,
-                    }).times(PARAMS.inPerTick),
-                    new DualNum<Time>(new double[]{
-                            (leftBackPosVel.position - lastLeftBackPos),
-                            leftBackPosVel.velocity,
-                    }).times(PARAMS.inPerTick),
-                    new DualNum<Time>(new double[]{
-                            (rightBackPosVel.position - lastRightBackPos),
-                            rightBackPosVel.velocity,
-                    }).times(PARAMS.inPerTick),
-                    new DualNum<Time>(new double[]{
-                            (rightFrontPosVel.position - lastRightFrontPos),
-                            rightFrontPosVel.velocity,
-                    }).times(PARAMS.inPerTick)
-            ));
-
-            lastLeftFrontPos = leftFrontPosVel.position;
-            lastLeftBackPos = leftBackPosVel.position;
-            lastRightBackPos = rightBackPosVel.position;
-            lastRightFrontPos = rightFrontPosVel.position;
-
-            lastHeading = heading;
-
-            return new Twist2dDual<>(
-                    twist.line,
-                    DualNum.cons(headingDelta, twist.angle.drop(1))
-            );
-        }
-    }
-
-    public PoCMecanumDrive(DcMotorEx leftFront, DcMotorEx leftBack, DcMotorEx rightBack, DcMotorEx rightFront,
-                           DcMotorEx par0, DcMotorEx par1, DcMotorEx perp,
-                           IMU imu, VoltageSensor voltageSensor, Pose2d pose) {
-        this.pose = pose;
-        this.leftFront = leftFront;
-        this.leftBack = leftBack;
-        this.rightBack = rightBack;
-        this.rightFront = rightFront;
-
-        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        this.imu = imu;
-
-        this.voltageSensor = voltageSensor;
-
-        localizer = new TwoDeadWheelLocalizer(par0, perp, imu, imu, PARAMS.inPerTick);
-//        localizer = new ThreeDeadWheelLocalizer(par0, par1, perp, PARAMS.inPerTick);
-
-//        FlightRecorder.write("MECANUM_PARAMS", PARAMS);
-    }
-
-    public PoCMecanumDrive(DcMotorEx leftFront, DcMotorEx leftBack, DcMotorEx rightBack, DcMotorEx rightFront,
-                           DcMotorEx par0, DcMotorEx par1, DcMotorEx perp,
-                           IMU imu, IMU expansionImu, VoltageSensor voltageSensor, DigitalChannel beamBreak, Pose2d pose) {
+    public PoCMecanumDrive(PoCMotor leftFront, PoCMotor leftBack, PoCMotor rightBack,
+                           PoCMotor rightFront,DcMotorEx par0, DcMotorEx par1, DcMotorEx perp,
+                           VoltageSensor voltageSensor, DigitalChannel beamBreak, Pose2d pose) {
         this.pose = pose;
         this.leftFront = leftFront;
         this.leftBack = leftBack;
@@ -254,29 +161,23 @@ public final class PoCMecanumDrive {
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        this.imu = imu;
-
         this.voltageSensor = voltageSensor;
 
-        localizer = new TwoDeadWheelLocalizer(par0, perp, imu, expansionImu, PARAMS.inPerTick);
-//        localizer = new ThreeDeadWheelLocalizer(par0, par1, perp, PARAMS.inPerTick);
+        localizer = new ThreeDeadWheelLocalizer(par0, par1, perp, PARAMS.inPerTick);
 
 //        FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
 
-    public PoCMecanumDrive(HardwareMap hardwareMap, Pose2d pose) {
+    public PoCMecanumDrive(PoCMotor leftFront, PoCMotor leftBack, PoCMotor rightBack,
+                           PoCMotor rightFront,DcMotorEx par, DcMotorEx perp, IMU primaryImu,
+                           IMU secondaryImu, VoltageSensor voltageSensor,
+                           DigitalChannel beamBreak, Pose2d pose) {
         this.pose = pose;
-
-        LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
-
-        for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
-            module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
-        }
-
-        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-        leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
-        rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
-        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+        this.leftFront = leftFront;
+        this.leftBack = leftBack;
+        this.rightBack = rightBack;
+        this.rightFront = rightFront;
+        this.beamBreak = beamBreak;
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -286,16 +187,9 @@ public final class PoCMecanumDrive {
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        imu = hardwareMap.get(IMU.class, "imu");
-        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                PARAMS.logoFacingDirection, PARAMS.usbFacingDirection));
-        imu.initialize(parameters);
+        this.voltageSensor = voltageSensor;
 
-        voltageSensor = hardwareMap.voltageSensor.iterator().next();
-
-//        localizer = new DriveLocalizer();
-        localizer = new TwoDeadWheelLocalizer(hardwareMap, imu, PARAMS.inPerTick);
-//        localizer = new ThreeDeadWheelLocalizer(hardwareMap, PARAMS.inPerTick);
+        localizer = new TwoDeadWheelLocalizer(par, perp, primaryImu, secondaryImu, PARAMS.inPerTick);
 
 //        FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }

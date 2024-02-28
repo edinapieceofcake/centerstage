@@ -7,30 +7,22 @@ import com.acmerobotics.roadrunner.Vector2d;
 import org.firstinspires.ftc.teamcode.PoCMecanumDrive;
 
 import edu.edina.library.util.Robot;
-import edu.edina.library.util.RobotConfiguration;
+import edu.edina.library.util.RobotHardware;
+import edu.edina.library.util.RobotState;
 
 public class MecanumDrive implements Subsystem {
-    private double leftStickX;
-    private double leftStickY;
-    private double rightStickX;
-
+    private RobotState state = RobotState.getInstance();
     private PoCMecanumDrive drive;
-    private Robot robot;
+    private boolean started = false;
+    private RobotHardware hardware;
 
-    public MecanumDrive(Robot robot) {
-        drive = new PoCMecanumDrive(robot.RobotHardware.leftFront, robot.RobotHardware.leftBack,
-                robot.RobotHardware.rightBack, robot.RobotHardware.rightFront,
-                robot.RobotHardware.par0, robot.RobotHardware.par1, robot.RobotHardware.perp,
-                robot.RobotHardware.imu, robot.RobotHardware.expansionImu, robot.RobotHardware.voltageSensor,
-                robot.RobotHardware.beamBreak, new Pose2d(0, 0, 0));
+    public MecanumDrive(RobotHardware hardware) {
+        this.hardware = hardware;
 
-        this.robot = robot;
-    }
-
-    public void setProperties(double leftStickX, double leftStickY, double rightStickX){
-        this.leftStickX = ScaleMotorCube(leftStickX);
-        this.leftStickY = ScaleMotorCube(leftStickY);
-        this.rightStickX = ScaleMotorCube(rightStickX);
+        drive = new PoCMecanumDrive(hardware.leftFront,
+                hardware.leftBack, hardware.rightBack, hardware.rightFront,
+                hardware.par0, hardware.perp, hardware.externalImu, hardware.expansionImu,
+                hardware.voltageSensor, hardware.beamBreak, new Pose2d(0, 0, 0));
     }
 
     @Override
@@ -38,29 +30,27 @@ public class MecanumDrive implements Subsystem {
 
     @Override
     public void start() {
-        robot.RobotHardware.liftServosForTeleop();
-        drive.startLocalizerThread();
-    }
-
-    @Override
-    public void update() {
-        drive.setDrivePowers(new PoseVelocity2d(
-                new Vector2d(
-                        -leftStickY * 0.9,
-                        -leftStickX * 0.9
-                ),
-                (-rightStickX/1.5)
-        ));
-
-        drive.updatePoseEstimate();
+        hardware.liftServosForTeleop();
+        started = true;
     }
 
     @Override
     public void stop() {
-        drive.stopLocalizerThread();
+        started = false;
     }
 
-    public static double ScaleMotorCube(double joyStickPosition) {
-        return (double) Math.pow(joyStickPosition, 3.0);
+    @Override
+    public void update() {
+        if (started) {
+            drive.setDrivePowers(new PoseVelocity2d(
+                    new Vector2d(
+                            -state.leftStickY * 0.9,
+                            -state.leftStickX * 0.9
+                    ),
+                    (-state.rightStickX / 1.5)
+            ));
+
+            drive.updatePoseEstimate();
+        }
     }
 }

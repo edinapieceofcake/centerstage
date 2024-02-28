@@ -35,8 +35,8 @@ public class TestHangServos extends LinearOpMode {
             }
 
             if (pad1.a) {
-                ((PwmControl)hardware.leftLiftServo).setPwmDisable();
-                ((PwmControl)hardware.rightLiftServo).setPwmDisable();
+                hardware.leftLiftServo.setPwmDisable();
+                hardware.rightLiftServo.setPwmDisable();
             }
 
             hardware.rightClawServo.setPosition(config.clawRightClosedPosition);
