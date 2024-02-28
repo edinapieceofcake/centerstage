@@ -67,7 +67,12 @@ public class Claw implements Subsystem {
 
             switch (state.leftClawState) {
                 case Opened:
-                    hardware.leftClawServo.setPosition(config.clawLeftOpenPosition);
+                    if (state.twistServoState == TwistServoState.Pickup) {
+                        hardware.leftClawServo.setPosition(config.clawLeftOpenPosition);
+                    } else {
+                        hardware.leftClawServo.setPosition(config.clawLeftOpenDropPosition);
+                    }
+
                     hardware.leftClawRed.setState(false);
                     hardware.leftClawGreen.setState(true);
                     break;
@@ -80,7 +85,11 @@ public class Claw implements Subsystem {
 
             switch (state.rightClawState) {
                 case Opened:
-                    hardware.rightClawServo.setPosition(config.clawRightOpenPosition);
+                    if (state.twistServoState == TwistServoState.Pickup) {
+                        hardware.rightClawServo.setPosition(config.clawRightOpenPosition);
+                    } else {
+                        hardware.rightClawServo.setPosition(config.clawRightOpenDropPosition);
+                    }
                     hardware.rightClawRed.setState(false);
                     hardware.rightClawGreen.setState(true);
                     break;
@@ -93,7 +102,11 @@ public class Claw implements Subsystem {
 
             switch(state.autoClawState){
                 case Opened:
-                    hardware.autoClawServo.setPosition(config.autoClawServoOpenPosition);
+                    if (state.twistServoState == TwistServoState.Pickup) {
+                        hardware.autoClawServo.setPosition(config.autoClawServoOpenDropPosition);
+                    } else {
+                        hardware.autoClawServo.setPosition(config.autoClawServoOpenDropPosition);
+                    }
                     break;
                 case Closed:
                     hardware.autoClawServo.setPosition(config.autoClawServoClosePosition);
@@ -287,54 +300,6 @@ public class Claw implements Subsystem {
                     }
                     break;
 
-            }
-        }
-    }
-
-    public void setProperties(boolean toggleLeftClaw, boolean toggleRightClaw, boolean leftAngleDrop, boolean rightAngleDrop) {
-        RobotState state = RobotState.getInstance();
-
-        if (toggleLeftClaw) {
-            if (state.leftClawState == ClawState.Opened) {
-                state.leftClawState = ClawState.Closed;
-            } else {
-                state.leftClawState = ClawState.Opened;
-            }
-        }
-
-        if (toggleRightClaw) {
-            if (state.rightClawState == ClawState.Opened) {
-                state.rightClawState = ClawState.Closed;
-            } else {
-                state.rightClawState = ClawState.Opened;
-            }
-        }
-
-        if (toggleRightClaw) {
-            if (state.autoClawState == ClawState.Opened) {
-                state.autoClawState = ClawState.Closed;
-            } else {
-                state.autoClawState = ClawState.Opened;
-            }
-        }
-
-        if (leftAngleDrop) {
-            if (state.twistServoState == TwistServoState.CenterDropOff) {
-                state.twistServoState = TwistServoState.LeftDropOff;
-                state.angleClawState = AngleClawState.LeftDropOff;
-            } else if (state.twistServoState == TwistServoState.RightDropOff) {
-                state.twistServoState = TwistServoState.CenterDropOff;
-                state.angleClawState = AngleClawState.CenterDropOff;
-            }
-        }
-
-        if (rightAngleDrop) {
-            if (state.twistServoState == TwistServoState.CenterDropOff) {
-                state.twistServoState = TwistServoState.RightDropOff;
-                state.angleClawState = AngleClawState.RightDropOff;
-            } else if (state.twistServoState == TwistServoState.LeftDropOff) {
-                state.twistServoState = TwistServoState.CenterDropOff;
-                state.angleClawState = AngleClawState.CenterDropOff;
             }
         }
     }

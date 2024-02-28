@@ -7,14 +7,11 @@ import com.acmerobotics.roadrunner.Vector2d;
 import org.firstinspires.ftc.teamcode.PoCMecanumDrive;
 
 import edu.edina.library.util.Robot;
-import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotHardware;
+import edu.edina.library.util.RobotState;
 
 public class MecanumDrive implements Subsystem {
-    private double leftStickX;
-    private double leftStickY;
-    private double rightStickX;
-
+    private RobotState state = RobotState.getInstance();
     private PoCMecanumDrive drive;
     private Robot robot;
 
@@ -29,12 +26,6 @@ public class MecanumDrive implements Subsystem {
         this.robot = robot;
     }
 
-    public void setProperties(double leftStickX, double leftStickY, double rightStickX){
-        this.leftStickX = ScaleMotorCube(leftStickX);
-        this.leftStickY = ScaleMotorCube(leftStickY);
-        this.rightStickX = ScaleMotorCube(rightStickX);
-    }
-
     @Override
     public void init() { }
 
@@ -47,10 +38,10 @@ public class MecanumDrive implements Subsystem {
     public void update() {
         drive.setDrivePowers(new PoseVelocity2d(
                 new Vector2d(
-                        -leftStickY * 0.9,
-                        -leftStickX * 0.9
+                        -state.leftStickY * 0.9,
+                        -state.leftStickX * 0.9
                 ),
-                (-rightStickX/1.5)
+                (-state.rightStickX/1.5)
         ));
 
         //drive.updatePoseEstimate();

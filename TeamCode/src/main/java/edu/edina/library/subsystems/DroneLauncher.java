@@ -3,10 +3,12 @@ package edu.edina.library.subsystems;
 import edu.edina.library.enums.DroneLauncherState;
 import edu.edina.library.util.Robot;
 import edu.edina.library.util.RobotConfiguration;
+import  edu.edina.library.util.RobotState;
 
 public class DroneLauncher implements Subsystem {
+    private RobotState state = RobotState.getInstance();
+
     private Robot robot;
-    private DroneLauncherState state;
 
     public DroneLauncher(Robot robot) {
         this.robot = robot;
@@ -14,7 +16,7 @@ public class DroneLauncher implements Subsystem {
 
     @Override
     public void init() {
-        this.state = DroneLauncherState.Armed;
+        this.state.droneState = DroneLauncherState.Armed;
         this.robot.RobotHardware.droneLaunchServo.setPosition(RobotConfiguration.getInstance().droneLauncherArmedPosition);
     }
 
@@ -24,7 +26,7 @@ public class DroneLauncher implements Subsystem {
     @Override
     public void update() {
         if (robot.Started) {
-            switch (state) {
+            switch (state.droneState) {
                 case Armed:
                     this.robot.RobotHardware.droneLaunchServo.setPosition(RobotConfiguration.getInstance().droneLauncherArmedPosition);
                     break;
@@ -32,15 +34,6 @@ public class DroneLauncher implements Subsystem {
                 default:
                     this.robot.RobotHardware.droneLaunchServo.setPosition(RobotConfiguration.getInstance().droneLauncherLaunchedPosition);
                     break;
-            }
-        }
-    }
-    public void setProperties(boolean launchDrone) {
-        if (launchDrone) {
-            if (state == DroneLauncherState.Launched) {
-                state = DroneLauncherState.Armed;
-            } else {
-                state = DroneLauncherState.Launched;
             }
         }
     }
