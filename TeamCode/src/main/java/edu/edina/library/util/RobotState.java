@@ -65,6 +65,11 @@ public class RobotState {
 //    drone launcher properties
     public DroneLauncherState droneState;
 
+//    mecanum drive properties
+    public double leftStickX;
+    public double leftStickY;
+    public double rightStickX;
+
     public RobotState() {
         currentLiftSlidePower = 0.0;
         currentLiftDriveState = LiftDriveState.Manual;
