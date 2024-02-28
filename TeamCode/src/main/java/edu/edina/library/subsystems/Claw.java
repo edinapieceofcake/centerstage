@@ -67,7 +67,12 @@ public class Claw implements Subsystem {
 
             switch (state.leftClawState) {
                 case Opened:
-                    hardware.leftClawServo.setPosition(config.clawLeftOpenPosition);
+                    if (state.twistServoState == TwistServoState.Pickup) {
+                        hardware.leftClawServo.setPosition(config.clawLeftOpenPosition);
+                    } else {
+                        hardware.leftClawServo.setPosition(config.clawLeftOpenDropPosition);
+                    }
+
                     hardware.leftClawRed.setState(false);
                     hardware.leftClawGreen.setState(true);
                     break;
@@ -80,7 +85,11 @@ public class Claw implements Subsystem {
 
             switch (state.rightClawState) {
                 case Opened:
-                    hardware.rightClawServo.setPosition(config.clawRightOpenPosition);
+                    if (state.twistServoState == TwistServoState.Pickup) {
+                        hardware.leftClawServo.setPosition(config.clawRightOpenPosition);
+                    } else {
+                        hardware.leftClawServo.setPosition(config.clawRightOpenDropPosition);
+                    }
                     hardware.rightClawRed.setState(false);
                     hardware.rightClawGreen.setState(true);
                     break;
@@ -93,7 +102,11 @@ public class Claw implements Subsystem {
 
             switch(state.autoClawState){
                 case Opened:
-                    hardware.autoClawServo.setPosition(config.autoClawServoOpenPosition);
+                    if (state.twistServoState == TwistServoState.Pickup) {
+                        hardware.leftClawServo.setPosition(config.autoClawServoOpenDropPosition);
+                    } else {
+                        hardware.leftClawServo.setPosition(config.autoClawServoOpenDropPosition);
+                    }
                     break;
                 case Closed:
                     hardware.autoClawServo.setPosition(config.autoClawServoClosePosition);
