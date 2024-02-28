@@ -17,10 +17,6 @@ public class Claw implements Subsystem {
         this.hardware = hardware;
     }
 
-    public Claw(Robot robot) {
-        this.hardware = robot.RobotHardware;
-    }
-
     @Override
     public void init() {
         RobotState state = RobotState.getInstance();
@@ -40,6 +36,11 @@ public class Claw implements Subsystem {
     @Override
     public void start() {
         started = true;
+    }
+
+    @Override
+    public void stop() {
+        started = false;
     }
 
     @Override

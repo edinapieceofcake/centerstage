@@ -13,17 +13,16 @@ import edu.edina.library.util.RobotState;
 public class MecanumDrive implements Subsystem {
     private RobotState state = RobotState.getInstance();
     private PoCMecanumDrive drive;
-    private Robot robot;
+    private boolean started = false;
+    private RobotHardware hardware;
 
-    public MecanumDrive(Robot robot) {
-        RobotHardware hardware = robot.RobotHardware;
+    public MecanumDrive(RobotHardware hardware) {
+        this.hardware = hardware;
 
         drive = new PoCMecanumDrive(hardware.leftFront,
                 hardware.leftBack, hardware.rightBack, hardware.rightFront,
                 hardware.par0, hardware.perp, hardware.externalImu, hardware.expansionImu,
                 hardware.voltageSensor, hardware.beamBreak, new Pose2d(0, 0, 0));
-
-        this.robot = robot;
     }
 
     @Override
@@ -31,20 +30,28 @@ public class MecanumDrive implements Subsystem {
 
     @Override
     public void start() {
-        robot.RobotHardware.liftServosForTeleop();
+        hardware.liftServosForTeleop();
+        started = true;
+    }
+
+    @Override
+    public void stop() {
+        started = false;
     }
 
     @Override
     public void update() {
-        drive.setDrivePowers(new PoseVelocity2d(
-                new Vector2d(
-                        -state.leftStickY * 0.9,
-                        -state.leftStickX * 0.9
-                ),
-                (-state.rightStickX/1.5)
-        ));
+        if (started) {
+            drive.setDrivePowers(new PoseVelocity2d(
+                    new Vector2d(
+                            -state.leftStickY * 0.9,
+                            -state.leftStickX * 0.9
+                    ),
+                    (-state.rightStickX / 1.5)
+            ));
 
-        //drive.updatePoseEstimate();
+            //drive.updatePoseEstimate();
+        }
     }
 
     public static double ScaleMotorCube(double joyStickPosition) {

@@ -18,10 +18,6 @@ public class RobotHanger implements Subsystem {
         this.hardware = hardware;
     }
 
-    public RobotHanger(Robot robot) {
-        this.hardware = robot.RobotHardware;
-    }
-
     @Override
     public void init() {
         RobotState.getInstance().hangerState = HangerState.Idle;
@@ -31,6 +27,11 @@ public class RobotHanger implements Subsystem {
     public void start() {
         hardware.homeHangMotorAsync();
         started = true;
+    }
+
+    @Override
+    public void stop() {
+        started = false;
     }
 
     @Override

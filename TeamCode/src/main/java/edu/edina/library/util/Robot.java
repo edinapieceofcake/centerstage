@@ -18,13 +18,11 @@ import edu.edina.library.subsystems.Subsystem;
 
 public class Robot {
     private ExecutorService subsystemUpdateExecutor;
-    public boolean Started;
+    private boolean started;
     private boolean runMultiThreaded;
     public RobotHardware RobotHardware;
     private List<Subsystem> subsystems = new ArrayList<>();
     private Telemetry telemetry;
-    public MecanumDrive MecanumDrive;
-    public RobotHanger RobotHanger;
     private Runnable subsystemUpdateRunnable = () -> {
         while (!Thread.currentThread().isInterrupted()) {
             internal_update();
@@ -38,15 +36,13 @@ public class Robot {
 
         subsystems.add(new Lift(this.RobotHardware, true));
 
-        this.MecanumDrive = new MecanumDrive(this);
-        subsystems.add(this.MecanumDrive);
+        subsystems.add(new MecanumDrive(this.RobotHardware));
 
-        subsystems.add(new Claw(this));
+        subsystems.add(new Claw(this.RobotHardware));
 
-        this.RobotHanger = new RobotHanger(this);
-        subsystems.add(this.RobotHanger);
+        subsystems.add(new RobotHanger(this.RobotHardware));
 
-        subsystems.add(new DroneLauncher(this));
+        subsystems.add(new DroneLauncher(this.RobotHardware));
 
         if (this.runMultiThreaded) {
             // setup the thread executor
@@ -82,12 +78,12 @@ public class Robot {
         }
 
         if (runMultiThreaded){
-            if (!Started) {
+            if (!started) {
                 subsystemUpdateExecutor.submit(subsystemUpdateRunnable);
             }
         }
 
-        Started = true;
+        started = true;
     }
 
     public void stop() {
@@ -98,7 +94,11 @@ public class Robot {
             }
         }
 
-        Started = false;
+        for (Subsystem subsystem : subsystems) {
+            subsystem.stop();
+        }
+
+        started = false;
     }
 
     public void telemetry() {

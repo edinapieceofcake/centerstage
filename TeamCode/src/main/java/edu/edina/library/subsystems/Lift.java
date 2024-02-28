@@ -69,6 +69,11 @@ public class Lift implements Subsystem {
     }
 
     @Override
+    public void stop() {
+        started = false;
+    }
+
+    @Override
     public void update() {
         RobotState state = RobotState.getInstance();
         RobotConfiguration config = RobotConfiguration.getInstance();
