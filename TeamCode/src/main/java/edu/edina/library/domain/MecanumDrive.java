@@ -1,6 +1,5 @@
 package edu.edina.library.domain;
 
-import static edu.edina.library.subsystems.MecanumDrive.ScaleMotorCube;
 import edu.edina.library.util.RobotState;
 
 public class MecanumDrive {
@@ -9,5 +8,9 @@ public class MecanumDrive {
         state.leftStickX = ScaleMotorCube(leftStickX);
         state.leftStickY = ScaleMotorCube(leftStickY);
         state.rightStickX = ScaleMotorCube(rightStickX);
+    }
+
+    public static double ScaleMotorCube(double joyStickPosition) {
+        return (double) Math.pow(joyStickPosition, 3.0);
     }
 }
