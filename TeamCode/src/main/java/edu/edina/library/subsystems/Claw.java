@@ -86,9 +86,9 @@ public class Claw implements Subsystem {
             switch (state.rightClawState) {
                 case Opened:
                     if (state.twistServoState == TwistServoState.Pickup) {
-                        hardware.leftClawServo.setPosition(config.clawRightOpenPosition);
+                        hardware.rightClawServo.setPosition(config.clawRightOpenPosition);
                     } else {
-                        hardware.leftClawServo.setPosition(config.clawRightOpenDropPosition);
+                        hardware.rightClawServo.setPosition(config.clawRightOpenDropPosition);
                     }
                     hardware.rightClawRed.setState(false);
                     hardware.rightClawGreen.setState(true);
@@ -103,9 +103,9 @@ public class Claw implements Subsystem {
             switch(state.autoClawState){
                 case Opened:
                     if (state.twistServoState == TwistServoState.Pickup) {
-                        hardware.leftClawServo.setPosition(config.autoClawServoOpenDropPosition);
+                        hardware.autoClawServo.setPosition(config.autoClawServoOpenDropPosition);
                     } else {
-                        hardware.leftClawServo.setPosition(config.autoClawServoOpenDropPosition);
+                        hardware.autoClawServo.setPosition(config.autoClawServoOpenDropPosition);
                     }
                     break;
                 case Closed:
