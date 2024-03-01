@@ -14,10 +14,13 @@ import com.acmerobotics.roadrunner.ftc.RawEncoder;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.util.ThreadPool;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
+
+import java.util.concurrent.ExecutorService;
 
 @Config
 public final class TwoDeadWheelLocalizer implements Localizer {
@@ -40,6 +43,16 @@ public final class TwoDeadWheelLocalizer implements Localizer {
     private double lastRawHeadingVel, headingVelOffset;
 
     private boolean usePrimary = true;
+
+    private ExecutorService updatePoseExecutor;
+
+    private Runnable updatePoseRunnable = () -> {
+        updatePose();
+    };
+
+    public volatile boolean updatingPose = false;
+
+    private volatile Twist2dDual<Time> twist;
 
     public TwoDeadWheelLocalizer(DcMotorEx par, DcMotorEx perp, IMU primaryImu, IMU secondaryImu,
                                  double inPerTick) {
@@ -83,38 +96,42 @@ public final class TwoDeadWheelLocalizer implements Localizer {
     }
 
     public Twist2dDual<Time> update() {
-        PositionVelocityPair parPosVel = par.getPositionAndVelocity();
-        PositionVelocityPair perpPosVel = perp.getPositionAndVelocity();
-        Rotation2d heading = Rotation2d.exp(getRobotYawPitchRollAngles());
-
-        int parPosDelta = parPosVel.position - lastParPos;
-        int perpPosDelta = perpPosVel.position - lastPerpPos;
-        double headingDelta = heading.minus(lastHeading);
-
-        double headingVel = getHeadingVelocity();
-
-        Twist2dDual<Time> twist = new Twist2dDual<>(
-                new Vector2dDual<>(
-                        new DualNum<Time>(new double[] {
-                                parPosDelta - PARAMS.parYTicks * headingDelta,
-                                parPosVel.velocity - PARAMS.parYTicks * headingVel,
-                        }).times(inPerTick),
-                        new DualNum<Time>(new double[] {
-                                perpPosDelta - PARAMS.perpXTicks * headingDelta,
-                                perpPosVel.velocity - PARAMS.perpXTicks * headingVel,
-                        }).times(inPerTick)
-                ),
-                new DualNum<>(new double[] {
-                        headingDelta,
-                        headingVel,
-                })
-        );
-
-        lastParPos = parPosVel.position;
-        lastPerpPos = perpPosVel.position;
-        lastHeading = heading;
-
         return twist;
+    }
+
+    public void updatePose () {
+        while (updatingPose) {
+            PositionVelocityPair parPosVel = par.getPositionAndVelocity();
+            PositionVelocityPair perpPosVel = perp.getPositionAndVelocity();
+            Rotation2d heading = Rotation2d.exp(getRobotYawPitchRollAngles());
+
+            int parPosDelta = parPosVel.position - lastParPos;
+            int perpPosDelta = perpPosVel.position - lastPerpPos;
+            double headingDelta = heading.minus(lastHeading);
+
+            double headingVel = getHeadingVelocity();
+
+            twist = new Twist2dDual<>(
+                    new Vector2dDual<>(
+                            new DualNum<Time>(new double[]{
+                                    parPosDelta - PARAMS.parYTicks * headingDelta,
+                                    parPosVel.velocity - PARAMS.parYTicks * headingVel,
+                            }).times(inPerTick),
+                            new DualNum<Time>(new double[]{
+                                    perpPosDelta - PARAMS.perpXTicks * headingDelta,
+                                    perpPosVel.velocity - PARAMS.perpXTicks * headingVel,
+                            }).times(inPerTick)
+                    ),
+                    new DualNum<>(new double[]{
+                            headingDelta,
+                            headingVel,
+                    })
+            );
+
+            lastParPos = parPosVel.position;
+            lastPerpPos = perpPosVel.position;
+            lastHeading = heading;
+        }
     }
 
     private double getRobotYawPitchRollAngles() {
@@ -149,5 +166,17 @@ public final class TwoDeadWheelLocalizer implements Localizer {
         } else {
             return secondaryImu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
         }
+    }
+
+    public void startPoseUpdate() {
+        if (!updatingPose) {
+            updatePoseExecutor = ThreadPool.newSingleThreadExecutor("pose update");
+            updatePoseExecutor.submit(updatePoseRunnable);
+            updatingPose = true;
+        }
+    }
+
+    public void stopPoseUpdate() {
+        updatingPose = false;
     }
 }

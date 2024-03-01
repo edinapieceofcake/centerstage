@@ -1,5 +1,7 @@
 package edu.edina.library.subsystems;
 
+import android.util.Log;
+
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
@@ -32,11 +34,13 @@ public class MecanumDrive implements Subsystem {
     public void start() {
         hardware.liftServosForTeleop();
         started = true;
+        drive.startPoseThread();
     }
 
     @Override
     public void stop() {
         started = false;
+        drive.stopPoseThread();
     }
 
     @Override
@@ -50,7 +54,8 @@ public class MecanumDrive implements Subsystem {
                     (-state.rightStickX / 1.5)
             ));
 
-            //drive.updatePoseEstimate();
+            drive.updatePoseEstimate();
+            Log.d("ROBOTPOSE", String.format("%f %f %f", drive.pose.position.x, drive.pose.position.y, drive.pose.heading.real));
         }
     }
 

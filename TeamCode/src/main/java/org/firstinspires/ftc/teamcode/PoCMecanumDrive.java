@@ -441,4 +441,12 @@ public final class PoCMecanumDrive {
                 0.25, 0.1
         );
     }
+
+    public void startPoseThread() {
+        ((TwoDeadWheelLocalizer)localizer).startPoseUpdate();
+    }
+
+    public void stopPoseThread() {
+        ((TwoDeadWheelLocalizer)localizer).startPoseUpdate();
+    }
 }
