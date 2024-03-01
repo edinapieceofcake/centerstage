@@ -1,6 +1,9 @@
 package edu.edina.library.enums;
 
 public enum TwistServoState {
-    DropOff,
+    CenterDropOff,
+    LeftAutoDropOff,
+    LeftDropOff,
+    RightDropOff,
     Pickup
 }

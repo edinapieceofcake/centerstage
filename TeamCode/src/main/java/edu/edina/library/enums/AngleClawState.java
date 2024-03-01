@@ -2,6 +2,10 @@ package edu.edina.library.enums;
 
 public enum AngleClawState {
     Drive,
+    Stack,
     Pickup,
-    DropOff
+    CenterDropOff,
+    LeftAutoDropOff,
+    LeftDropOff,
+    RightDropOff,
 }

@@ -57,6 +57,7 @@ public final class MecanumDrive {
     public static class Params {
         // IMU orientation
         public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
+
                 RevHubOrientationOnRobot.LogoFacingDirection.UP;
         public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
                 RevHubOrientationOnRobot.UsbFacingDirection.RIGHT;
@@ -66,10 +67,19 @@ public final class MecanumDrive {
         public double lateralInPerTick = 0.003933586009250048;
         public double trackWidthTicks = 1530.901283935735;
 
+                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
+        public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
+                RevHubOrientationOnRobot.UsbFacingDirection.UP;
+
+
+        // drive model parameters
+        public double inPerTick = 0.00599224697552627;
+        public double lateralInPerTick = 0.003051;
+        public double trackWidthTicks = 1671.531512305301;
         // feedforward parameters (in tick units)
-        public double kS = 1.1703819680154774;
-        public double kV = 0.0008111780414143532;
-        public double kA = 0.0003;
+        public double kS = 1.6010516969025215;
+        public double kV = 0.00062;
+        public double kA = 0.0004;
 
         // path profile parameters (in inches)
         public double maxWheelVel = 50;
@@ -87,6 +97,14 @@ public final class MecanumDrive {
         public double axialVelGain = 0.9;
         public double lateralVelGain = 0.6;
         public double headingVelGain = 0.7; // shared with turn
+
+//        public double axialGain = 24;
+//        public double lateralGain = 24;
+//        public double headingGain = 24; // shared with turn
+//
+//        public double axialVelGain = 0.5;
+//        public double lateralVelGain = 0.5;
+//        public double headingVelGain = 0.5; // shared with turn
     }
 
     public static Params PARAMS = new Params();
@@ -120,6 +138,7 @@ public final class MecanumDrive {
     private final DownsampledWriter driveCommandWriter = new DownsampledWriter("DRIVE_COMMAND", 50_000_000);
     private final DownsampledWriter mecanumCommandWriter = new DownsampledWriter("MECANUM_COMMAND", 50_000_000);
 
+
     private ExecutorService updatePoseEstimateExecutor;
 
     private Runnable updatePoseEstimateRunnable = () -> {
@@ -134,6 +153,12 @@ public final class MecanumDrive {
 
     public class DriveLocalizer implements Localizer {
         public final Encoder leftFront, leftBack, rightBack, rightFront;
+
+
+    
+    public class DriveLocalizer implements Localizer {
+        public final Encoder leftFront, leftBack, rightBack, rightFront;
+
 
         private int lastLeftFrontPos, lastLeftBackPos, lastRightBackPos, lastRightFrontPos;
         private Rotation2d lastHeading;
@@ -198,6 +223,7 @@ public final class MecanumDrive {
         }
     }
 
+
     public MecanumDrive(DcMotorEx leftFront, DcMotorEx leftBack, DcMotorEx rightBack, DcMotorEx rightFront,
                         DcMotorEx par0, DcMotorEx par1, DcMotorEx perp,
                         IMU imu, VoltageSensor voltageSensor, Pose2d pose) {
@@ -226,6 +252,7 @@ public final class MecanumDrive {
         startUpdatePoseEstimateRunningAsync();
     }
 
+
     public MecanumDrive(HardwareMap hardwareMap, Pose2d pose) {
         this.pose = pose;
 
@@ -252,6 +279,7 @@ public final class MecanumDrive {
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
+//        localizer = new DriveLocalizer();
         localizer = new TwoDeadWheelLocalizer(hardwareMap, imu, PARAMS.inPerTick);
 //        localizer = new ThreeDeadWheelLocalizer(par0, par1, perp, PARAMS.inPerTick);
 
@@ -331,6 +359,7 @@ public final class MecanumDrive {
                 robotVelRobot = twist.velocity().value();//updatePoseEstimate();
             }
 
+
             synchronized (poseLock) {
                 PoseVelocity2dDual<Time> command = new HolonomicController(
                         PARAMS.axialGain, PARAMS.lateralGain, PARAMS.headingGain,
@@ -340,6 +369,14 @@ public final class MecanumDrive {
                 driveCommandWriter.write(new DriveCommandMessage(command));
                 wheelVels = kinematics.inverse(command);
             }
+
+            PoseVelocity2dDual<Time> command = new HolonomicController(
+                    PARAMS.axialGain, PARAMS.lateralGain, PARAMS.headingGain,
+                    PARAMS.axialVelGain, PARAMS.lateralVelGain, PARAMS.headingVelGain
+            )
+                    .compute(txWorldTarget, pose, robotVelRobot);
+            driveCommandWriter.write(new DriveCommandMessage(command));
+
 
             double voltage = voltageSensor.getVoltage();
 
@@ -358,6 +395,7 @@ public final class MecanumDrive {
             rightBack.setPower(rightBackPower);
             rightFront.setPower(rightFrontPower);
 
+
             synchronized (poseLock) {
                 p.put("x", pose.position.x);
                 p.put("y", pose.position.y);
@@ -365,6 +403,11 @@ public final class MecanumDrive {
 
                 error = txWorldTarget.value().minusExp(pose);
             }
+
+            p.put("x", pose.position.x);
+            p.put("y", pose.position.y);
+            p.put("heading (deg)", Math.toDegrees(pose.heading.toDouble()));
+
 
             p.put("xError", error.position.x);
             p.put("yError", error.position.y);
@@ -435,6 +478,7 @@ public final class MecanumDrive {
                 robotVelRobot = twist.velocity().value();//updatePoseEstimate();
             }
 
+
             synchronized (poseLock) {
                 PoseVelocity2dDual<Time> command = new HolonomicController(
                         PARAMS.axialGain, PARAMS.lateralGain, PARAMS.headingGain,
@@ -445,6 +489,14 @@ public final class MecanumDrive {
 
                 wheelVels = kinematics.inverse(command);
             }
+
+            PoseVelocity2dDual<Time> command = new HolonomicController(
+                    PARAMS.axialGain, PARAMS.lateralGain, PARAMS.headingGain,
+                    PARAMS.axialVelGain, PARAMS.lateralVelGain, PARAMS.headingVelGain
+            )
+                    .compute(txWorldTarget, pose, robotVelRobot);
+            driveCommandWriter.write(new DriveCommandMessage(command));
+
 
             double voltage = voltageSensor.getVoltage();
             final MotorFeedforward feedforward = new MotorFeedforward(PARAMS.kS,
@@ -505,6 +557,12 @@ public final class MecanumDrive {
                 estimatedPoseWriter.write(new PoseMessage(pose));
             }
         }
+
+
+        estimatedPoseWriter.write(new PoseMessage(pose));
+
+        return twist.velocity().value();
+
     }
 
     private void drawPoseHistory(Canvas c) {

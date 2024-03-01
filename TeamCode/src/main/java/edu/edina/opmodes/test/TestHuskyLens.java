@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import edu.edina.library.enums.Alliance;
 import edu.edina.library.enums.PropLocation;
 import edu.edina.library.util.PoCHuskyLens;
 import edu.edina.library.util.RobotHardware;
@@ -15,7 +16,7 @@ public class TestHuskyLens extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         PropLocation lastLocation = PropLocation.Left;
         RobotHardware hardware = new RobotHardware(hardwareMap);
-        PoCHuskyLens poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, 2);
+        PoCHuskyLens poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, Alliance.Red);
 
         poCHuskyLens.init();
 

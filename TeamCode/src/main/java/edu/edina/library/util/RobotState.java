@@ -1,14 +1,21 @@
 package edu.edina.library.util;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.robotcore.internal.system.Deadline;
+
+import java.util.concurrent.TimeUnit;
 
 import edu.edina.library.enums.AngleClawState;
 import edu.edina.library.enums.ClawState;
+import edu.edina.library.enums.DroneLauncherState;
+import edu.edina.library.enums.DropOffOrientation;
 import edu.edina.library.enums.DropOffState;
 import edu.edina.library.enums.HangState;
 import edu.edina.library.enums.HangerState;
 import edu.edina.library.enums.LiftDriveState;
+import edu.edina.library.enums.LiftServoRange;
 import edu.edina.library.enums.LiftServoState;
 import edu.edina.library.enums.LiftSlideState;
 import edu.edina.library.enums.PickUpState;
@@ -20,17 +27,30 @@ public class RobotState {
     // lift properties
     public int currentTopMotorPosition;
     public int currentBottomMotorPosition;
+    public int currentTopMotorTargetPosition;
+    public int currentBottomMotorTargetPosition;
     public double currentLiftSlidePower;
     public LiftServoState currentLiftServoState;
-    public double currentLeftLiftServoPosition;
-    public double currentRightLiftServoPosition;
     public LiftDriveState currentLiftDriveState;
     public LiftSlideState currentLiftSlideState;
     public LiftDriveState lastKnownLiftState;
-    public int liftTargetPosition = 0;
     public DropOffState dropOffState;
+    public DropOffOrientation dropOffOrientation;
     public PickUpState pickUpState;
     public HangState hangState;
+    public HangerState hangerState;
+    public int currentHangerPosition;
+    public LiftServoRange liftServoRange;
+    public double currentTriggerStrength;
+    public int currentLowDropOffPosition;
+    public int currentHighDropOffPostiion;
+    public Deadline currentLowLiftDelay;
+    public Deadline currentHighLiftDelay;
+    public Deadline secondExtensionTimeout = new Deadline(1000, TimeUnit.MILLISECONDS);
+    public Deadline lowLiftDelay = new Deadline(300, TimeUnit.MILLISECONDS);
+    public Deadline mediumLiftDelay = new Deadline(500, TimeUnit.MILLISECONDS);
+    public Deadline highLiftDelay = new Deadline(600, TimeUnit.MILLISECONDS);
+
 
     // claw properties
     public TwistServoState twistServoState;
@@ -40,6 +60,15 @@ public class RobotState {
     public double currentLiftHeight;
     public ClawState leftClawState;
     public ClawState rightClawState;
+    public ClawState autoClawState;
+
+//    drone launcher properties
+    public DroneLauncherState droneState;
+
+//    mecanum drive properties
+    public double leftStickX;
+    public double leftStickY;
+    public double rightStickX;
 
     public RobotState() {
         currentLiftSlidePower = 0.0;
@@ -50,6 +79,9 @@ public class RobotState {
         lastKnownLiftState = LiftDriveState.Drive;
         rightClawState = ClawState.Opened;
         leftClawState = ClawState.Opened;
+        autoClawState = ClawState.Opened;
+        liftServoRange = LiftServoRange.Low;
+        dropOffOrientation = DropOffOrientation.Center;
     }
 
     public static synchronized RobotState getInstance()
@@ -70,19 +102,27 @@ public class RobotState {
         telemetry.addData("LastKnownLiftDriveState", lastKnownLiftState);
         telemetry.addData("PickUpState", pickUpState);
         telemetry.addData("DropOffState", dropOffState);
-        telemetry.addData("Current Left Lift Servo Position", currentLeftLiftServoPosition);
-        telemetry.addData("Current Right Servo Position", currentRightLiftServoPosition);
-        telemetry.addData("liftTargetPosition", liftTargetPosition);
+        telemetry.addData("currentTopMotorTargetPosition", currentTopMotorTargetPosition);
         telemetry.addData("Twist Servo State: ", twistServoState);
         telemetry.addData("AngleClawState", angleClawState);
-//        telemetry.addData("Current Lift Angle, Length, Height: ", "%f %f %f", currentLiftAngle, currentLiftLength, currentLiftHeight);
-//        telemetry.addData("Sin Current Lift Angle", Math.sin(Math.toRadians(currentLiftAngle)));
+        telemetry.addData("liftServoRange", liftServoRange);
+        telemetry.addData("Current Lift Angle, Length, Height: ", "%f %f %f", currentLiftAngle, currentLiftLength, currentLiftHeight);
+        telemetry.addData("Sin Current Lift Angle", Math.sin(Math.toRadians(currentLiftAngle)));
 
         if (hardware != null) {
-//            telemetry.addData("Left Front Power, Current", "%f %f", hardware.leftFront.getPower(), hardware.leftFront.getCurrent(CurrentUnit.MILLIAMPS));
-//            telemetry.addData("Right Front Power, Current", "%f %f", hardware.rightFront.getPower(), hardware.leftFront.getCurrent(CurrentUnit.MILLIAMPS));
-//            telemetry.addData("Left Rear Power, Current", "%f %f", hardware.leftBack.getPower(), hardware.leftFront.getCurrent(CurrentUnit.MILLIAMPS));
-//            telemetry.addData("Right Rear Power, Current", "%f %f", hardware.rightBack.getPower(), hardware.leftFront.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Left Front Power, Current", "%f %f", hardware.leftFront.getPower(), hardware.leftFront.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Right Front Power, Current", "%f %f", hardware.rightFront.getPower(), hardware.leftFront.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Left Rear Power, Current", "%f %f", hardware.leftBack.getPower(), hardware.leftFront.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Right Rear Power, Current", "%f %f", hardware.rightBack.getPower(), hardware.leftFront.getCurrent(CurrentUnit.MILLIAMPS));
+
+            telemetry.addData("ImuInfo CHUB angle", hardware.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
+            telemetry.addData("ImuInfo CHUB velocity", hardware.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);
+            telemetry.addData("ImuInfo External angle", hardware.externalImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
+            telemetry.addData("ImuInfo External velocity", hardware.externalImu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);
+
+//            Log.d("Imu CHUB, External angle, velocity", String.format("%.4f %.4f %.4f %.4f", hardware.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES),
+//                    hardware.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate, hardware.externalImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES),
+//                    hardware.externalImu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate));
 
             telemetry.addData("Top Target", hardware.topLiftMotor.getTargetPosition());
             telemetry.addData("Bottom Target", hardware.bottomLiftMotor.getTargetPosition());
@@ -94,9 +134,11 @@ public class RobotState {
             telemetry.addData("Bottom Motor Mode", hardware.bottomLiftMotor.getMode());
             telemetry.addData("Top Power, Current", "%f %f", hardware.topLiftMotor.getPower(), hardware.topLiftMotor.getCurrent(CurrentUnit.MILLIAMPS));
             telemetry.addData("Bottom Front Power, Current", "%f %f", hardware.bottomLiftMotor.getPower(), hardware.bottomLiftMotor.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Hang Motor Power, Current", "%f %f", hardware.robotHangerMotor.getPower(), hardware.robotHangerMotor.getCurrent(CurrentUnit.MILLIAMPS));
 
             telemetry.addData("Lift Switch", hardware.liftSwitch.getState());
             telemetry.addData("Hanger Motor Position", hardware.robotHangerMotor.getCurrentPosition());
+            telemetry.addData("Beam break", hardware.beamBreak.getState());
         }
     }
 }

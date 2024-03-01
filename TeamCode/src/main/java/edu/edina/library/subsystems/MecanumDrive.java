@@ -1,32 +1,30 @@
 package edu.edina.library.subsystems;
 
+import android.util.Log;
+
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
+
+import org.firstinspires.ftc.teamcode.PoCMecanumDrive;
+
 import edu.edina.library.util.Robot;
-import edu.edina.library.util.RobotConfiguration;
+import edu.edina.library.util.RobotHardware;
+import edu.edina.library.util.RobotState;
 
 public class MecanumDrive implements Subsystem {
-    private double leftStickX;
-    private double leftStickY;
-    private double rightStickX;
+    private RobotState state = RobotState.getInstance();
+    private PoCMecanumDrive drive;
+    private boolean started = false;
+    private RobotHardware hardware;
 
-    private org.firstinspires.ftc.teamcode.MecanumDrive drive;
-    private Robot robot;
+    public MecanumDrive(RobotHardware hardware) {
+        this.hardware = hardware;
 
-    public MecanumDrive(Robot robot) {
-        drive = new org.firstinspires.ftc.teamcode.MecanumDrive(robot.RobotHardware.leftFront,
-                robot.RobotHardware.leftBack, robot.RobotHardware.rightBack, robot.RobotHardware.rightFront,
-                robot.RobotHardware.par0, robot.RobotHardware.par1, robot.RobotHardware.perp,
-                robot.RobotHardware.imu, robot.RobotHardware.voltageSensor, new Pose2d(0, 0, 0));
-
-        this.robot = robot;
-    }
-
-    public void setProperties(double leftStickX, double leftStickY, double rightStickX){
-        this.leftStickX = ScaleMotorCube(leftStickX);
-        this.leftStickY = ScaleMotorCube(leftStickY);
-        this.rightStickX = ScaleMotorCube(rightStickX);
+        drive = new PoCMecanumDrive(hardware.leftFront,
+                hardware.leftBack, hardware.rightBack, hardware.rightFront,
+                hardware.par0, hardware.perp, hardware.externalImu, hardware.expansionImu,
+                hardware.voltageSensor, hardware.beamBreak, new Pose2d(0, 0, 0));
     }
 
     @Override
@@ -34,22 +32,35 @@ public class MecanumDrive implements Subsystem {
 
     @Override
     public void start() {
-        robot.RobotHardware.par0Servo.setPosition(RobotConfiguration.getInstance().par0UpPosition);
-        robot.RobotHardware.par1Servo.setPosition(RobotConfiguration.getInstance().par1UpPosition);
-        robot.RobotHardware.perpServo.setPosition(RobotConfiguration.getInstance().perpUpPosition);
+        hardware.liftServosForTeleop();
+        started = true;
+        drive.startPoseThread();
+    }
+
+    @Override
+    public void stop() {
+        started = false;
+        drive.stopPoseThread();
     }
 
     @Override
     public void update() {
-        drive.setDrivePowers(new PoseVelocity2d(
-                new Vector2d(
-                        -leftStickY,
-                        -leftStickX
-                ),
-                (-rightStickX/1.5)
-        ));
+        if (started) {
+            drive.setDrivePowers(new PoseVelocity2d(
+                    new Vector2d(
+                            -state.leftStickY * 0.9,
+                            -state.leftStickX * 0.9
+                    ),
+                    (-state.rightStickX / 1.5)
+            ));
+
 
         //drive.updatePoseEstimate();
+
+            drive.updatePoseEstimate();
+            Log.d("ROBOTPOSE", String.format("%f %f %f", drive.pose.position.x, drive.pose.position.y, drive.pose.heading.real));
+        }
+
     }
 
     public static double ScaleMotorCube(double joyStickPosition) {

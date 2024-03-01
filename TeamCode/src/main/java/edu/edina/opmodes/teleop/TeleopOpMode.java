@@ -1,7 +1,13 @@
 package edu.edina.opmodes.teleop;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import edu.edina.library.domain.Claw;
+import edu.edina.library.domain.DroneLauncher;
+import edu.edina.library.domain.Lift;
+import edu.edina.library.domain.MecanumDrive;
+import edu.edina.library.domain.RobotHanger;
 import edu.edina.library.util.Robot;
 import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotHardware;
@@ -23,20 +29,15 @@ public class TeleopOpMode extends OpMode {
     // great place to put vision code to detect where to go for autonomous
     @Override
     public void init_loop() {
-        RobotState state = RobotState.getInstance();
-        RobotHardware hardware = robot.RobotHardware;
-        RobotConfiguration config = RobotConfiguration.getInstance();
-
-        telemetry.addData("Current Left Lift Servo Position", state.currentLeftLiftServoPosition);
-        telemetry.addData("Current Right Servo Position", state.currentRightLiftServoPosition);
-
         telemetry.update();
-
     }
 
     @Override
     public void start() {
+
         robot.start();
+
+        robot.RobotHardware.startCurrentMonitor();
     }
 
     @Override
@@ -45,17 +46,18 @@ public class TeleopOpMode extends OpMode {
         driver1Gamepad.update();
         driver2Gamepad.update();
 
-        robot.MecanumDrive.setProperties(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
+        MecanumDrive.setProperties(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
 
-        robot.Claw.setProperties(driver1Gamepad.left_bumper, driver1Gamepad.right_bumper, false, false);
+        Claw.setProperties(driver1Gamepad.left_bumper, driver1Gamepad.right_bumper, driver1Gamepad.dpad_left, driver1Gamepad.dpad_right);
 
-        robot.Lift.setProperties(gamepad1.right_trigger, gamepad1.left_trigger, driver1Gamepad.a,
-                driver1Gamepad.x, driver1Gamepad.y, driver1Gamepad.b, driver2Gamepad.y);
+        Lift.setProperties(gamepad1.right_trigger, gamepad1.left_trigger, driver1Gamepad.a,
+                driver1Gamepad.x, driver1Gamepad.y, driver1Gamepad.b, driver2Gamepad.y,
+                driver1Gamepad.dpad_up, driver1Gamepad.dpad_down);
 
-        robot.RobotHanger.setProperties(gamepad2.left_trigger != 0, gamepad2.right_trigger != 0,
-                driver2Gamepad.dpad_up, driver2Gamepad.dpad_down, driver2Gamepad.left_bumper);
+        RobotHanger.setProperties(gamepad2.left_trigger != 0, gamepad2.right_trigger != 0,
+                driver2Gamepad.dpad_up, driver2Gamepad.dpad_down, driver2Gamepad.left_bumper, robot.RobotHardware);
 
-        robot.DroneLauncher.setProperties(driver2Gamepad.a);
+        DroneLauncher.setProperties(driver2Gamepad.a);
 
         robot.update();
         robot.telemetry();
@@ -63,6 +65,9 @@ public class TeleopOpMode extends OpMode {
 
     @Override
     public  void stop() {
+
         robot.stop();
+
+        robot.RobotHardware.stopCurrentMonitor();
     }
 }

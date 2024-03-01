@@ -14,20 +14,26 @@ import com.acmerobotics.roadrunner.ftc.RawEncoder;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.util.ThreadPool;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
+
+import java.util.concurrent.ExecutorService;
 
 @Config
 public final class TwoDeadWheelLocalizer implements Localizer {
     public static class Params {
-        public double parYTicks = -773.49851343117344; // y position of the parallel encoder (in tick units)
-        public double perpXTicks = -833.3060762771956; // x position of the perpendicular encoder (in tick units)
+        public double parYTicks = -756.6437132344282; // y position of the parallel encoder (in tick units)
+        public double perpXTicks = -862.0096899816914; // x position of the perpendicular encoder (in tick units)
     }
 
     public static Params PARAMS = new Params();
 
     public final Encoder par, perp;
-    public final IMU imu;
+    public final IMU primaryImu;
+    public final IMU secondaryImu;
 
     private int lastParPos, lastPerpPos;
     private Rotation2d lastHeading;
@@ -36,28 +42,43 @@ public final class TwoDeadWheelLocalizer implements Localizer {
 
     private double lastRawHeadingVel, headingVelOffset;
 
-    public TwoDeadWheelLocalizer(DcMotorEx par, DcMotorEx perp, IMU imu, double inPerTick) {
+    private boolean usePrimary = true;
+
+    private ExecutorService updatePoseExecutor;
+
+    private Runnable updatePoseRunnable = () -> {
+        updatePose();
+    };
+
+    public volatile boolean updatingPose = false;
+
+    private volatile Twist2dDual<Time> twist;
+
+    public TwoDeadWheelLocalizer(DcMotorEx par, DcMotorEx perp, IMU primaryImu, IMU secondaryImu,
+                                 double inPerTick) {
         this.par = new RawEncoder(par);
         this.perp = new RawEncoder(perp);
-        this.imu = imu;
+        this.primaryImu = primaryImu;
+        this.secondaryImu = secondaryImu;
 
         lastParPos = this.par.getPositionAndVelocity().position;
         lastPerpPos = this.perp.getPositionAndVelocity().position;
-        lastHeading = Rotation2d.exp(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+        lastHeading = Rotation2d.exp(getRobotYawPitchRollAngles());
 
         this.inPerTick = inPerTick;
 
         FlightRecorder.write("TWO_DEAD_WHEEL_PARAMS", PARAMS);
     }
 
-    public TwoDeadWheelLocalizer(HardwareMap hardwareMap, IMU imu, double inPerTick) {
+    public TwoDeadWheelLocalizer(HardwareMap hardwareMap, IMU primaryImu, double inPerTick) {
         par = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "par")));
         perp = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "perp")));
-        this.imu = imu;
+        this.primaryImu = primaryImu;
+        this.secondaryImu = primaryImu;
 
         lastParPos = par.getPositionAndVelocity().position;
         lastPerpPos = perp.getPositionAndVelocity().position;
-        lastHeading = Rotation2d.exp(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+        lastHeading = Rotation2d.exp(getRobotYawPitchRollAngles());
 
         this.inPerTick = inPerTick;
 
@@ -66,7 +87,7 @@ public final class TwoDeadWheelLocalizer implements Localizer {
 
     // see https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/617
     private double getHeadingVelocity() {
-        double rawHeadingVel = imu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
+        double rawHeadingVel = getRobotAngularVelocity();
         if (Math.abs(rawHeadingVel - lastRawHeadingVel) > Math.PI) {
             headingVelOffset -= Math.signum(rawHeadingVel) * 2 * Math.PI;
         }
@@ -75,37 +96,87 @@ public final class TwoDeadWheelLocalizer implements Localizer {
     }
 
     public Twist2dDual<Time> update() {
-        PositionVelocityPair parPosVel = par.getPositionAndVelocity();
-        PositionVelocityPair perpPosVel = perp.getPositionAndVelocity();
-        Rotation2d heading = Rotation2d.exp(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
-
-        int parPosDelta = parPosVel.position - lastParPos;
-        int perpPosDelta = perpPosVel.position - lastPerpPos;
-        double headingDelta = heading.minus(lastHeading);
-
-        double headingVel = getHeadingVelocity();
-
-        Twist2dDual<Time> twist = new Twist2dDual<>(
-                new Vector2dDual<>(
-                        new DualNum<Time>(new double[] {
-                                parPosDelta - PARAMS.parYTicks * headingDelta,
-                                parPosVel.velocity - PARAMS.parYTicks * headingVel,
-                        }).times(inPerTick),
-                        new DualNum<Time>(new double[] {
-                                perpPosDelta - PARAMS.perpXTicks * headingDelta,
-                                perpPosVel.velocity - PARAMS.perpXTicks * headingVel,
-                        }).times(inPerTick)
-                ),
-                new DualNum<>(new double[] {
-                        headingDelta,
-                        headingVel,
-                })
-        );
-
-        lastParPos = parPosVel.position;
-        lastPerpPos = perpPosVel.position;
-        lastHeading = heading;
-
         return twist;
+    }
+
+    public void updatePose () {
+        while (updatingPose) {
+            PositionVelocityPair parPosVel = par.getPositionAndVelocity();
+            PositionVelocityPair perpPosVel = perp.getPositionAndVelocity();
+            Rotation2d heading = Rotation2d.exp(getRobotYawPitchRollAngles());
+
+            int parPosDelta = parPosVel.position - lastParPos;
+            int perpPosDelta = perpPosVel.position - lastPerpPos;
+            double headingDelta = heading.minus(lastHeading);
+
+            double headingVel = getHeadingVelocity();
+
+            twist = new Twist2dDual<>(
+                    new Vector2dDual<>(
+                            new DualNum<Time>(new double[]{
+                                    parPosDelta - PARAMS.parYTicks * headingDelta,
+                                    parPosVel.velocity - PARAMS.parYTicks * headingVel,
+                            }).times(inPerTick),
+                            new DualNum<Time>(new double[]{
+                                    perpPosDelta - PARAMS.perpXTicks * headingDelta,
+                                    perpPosVel.velocity - PARAMS.perpXTicks * headingVel,
+                            }).times(inPerTick)
+                    ),
+                    new DualNum<>(new double[]{
+                            headingDelta,
+                            headingVel,
+                    })
+            );
+
+            lastParPos = parPosVel.position;
+            lastPerpPos = perpPosVel.position;
+            lastHeading = heading;
+        }
+    }
+
+    private double getRobotYawPitchRollAngles() {
+        YawPitchRollAngles angles = null;
+
+        if (usePrimary) {
+            angles = primaryImu.getRobotYawPitchRollAngles();
+
+            if (angles.getAcquisitionTime() == 0) {
+                usePrimary = false;
+                return secondaryImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+            } else {
+                return angles.getYaw(AngleUnit.RADIANS);
+            }
+        } else {
+            return secondaryImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        }
+    }
+
+    private double getRobotAngularVelocity() {
+        AngularVelocity velocities = null;
+
+         if (usePrimary) {
+             velocities = primaryImu.getRobotAngularVelocity(AngleUnit.RADIANS);
+
+            if (velocities.acquisitionTime == 0) {
+                usePrimary = false;
+                return secondaryImu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
+            } else {
+                return velocities.zRotationRate;
+            }
+        } else {
+            return secondaryImu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
+        }
+    }
+
+    public void startPoseUpdate() {
+        if (!updatingPose) {
+            updatePoseExecutor = ThreadPool.newSingleThreadExecutor("pose update");
+            updatePoseExecutor.submit(updatePoseRunnable);
+            updatingPose = true;
+        }
+    }
+
+    public void stopPoseUpdate() {
+        updatingPose = false;
     }
 }

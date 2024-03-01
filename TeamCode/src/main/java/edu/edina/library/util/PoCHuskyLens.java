@@ -8,12 +8,13 @@ import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 
 import java.util.concurrent.TimeUnit;
 
+import edu.edina.library.enums.Alliance;
 import edu.edina.library.enums.PropLocation;
 
 public class PoCHuskyLens {
     private final int READ_PERIOD = 1;
 
-    private int blockId;
+    private Alliance alliance;
 
     private HuskyLens huskyLens;
 
@@ -21,12 +22,12 @@ public class PoCHuskyLens {
 
     private Deadline rateLimit = new Deadline(READ_PERIOD, TimeUnit.SECONDS);
 
-    private PropLocation propLocation = PropLocation.Left;
+    public PropLocation propLocation = PropLocation.None;
 
-    public PoCHuskyLens(HuskyLens huskyLens, Telemetry telemetry, int blockId){
+    public PoCHuskyLens(HuskyLens huskyLens, Telemetry telemetry, Alliance alliance){
         this.huskyLens = huskyLens;
         this.telemetry = telemetry;
-        this.blockId = blockId;
+        this.alliance = alliance;
     }
 
     public void init() {
@@ -44,8 +45,6 @@ public class PoCHuskyLens {
     }
 
     public void update() {
-        double smallestRatio = 9999.0;
-        int smallestBlockLocation = -1;
 
         if (!rateLimit.hasExpired()) {
             return;
@@ -54,33 +53,32 @@ public class PoCHuskyLens {
         rateLimit.reset();
 
         HuskyLens.Block[] blocks = huskyLens.blocks();
-        telemetry.addData("Block count", blocks.length);
 
-        for (int i = 0; i < blocks.length; i++) {
-            double ratio = (1.0 - (blocks[i].x / blocks[i].y));
-            telemetry.addData("Block", blocks[i].toString());
-            telemetry.addData("Ratio, Picked Location", "%f %d %d", ratio, smallestBlockLocation, blockId);
+        if (blocks.length == 0) {
+            propLocation = PropLocation.None;
+            telemetry.addData("No blocks", "");
+        } else {
+            telemetry.addData("Block count", blocks.length);
 
-            if (blocks[i].id == blockId) {
-                telemetry.addData("Matched block", "");
-                if (ratio < smallestRatio) {
-                    smallestRatio = ratio;
-                    smallestBlockLocation = i;
+            for (int i = 0; i < blocks.length; i++) {
+                HuskyLens.Block currentBlock = blocks[i];
+                telemetry.addData("Block", currentBlock.toString());
+
+                if (currentBlock.id == alliance.value) {
+                    telemetry.addData("Matched block", "");
+                    if (currentBlock.x < 100) {
+                        propLocation = PropLocation.Left;
+                    } else if (currentBlock.x >= 100 && currentBlock.x <= 220) {
+                        propLocation = PropLocation.Center;
+                    } else if (currentBlock.x > 220) {
+                        propLocation = PropLocation.Right;
+                    } else {
+                        propLocation = PropLocation.None;
+                    }
+                } else {
+                    telemetry.addData("Skipped block", "");
+                    propLocation = PropLocation.None;
                 }
-            } else {
-                telemetry.addData("Skipped block", "");
-            }
-        }
-
-        if (smallestBlockLocation != -1) {
-            HuskyLens.Block propBlock = blocks[smallestBlockLocation];
-
-            if (propBlock.x <= 100) {
-                propLocation = PropLocation.Left;
-            } else if (propBlock.x >= 100 && propBlock.x <= 220) {
-                propLocation = PropLocation.Center;
-            } else {
-                propLocation = PropLocation.Right;
             }
         }
     }

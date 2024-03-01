@@ -4,5 +4,6 @@ public enum PropLocation {
     Left,
     Right,
     Center,
-    Idle
+    Idle,
+    None
 }

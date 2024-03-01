@@ -1,9 +1,9 @@
 package edu.edina.library.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.PwmControl;
 
 import edu.edina.library.enums.HangerState;
+import edu.edina.library.enums.LiftServoRange;
 import edu.edina.library.enums.LiftServoState;
 import edu.edina.library.util.Robot;
 import edu.edina.library.util.RobotConfiguration;
@@ -11,32 +11,39 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.RobotState;
 
 public class RobotHanger implements Subsystem {
-    private Robot robot;
-    private HangerState hangerState;
+    private RobotHardware hardware;
+    private boolean started = false;
 
-    public RobotHanger(Robot robot) {
-        this.robot = robot;
+    public RobotHanger(RobotHardware hardware) {
+        this.hardware = hardware;
     }
 
     @Override
     public void init() {
-        hangerState = HangerState.Idle;
+        RobotState.getInstance().hangerState = HangerState.Idle;
     }
 
     @Override
     public void start() {
-        robot.RobotHardware.homeHangMotorAsync();
+        hardware.homeHangMotorAsync();
+        started = true;
+    }
+
+    @Override
+    public void stop() {
+        started = false;
     }
 
     @Override
     public void update() {
         RobotState state = RobotState.getInstance();
         RobotConfiguration config = RobotConfiguration.getInstance();
-        RobotHardware hardware = robot.RobotHardware;
 
-        if (robot.Started) {
+        if (started) {
+            state.currentHangerPosition = hardware.robotHangerMotor.getCurrentPosition();
+
             if (!hardware.hangMotorHoming) {
-                switch (hangerState) {
+                switch (state.hangerState) {
                     case Retracting:
                         hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                         hardware.robotHangerMotor.setPower(RobotConfiguration.getInstance().hangerRetractingPower);
@@ -50,36 +57,38 @@ public class RobotHanger implements Subsystem {
                             hardware.robotHangerMotor.setPower(0);
                         }
                         break;
+                    case Hang:
+                        hardware.robotHangerMotor.setTargetPosition(config.hangMotorHangPosition);
+                        hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
+                        break;
+                    case LowDrop:
+                        if (state.liftServoRange == LiftServoRange.Low) {
+                            hardware.robotHangerMotor.setTargetPosition(config.hangMotorLowDropOffPosition);
+                        } else {
+                            hardware.robotHangerMotor.setTargetPosition(config.hangMotorMediumDropOffPosition);
+                        }
+
+                        hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
+                        break;
+                    case HighDrop:
+                        if (state.liftServoRange == LiftServoRange.Low) {
+                            hardware.robotHangerMotor.setTargetPosition(config.hangMotorMediumDropOffPosition);
+                        } else {
+                            hardware.robotHangerMotor.setTargetPosition(config.hangMotorHighDropOffPosition);
+                        }
+
+                        hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
+                        break;
+                    case Store:
+                        hardware.robotHangerMotor.setTargetPosition(config.hangMotorStorePosition);
+                        hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
+                        break;
                 }
             }
-        }
-    }
-    public void setProperties(boolean toggleExtend, boolean toggleRetract,
-                              boolean hangServo, boolean latchServo, boolean resetLift) {
-        RobotState state = RobotState.getInstance();
-        RobotConfiguration config = RobotConfiguration.getInstance();
-        RobotHardware hardware = robot.RobotHardware;
-
-        if (toggleExtend) {
-            hangerState = HangerState.Extending;
-        } else if (toggleRetract) {
-            hangerState = HangerState.Retracting;
-        } else {
-            hangerState = HangerState.Idle;
-        }
-
-        if (hangServo) {
-            state.currentLeftLiftServoPosition = config.leftLowDropOffServoPosition;
-            state.currentRightLiftServoPosition = config.rightLowDropOffServoPosition;
-            state.currentLiftServoState = LiftServoState.Medium;
-        } else if (latchServo) {
-            state.currentLeftLiftServoPosition = config.startingLeftLiftServoPosition;
-            state.currentRightLiftServoPosition = config.startingRightLiftServoPosition;
-            state.currentLiftServoState = LiftServoState.Hang;
-        }
-
-        if (resetLift) {
-            hardware.homeHangMotorAsync();
         }
     }
 }

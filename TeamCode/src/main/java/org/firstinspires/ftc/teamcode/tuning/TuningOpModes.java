@@ -30,6 +30,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import edu.edina.library.util.RobotConfiguration;
+import edu.edina.library.util.RobotHardware;
+
 public final class TuningOpModes {
     public static final Class<?> DRIVE_CLASS = MecanumDrive.class;
 
@@ -54,6 +57,16 @@ public final class TuningOpModes {
         if (DRIVE_CLASS.equals(MecanumDrive.class)) {
             dvf = hardwareMap -> {
                 MecanumDrive md = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
+
+                RobotHardware hardware = new RobotHardware(hardwareMap);
+
+                hardware.dropServosForAutonomous();
+
+                hardware.leftClawServo.setPosition(RobotConfiguration.getInstance().clawLeftOpenPosition);
+                hardware.rightClawServo.setPosition(RobotConfiguration.getInstance().clawRightOpenPosition);
+                hardware.autoClawServo.setPosition(RobotConfiguration.getInstance().autoClawServoOpenPosition);
+                hardware.twistClawServo.setPosition(RobotConfiguration.getInstance().twistClawServoPickUpPosition);
+                hardware.angleClawServo.setPosition(RobotConfiguration.getInstance().angleClawDrivePosition);
 
                 List<Encoder> leftEncs = new ArrayList<>(), rightEncs = new ArrayList<>();
                 List<Encoder> parEncs = new ArrayList<>(), perpEncs = new ArrayList<>();
@@ -149,6 +162,7 @@ public final class TuningOpModes {
             throw new AssertionError();
         }
 
+
         manager.register(metaForClass(AngularRampLogger.class), new AngularRampLogger(dvf));
         manager.register(metaForClass(ForwardPushTest.class), new ForwardPushTest(dvf));
         manager.register(metaForClass(ForwardRampLogger.class), new ForwardRampLogger(dvf));
@@ -160,6 +174,20 @@ public final class TuningOpModes {
         manager.register(metaForClass(ManualFeedbackTuner.class), ManualFeedbackTuner.class);
         manager.register(metaForClass(SplineTest.class), SplineTest.class);
         manager.register(metaForClass(LocalizationTest.class), LocalizationTest.class);
+
+//        manager.register(metaForClass(AngularRampLogger.class), new AngularRampLogger(dvf));
+//        manager.register(metaForClass(ForwardPushTest.class), new ForwardPushTest(dvf));
+//        manager.register(metaForClass(ForwardRampLogger.class), new ForwardRampLogger(dvf));
+//        manager.register(metaForClass(LateralPushTest.class), new LateralPushTest(dvf));
+//        manager.register(metaForClass(LateralRampLogger.class), new LateralRampLogger(dvf));
+//        manager.register(metaForClass(ManualFeedforwardTuner.class), new ManualFeedforwardTuner(dvf));
+//        manager.register(metaForClass(MecanumMotorDirectionDebugger.class), new MecanumMotorDirectionDebugger(dvf));
+//
+//        manager.register(metaForClass(ManualFeedbackTuner.class), ManualFeedbackTuner.class);
+//        manager.register(metaForClass(SplineTest.class), SplineTest.class);
+//        manager.register(metaForClass(StrafeTest.class), StrafeTest.class);
+//        manager.register(metaForClass(LocalizationTest.class), LocalizationTest.class);
+
 
         FtcDashboard.getInstance().withConfigRoot(configRoot -> {
             for (Class<?> c : Arrays.asList(

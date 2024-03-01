@@ -11,7 +11,6 @@ import java.util.concurrent.ExecutorService;
 
 import edu.edina.library.subsystems.Claw;
 import edu.edina.library.subsystems.DroneLauncher;
-import edu.edina.library.subsystems.HuskyLensSubsystem;
 import edu.edina.library.subsystems.Lift;
 import edu.edina.library.subsystems.MecanumDrive;
 import edu.edina.library.subsystems.RobotHanger;
@@ -19,17 +18,11 @@ import edu.edina.library.subsystems.Subsystem;
 
 public class Robot {
     private ExecutorService subsystemUpdateExecutor;
-    public boolean Started;
+    private boolean started;
     private boolean runMultiThreaded;
     public RobotHardware RobotHardware;
     private List<Subsystem> subsystems = new ArrayList<>();
     private Telemetry telemetry;
-    public Lift Lift;
-    public MecanumDrive MecanumDrive;
-    public Claw Claw;
-    public DroneLauncher DroneLauncher;
-    public RobotHanger RobotHanger;
-    public HuskyLensSubsystem HuskyLensSubsystem;
     private Runnable subsystemUpdateRunnable = () -> {
         while (!Thread.currentThread().isInterrupted()) {
             internal_update();
@@ -41,20 +34,15 @@ public class Robot {
         this.runMultiThreaded = runMultiThreaded;
         this.RobotHardware = new RobotHardware(map);
 
-        this.Lift = new Lift(this);
-        subsystems.add(this.Lift);
+        subsystems.add(new Lift(this.RobotHardware, true));
 
-        this.MecanumDrive = new MecanumDrive(this);
-        subsystems.add(this.MecanumDrive);
+        subsystems.add(new MecanumDrive(this.RobotHardware));
 
-        this.Claw = new Claw(this);
-        subsystems.add(this.Claw);
+        subsystems.add(new Claw(this.RobotHardware));
 
-        this.RobotHanger = new RobotHanger(this);
-        subsystems.add(this.RobotHanger);
+        subsystems.add(new RobotHanger(this.RobotHardware));
 
-        this.DroneLauncher = new DroneLauncher(this);
-        subsystems.add(this.DroneLauncher);
+        subsystems.add(new DroneLauncher(this.RobotHardware));
 
         if (this.runMultiThreaded) {
             // setup the thread executor
@@ -90,12 +78,12 @@ public class Robot {
         }
 
         if (runMultiThreaded){
-            if (!Started) {
+            if (!started) {
                 subsystemUpdateExecutor.submit(subsystemUpdateRunnable);
             }
         }
 
-        Started = true;
+        started = true;
     }
 
     public void stop() {
@@ -106,7 +94,11 @@ public class Robot {
             }
         }
 
-        Started = false;
+        for (Subsystem subsystem : subsystems) {
+            subsystem.stop();
+        }
+
+        started = false;
     }
 
     public void telemetry() {
