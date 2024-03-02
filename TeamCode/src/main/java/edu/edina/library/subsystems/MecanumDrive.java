@@ -55,7 +55,7 @@ public class MecanumDrive implements Subsystem {
             ));
 
             drive.updatePoseEstimate();
-            Log.d("ROBOTPOSE", String.format("%f %f %f", drive.pose.position.x, drive.pose.position.y, drive.pose.heading.real));
+            Log.d("ROBOTPOSE", String.format("%f %f %f", drive.pose.position.x, drive.pose.position.y, Math.toDegrees(drive.pose.heading.real)));
         }
     }
 
