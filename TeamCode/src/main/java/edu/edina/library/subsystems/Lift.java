@@ -85,6 +85,256 @@ public class Lift implements Subsystem {
             state.currentLiftAngle = 51.111 * hardware.leftLiftServo.getPosition() + 20.956;
             state.currentLiftHeight = state.currentLiftLength * Math.sin(Math.toRadians(state.currentLiftAngle));
 
+
+            if (state.currentLiftDriveState == Manual) {
+                hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                if (state.currentLiftSlideState == LiftSlideState.Retracting) {
+                    if (!hardware.liftSwitch.getState()) {
+                        state.currentLiftSlidePower = .1;
+                    } else {
+                        if ((state.currentLiftServoState != LiftServoState.Start) && (state.currentTopMotorPosition > config.minimumExtensionBeforeRaisingLiftInTicks)) {
+                            // if we are above the bottom of the hubs, don't let the lift back down into it
+                            state.currentLiftSlidePower = 0;
+                            state.currentLiftSlideState = LiftSlideState.Idle;
+                        }
+                    }
+                }
+
+                hardware.topLiftMotor.setPower(state.currentLiftSlidePower);
+                hardware.bottomLiftMotor.setPower(state.currentLiftSlidePower);
+            } else {
+                if (state.currentLiftDriveState == LiftDriveState.Hang) {
+                    if (state.hangState == HangState.Start) {
+                        hardware.topLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks);
+                        hardware.bottomLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks);
+                        hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        hardware.topLiftMotor.setPower(config.liftExtendingPower);
+                        hardware.bottomLiftMotor.setPower(config.liftExtendingPower);
+                        hardware.robotHangerMotor.setTargetPosition(config.hangMotorLowDropOffPosition);
+                        hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
+                        state.twistServoState = TwistServoState.Pickup;
+                        state.angleClawState = AngleClawState.Drive;
+                        state.hangState = HangState.FirstExtension;
+                    }
+
+                    if (state.hangState == HangState.FirstExtension) {
+                        if (hardware.topLiftMotor.getCurrentPosition() < (config.minimumExtensionBeforeRaisingLiftInTicks + 10)) {
+                            state.hangState = HangState.LiftArm;
+                            state.currentLeftLiftServoPosition = config.leftLowDropOffServoPosition;
+                            state.currentRightLiftServoPosition = config.rightLowDropOffServoPosition;
+                            highLiftDelay.reset();
+                        }
+                    }
+
+                    if (state.hangState == HangState.LiftArm) {
+                        if (highLiftDelay.hasExpired()) {
+                            state.currentLiftServoState = LiftServoState.Medium;
+                            hardware.robotHangerMotor.setTargetPosition(config.hangMotorHangPosition);
+                            hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
+                            state.hangState = HangState.RaiseHanger;
+                        }
+                    }
+
+                    if (state.hangState == HangState.RaiseHanger) {
+                        if (hardware.robotHangerMotor.getCurrentPosition() < (config.hangMotorHangPosition + 10)) {
+                            state.hangState = HangState.Finished;
+                            state.lastKnownLiftState = Hang;
+                        }
+                    }
+                } else if ((state.currentLiftDriveState == LiftDriveState.LowDropOff) ||
+                        (state.currentLiftDriveState == LiftDriveState.HighDropOff)) {
+                    if (state.dropOffState == DropOffState.Start) {
+                        hardware.topLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks);
+                        hardware.bottomLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks);
+                        hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        hardware.topLiftMotor.setPower(config.liftExtendingPower);
+                        hardware.bottomLiftMotor.setPower(config.liftExtendingPower);
+                        if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {
+                            hardware.robotHangerMotor.setTargetPosition(config.hangMotorLowDropOffPosition);
+                        } else {
+                            hardware.robotHangerMotor.setTargetPosition(config.hangMotorHighDropOffPosition);
+                        }
+
+                        hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
+                        state.dropOffState = DropOffState.FirstExtension;
+                    }
+
+                    if (state.dropOffState == DropOffState.FirstExtension) {
+                        if (state.lastKnownLiftState == LowDropOff || state.lastKnownLiftState == HighDropOff) {
+                            // switch the robot hanger position if we are transitioning from low to high or high to low
+                            if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {
+                                hardware.robotHangerMotor.setTargetPosition(config.hangMotorLowDropOffPosition);
+                            } else {
+                                hardware.robotHangerMotor.setTargetPosition(config.hangMotorHighDropOffPosition);
+                            }
+
+                            hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                            hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
+                        }
+
+                        if (hardware.topLiftMotor.getCurrentPosition() < (config.minimumExtensionBeforeRaisingLiftInTicks + 10)) {
+                            state.dropOffState = DropOffState.LiftArm;
+                            if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {
+                                state.currentLeftLiftServoPosition = config.leftLowDropOffServoPosition;
+                                state.currentRightLiftServoPosition = config.rightLowDropOffServoPosition;
+                                lowLiftDelay.reset();
+                            } else {
+                                state.currentLeftLiftServoPosition = config.leftHighDropOffServoPosition;
+                                state.currentRightLiftServoPosition = config.rightHighDropOffServoPosition;
+                                highLiftDelay.reset();
+                            }
+                        }
+                    }
+
+                    if (state.dropOffState == DropOffState.LiftArm) {
+                        if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {
+                            if (lowLiftDelay.hasExpired()) {
+                                state.currentLiftServoState = LiftServoState.Medium;
+                                hardware.topLiftMotor.setTargetPosition(config.liftLowDropOffPosition);
+                                hardware.bottomLiftMotor.setTargetPosition(config.liftLowDropOffPosition);
+                                hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                                hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                                state.dropOffState = DropOffState.SecondExtension;
+                                secondExtensionTimeout.reset();;
+                            }
+                        } else {
+                            if (highLiftDelay.hasExpired()) {
+                                state.currentLiftServoState = LiftServoState.High;
+                                hardware.topLiftMotor.setTargetPosition(config.liftHighDropOffPosition);
+                                hardware.bottomLiftMotor.setTargetPosition(config.liftHighDropOffPosition);
+                                hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                                hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                                state.dropOffState = DropOffState.SecondExtension;
+                                secondExtensionTimeout.reset();;
+                            }
+                        }
+                    }
+
+                    if (state.dropOffState == DropOffState.SecondExtension) {
+                        // twist the claw as soon as we get to 600 just in case the batter doesn't have enough to get to the high position
+                        if (hardware.topLiftMotor.getCurrentPosition() < (config.liftTwistPosition)) {
+                            state.twistServoState = TwistServoState.DropOff;
+                            state.angleClawState = AngleClawState.DropOff;
+                        }
+
+                        if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {
+                            if (secondExtensionTimeout.hasExpired()) {
+                                state.dropOffState = DropOffState.Finished;
+                                state.currentLiftSlideState = LiftSlideState.Idle;
+                                state.lastKnownLiftState = LowDropOff;
+                            } else {
+                                if (state.lastKnownLiftState == HighDropOff) {
+                                    if (hardware.topLiftMotor.getCurrentPosition() > (config.liftLowDropOffPosition - 10)) {
+                                        state.dropOffState = DropOffState.Finished;
+                                        state.currentLiftSlideState = LiftSlideState.Idle;
+                                        state.lastKnownLiftState = LowDropOff;
+                                    }
+                                } else {
+                                    if (hardware.topLiftMotor.getCurrentPosition() < (config.liftLowDropOffPosition + 10)) {
+                                        state.dropOffState = DropOffState.Finished;
+                                        state.currentLiftSlideState = LiftSlideState.Idle;
+                                        state.lastKnownLiftState = LowDropOff;
+                                    }
+                                }
+                            }
+                        } else {
+                            if (secondExtensionTimeout.hasExpired()) {
+                                state.dropOffState = DropOffState.Finished;
+                                state.currentLiftSlideState = LiftSlideState.Idle;
+                                state.lastKnownLiftState = HighDropOff;
+                            } else if (hardware.topLiftMotor.getCurrentPosition() < (config.liftHighDropOffPosition + 10)) {
+                                state.dropOffState = DropOffState.Finished;
+                                state.currentLiftSlideState = LiftSlideState.Idle;
+                                state.lastKnownLiftState = HighDropOff;
+                            }
+                        }
+                    }
+                } else if ((state.currentLiftDriveState == LiftDriveState.Pickup) ||
+                        (state.currentLiftDriveState == LiftDriveState.Drive)) {
+                    if (state.pickUpState == PickUpState.Start) {
+                        hardware.topLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks);
+                        hardware.bottomLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks);
+                        hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        hardware.topLiftMotor.setPower(config.liftRetractingPower);
+                        hardware.bottomLiftMotor.setPower(config.liftRetractingPower);
+                        state.pickUpState = PickUpState.FirstRetraction;
+                        state.twistServoState = TwistServoState.Pickup;
+                        state.angleClawState = AngleClawState.Drive;
+                    }
+
+                    if (state.pickUpState == PickUpState.FirstRetraction) {
+                        if (hardware.topLiftMotor.getCurrentPosition() > (config.minimumExtensionBeforeRaisingLiftInTicks - 10)) {
+                            state.pickUpState = PickUpState.DropArm;
+                            state.currentLeftLiftServoPosition = config.startingLeftLiftServoPosition;
+                            state.currentRightLiftServoPosition = config.startingRightLiftServoPosition;
+                            highLiftDelay.reset();
+                            lowLiftDelay.reset();
+                        }
+                    }
+
+                    if (state.pickUpState == PickUpState.DropArm) {
+                        if (state.lastKnownLiftState == HighDropOff) {
+                            if (highLiftDelay.hasExpired()) {
+                                hardware.robotHangerMotor.setTargetPosition(config.hangMotorStorePosition);
+                                hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                                hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
+                                state.currentLiftServoState = LiftServoState.Start;
+                                state.pickUpState = PickUpState.SecondRetraction;
+                            }
+                        } else {
+                            if (lowLiftDelay.hasExpired()) {
+                                hardware.robotHangerMotor.setTargetPosition(config.hangMotorStorePosition);
+                                hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                                hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
+                                state.currentLiftServoState = LiftServoState.Start;
+                                state.pickUpState = PickUpState.SecondRetraction;
+                            }
+                        }
+                    }
+
+                    if (state.pickUpState == PickUpState.SecondRetraction) {
+                        // slow down the retraction so we don't kill the bot
+                        hardware.topLiftMotor.setPower(config.slowLiftRetractingPower);
+                        hardware.bottomLiftMotor.setPower(config.slowLiftRetractingPower);
+                        hardware.topLiftMotor.setTargetPosition(config.liftDrivePosition);
+                        hardware.bottomLiftMotor.setTargetPosition(config.liftDrivePosition);
+                        state.pickUpState = PickUpState.WaitForSecondRetraction;
+                        // set a timeout to prevent deadlock/over current draw on retraction of lift
+                        zeroSwitchTimeout.reset();
+                    }
+
+                    if (state.pickUpState == PickUpState.WaitForSecondRetraction) {
+                        // check switch and timeout
+                        if (!hardware.liftSwitch.getState() || zeroSwitchTimeout.hasExpired()) {
+                            if (state.currentLiftDriveState == LiftDriveState.Drive) {
+                                state.angleClawState = AngleClawState.Drive;
+                                state.lastKnownLiftState = LiftDriveState.Drive;
+                            } else {
+                                state.angleClawState = AngleClawState.Pickup;
+                                state.lastKnownLiftState = LiftDriveState.Pickup;
+                            }
+
+                            // all done so shut it all down
+                            hardware.topLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                            hardware.bottomLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                            hardware.topLiftMotor.setPower(0);
+                            hardware.bottomLiftMotor.setPower(0);
+
+                            state.pickUpState = PickUpState.Finished;
+                            state.currentLiftSlideState = LiftSlideState.Idle;
+                            state.currentLiftDriveState = Manual;
+                            state.currentLiftSlidePower = 0;
+                        }
+                    }
+                }
+
             switch (state.currentLiftDriveState) {
                 case Manual:
                     manualControl();
@@ -100,6 +350,7 @@ public class Lift implements Subsystem {
                 case Drive:
                     driveOrPickup();
                     break;
+
             }
 
             if (isTeleop) {

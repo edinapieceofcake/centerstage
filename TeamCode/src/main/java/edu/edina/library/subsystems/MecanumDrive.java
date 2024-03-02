@@ -54,9 +54,13 @@ public class MecanumDrive implements Subsystem {
                     (-state.rightStickX / 1.5)
             ));
 
+
+        //drive.updatePoseEstimate();
+
             drive.updatePoseEstimate();
             Log.d("ROBOTPOSE", String.format("%f %f %f", drive.pose.position.x, drive.pose.position.y, Math.toDegrees(drive.pose.heading.real)));
         }
+
     }
 
     public static double ScaleMotorCube(double joyStickPosition) {

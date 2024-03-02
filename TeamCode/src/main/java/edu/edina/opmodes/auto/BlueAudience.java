@@ -25,9 +25,17 @@ public class BlueAudience extends Audience {
         // Determine location for purple pixel
         switch(propLocation) {
             case Left:
+
+                Actions.runBlocking(new SequentialAction(
+                        drive.actionBuilder(drive.getPose())
+                                .splineTo(new Vector2d(-34, 33), Math.toRadians(0))
+                                .build(),
+                        new SleepAction(1)));
+
                 propDropLocation = new Vector2d(-33, 35);
                 propAngle = 315.0;
                 backdropDropLocation = new Vector2d(50,42.5);
+
                 break;
             case Right:
                 propDropLocation = new Vector2d(-41, 40);
@@ -59,17 +67,31 @@ public class BlueAudience extends Audience {
         switch (parkLocation) {
             case Center:
                 Actions.runBlocking(new SequentialAction(
+
+                        drive.actionBuilder(drive.getPose())
+                                .splineTo(new Vector2d(-37, 33), Math.toRadians(270))
+                                .build(),
+                        new SleepAction(1)));
+
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
                                 .splineTo(new Vector2d(58, 14), Math.toRadians(0))
                                 .build()));
+
                 break;
             case Corner:
                 Actions.runBlocking(new SequentialAction(
+
+                        drive.actionBuilder(drive.getPose())
+                                .splineTo(new Vector2d(-50, 36), Math.toRadians(270))
+                                .build(),
+                        new SleepAction(1)));
+
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
                                 .splineTo(new Vector2d(58, 60), Math.toRadians(0))
                                 .build()));
+
                 break;
             default:
                 break;
