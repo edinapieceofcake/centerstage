@@ -428,6 +428,8 @@ public final class PoCMecanumDrive {
 
 //        estimatedPoseWriter.write(new PoseMessage(pose));
 
+        Log.d("POSE-ROBOT", String.format("%f %f %f", pose.position.x, pose.position.y, pose.heading.real));
+
         return twist.velocity().value();
     }
 
@@ -440,5 +442,14 @@ public final class PoCMecanumDrive {
                 defaultVelConstraint, defaultAccelConstraint,
                 0.25, 0.1
         );
+    }
+
+
+    public void startPoseThread() {
+        ((TwoDeadWheelLocalizer)localizer).startPoseUpdate();
+    }
+
+    public void stopPoseThread() {
+        ((TwoDeadWheelLocalizer)localizer).stopPoseUpdate();
     }
 }

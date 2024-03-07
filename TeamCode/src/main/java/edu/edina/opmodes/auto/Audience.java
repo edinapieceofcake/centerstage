@@ -62,6 +62,8 @@ public class Audience extends LinearOpMode {
                 hardware.externalImu, hardware.expansionImu,
                 hardware.voltageSensor, hardware.beamBreak, getStartPose());
 
+        drive.startPoseThread();
+
         // HuskyLens Init
         poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, getAlliance());
         poCHuskyLens.init();
@@ -240,5 +242,7 @@ public class Audience extends LinearOpMode {
 
             hardware.stopCurrentMonitor();
         }
+
+        drive.stopPoseThread();
     }
 }

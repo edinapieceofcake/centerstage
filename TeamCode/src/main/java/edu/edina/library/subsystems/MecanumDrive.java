@@ -30,13 +30,15 @@ public class MecanumDrive implements Subsystem {
 
     @Override
     public void start() {
-        hardware.liftServosForTeleop();
+        hardware.dropServosForAutonomous();
+        drive.startPoseThread();
         started = true;
     }
 
     @Override
     public void stop() {
         started = false;
+        drive.stopPoseThread();
     }
 
     @Override
@@ -50,7 +52,7 @@ public class MecanumDrive implements Subsystem {
                     (-state.rightStickX / 1.5)
             ));
 
-            //drive.updatePoseEstimate();
+            drive.updatePoseEstimate();
         }
     }
 
