@@ -44,12 +44,8 @@ public class RobotState {
     public double currentTriggerStrength;
     public int currentLowDropOffPosition;
     public int currentHighDropOffPostiion;
-    public Deadline currentLowLiftDelay;
-    public Deadline currentHighLiftDelay;
     public Deadline secondExtensionTimeout = new Deadline(1000, TimeUnit.MILLISECONDS);
-    public Deadline lowLiftDelay = new Deadline(300, TimeUnit.MILLISECONDS);
-    public Deadline mediumLiftDelay = new Deadline(500, TimeUnit.MILLISECONDS);
-    public Deadline highLiftDelay = new Deadline(600, TimeUnit.MILLISECONDS);
+    public Deadline hangLiftDelay = new Deadline(600, TimeUnit.MILLISECONDS);
 
 
     // claw properties
@@ -111,9 +107,9 @@ public class RobotState {
 
         if (hardware != null) {
             telemetry.addData("Left Front Power, Current", "%f %f", hardware.leftFront.getPower(), hardware.leftFront.getCurrent(CurrentUnit.MILLIAMPS));
-            telemetry.addData("Right Front Power, Current", "%f %f", hardware.rightFront.getPower(), hardware.leftFront.getCurrent(CurrentUnit.MILLIAMPS));
-            telemetry.addData("Left Rear Power, Current", "%f %f", hardware.leftBack.getPower(), hardware.leftFront.getCurrent(CurrentUnit.MILLIAMPS));
-            telemetry.addData("Right Rear Power, Current", "%f %f", hardware.rightBack.getPower(), hardware.leftFront.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Right Front Power, Current", "%f %f", hardware.rightFront.getPower(), hardware.rightFront.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Left Rear Power, Current", "%f %f", hardware.leftBack.getPower(), hardware.leftBack.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Right Rear Power, Current", "%f %f", hardware.rightBack.getPower(), hardware.rightBack.getCurrent(CurrentUnit.MILLIAMPS));
 
             telemetry.addData("ImuInfo CHUB angle", hardware.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
             telemetry.addData("ImuInfo CHUB velocity", hardware.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);

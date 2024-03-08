@@ -192,16 +192,12 @@ public class Lift {
 
         if (dpadUp) {
             state.liftServoRange = LiftServoRange.High;
-            state.currentLowLiftDelay = state.mediumLiftDelay;
-            state.currentHighLiftDelay = state.highLiftDelay;
             state.currentLowDropOffPosition = config.liftMediumDropOffPosition;
             state.currentHighDropOffPostiion = config.liftHighDropOffPosition;
         }
 
         if (dpadDown) {
             state.liftServoRange = LiftServoRange.Low;
-            state.currentLowLiftDelay = state.lowLiftDelay;
-            state.currentHighLiftDelay = state.mediumLiftDelay;
             state.currentLowDropOffPosition = config.liftLowDropOffPosition;
             state.currentHighDropOffPostiion = config.liftMediumDropOffPosition;
         }
