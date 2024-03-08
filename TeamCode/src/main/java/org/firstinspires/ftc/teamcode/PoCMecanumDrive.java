@@ -421,16 +421,18 @@ public final class PoCMecanumDrive {
         Twist2dDual<Time> twist = localizer.update();
         pose = pose.plus(twist.value());
 
-        poseHistory.add(pose);
-        while (poseHistory.size() > 100) {
-            poseHistory.removeFirst();
-        }
+//        poseHistory.add(pose);
+//        while (poseHistory.size() > 100) {
+//            poseHistory.removeFirst();
+//        }
 
 //        estimatedPoseWriter.write(new PoseMessage(pose));
 
-        Log.d("POSE-ROBOT", String.format("%f %f %f", pose.position.x, pose.position.y, pose.heading.real));
+        PoseVelocity2d poseVelocity2d = twist.velocity().value();
 
-        return twist.velocity().value();
+        Log.d("POSE-ROBOT", String.format("%f %f %f %f %f %f", pose.position.x, pose.position.y, Math.toDegrees(pose.heading.imag), poseVelocity2d.linearVel.x, poseVelocity2d.linearVel.y, poseVelocity2d.angVel));
+
+        return poseVelocity2d;
     }
 
     public TrajectoryActionBuilder actionBuilder(Pose2d beginPose) {

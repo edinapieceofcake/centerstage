@@ -34,8 +34,8 @@ public final class TwoDeadWheelLocalizer implements Localizer {
     public static Params PARAMS = new Params();
 
     public final Encoder par, perp;
-    public final IMU primaryImu;
-    public final IMU secondaryImu;
+    private final IMU primaryImu;
+    private final IMU secondaryImu;
 
     private int lastParPos, lastPerpPos;
     private Rotation2d lastHeading;
@@ -46,13 +46,13 @@ public final class TwoDeadWheelLocalizer implements Localizer {
 
     private boolean usePrimary = true;
 
-    private ExecutorService updatePoseExecutor;
+    private ExecutorService updatePoseExecutor = null;
 
     private Runnable updatePoseRunnable = () -> {
         updatePose();
     };
 
-    public volatile boolean updatingPose = false;
+    private volatile boolean updatingPose = false;
 
     private volatile Twist2dDual<Time> twist;
 
@@ -98,7 +98,46 @@ public final class TwoDeadWheelLocalizer implements Localizer {
     }
 
     public Twist2dDual<Time> update() {
-        return twist;
+        if (updatingPose) {
+            return twist;
+        } else {
+            PositionVelocityPair parPosVel = par.getPositionAndVelocity();
+            PositionVelocityPair perpPosVel = perp.getPositionAndVelocity();
+            Rotation2d heading = Rotation2d.exp(getRobotYawPitchRollAngles());
+
+            int parPosDelta = parPosVel.position - lastParPos;
+            int perpPosDelta = perpPosVel.position - lastPerpPos;
+            double headingDelta = heading.minus(lastHeading);
+
+            double headingVel = getHeadingVelocity();
+
+            Log.d("POSE-POSITION", String.format("%d %d %d %d, %f %f", parPosVel.position,
+                    perpPosVel.position, parPosDelta, perpPosDelta, Math.toDegrees(heading.real),
+                    Math.toDegrees(headingDelta)));
+
+            Twist2dDual<Time> singleTwist = new Twist2dDual<>(
+                    new Vector2dDual<>(
+                            new DualNum<Time>(new double[]{
+                                    parPosDelta - PARAMS.parYTicks * headingDelta,
+                                    parPosVel.velocity - PARAMS.parYTicks * headingVel,
+                            }).times(inPerTick),
+                            new DualNum<Time>(new double[]{
+                                    perpPosDelta - PARAMS.perpXTicks * headingDelta,
+                                    perpPosVel.velocity - PARAMS.perpXTicks * headingVel,
+                            }).times(inPerTick)
+                    ),
+                    new DualNum<>(new double[]{
+                            headingDelta,
+                            headingVel,
+                    })
+            );
+
+            lastParPos = parPosVel.position;
+            lastPerpPos = perpPosVel.position;
+            lastHeading = heading;
+
+            return singleTwist;
+        }
     }
 
     private void updatePose() {
@@ -112,6 +151,10 @@ public final class TwoDeadWheelLocalizer implements Localizer {
             double headingDelta = heading.minus(lastHeading);
 
             double headingVel = getHeadingVelocity();
+
+            Log.d("POSE-POSITION", String.format("%d %d %d %d, %f %f", parPosVel.position,
+                    perpPosVel.position, parPosDelta, perpPosDelta, Math.toDegrees(heading.real),
+                    Math.toDegrees(headingDelta)));
 
             twist = new Twist2dDual<>(
                     new Vector2dDual<>(
@@ -133,10 +176,6 @@ public final class TwoDeadWheelLocalizer implements Localizer {
             lastParPos = parPosVel.position;
             lastPerpPos = perpPosVel.position;
             lastHeading = heading;
-
-            Log.d("POSE-RAW", String.format("%d %d %f", parPosVel.position, perpPosVel.position, heading.real));
-
-            //Thread.yield();
         }
     }
 
@@ -183,6 +222,10 @@ public final class TwoDeadWheelLocalizer implements Localizer {
     }
 
     public void stopPoseUpdate() {
+        if (updatePoseExecutor != null) {
+            updatePoseExecutor.shutdown();
+        }
+
         updatingPose = false;
     }
 }
