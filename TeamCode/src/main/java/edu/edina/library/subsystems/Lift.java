@@ -5,10 +5,7 @@ import static edu.edina.library.enums.LiftDriveState.HighDropOff;
 import static edu.edina.library.enums.LiftDriveState.LowDropOff;
 import static edu.edina.library.enums.LiftDriveState.Manual;
 
-import android.util.Log;
-
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.PwmControl;
 
 import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 
@@ -26,7 +23,6 @@ import edu.edina.library.enums.LiftSlideState;
 import edu.edina.library.enums.PickUpState;
 import edu.edina.library.enums.TwistServoState;
 import edu.edina.library.util.PoCMath;
-import edu.edina.library.util.Robot;
 import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.RobotState;
@@ -57,8 +53,6 @@ public class Lift implements Subsystem {
         state.currentLowDropOffPosition = config.liftLowDropOffPosition;
         state.currentHighDropOffPostiion = config.liftMediumDropOffPosition;
         state.dropOffOrientation = DropOffOrientation.Center;
-        state.currentLowLiftDelay = state.lowLiftDelay;
-        state.currentHighLiftDelay = state.mediumLiftDelay;
         hardware.leftLiftServo.setPosition(config.startingLeftLiftServoPosition);
         hardware.rightLiftServo.setPosition(config.startingRightLiftServoPosition);
     }
@@ -225,12 +219,12 @@ public class Lift implements Subsystem {
                 state.hangState = HangState.LiftArm;
                 state.liftServoRange = LiftServoRange.Low;
                 state.currentLiftServoState = LiftServoState.Latch;
-                state.highLiftDelay.reset();
+                state.hangLiftDelay.reset();
             }
         }
 
         if (state.hangState == HangState.LiftArm) {
-            if (state.highLiftDelay.hasExpired()) {
+            if (state.hangLiftDelay.hasExpired()) {
                 state.currentLiftServoState = LiftServoState.Latch;
                 state.hangState = HangState.RaiseHanger;
             }
@@ -249,14 +243,16 @@ public class Lift implements Subsystem {
         RobotConfiguration config = RobotConfiguration.getInstance();
 
         if (state.dropOffState == DropOffState.Start) {
-            state.currentTopMotorTargetPosition = config.minimumExtensionBeforeRaisingLiftInTicks;
-            state.currentBottomMotorTargetPosition = config.minimumExtensionBeforeRaisingLiftInTicks;
             state.currentLiftSlidePower = config.liftExtendingPower;
 
             if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {
                 state.hangerState = HangerState.LowDrop;
+                state.currentTopMotorTargetPosition = state.currentLowDropOffPosition;
+                state.currentBottomMotorTargetPosition = state.currentLowDropOffPosition;
             } else {
                 state.hangerState = HangerState.HighDrop;
+                state.currentTopMotorTargetPosition = state.currentHighDropOffPostiion;
+                state.currentBottomMotorTargetPosition = state.currentHighDropOffPostiion;
             }
 
             state.dropOffState = DropOffState.FirstExtension;
@@ -276,34 +272,21 @@ public class Lift implements Subsystem {
                 state.dropOffState = DropOffState.LiftArm;
                 if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {
                     state.currentLiftServoState = LiftServoState.Low;
-                    state.currentLowLiftDelay.reset();
                 } else {
                     state.currentLiftServoState = LiftServoState.High;
-                    state.currentHighLiftDelay.reset();
                 }
             }
         }
 
         if (state.dropOffState == DropOffState.LiftArm) {
             if (state.currentLiftDriveState == LiftDriveState.LowDropOff) {
-                if (state.currentLowLiftDelay.hasExpired()) {
-                    state.currentLiftServoState = LiftServoState.Low;
-                    state.currentTopMotorTargetPosition = state.currentLowDropOffPosition;
-                    state.currentBottomMotorTargetPosition = state.currentLowDropOffPosition;
-                    state.dropOffState = DropOffState.SecondExtension;
-
-                    state.secondExtensionTimeout.reset();
-                }
+                state.currentLiftServoState = LiftServoState.Low;
             } else {
-                if (state.currentHighLiftDelay.hasExpired()) {
-                    state.currentLiftServoState = LiftServoState.High;
-                    state.currentTopMotorTargetPosition = state.currentHighDropOffPostiion;
-                    state.currentBottomMotorTargetPosition = state.currentHighDropOffPostiion;
-                    state.dropOffState = DropOffState.SecondExtension;
-
-                    state.secondExtensionTimeout.reset();
-                }
+                state.currentLiftServoState = LiftServoState.High;
             }
+
+            state.dropOffState = DropOffState.SecondExtension;
+            state.secondExtensionTimeout.reset();
         }
 
         if (state.dropOffState == DropOffState.SecondExtension) {
@@ -368,28 +351,14 @@ public class Lift implements Subsystem {
             if (state.currentTopMotorPosition > (config.minimumExtensionBeforeRaisingLiftInTicks - 10)) {
                 state.pickUpState = PickUpState.DropArm;
                 state.currentLiftServoState = LiftServoState.Start;
-                state.currentHighLiftDelay.reset();
-                state.currentLowLiftDelay.reset();
                 state.hangerState = HangerState.Store;
             }
         }
 
         if (state.pickUpState == PickUpState.DropArm) {
-            if (state.lastKnownLiftState == HighDropOff) {
-                if (state.currentHighLiftDelay.hasExpired()) {
-                    state.hangerState = HangerState.Store;
-
-                    state.currentLiftServoState = LiftServoState.Start;
-                    state.pickUpState = PickUpState.SecondRetraction;
-                }
-            } else {
-                if (state.currentLowLiftDelay.hasExpired()) {
-                    state.hangerState = HangerState.Store;
-
-                    state.currentLiftServoState = LiftServoState.Start;
-                    state.pickUpState = PickUpState.SecondRetraction;
-                }
-            }
+            state.hangerState = HangerState.Store;
+            state.currentLiftServoState = LiftServoState.Start;
+            state.pickUpState = PickUpState.SecondRetraction;
         }
 
         if (state.pickUpState == PickUpState.SecondRetraction) {

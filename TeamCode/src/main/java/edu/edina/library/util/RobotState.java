@@ -44,12 +44,8 @@ public class RobotState {
     public double currentTriggerStrength;
     public int currentLowDropOffPosition;
     public int currentHighDropOffPostiion;
-    public Deadline currentLowLiftDelay;
-    public Deadline currentHighLiftDelay;
     public Deadline secondExtensionTimeout = new Deadline(1000, TimeUnit.MILLISECONDS);
-    public Deadline lowLiftDelay = new Deadline(300, TimeUnit.MILLISECONDS);
-    public Deadline mediumLiftDelay = new Deadline(500, TimeUnit.MILLISECONDS);
-    public Deadline highLiftDelay = new Deadline(600, TimeUnit.MILLISECONDS);
+    public Deadline hangLiftDelay = new Deadline(600, TimeUnit.MILLISECONDS);
 
 
     // claw properties
