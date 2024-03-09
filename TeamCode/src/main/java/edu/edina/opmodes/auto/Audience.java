@@ -3,6 +3,7 @@ package edu.edina.opmodes.auto;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -25,6 +26,7 @@ public class Audience extends LinearOpMode {
     protected PoCHuskyLens poCHuskyLens;
     protected PropLocation propLocation = PropLocation.Center;
     protected PropLocation lastPropLocation = PropLocation.Right;
+    protected Vector2d backdropDropLocation;
 
     protected boolean makeSecondTrip = false;
     protected boolean yellowPixel = false;
