@@ -118,7 +118,7 @@ public class BlueAudienceCenter extends BlueAudience {
                                 .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                                 .splineToSplineHeading(new Pose2d(new Vector2d(-30, 12), Math.toRadians(0)), Math.toRadians(0))
                                 .splineToConstantHeading(new Vector2d(11, 12), Math.toRadians(0))
-                                .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
+                                .afterDisp(0, manager.getLiftReadyToDropThePixelLowOnTheWallAsync())
                                 .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
                                 .lineToX(51.5)
                                 .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))

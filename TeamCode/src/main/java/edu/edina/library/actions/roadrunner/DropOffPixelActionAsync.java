@@ -21,7 +21,6 @@ import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotState;
 
 public class DropOffPixelActionAsync implements Action {
-    private boolean started = false;
     private boolean isBackstage = false;
     private Claw claw;
     private Lift lift;
@@ -36,6 +35,8 @@ public class DropOffPixelActionAsync implements Action {
 
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+        RobotConfiguration config = RobotConfiguration.getInstance();
+        RobotState state = RobotState.getInstance();
         ExecutorService dropOffPixelExecutor;
 
         Runnable dropOffPixelRunnable;
@@ -43,7 +44,21 @@ public class DropOffPixelActionAsync implements Action {
             dropOffPixel();
         };
 
-        boolean droppingOffPixel = false;
+        state.lastKnownLiftState = LiftDriveState.Drive;
+        state.currentLiftDriveState = LiftDriveState.LowDropOff;
+        state.currentLiftSlideState = LiftSlideState.Extending;
+        state.dropOffOrientation = DropOffOrientation.Center;
+        state.dropOffState = DropOffState.Start;
+        if (isBackstage) {
+            config.leftLowDropOffServoPosition = .66;
+            config.rightLowDropOffServoPosition = .40;
+        } else {
+            config.leftLowDropOffServoPosition = .555;
+            config.rightLowDropOffServoPosition = .495;
+        }
+
+        config.liftLowDropOffPosition = -600;
+
         dropOffPixelExecutor = ThreadPool.newSingleThreadExecutor("drop off pixel");
         dropOffPixelExecutor.submit(dropOffPixelRunnable);
 
@@ -53,25 +68,6 @@ public class DropOffPixelActionAsync implements Action {
     private void dropOffPixel() {
         RobotConfiguration config = RobotConfiguration.getInstance();
         RobotState state = RobotState.getInstance();
-
-        if (!started) {
-            started = true;
-
-            state.lastKnownLiftState = LiftDriveState.Drive;
-            state.currentLiftDriveState = LiftDriveState.LowDropOff;
-            state.currentLiftSlideState = LiftSlideState.Extending;
-            state.dropOffOrientation = DropOffOrientation.Center;
-            state.dropOffState = DropOffState.Start;
-            if (isBackstage) {
-                config.leftLowDropOffServoPosition = .66;
-                config.rightLowDropOffServoPosition = .40;
-            } else {
-                config.leftLowDropOffServoPosition = .555;
-                config.rightLowDropOffServoPosition = .495;
-            }
-
-            config.liftLowDropOffPosition = -600;
-        }
 
         while (state.dropOffState != DropOffState.Finished) {
             lift.update();
