@@ -123,73 +123,31 @@ public class Claw implements Subsystem {
                     break;
                 case LeftAutoDropOff:
                     switch (state.currentLiftServoState) {
-                        case High:
-                            switch (state.liftServoRange) {
-                                case High:
-                                    hardware.twistClawServo.setPosition(config.leftAutoHighTwistClawServoDropOffPosition);
-                                    break;
-                                default:
-                                    hardware.twistClawServo.setPosition(config.leftAutoMediumTwistClawServoDropOffPosition);
-                                    break;
-                            }
+                        case One:
+                            hardware.twistClawServo.setPosition(config.leftAutoHighTwistClawServoDropOffPosition);
                             break;
                         default:
-                            switch (state.liftServoRange) {
-                                case High:
-                                    hardware.twistClawServo.setPosition(config.leftAutoMediumTwistClawServoDropOffPosition);
-                                    break;
-                                default:
-                                    hardware.twistClawServo.setPosition(config.leftAutoLowTwistClawServoDropOffPosition);
-                                    break;
-                            }
+                            hardware.twistClawServo.setPosition(config.leftAutoMediumTwistClawServoDropOffPosition);
                             break;
                     }
                     break;
                 case LeftDropOff:
                     switch (state.currentLiftServoState) {
-                        case High:
-                            switch (state.liftServoRange) {
-                                case High:
-                                    hardware.twistClawServo.setPosition(config.leftTeleopHighTwistClawServoDropOffPosition);
-                                    break;
-                                default:
-                                    hardware.twistClawServo.setPosition(config.leftTeleopMediumTwistClawServoDropOffPosition);
-                                    break;
-                            }
+                        case One:
+                            hardware.twistClawServo.setPosition(config.leftTeleopHighTwistClawServoDropOffPosition);
                             break;
                         default:
-                            switch (state.liftServoRange) {
-                                case High:
-                                    hardware.twistClawServo.setPosition(config.leftTeleopMediumTwistClawServoDropOffPosition);
-                                    break;
-                                default:
-                                    hardware.twistClawServo.setPosition(config.leftTeleopLowTwistClawServoDropOffPosition);
-                                    break;
-                            }
+                            hardware.twistClawServo.setPosition(config.leftTeleopMediumTwistClawServoDropOffPosition);
                             break;
                     }
                     break;
                 case RightDropOff:
                     switch (state.currentLiftServoState) {
-                        case High:
-                            switch (state.liftServoRange) {
-                                case High:
-                                    hardware.twistClawServo.setPosition(config.rightHighTwistClawServoDropOffPosition);
-                                    break;
-                                default:
-                                    hardware.twistClawServo.setPosition(config.rightMediumTwistClawServoDropOffPosition);
-                                    break;
-                            }
+                        case One:
+                            hardware.twistClawServo.setPosition(config.rightHighTwistClawServoDropOffPosition);
                             break;
                         default:
-                            switch (state.liftServoRange) {
-                                case High:
-                                    hardware.twistClawServo.setPosition(config.rightMediumTwistClawServoDropOffPosition);
-                                    break;
-                                default:
-                                    hardware.twistClawServo.setPosition(config.rightLowTwistClawServoDropOffPosition);
-                                    break;
-                            }
+                            hardware.twistClawServo.setPosition(config.rightMediumTwistClawServoDropOffPosition);
                             break;
                     }
                     break;
@@ -207,100 +165,44 @@ public class Claw implements Subsystem {
                     break;
                 case CenterDropOff:
                     switch (state.currentLiftServoState) {
-                        case High:
-                            switch (state.liftServoRange) {
-                                case High:
-                                    hardware.angleClawServo.setPosition(config.angleClawHighDropOffPosition);
-                                    break;
-                                case Low:
-                                    hardware.angleClawServo.setPosition(config.angleClawMediumDropOffPosition);
-                                    break;
-                            }
+                        case One:
+                            hardware.angleClawServo.setPosition(config.angleClawHighDropOffPosition);
+                            break;
                         default:
-                            switch (state.liftServoRange) {
-                                case High:
-                                    hardware.angleClawServo.setPosition(config.angleClawMediumDropOffPosition);
-                                    break;
-                                case Low:
-                                    hardware.angleClawServo.setPosition(config.angleClawLowDropOffPosition);
-                                    break;
-                            }
+                            hardware.angleClawServo.setPosition(config.angleClawMediumDropOffPosition);
                             break;
                     }
                     break;
                 case LeftAutoDropOff:
                     switch (state.currentLiftServoState) {
-                        case High:
-                            switch (state.liftServoRange) {
-                                case High:
-                                    hardware.angleClawServo.setPosition(config.leftAutoHighAngleClawServoDropOffPosition);
-                                    break;
-                                case Low:
-                                    hardware.angleClawServo.setPosition(config.leftAutoMediumAngleClawServoDropOffPosition);
-                                    break;
-                            }
+                        case One:
+                            hardware.angleClawServo.setPosition(config.leftAutoHighAngleClawServoDropOffPosition);
                             break;
                         default:
-                            switch (state.liftServoRange) {
-                                case High:
-                                    hardware.angleClawServo.setPosition(config.leftAutoMediumAngleClawServoDropOffPosition);
-                                    break;
-                                case Low:
-                                    hardware.angleClawServo.setPosition(config.leftAutoLowAngleClawServoDropOffPosition);
-                                    break;
-                            }
+                            hardware.angleClawServo.setPosition(config.leftAutoMediumAngleClawServoDropOffPosition);
                             break;
                     }
                     break;
                 case LeftDropOff:
                     switch (state.currentLiftServoState) {
-                        case High:
-                            switch (state.liftServoRange) {
-                                case High:
-                                    hardware.angleClawServo.setPosition(config.leftTeleopHighAngleClawServoDropOffPosition);
-                                    break;
-                                case Low:
-                                    hardware.angleClawServo.setPosition(config.leftTeleopMediumAngleClawServoDropOffPosition);
-                                    break;
-                            }
+                        case One:
+                            hardware.angleClawServo.setPosition(config.leftTeleopHighAngleClawServoDropOffPosition);
                             break;
                         default:
-                            switch (state.liftServoRange) {
-                                case High:
-                                    hardware.angleClawServo.setPosition(config.leftTeleopMediumAngleClawServoDropOffPosition);
-                                    break;
-                                case Low:
-                                    hardware.angleClawServo.setPosition(config.leftTeleopLowAngleClawServoDropOffPosition);
-                                    break;
-                            }
-                            break;
+                            hardware.angleClawServo.setPosition(config.leftTeleopMediumAngleClawServoDropOffPosition);
+                        break;
                     }
                     break;
                 case RightDropOff:
                     switch (state.currentLiftServoState) {
-                        case High:
-                            switch (state.liftServoRange) {
-                                case High:
-                                    hardware.angleClawServo.setPosition(config.rightHighAngleClawServoDropOffPosition);
-                                    break;
-                                case Low:
-                                    hardware.angleClawServo.setPosition(config.rightMediumAngleClawServoDropOffPosition);
-                                    break;
-                            }
+                        case One:
+                            hardware.angleClawServo.setPosition(config.rightHighAngleClawServoDropOffPosition);
                             break;
                         default:
-                            switch (state.liftServoRange) {
-                                case High:
-                                    hardware.angleClawServo.setPosition(config.rightMediumAngleClawServoDropOffPosition);
-                                    break;
-                                case Low:
-                                    hardware.angleClawServo.setPosition(config.rightLowAngleClawServoDropOffPosition);
-                                    break;
-                            }
+                            hardware.angleClawServo.setPosition(config.rightMediumAngleClawServoDropOffPosition);
                             break;
                     }
                     break;
-
             }
         }
     }

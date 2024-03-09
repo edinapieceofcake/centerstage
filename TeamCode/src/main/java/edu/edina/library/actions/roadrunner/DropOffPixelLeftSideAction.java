@@ -38,7 +38,7 @@ public class DropOffPixelLeftSideAction implements Action {
             started = true;
 
             state.lastKnownLiftState = LiftDriveState.Drive;
-            state.currentLiftDriveState = LiftDriveState.LowDropOff;
+            state.currentLiftDriveState = LiftDriveState.DropOff;
             state.currentLiftSlideState = LiftSlideState.Extending;
             state.dropOffOrientation = DropOffOrientation.LeftAuto;
             state.dropOffState = DropOffState.Start;
@@ -56,7 +56,7 @@ public class DropOffPixelLeftSideAction implements Action {
             robotHanger.update();
             return true;
         } else {
-            state.lastKnownLiftState = LiftDriveState.LowDropOff;
+            state.lastKnownLiftState = LiftDriveState.DropOff;
             if (isBackstage) {
                 config.leftLowDropOffServoPosition = .53;
                 config.rightLowDropOffServoPosition = .51;

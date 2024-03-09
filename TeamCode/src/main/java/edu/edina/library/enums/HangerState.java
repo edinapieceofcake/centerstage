@@ -4,8 +4,7 @@ public enum HangerState {
     Retracting,
     Extending,
     Hang,
-    LowDrop,
-    HighDrop,
+    DropOff,
     Store,
     Idle
 }

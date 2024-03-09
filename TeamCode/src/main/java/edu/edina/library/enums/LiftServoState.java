@@ -2,8 +2,16 @@ package edu.edina.library.enums;
 
 public enum LiftServoState {
     Start,
-    Low,
-    High,
+    One,
+    Two,
+    Three,
+    Four,
+    Five,
+    Six,
+    Seven,
+    Eight,
+    Nine,
+    Ten,
     Latch,
     Hang,
     Hung,
