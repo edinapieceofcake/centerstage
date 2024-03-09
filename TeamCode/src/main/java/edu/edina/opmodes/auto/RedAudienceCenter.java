@@ -30,11 +30,7 @@ public class RedAudienceCenter extends RedAudience {
                 stackToYellow(); // C
             }
         }
-
-        if (!makeSecondTrip) {
-            // Park
-            park(); // PK
-        }
+        
     }
 
     protected void purpleToStack(PropLocation propLocation) {}

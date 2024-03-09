@@ -238,7 +238,10 @@ public class Audience extends LinearOpMode {
 
             runPaths();
 
-            park();
+            if (!makeSecondTrip) {
+                // Park
+                park(); // PK
+            }
 
             hardware.stopCurrentMonitor();
         }
