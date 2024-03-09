@@ -1,4 +1,4 @@
-package edu.edina.opmodes.auto;
+package edu.edina.opmodes.auto.state;
 
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
