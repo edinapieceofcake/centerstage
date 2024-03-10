@@ -47,8 +47,9 @@ public class Lift implements Subsystem {
         state.currentLiftServoState = LiftServoState.Start;
         state.currentTopMotorTargetPosition = 0;
         state.currentBottomMotorTargetPosition = 0;
-        state.currentLowDropOffPosition = config.liftLowDropOffPosition;
-        state.currentHighDropOffPostiion = config.liftMediumDropOffPosition;
+        state.currentLiftMotorDropOffPosition = config.liftLowDropOffPosition;
+        state.currentLiftServoStateDropOffPosition = LiftServoState.One;
+
         state.dropOffOrientation = DropOffOrientation.Center;
         hardware.leftLiftServo.setPosition(config.startingLeftLiftServoPosition);
         hardware.rightLiftServo.setPosition(config.startingRightLiftServoPosition);
@@ -115,6 +116,17 @@ public class Lift implements Subsystem {
                 }
             }
 
+            if (state.lastKnownLiftState == DropOff) {
+                if (state.liftDPadChanged) {
+                    // apply dpad changes right away
+                    state.currentTopMotorTargetPosition = state.currentLiftMotorDropOffPosition;
+                    state.currentBottomMotorTargetPosition = state.currentLiftMotorDropOffPosition;
+
+                    state.currentLiftServoState = state.currentLiftServoStateDropOffPosition;
+                    state.liftDPadChanged = false;
+                }
+            }
+
             switch (state.currentLiftServoState) {
                 case Start:
                     hardware.leftLiftServo.setPosition(config.startingLeftLiftServoPosition);
@@ -125,8 +137,40 @@ public class Lift implements Subsystem {
                     hardware.rightLiftServo.setPosition(config.rightLowDropOffServoPosition);
                     break;
                 case Two:
+                    hardware.leftLiftServo.setPosition(config.leftLowDropOffServoPosition);
+                    hardware.rightLiftServo.setPosition(config.rightLowDropOffServoPosition);
+                    break;
+                case Three:
+                    hardware.leftLiftServo.setPosition(config.leftLowDropOffServoPosition);
+                    hardware.rightLiftServo.setPosition(config.rightLowDropOffServoPosition);
+                    break;
+                case Four:
                     hardware.leftLiftServo.setPosition(config.leftMediumDropOffServoPosition);
                     hardware.rightLiftServo.setPosition(config.rightMediumDropOffServoPosition);
+                    break;
+                case Five:
+                    hardware.leftLiftServo.setPosition(config.leftMediumDropOffServoPosition);
+                    hardware.rightLiftServo.setPosition(config.rightMediumDropOffServoPosition);
+                    break;
+                case Six:
+                    hardware.leftLiftServo.setPosition(config.leftMediumDropOffServoPosition);
+                    hardware.rightLiftServo.setPosition(config.rightMediumDropOffServoPosition);
+                    break;
+                case Seven:
+                    hardware.leftLiftServo.setPosition(config.leftMediumDropOffServoPosition);
+                    hardware.rightLiftServo.setPosition(config.rightMediumDropOffServoPosition);
+                    break;
+                case Eight:
+                    hardware.leftLiftServo.setPosition(config.leftHighDropOffServoPosition);
+                    hardware.rightLiftServo.setPosition(config.rightHighDropOffServoPosition);
+                    break;
+                case Nine:
+                    hardware.leftLiftServo.setPosition(config.leftHighDropOffServoPosition);
+                    hardware.rightLiftServo.setPosition(config.rightHighDropOffServoPosition);
+                    break;
+                case Ten:
+                    hardware.leftLiftServo.setPosition(config.leftHighDropOffServoPosition);
+                    hardware.rightLiftServo.setPosition(config.rightHighDropOffServoPosition);
                     break;
                 case Latch:
                     hardware.leftLiftServo.setPosition(config.leftLatchServoPosition);
@@ -230,18 +274,9 @@ public class Lift implements Subsystem {
         if (state.dropOffState == DropOffState.Start) {
             state.currentLiftSlidePower = config.liftExtendingPower;
 
-            switch (state.currentLiftServoState) {
-                case One:
-                    state.hangerState = HangerState.DropOff;
-                    state.currentTopMotorTargetPosition = state.currentLowDropOffPosition;
-                    state.currentBottomMotorTargetPosition = state.currentLowDropOffPosition;
-                    break;
-                case Two:
-                    state.hangerState = HangerState.DropOff;
-                    state.currentTopMotorTargetPosition = state.currentHighDropOffPostiion;
-                    state.currentBottomMotorTargetPosition = state.currentHighDropOffPostiion;
-                    break;
-            }
+            state.hangerState = HangerState.DropOff;
+            state.currentTopMotorTargetPosition = state.currentLiftMotorDropOffPosition;
+            state.currentBottomMotorTargetPosition = state.currentLiftMotorDropOffPosition;
 
             state.dropOffState = DropOffState.FirstExtension;
         }
@@ -254,6 +289,7 @@ public class Lift implements Subsystem {
 
         if (state.dropOffState == DropOffState.LiftArm) {
             state.dropOffState = DropOffState.SecondExtension;
+            state.currentLiftServoState = state.currentLiftServoStateDropOffPosition;
             state.secondExtensionTimeout.reset();
         }
 
@@ -279,7 +315,7 @@ public class Lift implements Subsystem {
                 state.dropOffState = DropOffState.Finished;
                 state.currentLiftSlideState = LiftSlideState.Idle;
                 state.lastKnownLiftState = DropOff;
-            } else if(PoCMath.between(state.currentTopMotorPosition, state.currentLowDropOffPosition - 10, state.currentLowDropOffPosition + 10)){
+            } else if(PoCMath.between(state.currentTopMotorPosition, state.currentLiftMotorDropOffPosition - 10, state.currentLiftMotorDropOffPosition + 10)){
                 state.dropOffState = DropOffState.Finished;
                 state.currentLiftSlideState = LiftSlideState.Idle;
                 state.lastKnownLiftState = DropOff;

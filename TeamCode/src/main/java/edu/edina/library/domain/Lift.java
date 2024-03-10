@@ -95,8 +95,8 @@ public class Lift {
                         switch (state.pickUpState) {
                             case FirstRetraction:
                                 state.dropOffState = DropOffState.SecondExtension;
-                                state.currentTopMotorTargetPosition = state.currentLowDropOffPosition;
-                                state.currentBottomMotorTargetPosition = state.currentLowDropOffPosition;
+                                state.currentTopMotorTargetPosition = state.currentLiftMotorDropOffPosition;
+                                state.currentBottomMotorTargetPosition = state.currentLiftMotorDropOffPosition;
                                 state.currentLiftSlidePower = config.liftExtendingPower;
                                 state.secondExtensionTimeout.reset();
                                 break;
@@ -177,15 +177,103 @@ public class Lift {
         }
 
         if (dpadUp) {
-            state.currentLiftServoState = LiftServoState.Five;
-            state.currentLowDropOffPosition = config.liftMediumDropOffPosition;
-            state.currentHighDropOffPostiion = config.liftHighDropOffPosition;
+            switch (state.currentLiftServoStateDropOffPosition) {
+                case One:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Two;
+                    state.currentLiftMotorDropOffPosition = config.liftLowDropOffPosition;
+                    state.liftDPadChanged = true;
+                    break;
+                case Two:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Three;
+                    state.currentLiftMotorDropOffPosition = config.liftLowDropOffPosition;
+                    state.liftDPadChanged = true;
+                    break;
+                case Three:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Four;
+                    state.currentLiftMotorDropOffPosition = config.liftLowDropOffPosition;
+                    state.liftDPadChanged = true;
+                    break;
+                case Four:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Five;
+                    state.currentLiftMotorDropOffPosition = config.liftLowDropOffPosition;
+                    state.liftDPadChanged = true;
+                    break;
+                case Five:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Six;
+                    state.currentLiftMotorDropOffPosition = config.liftHighDropOffPosition;
+                    state.liftDPadChanged = true;
+                    break;
+                case Six:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Seven;
+                    state.currentLiftMotorDropOffPosition = config.liftHighDropOffPosition;
+                    state.liftDPadChanged = true;
+                    break;
+                case Seven:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Eight;
+                    state.currentLiftMotorDropOffPosition = config.liftHighDropOffPosition;
+                    state.liftDPadChanged = true;
+                    break;
+                case Eight:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Nine;
+                    state.currentLiftMotorDropOffPosition = config.liftHighDropOffPosition;
+                    state.liftDPadChanged = true;
+                    break;
+                case Nine:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Ten;
+                    state.currentLiftMotorDropOffPosition = config.liftHighDropOffPosition;
+                    state.liftDPadChanged = true;
+                    break;
+            }
         }
 
         if (dpadDown) {
-            state.currentLiftServoState = LiftServoState.One;
-            state.currentLowDropOffPosition = config.liftLowDropOffPosition;
-            state.currentHighDropOffPostiion = config.liftMediumDropOffPosition;
+            switch (state.currentLiftServoStateDropOffPosition) {
+                case Two:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.One;
+                    state.currentLiftMotorDropOffPosition = config.liftLowDropOffPosition;
+                    state.liftDPadChanged = true;
+                    break;
+                case Three:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Two;
+                    state.currentLiftMotorDropOffPosition = config.liftLowDropOffPosition;
+                    state.liftDPadChanged = true;
+                    break;
+                case Four:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Three;
+                    state.currentLiftMotorDropOffPosition = config.liftLowDropOffPosition;
+                    state.liftDPadChanged = true;
+                    break;
+                case Five:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Four;
+                    state.currentLiftMotorDropOffPosition = config.liftLowDropOffPosition;
+                    state.liftDPadChanged = true;
+                    break;
+                case Six:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Five;
+                    state.currentLiftMotorDropOffPosition = config.liftLowDropOffPosition;
+                    state.liftDPadChanged = true;
+                    break;
+                case Seven:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Six;
+                    state.currentLiftMotorDropOffPosition = config.liftHighDropOffPosition;
+                    state.liftDPadChanged = true;
+                    break;
+                case Eight:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Seven;
+                    state.currentLiftMotorDropOffPosition = config.liftHighDropOffPosition;
+                    state.liftDPadChanged = true;
+                    break;
+                case Nine:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Eight;
+                    state.currentLiftMotorDropOffPosition = config.liftHighDropOffPosition;
+                    state.liftDPadChanged = true;
+                    break;
+                case Ten:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Nine;
+                    state.currentLiftMotorDropOffPosition = config.liftHighDropOffPosition;
+                    state.liftDPadChanged = true;
+                    break;
+            }
         }
     }
 }

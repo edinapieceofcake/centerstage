@@ -40,10 +40,11 @@ public class RobotState {
     public HangerState hangerState;
     public int currentHangerPosition;
     public double currentTriggerStrength;
-    public int currentLowDropOffPosition;
-    public int currentHighDropOffPostiion;
+    public int currentLiftMotorDropOffPosition;
+    public LiftServoState currentLiftServoStateDropOffPosition;
     public Deadline secondExtensionTimeout = new Deadline(1000, TimeUnit.MILLISECONDS);
     public Deadline hangLiftDelay = new Deadline(600, TimeUnit.MILLISECONDS);
+    public boolean liftDPadChanged = false;
 
     // claw properties
     public TwistServoState twistServoState;

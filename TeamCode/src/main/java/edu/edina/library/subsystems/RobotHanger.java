@@ -62,9 +62,17 @@ public class RobotHanger implements Subsystem {
                     case DropOff:
                         switch (state.currentLiftServoState) {
                             case One:
+                            case Two:
+                            case Three:
+                            case Four:
+                            case Five:
                                 hardware.robotHangerMotor.setTargetPosition(config.hangMotorLowDropOffPosition);
                                 break;
-                            default:
+                            case Six:
+                            case Seven:
+                            case Eight:
+                            case Nine:
+                            case Ten:
                                 hardware.robotHangerMotor.setTargetPosition(config.hangMotorMediumDropOffPosition);
                                 break;
                         }

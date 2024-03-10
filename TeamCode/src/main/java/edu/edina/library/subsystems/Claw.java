@@ -124,6 +124,8 @@ public class Claw implements Subsystem {
                 case LeftAutoDropOff:
                     switch (state.currentLiftServoState) {
                         case One:
+                        case Two:
+                        case Three:
                             hardware.twistClawServo.setPosition(config.leftAutoHighTwistClawServoDropOffPosition);
                             break;
                         default:
@@ -134,6 +136,8 @@ public class Claw implements Subsystem {
                 case LeftDropOff:
                     switch (state.currentLiftServoState) {
                         case One:
+                        case Two:
+                        case Three:
                             hardware.twistClawServo.setPosition(config.leftTeleopHighTwistClawServoDropOffPosition);
                             break;
                         default:
@@ -144,6 +148,8 @@ public class Claw implements Subsystem {
                 case RightDropOff:
                     switch (state.currentLiftServoState) {
                         case One:
+                        case Two:
+                        case Three:
                             hardware.twistClawServo.setPosition(config.rightHighTwistClawServoDropOffPosition);
                             break;
                         default:
@@ -166,6 +172,8 @@ public class Claw implements Subsystem {
                 case CenterDropOff:
                     switch (state.currentLiftServoState) {
                         case One:
+                        case Two:
+                        case Three:
                             hardware.angleClawServo.setPosition(config.angleClawHighDropOffPosition);
                             break;
                         default:
@@ -176,6 +184,8 @@ public class Claw implements Subsystem {
                 case LeftAutoDropOff:
                     switch (state.currentLiftServoState) {
                         case One:
+                        case Two:
+                        case Three:
                             hardware.angleClawServo.setPosition(config.leftAutoHighAngleClawServoDropOffPosition);
                             break;
                         default:
@@ -186,6 +196,8 @@ public class Claw implements Subsystem {
                 case LeftDropOff:
                     switch (state.currentLiftServoState) {
                         case One:
+                        case Two:
+                        case Three:
                             hardware.angleClawServo.setPosition(config.leftTeleopHighAngleClawServoDropOffPosition);
                             break;
                         default:
@@ -196,6 +208,8 @@ public class Claw implements Subsystem {
                 case RightDropOff:
                     switch (state.currentLiftServoState) {
                         case One:
+                        case Two:
+                        case Three:
                             hardware.angleClawServo.setPosition(config.rightHighAngleClawServoDropOffPosition);
                             break;
                         default:
