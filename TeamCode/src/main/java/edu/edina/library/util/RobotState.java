@@ -91,6 +91,8 @@ public class RobotState {
         telemetry.addData("Bottom Motor LiftPosition", currentBottomMotorPosition);
         telemetry.addData("LiftSlidePower", currentLiftSlidePower);
         telemetry.addData("LiftServoState", currentLiftServoState);
+        telemetry.addData("CurrentLiftMotorDropOffPosition", currentLiftMotorDropOffPosition);
+        telemetry.addData("CurrentLiftServoStateDropOffPosition", currentLiftServoStateDropOffPosition);
         telemetry.addData("LiftDriveState", currentLiftDriveState);
         telemetry.addData("LastKnownLiftDriveState", lastKnownLiftState);
         telemetry.addData("PickUpState", pickUpState);
