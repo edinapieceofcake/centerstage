@@ -99,6 +99,10 @@ public class ActionManager {
         return new DropOffPixelAction(claw, lift, robotHanger, true);
     }
 
+    public Action getLiftReadyToDropThePixelLowOnTheWallAsync() {
+        return new DropOffPixelActionAsync(claw, lift, robotHanger, true);
+    }
+
     public Action getLiftReadyToDropThePixelHighOnTheWall() {
         return new DropOffPixelAction(claw, lift, robotHanger, false);
     }
