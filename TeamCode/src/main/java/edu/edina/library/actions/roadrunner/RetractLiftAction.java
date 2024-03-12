@@ -50,8 +50,6 @@ public class RetractLiftAction implements Action {
             return true;
         } else {
             state.lastKnownLiftState = LiftDriveState.Drive;
-            config.liftLowDropOffPosition = -600;
-
             return false;
         }
     }
