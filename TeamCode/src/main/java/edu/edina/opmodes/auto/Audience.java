@@ -24,7 +24,8 @@ public class Audience extends LinearOpMode {
     protected ActionManager manager;
     protected PoCMecanumDrive drive;
     protected PoCHuskyLens poCHuskyLens;
-    protected PropLocation propLocation = PropLocation.Center;
+
+    protected PropLocation propLocation = PropLocation.Right;
     protected PropLocation lastPropLocation = PropLocation.Right;
     protected Vector2d backdropDropLocation;
 
