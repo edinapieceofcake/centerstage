@@ -70,27 +70,27 @@ public class RobotConfiguration {
     public final double rightMediumDropOffServoPosition = .58;
     public final double leftHighDropOffServoPosition = .33;
     public final double rightHighDropOffServoPosition = .68;
-    public final double leftOne = .66;
-    public final double leftTwo = 0.6233;
-    public final double leftThree = 0.5866;
-    public final double leftFour = 0.5499;
-    public final double leftFive = 0.5132;
-    public final double leftSix = 0.4765;
-    public final double leftSeven = 0.4398;
-    public final double leftEight = 0.4031;
-    public final double leftNine = 0.3664;
-    public final double leftTen = .33;
+    public final double leftOne = .66;//0.66
+    public final double leftTwo = 0.66;//0.6233
+    public final double leftThree = 0.5775;//0.5866
+    public final double leftFour = 0.5775;//0.5499
+    public final double leftFive = 0.495;//0.5132
+    public final double leftSix = 0.495;//0.4765
+    public final double leftSeven = 0.4125;//0.4398
+    public final double leftEight = 0.4125;//0.4031
+    public final double leftNine = 0.33;//0.3664
+    public final double leftTen = .33;//0.33
 
-    public final double rightOne = 0.4;
-    public final double rightTwo = 0.4311;
-    public final double rightThree = 0.4622;
-    public final double rightFour = 0.4933;
-    public final double rightFive = 0.5244;
-    public final double rightSix = 0.5555;
-    public final double rightSeven = 0.5866;
-    public final double rightEight = 0.6177;
-    public final double rightNine = 0.6488;
-    public final double rightTen = 0.68;
+    public final double rightOne = 0.4;//0.4
+    public final double rightTwo = 0.4;//0.4311
+    public final double rightThree = 0.47;//0.4622
+    public final double rightFour = 0.47;//0.4933
+    public final double rightFive = 0.54;//0.5244
+    public final double rightSix = 0.54;//0.5555
+    public final double rightSeven = 0.61;//.5866
+    public final double rightEight = 0.61;//0.6177
+    public final double rightNine = 0.68;//0.6488
+    public final double rightTen = 0.68;//0.68
 
     // motor powers
     public final double hangerRetractingPower = -1;
@@ -104,9 +104,11 @@ public class RobotConfiguration {
 
     // lift encoder positions
     public final int liftDrivePosition = 50;
-    public int liftLowDropOffPosition = -600;
-    public final int liftMediumDropOffPosition = -800;
-    public final int liftHighDropOffPosition = -900;
+    public int liftDropOffPositionOne = -600;
+    public int liftDropOffPositionTwo = -675;
+    public final int liftDropOffPositionThree = -750;
+    public int liftDropOffPositionFour = -825;
+    public final int liftDropOffPositionFive = -900;
     public final int liftTwistPosition = -200;
     public final int minimumExtensionBeforeTwistingInTicks = -350;
     public final int minimumExtensionBeforeRaisingLiftInTicks = -120;

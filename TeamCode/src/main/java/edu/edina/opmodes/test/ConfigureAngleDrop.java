@@ -3,10 +3,8 @@ package edu.edina.opmodes.test;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import edu.edina.library.util.RobotConfiguration;
@@ -81,8 +79,8 @@ public class ConfigureAngleDrop extends LinearOpMode {
             }
 
             if (pad1.x) {
-                topLiftMotor.setTargetPosition(config.liftLowDropOffPosition);
-                bottomLiftMotor.setTargetPosition(config.liftLowDropOffPosition);
+                topLiftMotor.setTargetPosition(config.liftDropOffPositionOne);
+                bottomLiftMotor.setTargetPosition(config.liftDropOffPositionOne);
                 topLiftMotor.setPower(config.liftExtendingPower);
                 bottomLiftMotor.setPower(config.liftExtendingPower);
             }
