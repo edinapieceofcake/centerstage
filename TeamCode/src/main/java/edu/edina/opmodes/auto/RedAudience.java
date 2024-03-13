@@ -1,5 +1,6 @@
 package edu.edina.opmodes.auto;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
@@ -15,6 +16,9 @@ public class RedAudience extends Audience {
         }
 
     @Override
+    protected Pose2d getStartPose() { return new Pose2d(-42, -64, Math.toRadians(90)); }
+
+    @Override
     protected PropLocation getNonePropLocation() { return PropLocation.Right; }
 
     @Override
@@ -25,14 +29,14 @@ public class RedAudience extends Audience {
         // Determine location for purple pixel
         switch(propLocation) {
             case Left:
-                propDropLocation = new Vector2d(-33, -35);
-                propAngle = 45.0;
-                backdropDropLocation = new Vector2d(50,-42.5);
-                break;
-            case Right:
                 propDropLocation = new Vector2d(-41, -40);
                 propAngle = 135.0;
                 backdropDropLocation = new Vector2d(50,-29);
+                break;
+            case Right:
+                propDropLocation = new Vector2d(-33, -35);
+                propAngle = 45.0;
+                backdropDropLocation = new Vector2d(50,-42.5);
                 break;
             case Center:
             default:
@@ -48,7 +52,8 @@ public class RedAudience extends Audience {
                         drive.actionBuilder(drive.pose)
                                 .splineTo(propDropLocation, Math.toRadians(propAngle))
                                 .build(),
-                        manager.openLeftClaw()
+                        manager.openLeftClaw(),
+                        manager.openAutoClaw()
                 )
         );
     }
