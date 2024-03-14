@@ -64,8 +64,8 @@ public class RobotConfiguration {
     public final double startingRightLiftServoPosition = 0.13;
     public final double leftStackPickupServoPosition = 0.8;
     public final double rightStackPickupServoPosition = 0.29;
-    public double leftLowDropOffServoPosition = .53;
-    public double rightLowDropOffServoPosition = .51;
+    public final double leftLowDropOffServoPosition = .53;
+    public final double rightLowDropOffServoPosition = .51;
     public final double leftMediumDropOffServoPosition = .43;
     public final double rightMediumDropOffServoPosition = .58;
     public final double leftHighDropOffServoPosition = .33;
@@ -94,10 +94,10 @@ public class RobotConfiguration {
 
     // lift encoder positions
     public final int liftDrivePosition = 50;
-    public int liftDropOffPositionOne = -600;
-    public int liftDropOffPositionTwo = -675;
+    public final int liftDropOffPositionOne = -600;
+    public final int liftDropOffPositionTwo = -675;
     public final int liftDropOffPositionThree = -750;
-    public int liftDropOffPositionFour = -825;
+    public final int liftDropOffPositionFour = -825;
     public final int liftDropOffPositionFive = -900;
     public final int liftTwistPosition = -200;
     public final int minimumExtensionBeforeTwistingInTicks = -350;
