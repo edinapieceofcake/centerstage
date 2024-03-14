@@ -13,7 +13,7 @@ import edu.edina.library.enums.PropLocation;
 import edu.edina.opmodes.auto.BlueAudience;
 
 @Autonomous
-//@Disabled
+@Disabled
 public class BlueAudienceCenterHC extends BlueAudience {
 
     private double stack1Y = 14.5;

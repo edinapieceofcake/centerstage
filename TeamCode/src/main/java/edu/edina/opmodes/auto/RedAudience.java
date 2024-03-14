@@ -21,10 +21,6 @@ public class RedAudience extends Audience {
     @Override
     protected PropLocation getNonePropLocation() { return PropLocation.Right; }
 
-    protected Pose2d getStartPose() {
-        return new Pose2d(-42, -64, Math.toRadians(90));
-    }
-
     @Override
     protected void dropPurplePixel() {
         Vector2d propDropLocation;
@@ -38,9 +34,9 @@ public class RedAudience extends Audience {
                 backdropDropLocation = new Vector2d(50,-29);
                 break;
             case Right:
-                propDropLocation = new Vector2d(-33, -35);
+                propDropLocation = new Vector2d(-31, -35);
                 propAngle = 45.0;
-                backdropDropLocation = new Vector2d(50,-42.5);
+                backdropDropLocation = new Vector2d(50,-44.5);
                 break;
             case Center:
             default:
@@ -67,20 +63,29 @@ public class RedAudience extends Audience {
         // park
         switch (parkLocation) {
             case Center:
-                Actions.runBlocking(new SequentialAction(
+                Actions.runBlocking(
+                        new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
                                 .splineTo(new Vector2d(58, -14), Math.toRadians(0))
-                                .build()));
+                                .build(),
+                        manager.getLiftReadyToDrive()
+                        ));
                 break;
             case Corner:
-                Actions.runBlocking(new SequentialAction(
+                Actions.runBlocking(
+                        new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
                                 .splineTo(new Vector2d(58, -60), Math.toRadians(0))
-                                .build()));
+                                .build(),
+                        manager.getLiftReadyToDrive()
+                ));
                 break;
             default:
+                Actions.runBlocking(new SequentialAction(
+                    manager.getLiftReadyToDrive()
+                ));
                 break;
         }
     }
