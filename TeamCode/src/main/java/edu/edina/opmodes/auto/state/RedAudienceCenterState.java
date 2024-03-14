@@ -73,8 +73,7 @@ public class RedAudienceCenterState extends LinearOpMode {
         return RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_WHITE;
     }
 
-    protected Pose2d getStartPose() {
-        return new Pose2d(-42, -64, Math.toRadians(90));
+    protected Pose2d getStartPose() {return new Pose2d(-42, -64, Math.toRadians(90));
     }
 
     @Override

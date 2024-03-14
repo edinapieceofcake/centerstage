@@ -1,5 +1,6 @@
 package edu.edina.opmodes.auto;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
@@ -16,6 +17,10 @@ public class RedAudience extends Audience {
 
     @Override
     protected PropLocation getNonePropLocation() { return PropLocation.Right; }
+
+    protected Pose2d getStartPose() {
+        return new Pose2d(-42, -64, Math.toRadians(90));
+    }
 
     @Override
     protected void dropPurplePixel() {
