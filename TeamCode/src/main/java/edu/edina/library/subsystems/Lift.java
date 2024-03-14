@@ -133,44 +133,29 @@ public class Lift implements Subsystem {
                     hardware.rightLiftServo.setPosition(config.startingRightLiftServoPosition);
                     break;
                 case One:
-                    hardware.leftLiftServo.setPosition(config.leftOne);
-                    hardware.rightLiftServo.setPosition(config.rightOne);
-                    break;
                 case Two:
                     hardware.leftLiftServo.setPosition(config.leftOne);
                     hardware.rightLiftServo.setPosition(config.rightOne);
                     break;
                 case Three:
+                case Four:
+                    hardware.leftLiftServo.setPosition(config.leftTwo);
+                    hardware.rightLiftServo.setPosition(config.rightTwo);
+                    break;
+                case Five:
+                case Six:
+                case Seven:
                     hardware.leftLiftServo.setPosition(config.leftThree);
                     hardware.rightLiftServo.setPosition(config.rightThree);
                     break;
-                case Four:
+                case Eight:
+                case Nine:
                     hardware.leftLiftServo.setPosition(config.leftFour);
                     hardware.rightLiftServo.setPosition(config.rightFour);
                     break;
-                case Five:
-                    hardware.leftLiftServo.setPosition(config.leftFive);
-                    hardware.rightLiftServo.setPosition(config.rightFive);
-                    break;
-                case Six:
-                    hardware.leftLiftServo.setPosition(config.leftSix);
-                    hardware.rightLiftServo.setPosition(config.rightSix);
-                    break;
-                case Seven:
-                    hardware.leftLiftServo.setPosition(config.leftFive);
-                    hardware.rightLiftServo.setPosition(config.rightFive);
-                    break;
-                case Eight:
-                    hardware.leftLiftServo.setPosition(config.leftSeven);
-                    hardware.rightLiftServo.setPosition(config.rightSeven);
-                    break;
-                case Nine:
-                    hardware.leftLiftServo.setPosition(config.leftEight);
-                    hardware.rightLiftServo.setPosition(config.rightEight);
-                    break;
                 case Ten:
-                    hardware.leftLiftServo.setPosition(config.leftNine);
-                    hardware.rightLiftServo.setPosition(config.rightNine);
+                    hardware.leftLiftServo.setPosition(config.leftFive);
+                    hardware.rightLiftServo.setPosition(config.rightFive);
                     break;
                 case Latch:
                     hardware.leftLiftServo.setPosition(config.leftLatchServoPosition);
