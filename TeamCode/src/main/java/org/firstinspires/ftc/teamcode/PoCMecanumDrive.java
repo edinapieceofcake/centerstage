@@ -328,6 +328,10 @@ public final class PoCMecanumDrive {
 
             Pose2d error = txWorldTarget.value().minusExp(pose);
 
+            /*p.put("xError", error.position.x);
+            p.put("yError", error.position.y);
+            p.put("headingError (deg)", Math.toDegrees(error.heading.toDouble()));*/
+
             if (poseErrorStopUsage) {
                 if (error.position.norm() > poseErrorDistance) {
                     Log.d("POSE_ERROR", String.format("%f", error.position.norm()));
