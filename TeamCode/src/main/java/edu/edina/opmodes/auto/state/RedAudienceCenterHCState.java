@@ -1,4 +1,4 @@
-package edu.edina.opmodes.auto;
+package edu.edina.opmodes.auto.state;
 
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -23,8 +23,8 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
-//@Disabled
-public class RedAudienceCenterHC extends LinearOpMode {
+@Disabled
+public class RedAudienceCenterHCState extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;
     protected PoCMecanumDrive drive;
