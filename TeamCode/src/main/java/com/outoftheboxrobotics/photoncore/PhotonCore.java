@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.configuration.ConfigurationTypeManager;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
+import com.qualcomm.robotcore.hardware.configuration.typecontainers.UserConfigurationType;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.ftccommon.external.OnCreateEventLoop;
@@ -126,11 +127,11 @@ public class PhotonCore implements OpModeManagerNotifier.Notifications {
                                 hardwareMap.remove(motorName, motor);
                                 hardwareMap.dcMotor.remove(motorName);
 
-                                MotorConfigurationType motorType = new MotorConfigurationType(ConfigurationTypeManager.class, "goBILDA5202SeriesMotor", ConfigurationTypeManager.ClassSource.APK);
+                                MotorConfigurationType motorType = new MotorConfigurationType(ConfigurationTypeManager.class, motor.getMotorType().getXmlTag(), ConfigurationTypeManager.ClassSource.APK);
                                 motorType.setTicksPerRev(motor.getMotorType().getTicksPerRev());
                                 motorType.setGearing(motor.getMotorType().getGearing());
                                 motorType.setMaxRPM(motor.getMotorType().getMaxRPM());
-                                motorType.setOrientation(Rotation.CCW);
+                                motorType.setOrientation(motor.getMotorType().getOrientation());
                                 motorType.setAchieveableMaxRPMFraction(motor.getMotorType().getAchieveableMaxRPMFraction());
 
                                 PhotonDcMotor photonDcMotor = new PhotonDcMotor(photonLynxDcMotorController, motor.getPortNumber(), motor.getDirection(), motorType);
