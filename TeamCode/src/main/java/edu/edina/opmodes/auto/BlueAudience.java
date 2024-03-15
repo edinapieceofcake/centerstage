@@ -1,6 +1,5 @@
 package edu.edina.opmodes.auto;
 
-import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
@@ -14,11 +13,6 @@ public class BlueAudience extends Audience {
     protected Alliance getAlliance() {
             return Alliance.Blue;
         }
-
-    @Override
-    protected Pose2d getStartPose() {
-        return new Pose2d(-31, 64, Math.toRadians(270));
-    }
 
     @Override
     protected PropLocation getNonePropLocation() { return PropLocation.Left; }

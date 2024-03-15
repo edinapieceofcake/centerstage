@@ -1,4 +1,4 @@
-package edu.edina.opmodes.auto.state;
+package edu.edina.opmodes.auto;
 
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
@@ -24,8 +24,8 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
-@Disabled
-public class RedAudienceWallState extends LinearOpMode {
+//@Disabled
+public class BlueAudienceWall extends LinearOpMode {
     protected RobotHardware hardware;
     protected ActionManager manager;
     protected PoCMecanumDrive drive;
@@ -49,11 +49,8 @@ public class RedAudienceWallState extends LinearOpMode {
         drive = new PoCMecanumDrive(hardware.leftFront,
                 hardware.leftBack, hardware.rightBack, hardware.rightFront,
                 hardware.par0, hardware.perp,
-                hardware.externalImu, hardware.expansionImu, hardware.voltageSensor,
-                hardware.beamBreak, getStartPose());
-
-        // uncomment this and comment out the above if it doesn't work right
-        //drive = new MecanumDrive(hardwareMap, startPose);
+                hardware.externalImu, hardware.expansionImu,
+                hardware.voltageSensor, hardware.beamBreak, getStartPose());
 
         // HuskyLens Init
         poCHuskyLens = new PoCHuskyLens(hardware.huskyLens, telemetry, getAlliance());
@@ -67,19 +64,11 @@ public class RedAudienceWallState extends LinearOpMode {
     }
 
     protected Alliance getAlliance() {
-        return Alliance.Red;
-    }
-
-    protected RevBlinkinLedDriver.BlinkinPattern getUnsuccessfulPropMatchColor() {
-        return RevBlinkinLedDriver.BlinkinPattern.GREEN;
-    }
-
-    protected RevBlinkinLedDriver.BlinkinPattern getSuccessfulPropMatchColor() {
-        return RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_WHITE;
+        return Alliance.Blue;
     }
 
     protected Pose2d getStartPose() {
-        return new Pose2d(-42, -64, Math.toRadians(90));
+        return new Pose2d(-31, 64, Math.toRadians(270));
     }
 
     @Override
@@ -99,12 +88,12 @@ public class RedAudienceWallState extends LinearOpMode {
             telemetry.addData("A for P only", "");
             telemetry.addData("X for P, Y, 1W and park in corner", "");
             telemetry.addData("Y for P, Y, 1W and park in center", "");
-            telemetry.addData("DPAD-UP for P, Y, 3Ws on backdrop park in front", "");
+            telemetry.addData("DPAD-UP for P, T, 3Ws on backdrop park in front", "");
             telemetry.addData("DPAD-DN for P, Y, 3Ws and park in corner", "");
             telemetry.addData("L-BUMPER to increase delay, R-BUMPER to decrease delay.", "");
             telemetry.addData("L-TRIGGER to close claws, R-TRIGGER to open", "");
             telemetry.addData("LEFT-STICK-DOWN : manual rotate prop position", "");
-            telemetry.addData("RIGHT-STICK-DOWN : manual or auto camera", "");
+            telemetry.addData("RIGHT-STICK-DOWN :  manual or auto camera", "");
 
             if (pad1.a) {
                 yellowPixel = false;
@@ -190,11 +179,10 @@ public class RedAudienceWallState extends LinearOpMode {
 
             // Find Prop Location
             if (useCamera) {
-                // Find Prop Location
                 poCHuskyLens.update();
                 propLocation = poCHuskyLens.getPropLocation();
                 if (propLocation == PropLocation.None) {
-                    propLocation = PropLocation.Right;
+                    propLocation = PropLocation.Left;
                 }
             } else {
                 if (pad1.left_stick_button) {
@@ -231,14 +219,13 @@ public class RedAudienceWallState extends LinearOpMode {
             telemetry.addData("Location", propLocation);
             telemetry.addData("Use Camera", useCamera);
             telemetry.update();
-
         }
 
         // Turn off prop lighting
         hardware.lights.setPower(0);
 
         if (opModeIsActive()) {
-
+            // Signal GREEN for successful run
             hardware.startCurrentMonitor();
 
             runPaths();
@@ -249,72 +236,59 @@ public class RedAudienceWallState extends LinearOpMode {
 
     protected void runPaths() {
         Vector2d propDropLocation;
+        double propAngle = 270;
         Vector2d backdropDropLocation;
-        double secondLineToX = -60;
 
-        // Determine location for yellow pixel
-        switch (propLocation) {
+        double stack1Y = 38.5;
+        double stack2Y = 35.5;
+
+        // Determine location for purple pixel
+        switch(propLocation) {
             case Left:
-                propDropLocation = new Vector2d(-45, -35);
-                backdropDropLocation = new Vector2d(48,-32);
-                secondLineToX = -65;
+                propDropLocation = new Vector2d(-33, 35);
+                propAngle = 315.0;
+                backdropDropLocation = new Vector2d(50,41.5);
                 break;
             case Right:
-                propDropLocation = new Vector2d(-30, -38);
-                backdropDropLocation = new Vector2d(47.5,-44);
+                propDropLocation = new Vector2d(-48, 38.5);
+                propAngle = 270.0;
+                backdropDropLocation = new Vector2d(50,26);
                 break;
             case Center:
             default:
-                propDropLocation = new Vector2d(-38, -33);  // default to Center if all goes bad\
-                backdropDropLocation = new Vector2d(48,-39);
+                propDropLocation = new Vector2d(-38, 34.5);
+                propAngle = 270.0;
+                backdropDropLocation = new Vector2d(50,34);
                 break;
         }
 
         // Run to drop PURPLE pixel
-        switch (propLocation) {
-            case Right:
-                Actions.runBlocking(
-                        new SequentialAction(
-                                drive.actionBuilder(drive.pose)
-                                        .splineTo(propDropLocation, Math.toRadians(45))
-                                        .build(),
-                                manager.openLeftClaw()
-                        )
-                );
-                break;
-            default:
-                // Execute drive to prop drop spot and drop
-                Actions.runBlocking(
-                        new SequentialAction(
-                                drive.actionBuilder(drive.pose)
-                                        .splineTo(propDropLocation, Math.toRadians(90))
-                                        .build(),
-                                manager.openLeftClaw()
-                        )
-                );
-                break;
-        }
+        Actions.runBlocking(
+                new SequentialAction(
+                        drive.actionBuilder(drive.pose)
+                                .splineTo(propDropLocation, Math.toRadians(propAngle))
+                                .build(),
+                        manager.openLeftClaw()
+                )
+        );
 
         // If we want to drop Yellow..
         if (yellowPixel) {
+            // Drive to Stack Pick up 1st white
             switch (propLocation) {
-                case Left:
+                case Right:
                     Actions.runBlocking(
-                        drive.actionBuilder(drive.pose)
-                                // Head to Stacks
-                                .setReversed(true)
-                                .turnTo(Math.toRadians(180))
-                                .lineToX(-52)
-                                .build()
-                    );
+                            drive.actionBuilder(drive.pose)
+                                    .turnTo(Math.toRadians(180))
+                                    .build()
+                            );
                     break;
                 default:
-                // Drive to Stack Pick up 1st white
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
                                     .setReversed(true)
-                                    .splineToSplineHeading(new Pose2d(-52, -35, Math.toRadians(180)), Math.toRadians(180))
+                                    .splineToSplineHeading(new Pose2d(-52, stack1Y, Math.toRadians(180)), Math.toRadians(180))
                                     .build()
                     );
                     break;
@@ -331,7 +305,7 @@ public class RedAudienceWallState extends LinearOpMode {
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
-                                    .lineToX(-58.5)
+                                    .lineToX(-56.5)
                                     .stopAndAdd(manager.closeLeftClaw())
                                     .build()
                     )
@@ -345,9 +319,9 @@ public class RedAudienceWallState extends LinearOpMode {
                 Actions.runBlocking(
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks VIA A-Row
-                                .lineToX(-58)
+                                .lineToX(-56)
                                 .stopAndAdd(manager.raiseLiftAfterStackPickup())
-                                .lineToX(-48)
+                                .lineToX(-50)
                                 .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                                 .afterDisp(0,
                                         new ParallelAction(
@@ -356,10 +330,11 @@ public class RedAudienceWallState extends LinearOpMode {
                                                 manager.positionTheClawToDriveWithPixels()
                                         ))
                                 .setReversed(true)
-                                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
-                                .splineToConstantHeading(new Vector2d(10, -60), Math.toRadians(0))
+                                .splineToSplineHeading(new Pose2d(new Vector2d(-30, 59), Math.toRadians(0)), Math.toRadians(0))
+                                .splineToConstantHeading(new Vector2d(0, 58), Math.toRadians(0))
                                 .waitSeconds(delayTime/1000)
                                 .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
+                                .splineToSplineHeading(new Pose2d(new Vector2d(24, 58), Math.toRadians(0)), Math.toRadians(0))
                                 .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
                                 .lineToX(51.5)
                                 .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
@@ -375,9 +350,9 @@ public class RedAudienceWallState extends LinearOpMode {
                 Actions.runBlocking(
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks VIA A-Row
-                                .lineToX(-57.5)
+                                .lineToX(-56)
                                 .stopAndAdd(manager.raiseLiftAfterStackPickup())
-                                .lineToX(-48)
+                                .lineToX(-50)
                                 .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                                 .afterDisp(0,
                                         new ParallelAction(
@@ -386,9 +361,10 @@ public class RedAudienceWallState extends LinearOpMode {
                                                 manager.positionTheClawToDriveWithPixels()
                                         ))
                                 .setReversed(true)
-                                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
-                                .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                                .splineToConstantHeading(new Vector2d(10, -60), Math.toRadians(0))
+                                .splineToSplineHeading(new Pose2d(new Vector2d(-30, 59), Math.toRadians(0)), Math.toRadians(0))
+                                .splineToConstantHeading(new Vector2d(0, 58), Math.toRadians(0))
+                                .afterDisp(0, manager.getLiftReadyToDropThePixelHighOnTheWall())
+                                .splineToSplineHeading(new Pose2d(new Vector2d(24, 58), Math.toRadians(0)), Math.toRadians(0))
                                 .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
                                 .lineToX(51.5)
                                 .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
@@ -421,7 +397,7 @@ public class RedAudienceWallState extends LinearOpMode {
         // If we are making a second trip to the stacks
         if (makeSecondTrip) {
             // go get other white pixels
-            if ((propLocation == PropLocation.Right || propLocation == PropLocation.Center) && dropOnBackdrop) {
+            if ((propLocation == PropLocation.Left || propLocation == PropLocation.Center) && dropOnBackdrop) {
                 dropOnBackdrop = false;
                 dropOnBackstage = true;
             }
@@ -429,16 +405,15 @@ public class RedAudienceWallState extends LinearOpMode {
             Actions.runBlocking(
                     new ParallelAction(
                             new SequentialAction(
-                                    new SleepAction(.5),
+                                    new SleepAction(.2),
                                     manager.getLiftReadyToDrive()
                             ),
                             drive.actionBuilder(drive.pose)
                                     .lineToX(44)
-                                    .setReversed(true)
                                     .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                                    .splineToSplineHeading(new Pose2d(0, -60, Math.toRadians(-180)), Math.toRadians(180))
-                                    .splineToConstantHeading(new Vector2d(-40, -58), Math.toRadians(180))
-                                    .splineToConstantHeading(new Vector2d(-52, -34), Math.toRadians(180))
+                                    .splineToSplineHeading(new Pose2d(0, 59, Math.toRadians(180)), Math.toRadians(180))
+                                    .splineToConstantHeading(new Vector2d(-30, 59), Math.toRadians(180))
+                                    .splineToConstantHeading(new Vector2d(-52, stack2Y), Math.toRadians(180))
                                     .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                                     .build()
                     )
@@ -451,11 +426,11 @@ public class RedAudienceWallState extends LinearOpMode {
                     new SequentialAction(
                             new ParallelAction(
                                     manager.positionTheClawToPickupPixelsFromStack(),
-                                    manager.runLiftToPosition(-145)
+                                    manager.runLiftToPosition(-95)
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks
-                                    .lineToX(secondLineToX)
+                                    .lineToX(-59)
                                     .build(),
                             new ParallelAction(
                                     manager.closeLeftClaw(),
@@ -474,31 +449,28 @@ public class RedAudienceWallState extends LinearOpMode {
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks VIA A-Row
                                 .lineToX(-48)
-                                .afterDisp(3,
+                                .afterDisp(0,
                                         new ParallelAction(
-                                                manager.lowerLiftForDriving(),
-                                                manager.zeroLift(),
                                                 manager.positionTheClawToDriveWithPixels()
                                         ))
                                 .setReversed(true)
-                                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
+                                .splineToSplineHeading(new Pose2d(new Vector2d(-35, 58), Math.toRadians(0)), Math.toRadians(0))
                                 .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                                .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
-                                .splineToConstantHeading(new Vector2d(10, -56), Math.toRadians(0))
-                                .splineTo(new Vector2d(30, -56), Math.toRadians(0))
-                                .splineTo(new Vector2d(49, -53), Math.toRadians(35))
-                                .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
-                                .afterDisp(0, new SequentialAction(
-                                        manager.openLeftClaw(),
-                                        manager.openAutoClaw()
-                                ))
+                                .splineToConstantHeading(new Vector2d(10, 58), Math.toRadians(0))
+                                .afterDisp(0, manager.getLiftReadyToDropPixelFromLeft())
+                                .splineTo(new Vector2d(30, 58), Math.toRadians(0))
+                                .splineTo(new Vector2d(57, 53), Math.toRadians(-35))
+                                .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
+                                .afterTime(0.3, manager.openLeftClaw())
+                                .afterTime(0.4, manager.openAutoClaw())
+                                .waitSeconds(0.25)
                                 .build());
 
                 // back away and pack up
                 Actions.runBlocking(
                         new SequentialAction(
                                 drive.actionBuilder(drive.pose)
-                                        .lineToX(46)
+                                        .lineToX(50)
                                         .build(),
                                 manager.getLiftReadyToDrive()
                         )
@@ -519,12 +491,12 @@ public class RedAudienceWallState extends LinearOpMode {
                                         ))
                                 .setReversed(true)
                                 .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
-                                .splineTo(new Vector2d(54, -64), Math.toRadians(0))
+                                .splineToSplineHeading(new Pose2d(new Vector2d(-35, 59), Math.toRadians(0)), Math.toRadians(0))
+                                .splineTo(new Vector2d(54, 58), Math.toRadians(0))
                                 .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                                 .afterDisp(0, new SequentialAction(
-                                        manager.openLeftClaw(),
-                                        manager.openAutoClaw()
+                                        manager.openAutoClaw(),
+                                        manager.openLeftClaw()
                                 ))
                                 .lineToX(50)
                                 .build());
@@ -538,14 +510,14 @@ public class RedAudienceWallState extends LinearOpMode {
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(58, -14), Math.toRadians(0))
+                                .splineTo(new Vector2d(58, 14), Math.toRadians(0))
                                 .build()));
                 break;
             case Corner:
                 Actions.runBlocking(new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(58, -62), Math.toRadians(0))
+                                .splineTo(new Vector2d(58, 60), Math.toRadians(0))
                                 .build()));
                 break;
             default:
