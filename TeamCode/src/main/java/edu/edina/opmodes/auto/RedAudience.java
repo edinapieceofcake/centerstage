@@ -29,7 +29,7 @@ public class RedAudience extends Audience {
         // Determine location for purple pixel
         switch(propLocation) {
             case Left:
-                propDropLocation = new Vector2d(-41, -40);
+                propDropLocation = new Vector2d(-39, -40);
                 propAngle = 135.0;
                 backdropDropLocation = new Vector2d(50,-29);
                 break;
@@ -42,7 +42,7 @@ public class RedAudience extends Audience {
             default:
                 propDropLocation = new Vector2d(-33, -34.5);  // default to Center if all goes bad
                 propAngle = 90.0;
-                backdropDropLocation = new Vector2d(50,-34 ); // default to center if all goes bad
+                backdropDropLocation = new Vector2d(50,-38 ); // default to center if all goes bad
                 break;
         }
 

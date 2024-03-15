@@ -40,13 +40,13 @@ public class RedAudienceCenter extends RedAudience {
                     drive.actionBuilder(drive.pose)
                             // Head to Stacks
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(-35, -11, Math.toRadians(180)), Math.toRadians(45))
+                            .splineToSplineHeading(new Pose2d(-35, -12, Math.toRadians(180)), Math.toRadians(45))
                             // Prepare for grabbing - Trip 1
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                            .afterDisp(0, manager.runLiftToPosition(-123))
+                            .afterDisp(0, manager.runLiftToPosition(-180))
                             .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
                             .setReversed(false)
-                            .splineToSplineHeading(new Pose2d(-55, -10, Math.toRadians(180)), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(-55, -12, Math.toRadians(180)), Math.toRadians(180))
                             .lineToX(-58)
                             .build()
             );
@@ -57,11 +57,11 @@ public class RedAudienceCenter extends RedAudience {
                             // Head to Stacks
                             .setReversed(true)
                             .splineToSplineHeading(new Pose2d(-48, -18, Math.toRadians(180)), Math.toRadians(90))
-                            .splineToSplineHeading(new Pose2d(-50, -10, Math.toRadians(180)), Math.toRadians(90))
+                            .splineToSplineHeading(new Pose2d(-50, -12, Math.toRadians(180)), Math.toRadians(90))
                             .setReversed(false)
                             // Prepare for grabbing - Trip 1
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                            .afterDisp(0, manager.runLiftToPosition(-123))
+                            .afterDisp(0, manager.runLiftToPosition(-180))
                             .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
                             .lineToX(-58)
                             .build()
@@ -72,11 +72,11 @@ public class RedAudienceCenter extends RedAudience {
                     drive.actionBuilder(drive.pose)
                             // Head to Stacks
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(-50, -10, Math.toRadians(180)), Math.toRadians(90))
+                            .splineToSplineHeading(new Pose2d(-50, -12, Math.toRadians(180)), Math.toRadians(90))
                             // Prepare for grabbing - Trip 1
                             .setReversed(false)
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                            .afterDisp(0, manager.runLiftToPosition(-123))
+                            .afterDisp(0, manager.runLiftToPosition(-180))
                             .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
                             .lineToX(-58)
                             .build()
