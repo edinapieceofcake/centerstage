@@ -21,10 +21,6 @@ public class RedAudience extends Audience {
     @Override
     protected PropLocation getNonePropLocation() { return PropLocation.Right; }
 
-    protected Pose2d getStartPose() {
-        return new Pose2d(-42, -64, Math.toRadians(90));
-    }
-
     @Override
     protected void dropPurplePixel() {
         Vector2d propDropLocation;
@@ -33,20 +29,20 @@ public class RedAudience extends Audience {
         // Determine location for purple pixel
         switch(propLocation) {
             case Left:
-                propDropLocation = new Vector2d(-41, -40);
+                propDropLocation = new Vector2d(-39, -40);
                 propAngle = 135.0;
                 backdropDropLocation = new Vector2d(50,-29);
                 break;
             case Right:
-                propDropLocation = new Vector2d(-33, -35);
+                propDropLocation = new Vector2d(-31, -35);
                 propAngle = 45.0;
-                backdropDropLocation = new Vector2d(50,-42.5);
+                backdropDropLocation = new Vector2d(50,-44.5);
                 break;
             case Center:
             default:
                 propDropLocation = new Vector2d(-33, -34.5);  // default to Center if all goes bad
                 propAngle = 90.0;
-                backdropDropLocation = new Vector2d(50,-34 ); // default to center if all goes bad
+                backdropDropLocation = new Vector2d(50,-38 ); // default to center if all goes bad
                 break;
         }
 
@@ -67,20 +63,29 @@ public class RedAudience extends Audience {
         // park
         switch (parkLocation) {
             case Center:
-                Actions.runBlocking(new SequentialAction(
+                Actions.runBlocking(
+                        new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
                                 .splineTo(new Vector2d(58, -14), Math.toRadians(0))
-                                .build()));
+                                .build(),
+                        manager.getLiftReadyToDrive()
+                        ));
                 break;
             case Corner:
-                Actions.runBlocking(new SequentialAction(
+                Actions.runBlocking(
+                        new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
                                 .splineTo(new Vector2d(58, -60), Math.toRadians(0))
-                                .build()));
+                                .build(),
+                        manager.getLiftReadyToDrive()
+                ));
                 break;
             default:
+                Actions.runBlocking(new SequentialAction(
+                    manager.getLiftReadyToDrive()
+                ));
                 break;
         }
     }
