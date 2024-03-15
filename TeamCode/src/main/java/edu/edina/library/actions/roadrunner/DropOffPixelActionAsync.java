@@ -13,6 +13,7 @@ import java.util.concurrent.ExecutorService;
 import edu.edina.library.enums.DropOffOrientation;
 import edu.edina.library.enums.DropOffState;
 import edu.edina.library.enums.LiftDriveState;
+import edu.edina.library.enums.LiftServoState;
 import edu.edina.library.enums.LiftSlideState;
 import edu.edina.library.subsystems.Claw;
 import edu.edina.library.subsystems.Lift;
@@ -45,19 +46,15 @@ public class DropOffPixelActionAsync implements Action {
         };
 
         state.lastKnownLiftState = LiftDriveState.Drive;
-        state.currentLiftDriveState = LiftDriveState.LowDropOff;
+        state.currentLiftDriveState = LiftDriveState.DropOff;
         state.currentLiftSlideState = LiftSlideState.Extending;
         state.dropOffOrientation = DropOffOrientation.Center;
         state.dropOffState = DropOffState.Start;
+        state.currentLiftMotorDropOffPosition = config.liftDropOffPositionOne;
+        state.currentLiftServoStateDropOffPosition = LiftServoState.Two;
         if (isBackstage) {
-            config.leftLowDropOffServoPosition = .66;
-            config.rightLowDropOffServoPosition = .40;
-        } else {
-            config.leftLowDropOffServoPosition = .555;
-            config.rightLowDropOffServoPosition = .495;
+            state.currentLiftServoStateDropOffPosition = LiftServoState.One;
         }
-
-        config.liftLowDropOffPosition = -600;
 
         dropOffPixelExecutor = ThreadPool.newSingleThreadExecutor("drop off pixel");
         dropOffPixelExecutor.submit(dropOffPixelRunnable);
@@ -76,10 +73,6 @@ public class DropOffPixelActionAsync implements Action {
             Thread.yield();
         }
 
-        state.lastKnownLiftState = LiftDriveState.LowDropOff;
-        if (isBackstage) {
-            config.leftLowDropOffServoPosition = .53;
-            config.rightLowDropOffServoPosition = .51;
-        }
+        state.lastKnownLiftState = LiftDriveState.DropOff;
     }
 }

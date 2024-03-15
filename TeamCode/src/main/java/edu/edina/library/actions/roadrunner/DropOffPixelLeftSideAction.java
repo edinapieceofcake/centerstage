@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.Action;
 import edu.edina.library.enums.DropOffOrientation;
 import edu.edina.library.enums.DropOffState;
 import edu.edina.library.enums.LiftDriveState;
+import edu.edina.library.enums.LiftServoState;
 import edu.edina.library.enums.LiftSlideState;
 import edu.edina.library.subsystems.Claw;
 import edu.edina.library.subsystems.Lift;
@@ -38,16 +39,15 @@ public class DropOffPixelLeftSideAction implements Action {
             started = true;
 
             state.lastKnownLiftState = LiftDriveState.Drive;
-            state.currentLiftDriveState = LiftDriveState.LowDropOff;
+            state.currentLiftDriveState = LiftDriveState.DropOff;
             state.currentLiftSlideState = LiftSlideState.Extending;
             state.dropOffOrientation = DropOffOrientation.LeftAuto;
             state.dropOffState = DropOffState.Start;
+            state.currentLiftMotorDropOffPosition = config.liftDropOffPositionOne;
+            state.currentLiftServoStateDropOffPosition = LiftServoState.Two;
             if (isBackstage) {
-                config.leftLowDropOffServoPosition = .61;
-                config.rightLowDropOffServoPosition = .45;
+                state.currentLiftServoStateDropOffPosition = LiftServoState.One;
             }
-
-            config.liftLowDropOffPosition = -600;
         }
 
         if (state.dropOffState != DropOffState.Finished) {
@@ -56,12 +56,7 @@ public class DropOffPixelLeftSideAction implements Action {
             robotHanger.update();
             return true;
         } else {
-            state.lastKnownLiftState = LiftDriveState.LowDropOff;
-            if (isBackstage) {
-                config.leftLowDropOffServoPosition = .53;
-                config.rightLowDropOffServoPosition = .51;
-            }
-
+            state.lastKnownLiftState = LiftDriveState.DropOff;
             return false;
         }
     }

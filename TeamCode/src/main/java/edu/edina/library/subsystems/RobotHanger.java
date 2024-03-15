@@ -3,9 +3,6 @@ package edu.edina.library.subsystems;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import edu.edina.library.enums.HangerState;
-import edu.edina.library.enums.LiftServoRange;
-import edu.edina.library.enums.LiftServoState;
-import edu.edina.library.util.Robot;
 import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.RobotState;
@@ -62,23 +59,23 @@ public class RobotHanger implements Subsystem {
                         hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
                         break;
-                    case LowDrop:
-                        if (state.liftServoRange == LiftServoRange.Low) {
-                            hardware.robotHangerMotor.setTargetPosition(config.hangMotorLowDropOffPosition);
-                        } else {
-                            hardware.robotHangerMotor.setTargetPosition(config.hangMotorMediumDropOffPosition);
+                    case DropOff:
+                        switch (state.currentLiftServoState) {
+                            case One:
+                            case Two:
+                            case Three:
+                            case Four:
+                            case Five:
+                                hardware.robotHangerMotor.setTargetPosition(config.hangMotorLowDropOffPosition);
+                                break;
+                            case Six:
+                            case Seven:
+                            case Eight:
+                            case Nine:
+                            case Ten:
+                                hardware.robotHangerMotor.setTargetPosition(config.hangMotorMediumDropOffPosition);
+                                break;
                         }
-
-                        hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
-                        break;
-                    case HighDrop:
-                        if (state.liftServoRange == LiftServoRange.Low) {
-                            hardware.robotHangerMotor.setTargetPosition(config.hangMotorMediumDropOffPosition);
-                        } else {
-                            hardware.robotHangerMotor.setTargetPosition(config.hangMotorHighDropOffPosition);
-                        }
-
                         hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         hardware.robotHangerMotor.setPower(config.hangerExtendingPower);
                         break;

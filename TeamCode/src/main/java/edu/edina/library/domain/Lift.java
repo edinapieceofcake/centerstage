@@ -1,28 +1,18 @@
 package edu.edina.library.domain;
 
 import static edu.edina.library.enums.LiftDriveState.Hang;
-import static edu.edina.library.enums.LiftDriveState.HighDropOff;
-import static edu.edina.library.enums.LiftDriveState.LowDropOff;
+import static edu.edina.library.enums.LiftDriveState.DropOff;
 import static edu.edina.library.enums.LiftDriveState.Manual;
 
 import android.util.Log;
 
-import org.firstinspires.ftc.robotcore.internal.system.Deadline;
-
-import java.util.concurrent.TimeUnit;
-
 import edu.edina.library.enums.AngleClawState;
-import edu.edina.library.enums.DropOffOrientation;
 import edu.edina.library.enums.DropOffState;
 import edu.edina.library.enums.HangState;
-import edu.edina.library.enums.HangerState;
 import edu.edina.library.enums.LiftDriveState;
-import edu.edina.library.enums.LiftServoRange;
 import edu.edina.library.enums.LiftServoState;
 import edu.edina.library.enums.LiftSlideState;
 import edu.edina.library.enums.PickUpState;
-import edu.edina.library.enums.TwistServoState;
-import edu.edina.library.util.PoCMath;
 import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotState;
 
@@ -92,21 +82,21 @@ public class Lift {
         }
 
         if (y) {
-            // low
+            // dropoff
             Log.d("IAMHERE", String.format("YS P:%s, L:%s, C:%s, D:%s, M:%d, T:%d", state.pickUpState, state.lastKnownLiftState,
                     state.currentLiftSlideState, state.currentLiftDriveState, state.currentTopMotorPosition, config.liftTwistPosition));
-            if (state.lastKnownLiftState == LowDropOff) {
+            if (state.lastKnownLiftState == DropOff) {
                 if (state.pickUpState == PickUpState.Finished) {
                     state.currentLiftDriveState = Manual;
                 } else {
                     state.lastKnownLiftState = state.currentLiftDriveState;
-                    state.currentLiftDriveState = LiftDriveState.LowDropOff;
+                    state.currentLiftDriveState = LiftDriveState.DropOff;
                     if (state.currentLiftSlideState == LiftSlideState.Retracting || state.currentLiftSlideState == LiftSlideState.Idle) {
                         switch (state.pickUpState) {
                             case FirstRetraction:
                                 state.dropOffState = DropOffState.SecondExtension;
-                                state.currentTopMotorTargetPosition = state.currentLowDropOffPosition;
-                                state.currentBottomMotorTargetPosition = state.currentLowDropOffPosition;
+                                state.currentTopMotorTargetPosition = state.currentLiftMotorDropOffPosition;
+                                state.currentBottomMotorTargetPosition = state.currentLiftMotorDropOffPosition;
                                 state.currentLiftSlidePower = config.liftExtendingPower;
                                 state.secondExtensionTimeout.reset();
                                 break;
@@ -124,12 +114,8 @@ public class Lift {
                     state.pickUpState = PickUpState.Finished;
                 }
             } else {
-                state.currentLiftDriveState = LiftDriveState.LowDropOff;
-                if (state.lastKnownLiftState == HighDropOff) {
-                    state.dropOffState = DropOffState.FirstExtension;
-                } else {
-                    state.dropOffState = DropOffState.Start;
-                }
+                state.currentLiftDriveState = LiftDriveState.DropOff;
+                state.dropOffState = DropOffState.Start;
 
                 state.currentLiftSlideState = LiftSlideState.Extending;
             }
@@ -137,50 +123,50 @@ public class Lift {
                     state.currentLiftSlideState, state.currentLiftDriveState, state.currentTopMotorPosition, config.liftTwistPosition));
         }
 
-        if (b) {
-            // high
-            Log.d("IAMHERE", String.format("BS P:%s, L:%s, C:%s, D:%s, M:%d, T:%d", state.pickUpState, state.lastKnownLiftState,
-                    state.currentLiftSlideState, state.currentLiftDriveState, state.currentTopMotorPosition, config.liftTwistPosition));
-            if (state.lastKnownLiftState == LiftDriveState.HighDropOff) {
-                if (state.pickUpState == PickUpState.Finished) {
-                    state.currentLiftDriveState = Manual;
-                } else {
-                    state.lastKnownLiftState = state.currentLiftDriveState;
-                    state.currentLiftDriveState = LiftDriveState.HighDropOff;
-                    if (state.currentLiftSlideState == LiftSlideState.Retracting || state.currentLiftSlideState == LiftSlideState.Idle) {
-                        switch (state.pickUpState) {
-                            case FirstRetraction:
-                                state.currentTopMotorTargetPosition = state.currentHighDropOffPostiion;
-                                state.currentBottomMotorTargetPosition = state.currentHighDropOffPostiion;
-                                state.currentLiftSlidePower = config.liftExtendingPower;
-                                state.dropOffState = DropOffState.SecondExtension;
-                                state.secondExtensionTimeout.reset();
-                                break;
-                            case DropArm:
-                                state.dropOffState = DropOffState.LiftArm;
-                                break;
-                            default:
-                                state.dropOffState = DropOffState.Start;
-                                break;
-                        }
-                    } else {
-                        Log.d("IAMHERE", "B Pressed");
-                    }
-                    state.currentLiftSlideState = LiftSlideState.Extending;
-                    state.pickUpState = PickUpState.Finished;
-                }
-            } else {
-                state.currentLiftDriveState = LiftDriveState.HighDropOff;
-                if (state.lastKnownLiftState == LiftDriveState.LowDropOff) {
-                    state.dropOffState = DropOffState.FirstExtension;
-                } else if (state.dropOffState != DropOffState.Start) {
-                    state.dropOffState = DropOffState.Start;
-                }
-                state.currentLiftSlideState = LiftSlideState.Extending;
-            }
-            Log.d("IAMHERE", String.format("BF D:%s, L:%s, C:%s, D:%s, M:%d, T:%d", state.dropOffState, state.lastKnownLiftState,
-                    state.currentLiftSlideState, state.currentLiftDriveState, state.currentTopMotorPosition, config.liftTwistPosition));
-        }
+//        if (b) {
+//            // high
+//            Log.d("IAMHERE", String.format("BS P:%s, L:%s, C:%s, D:%s, M:%d, T:%d", state.pickUpState, state.lastKnownLiftState,
+//                    state.currentLiftSlideState, state.currentLiftDriveState, state.currentTopMotorPosition, config.liftTwistPosition));
+//            if (state.lastKnownLiftState == LiftDriveState.HighDropOff) {
+//                if (state.pickUpState == PickUpState.Finished) {
+//                    state.currentLiftDriveState = Manual;
+//                } else {
+//                    state.lastKnownLiftState = state.currentLiftDriveState;
+//                    state.currentLiftDriveState = LiftDriveState.HighDropOff;
+//                    if (state.currentLiftSlideState == LiftSlideState.Retracting || state.currentLiftSlideState == LiftSlideState.Idle) {
+//                        switch (state.pickUpState) {
+//                            case FirstRetraction:
+//                                state.currentTopMotorTargetPosition = state.currentHighDropOffPostiion;
+//                                state.currentBottomMotorTargetPosition = state.currentHighDropOffPostiion;
+//                                state.currentLiftSlidePower = config.liftExtendingPower;
+//                                state.dropOffState = DropOffState.SecondExtension;
+//                                state.secondExtensionTimeout.reset();
+//                                break;
+//                            case DropArm:
+//                                state.dropOffState = DropOffState.LiftArm;
+//                                break;
+//                            default:
+//                                state.dropOffState = DropOffState.Start;
+//                                break;
+//                        }
+//                    } else {
+//                        Log.d("IAMHERE", "B Pressed");
+//                    }
+//                    state.currentLiftSlideState = LiftSlideState.Extending;
+//                    state.pickUpState = PickUpState.Finished;
+//                }
+//            } else {
+//                state.currentLiftDriveState = LiftDriveState.HighDropOff;
+//                if (state.lastKnownLiftState == LiftDriveState.LowDropOff) {
+//                    state.dropOffState = DropOffState.FirstExtension;
+//                } else if (state.dropOffState != DropOffState.Start) {
+//                    state.dropOffState = DropOffState.Start;
+//                }
+//                state.currentLiftSlideState = LiftSlideState.Extending;
+//            }
+//            Log.d("IAMHERE", String.format("BF D:%s, L:%s, C:%s, D:%s, M:%d, T:%d", state.dropOffState, state.lastKnownLiftState,
+//                    state.currentLiftSlideState, state.currentLiftDriveState, state.currentTopMotorPosition, config.liftTwistPosition));
+//        }
 
         if (gm2y) {
             if (state.currentLiftDriveState != Hang) {
@@ -191,15 +177,103 @@ public class Lift {
         }
 
         if (dpadUp) {
-            state.liftServoRange = LiftServoRange.High;
-            state.currentLowDropOffPosition = config.liftMediumDropOffPosition;
-            state.currentHighDropOffPostiion = config.liftHighDropOffPosition;
+            switch (state.currentLiftServoStateDropOffPosition) {
+                case One:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Two;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionOne;
+                    state.liftDPadChanged = true;
+                    break;
+                case Two:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Three;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionOne;
+                    state.liftDPadChanged = true;
+                    break;
+                case Three:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Four;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionTwo;
+                    state.liftDPadChanged = true;
+                    break;
+                case Four:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Five;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionTwo;
+                    state.liftDPadChanged = true;
+                    break;
+                case Five:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Six;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionThree;
+                    state.liftDPadChanged = true;
+                    break;
+                case Six:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Seven;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFour;
+                    state.liftDPadChanged = true;
+                    break;
+                case Seven:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Eight;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFour;
+                    state.liftDPadChanged = true;
+                    break;
+                case Eight:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Nine;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFive;
+                    state.liftDPadChanged = true;
+                    break;
+                case Nine:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Ten;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFive;
+                    state.liftDPadChanged = true;
+                    break;
+            }
         }
 
         if (dpadDown) {
-            state.liftServoRange = LiftServoRange.Low;
-            state.currentLowDropOffPosition = config.liftLowDropOffPosition;
-            state.currentHighDropOffPostiion = config.liftMediumDropOffPosition;
+            switch (state.currentLiftServoStateDropOffPosition) {
+                case Two:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.One;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionOne;
+                    state.liftDPadChanged = true;
+                    break;
+                case Three:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Two;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionOne;
+                    state.liftDPadChanged = true;
+                    break;
+                case Four:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Three;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionOne;
+                    state.liftDPadChanged = true;
+                    break;
+                case Five:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Four;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionTwo;
+                    state.liftDPadChanged = true;
+                    break;
+                case Six:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Five;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionTwo;
+                    state.liftDPadChanged = true;
+                    break;
+                case Seven:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Six;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionThree;
+                    state.liftDPadChanged = true;
+                    break;
+                case Eight:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Seven;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFour;
+                    state.liftDPadChanged = true;
+                    break;
+                case Nine:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Eight;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFour;
+                    state.liftDPadChanged = true;
+                    break;
+                case Ten:
+                    state.currentLiftServoStateDropOffPosition = LiftServoState.Nine;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFive;
+                    state.liftDPadChanged = true;
+                    break;
+            }
         }
     }
 }

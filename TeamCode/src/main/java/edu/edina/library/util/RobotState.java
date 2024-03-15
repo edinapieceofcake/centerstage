@@ -15,7 +15,6 @@ import edu.edina.library.enums.DropOffState;
 import edu.edina.library.enums.HangState;
 import edu.edina.library.enums.HangerState;
 import edu.edina.library.enums.LiftDriveState;
-import edu.edina.library.enums.LiftServoRange;
 import edu.edina.library.enums.LiftServoState;
 import edu.edina.library.enums.LiftSlideState;
 import edu.edina.library.enums.PickUpState;
@@ -40,13 +39,12 @@ public class RobotState {
     public HangState hangState;
     public HangerState hangerState;
     public int currentHangerPosition;
-    public LiftServoRange liftServoRange;
     public double currentTriggerStrength;
-    public int currentLowDropOffPosition;
-    public int currentHighDropOffPostiion;
+    public int currentLiftMotorDropOffPosition;
+    public LiftServoState currentLiftServoStateDropOffPosition;
     public Deadline secondExtensionTimeout = new Deadline(1000, TimeUnit.MILLISECONDS);
     public Deadline hangLiftDelay = new Deadline(600, TimeUnit.MILLISECONDS);
-
+    public boolean liftDPadChanged = false;
 
     // claw properties
     public TwistServoState twistServoState;
@@ -76,7 +74,6 @@ public class RobotState {
         rightClawState = ClawState.Opened;
         leftClawState = ClawState.Opened;
         autoClawState = ClawState.Opened;
-        liftServoRange = LiftServoRange.Low;
         dropOffOrientation = DropOffOrientation.Center;
     }
 
@@ -94,6 +91,8 @@ public class RobotState {
         telemetry.addData("Bottom Motor LiftPosition", currentBottomMotorPosition);
         telemetry.addData("LiftSlidePower", currentLiftSlidePower);
         telemetry.addData("LiftServoState", currentLiftServoState);
+        telemetry.addData("CurrentLiftMotorDropOffPosition", currentLiftMotorDropOffPosition);
+        telemetry.addData("CurrentLiftServoStateDropOffPosition", currentLiftServoStateDropOffPosition);
         telemetry.addData("LiftDriveState", currentLiftDriveState);
         telemetry.addData("LastKnownLiftDriveState", lastKnownLiftState);
         telemetry.addData("PickUpState", pickUpState);
@@ -101,7 +100,6 @@ public class RobotState {
         telemetry.addData("currentTopMotorTargetPosition", currentTopMotorTargetPosition);
         telemetry.addData("Twist Servo State: ", twistServoState);
         telemetry.addData("AngleClawState", angleClawState);
-        telemetry.addData("liftServoRange", liftServoRange);
         telemetry.addData("Current Lift Angle, Length, Height: ", "%f %f %f", currentLiftAngle, currentLiftLength, currentLiftHeight);
         telemetry.addData("Sin Current Lift Angle", Math.sin(Math.toRadians(currentLiftAngle)));
 

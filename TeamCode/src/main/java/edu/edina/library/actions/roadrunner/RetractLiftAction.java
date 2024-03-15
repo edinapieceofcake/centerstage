@@ -37,7 +37,7 @@ public class RetractLiftAction implements Action {
             started = true;
 
             state.pickUpState = PickUpState.Start;
-            state.lastKnownLiftState = LiftDriveState.LowDropOff;
+            state.lastKnownLiftState = LiftDriveState.DropOff;
             state.currentLiftDriveState = LiftDriveState.Drive;
             state.currentLiftSlideState = LiftSlideState.Retracting;
         }
@@ -50,8 +50,6 @@ public class RetractLiftAction implements Action {
             return true;
         } else {
             state.lastKnownLiftState = LiftDriveState.Drive;
-            config.liftLowDropOffPosition = -600;
-
             return false;
         }
     }
