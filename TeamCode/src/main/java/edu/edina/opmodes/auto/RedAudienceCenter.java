@@ -5,11 +5,13 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
+import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import edu.edina.library.enums.PropLocation;
 
 @Autonomous
+@Photon
 //@Disabled
 public class RedAudienceCenter extends RedAudience {
 
