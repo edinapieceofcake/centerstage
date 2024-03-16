@@ -1,5 +1,6 @@
 package edu.edina.opmodes.auto;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -12,8 +13,12 @@ import edu.edina.library.enums.PropLocation;
 
 @Autonomous
 @Photon
+@Config
 //@Disabled
 public class RedAudienceCenter extends RedAudience {
+
+    public static double DRIVEINX_FIRSTPICKUP = -58;
+    public static double DRIVEINX_SECONDPICKUP = -53;
 
     @Override
     protected void runPaths() {
@@ -49,7 +54,7 @@ public class RedAudienceCenter extends RedAudience {
                             .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
                             .setReversed(false)
                             .splineToSplineHeading(new Pose2d(-55, -12, Math.toRadians(180)), Math.toRadians(180))
-                            .lineToX(-58)
+                            .lineToX(DRIVEINX_FIRSTPICKUP)
                             .build()
             );
         } else if (propLocation == PropLocation.Center) {
@@ -65,7 +70,7 @@ public class RedAudienceCenter extends RedAudience {
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
                             .afterDisp(0, manager.runLiftToPosition(-180))
                             .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                            .lineToX(-58)
+                            .lineToX(DRIVEINX_FIRSTPICKUP)
                             .build()
             );
         } else {
@@ -80,7 +85,7 @@ public class RedAudienceCenter extends RedAudience {
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
                             .afterDisp(0, manager.runLiftToPosition(-180))
                             .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                            .lineToX(-58)
+                            .lineToX(DRIVEINX_FIRSTPICKUP)
                             .build()
             );
         }
@@ -172,7 +177,7 @@ public class RedAudienceCenter extends RedAudience {
                         .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
                         .afterDisp(0, manager.runLiftToPosition(-123))
                         .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                        .lineToX(-53)
+                        .lineToX(DRIVEINX_SECONDPICKUP)
                         .build()
         );
     }
