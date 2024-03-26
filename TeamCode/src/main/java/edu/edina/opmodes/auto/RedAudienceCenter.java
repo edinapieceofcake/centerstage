@@ -48,52 +48,54 @@ public class RedAudienceCenter extends RedAudience {
 
     protected void purpleToStack() {
 
-        if (propLocation == PropLocation.Left) {
-            Actions.runBlocking(
-                    drive.actionBuilder(drive.pose)
-                            // Head to Stacks
-                            .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(-35, -12, Math.toRadians(180)), Math.toRadians(45))
-                            // Prepare for grabbing - Trip 1
-                            .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                            .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP))
-                            .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                            .setReversed(false)
-                            .splineToSplineHeading(new Pose2d(-55, DRIVEINY_FIRSTPICKUPLEFT, Math.toRadians(180)), Math.toRadians(180))
-                            .lineToX(DRIVEINX_FIRSTPICKUP)
-                            .build()
-            );
-        } else if (propLocation == PropLocation.Center) {
-            // Drive to Stack Pick up 1st white
-            Actions.runBlocking(
-                    drive.actionBuilder(drive.pose)
-                            // Head to Stacks
-                            .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(-48, -18, Math.toRadians(180)), Math.toRadians(90))
-                            .splineToSplineHeading(new Pose2d(-50, DRIVEINY_FIRSTPICKUPCENTER, Math.toRadians(180)), Math.toRadians(90))
-                            .setReversed(false)
-                            // Prepare for grabbing - Trip 1
-                            .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                            .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP))
-                            .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                            .lineToX(DRIVEINX_FIRSTPICKUP)
-                            .build()
-            );
-        } else {
-            // Drive to Stack Pick up 1st white
-            Actions.runBlocking(
-                    drive.actionBuilder(drive.pose)
-                            // Head to Stacks
-                            .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(-45, DRIVEINY_FIRSTPICKUPRIGHT, Math.toRadians(180)), Math.toRadians(90))
-                            // Prepare for grabbing - Trip 1
-                            .setReversed(false)
-                            .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                            .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP))
-                            .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                            .lineToX(DRIVEINX_FIRSTPICKUP)
-                            .build()
-            );
+        switch(propLocation) {
+            case Left:
+                Actions.runBlocking(
+                        drive.actionBuilder(drive.pose)
+                                // Head to Stacks
+                                .setReversed(true)
+                                .splineToSplineHeading(new Pose2d(-35, -12, Math.toRadians(180)), Math.toRadians(45))
+                                // Prepare for grabbing - Trip 1
+                                .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
+                                .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP))
+                                .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
+                                .setReversed(false)
+                                .splineToSplineHeading(new Pose2d(-55, DRIVEINY_FIRSTPICKUPLEFT, Math.toRadians(180)), Math.toRadians(180))
+                                .lineToX(DRIVEINX_FIRSTPICKUP)
+                                .build()
+                );
+                break;
+            case Center:
+                Actions.runBlocking(
+                        drive.actionBuilder(drive.pose)
+                                // Head to Stacks
+                                .setReversed(true)
+                                .splineToSplineHeading(new Pose2d(-48, -18, Math.toRadians(180)), Math.toRadians(90))
+                                .splineToSplineHeading(new Pose2d(-50, DRIVEINY_FIRSTPICKUPCENTER, Math.toRadians(180)), Math.toRadians(90))
+                                .setReversed(false)
+                                // Prepare for grabbing - Trip 1
+                                .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
+                                .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP))
+                                .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
+                                .lineToX(DRIVEINX_FIRSTPICKUP)
+                                .build()
+                );
+                break;
+            default:    // Left or unknown
+                Actions.runBlocking(
+                        drive.actionBuilder(drive.pose)
+                                // Head to Stacks
+                                .setReversed(true)
+                                .splineToSplineHeading(new Pose2d(-45, DRIVEINY_FIRSTPICKUPRIGHT, Math.toRadians(180)), Math.toRadians(90))
+                                // Prepare for grabbing - Trip 1
+                                .setReversed(false)
+                                .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
+                                .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP))
+                                .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
+                                .lineToX(DRIVEINX_FIRSTPICKUP)
+                                .build()
+                );
+                break;
         }
     }
 
@@ -129,8 +131,14 @@ public class RedAudienceCenter extends RedAudience {
 
                             // Release Yellow + White
                             .stopAndAdd(manager.openRightClaw())
-                            .strafeTo(backdropDropLocationSecond)
+
+                            .setReversed(true)
+                            .splineToConstantHeading(backdropDropLocationSecond, Math.toRadians(0))
+                            .setReversed(false)
+                            .lineToX(50)
+
                             .stopAndAdd(manager.openLeftClaw())
+                            .stopAndAdd(manager.openAutoClaw())
                             .waitSeconds(0.25)
                             .build()
             );
@@ -165,6 +173,7 @@ public class RedAudienceCenter extends RedAudience {
                             // Release Yellow + White
                             .stopAndAdd(manager.openRightClaw())
                             .afterTime(0.25, manager.openLeftClaw())
+                            .afterTime(0.25, manager.openAutoClaw())
                             .waitSeconds(0.25)
                             .build()
             );
@@ -203,11 +212,12 @@ public class RedAudienceCenter extends RedAudience {
 
                             // Release Yellow + White
                             .stopAndAdd(manager.openRightClaw())
-                            .lineToX(48)
-                            .strafeToConstantHeading(backdropDropLocationSecond)
+                            .setReversed(true)
+                            .splineToConstantHeading(backdropDropLocationSecond, Math.toRadians(0))
+                            .setReversed(false)
                             .lineToX(50)
-                            .afterTime(0.2, manager.openLeftClaw())
-                            .afterTime(0.2, manager.openAutoClaw())
+                            .stopAndAdd(manager.openLeftClaw())
+                            .stopAndAdd(manager.openAutoClaw())
                             .waitSeconds(0.25)
 
                             // Back up and pack up
@@ -263,7 +273,6 @@ public class RedAudienceCenter extends RedAudience {
                             // Back up and pack up
                             .lineToX(50)
                             .afterTime(0.5, manager.getLiftReadyToDrive())
-
 
                             // Drive back to stacks
                             .setReversed(true)
@@ -310,8 +319,8 @@ public class RedAudienceCenter extends RedAudience {
 
                         // Release all pixels
                         .afterTime(0, manager.openLeftClaw())
-                        .afterTime(0.2, manager.openAutoClaw())
                         .afterTime(0, manager.openRightClaw())
+                        .afterTime(0.2, manager.openAutoClaw())
                         .waitSeconds(0.25)
                         .build()
         );
@@ -352,9 +361,9 @@ public class RedAudienceCenter extends RedAudience {
                         .splineTo(new Vector2d(55, -12), Math.toRadians(0))
 
                         // Release all pixels
-                        .afterTime(0, manager.openAutoClaw())
                         .afterTime(0, manager.openLeftClaw())
                         .afterTime(0, manager.openRightClaw())
+                        .afterTime(0.2, manager.openAutoClaw())
                         .waitSeconds(0.25)
                         .build()
         );
