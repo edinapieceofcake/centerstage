@@ -44,6 +44,7 @@ public class DropOffPixelAction implements Action {
             state.currentLiftSlideState = LiftSlideState.Extending;
             state.dropOffOrientation = DropOffOrientation.Center;
             state.dropOffState = DropOffState.Start;
+            state.currentLiftMotorDropOffPosition = config.liftDropOffPositionOne;
             state.currentLiftServoStateDropOffPosition = LiftServoState.Two;
             if (isBackstage) {
                 state.currentLiftServoStateDropOffPosition = LiftServoState.One;
