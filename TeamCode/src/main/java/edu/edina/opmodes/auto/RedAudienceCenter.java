@@ -305,8 +305,8 @@ public class RedAudienceCenter extends RedAudience {
                         .setReversed(true)
                         .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
                         .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
-                        .splineTo(new Vector2d(40, -12), Math.toRadians(0))
-                        .splineTo(new Vector2d(50, -20), Math.toRadians(-25))
+                        .splineTo(new Vector2d(35, -12), Math.toRadians(0))
+                        .splineTo(new Vector2d(50, -23), Math.toRadians(-20))
 
                         // Release all pixels
                         .afterTime(0, manager.openLeftClaw())

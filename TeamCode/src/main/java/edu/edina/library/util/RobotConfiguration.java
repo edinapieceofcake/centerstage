@@ -27,7 +27,7 @@ public class RobotConfiguration {
     public final double angleClawMediumDropOffPosition = 0.52;
     public final double angleClawHighDropOffPosition = .4;
 
-    public final double leftAutoLowAngleClawServoDropOffPosition = 0.55;
+    public final double leftAutoLowAngleClawServoDropOffPosition = 0.79;
     public final double leftAutoMediumAngleClawServoDropOffPosition = 0.52;
     public final double leftAutoHighAngleClawServoDropOffPosition = 0.52;
 
@@ -35,11 +35,11 @@ public class RobotConfiguration {
     public final double leftTeleopMediumAngleClawServoDropOffPosition = 0.52;
     public final double leftTeleopHighAngleClawServoDropOffPosition = 0.52;
 
-    public final double rightLowAngleClawServoDropOffPosition = 0.619;
+    public final double rightLowAngleClawServoDropOffPosition = 0.789;
     public final double rightMediumAngleClawServoDropOffPosition = 0.469;
     public final double rightHighAngleClawServoDropOffPosition = 0.52;
 
-    public final double leftAutoLowTwistClawServoDropOffPosition = 0.4277;
+    public final double leftAutoLowTwistClawServoDropOffPosition = 0.4297;
     public final double leftAutoMediumTwistClawServoDropOffPosition = 0.4277;
     public final double leftAutoHighTwistClawServoDropOffPosition = 0.4277;
 

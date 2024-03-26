@@ -5,17 +5,15 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
 public class PoCServo {
     private ServoImplEx servo;
     private double currentPosition;
-    private boolean positionSetOnce = false;
     public PoCServo (ServoImplEx servo) {
         this.servo = servo;
-        currentPosition = servo.getPosition();
+        currentPosition = -1;
     }
 
     public void setPosition(double position) {
-        if (!positionSetOnce || (currentPosition != position)) {
+        if (currentPosition != position) {
             currentPosition = position;
             servo.setPosition(currentPosition);
-            positionSetOnce = true;
         }
     }
 
