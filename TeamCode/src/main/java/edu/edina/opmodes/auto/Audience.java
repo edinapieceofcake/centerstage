@@ -28,6 +28,7 @@ public class Audience extends LinearOpMode {
     protected PropLocation propLocation = PropLocation.Right;
     protected PropLocation lastPropLocation = PropLocation.Right;
     protected Vector2d backdropDropLocation;
+    protected Vector2d backdropDropLocationSecond;
 
     protected boolean makeSecondTrip = false;
     protected boolean yellowPixel = false;

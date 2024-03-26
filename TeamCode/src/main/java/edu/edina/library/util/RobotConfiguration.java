@@ -14,15 +14,15 @@ public class RobotConfiguration {
     public final double clawRightClosedPosition = 0.39;
     public final double clawRightOpenPosition = 0.54;
     public final double clawRightOpenDropPosition = 0.48;
-    public final double autoClawServoOpenPosition = 0.70;
+    public final double autoClawServoOpenPosition = 0.7;
     public final double autoClawServoClosePosition = 1.0;
     public final double autoClawServoOpenDropPosition = .85;
-    public final double twistClawServoPickUpPosition = 0.4983;
+    public final double twistClawServoPickUpPosition = 0.5;
     public final double twistClawServoDropOffPosition = 0.621;
 
-    public final double angleClawPickupPosition = .55;
-    public final double angleClawStackPickupPosition = .60;
-    public final double angleClawDrivePosition = .77;
+    public final double angleClawPickupPosition = .45;
+    public final double angleClawStackPickupPosition = .55;
+    public final double angleClawDrivePosition = .7;
     public final double angleClawLowDropOffPosition = .52;
     public final double angleClawMediumDropOffPosition = 0.52;
     public final double angleClawHighDropOffPosition = .4;

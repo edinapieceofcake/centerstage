@@ -11,10 +11,10 @@ public class PoCServo {
     }
 
     public void setPosition(double position) {
-        if (currentPosition != position) {
+        //if (currentPosition != position) {
             currentPosition = position;
             servo.setPosition(currentPosition);
-        }
+        //}
     }
 
     public double getPosition() {

@@ -104,7 +104,7 @@ public class Claw implements Subsystem {
             switch(state.autoClawState){
                 case Opened:
                     if (state.twistServoState == TwistServoState.Pickup) {
-                        hardware.autoClawServo.setPosition(config.autoClawServoOpenDropPosition);
+                        hardware.autoClawServo.setPosition(config.autoClawServoOpenPosition);
                     } else {
                         hardware.autoClawServo.setPosition(config.autoClawServoOpenDropPosition);
                     }
