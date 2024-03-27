@@ -16,13 +16,11 @@ import edu.edina.library.enums.PropLocation;
 @Config
 public class RedAudienceWall extends RedAudience {
 
-    public static double DRIVEINX_FIRSTPICKUP = -60;
-    public static double DRIVEINY_FIRSTPICKUPLEFT = -36;
-    public static double DRIVEINY_FIRSTPICKUPCENTER = -36;
-    public static double DRIVEINY_FIRSTPICKUPRIGHT = -36;
-    public static double DRIVEINX_SECONDPICKUP = -61.5;
-    public static double DRIVEINY_SECONDPICKUP = -36;
-    public static int EXTENDARM_FIRSTPICKUP = -180;
+    public static double DRIVEINX_FIRSTPICKUP = -59;
+    public static double DRIVEINY_FIRSTPICKUP = -35.5;
+    public static double DRIVEINX_SECONDPICKUP = -64;
+    public static double DRIVEINY_SECONDPICKUP = -34;
+    public static int EXTENDARM_FIRSTPICKUP = -200;
     public static int EXTENDARM_SECONDPICKUP = -100;
 
     @Override
@@ -47,44 +45,25 @@ public class RedAudienceWall extends RedAudience {
 
     protected void purpleToStack() {
 
-        switch (propLocation) {
-//            case Left:
-//                Actions.runBlocking(
-//                        drive.actionBuilder(drive.pose)
-//                                // Head to Stacks
-//                                .setReversed(true)
-//                                .turnTo(Math.toRadians(180))
-//                                // Prepare for grabbing - Trip 1
-//                                .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-//                                .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP))
-//                                .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-//                                .setReversed(false)
-//                                .splineToSplineHeading(new Pose2d(-55, DRIVEINY_FIRSTPICKUPLEFT, Math.toRadians(180)), Math.toRadians(180))
-//                                .lineToX(DRIVEINX_FIRSTPICKUP)
-//                                .build()
-//                );
-//                break;
-            default:
-                // Drive to Stack Pick up 1st white
-                Actions.runBlocking(
-                        drive.actionBuilder(drive.pose)
-                                // Head to Stacks
-                                .setReversed(true)
-                                .splineTo(new Vector2d(-36, -54), Math.toRadians(90))
-                                .setReversed(false)
+        // Drive to Stack Pick up 1st white
+        Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        // Head to Stacks
+                        .setReversed(true)
+                        .splineTo(new Vector2d(-31, -54), Math.toRadians(315))
+                        .setReversed(false)
 
-                                .splineToSplineHeading(new Pose2d(-50, -36, Math.toRadians(180)), Math.toRadians(90))
+                        .splineToSplineHeading(new Pose2d(-44, DRIVEINY_FIRSTPICKUP, Math.toRadians(180)), Math.toRadians(180))
 
-                                // Prepare for grabbing - Trip 1
-                                .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                                .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP))
-                                .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                                .splineToSplineHeading(new Pose2d(-55, DRIVEINY_FIRSTPICKUPLEFT, Math.toRadians(180)), Math.toRadians(180))
-                                .lineToX(DRIVEINX_FIRSTPICKUP)
-                                .build()
-                );
-                break;
-        }
+                        //.splineToSplineHeading(new Pose2d(-55, DRIVEINY_FIRSTPICKUP, Math.toRadians(180)), Math.toRadians(180))
+                        .lineToX(DRIVEINX_FIRSTPICKUP)
+                        // Prepare for grabbing - Trip 1
+                        .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
+                        .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP))
+                        .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
+
+                        .build()
+        );
     }
 
     protected void stackToYellow() {
@@ -103,23 +82,24 @@ public class RedAudienceWall extends RedAudience {
                         .waitSeconds(delayTime / 1000) // Optional Wait
 
                         // Finish backing away and prepare to drive
-                        .lineToX(-53)
+                        .lineToX(-54)
                         .afterDisp(3, manager.lowerLiftForDriving())
                         .afterDisp(3, manager.zeroLift())
                         .afterDisp(3, manager.positionTheClawToDriveWithPixels())
 
                         // Head to backdrop
                         .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -56), Math.toRadians(0)), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -58), Math.toRadians(0)), Math.toRadians(0))
                         .afterDisp(30, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                        .splineToConstantHeading(new Vector2d(10, -56), Math.toRadians(0))
-                        .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
+                        .splineToConstantHeading(new Vector2d(10, -58), Math.toRadians(0))
+                        .splineToConstantHeading(backdropDropLocationAW, Math.toRadians(0))
 
                         // Release Yellow + White
                         .stopAndAdd(manager.openRightClaw())
                         .afterTime(0.25, manager.openLeftClaw())
                         .afterTime(0.25, manager.openAutoClaw())
                         .waitSeconds(0.25)
+                        .lineToX(48)
                         .build()
         );
 
@@ -141,7 +121,7 @@ public class RedAudienceWall extends RedAudience {
                         .stopAndAdd(manager.raiseLiftAfterStackPickup())
                         .waitSeconds(delayTime / 1000)
 
-                        // Finish backing away and prepare to drive
+                        // Finish backing away and prepae to drive
                         .lineToX(-53)
                         .afterDisp(3, manager.lowerLiftForDriving())
                         .afterDisp(3, manager.zeroLift())
@@ -149,25 +129,25 @@ public class RedAudienceWall extends RedAudience {
 
                         // Return to backdrop
                         .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -56), Math.toRadians(0)), Math.toRadians(0))
-                        .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
-                        .splineToConstantHeading(new Vector2d(10, -56), Math.toRadians(0))
-                        .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -58), Math.toRadians(0)), Math.toRadians(0))
+                        .afterDisp(30, manager.getLiftReadyToDropThePixelHighOnTheWall())
+                        .splineToConstantHeading(new Vector2d(10, -58), Math.toRadians(0))
+                        .splineToConstantHeading(backdropDropLocationAW, Math.toRadians(0))
 
                         // Release Yellow + White
                         .stopAndAdd(manager.openRightClaw())
                         .afterTime(0.25, manager.openLeftClaw())
-                        .afterTime(0.2, manager.openAutoClaw())
+                        .afterTime(0.25, manager.openAutoClaw())
                         .waitSeconds(0.25)
 
                         // Back up and pack up
-                        .lineToX(50)
+                        .lineToX(47)
                         .afterDisp(0, manager.getLiftReadyToDrive())
 
                         // Head to Stacks VIA Wall
                         .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(0, -54, Math.toRadians(-180)), Math.toRadians(180))
-                        .splineToConstantHeading(new Vector2d(-38, -56), Math.toRadians(180))
+                        .splineToSplineHeading(new Pose2d(0, -58, Math.toRadians(-180)), Math.toRadians(180))
+                        .splineToConstantHeading(new Vector2d(-38, -58), Math.toRadians(180))
                         .splineToConstantHeading(new Vector2d(-50,  DRIVEINY_SECONDPICKUP), Math.toRadians(180))
 
                         // Prepare for grabbing - Trip 2
@@ -202,11 +182,11 @@ public class RedAudienceWall extends RedAudience {
 
                         // Return to backdrop and angle drop
                         .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -56), Math.toRadians(0)), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -58), Math.toRadians(0)), Math.toRadians(0))
                         .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
-                        .splineToConstantHeading(new Vector2d(10, -56), Math.toRadians(0))
-                        .splineTo(new Vector2d(40, -56), Math.toRadians(0))
-                        .splineTo(new Vector2d(59.5, -53), Math.toRadians(35))
+                        .splineToConstantHeading(new Vector2d(10, -58), Math.toRadians(0))
+                        .splineTo(new Vector2d(30, -58), Math.toRadians(0))
+                        .splineTo(new Vector2d(48.5, -53), Math.toRadians(35))
 
                         // Release all pixels
                         .afterTime(0.0, manager.openLeftClaw())
@@ -219,7 +199,7 @@ public class RedAudienceWall extends RedAudience {
         Actions.runBlocking(new SequentialAction(
                 drive.actionBuilder(drive.pose)
                         // Back up and pack up
-                        .lineToX(48)
+                        .lineToX(47)
                         .afterDisp(1, manager.getLiftReadyToDrive())
                         .build()));
     }
@@ -247,11 +227,9 @@ public class RedAudienceWall extends RedAudience {
 
                         // Return to backdrop and angle drop
                         .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -56), Math.toRadians(0)), Math.toRadians(0))
-                        .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
-                        .splineToConstantHeading(new Vector2d(10, -56), Math.toRadians(0))
-                        .splineTo(new Vector2d(40, -56), Math.toRadians(0))
-                        .splineTo(new Vector2d(59.5, -53), Math.toRadians(35))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -58), Math.toRadians(0)), Math.toRadians(0))
+                        .splineToConstantHeading(new Vector2d(10, -58), Math.toRadians(0))
+                        .splineTo(new Vector2d(50, -58), Math.toRadians(0))
 
                         // Release all pixels
                         .afterTime(0, manager.openLeftClaw())
@@ -264,7 +242,7 @@ public class RedAudienceWall extends RedAudience {
         Actions.runBlocking(new SequentialAction(
                 drive.actionBuilder(drive.pose)
                         // Back up
-                        .lineToX(58)
+                        .lineToX(48)
                         .build()));
     }
 }

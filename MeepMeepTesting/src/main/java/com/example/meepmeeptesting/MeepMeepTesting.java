@@ -660,16 +660,18 @@ public class MeepMeepTesting {
         redAudienceWallParkCorner.runAction(redAudienceWallParkCorner.getDrive().actionBuilder(new Pose2d(-42, -64, Math.toRadians(90)))
                 .splineTo(new Vector2d(-38, -36), Math.toRadians(90))
                 .setReversed(true)
+                .splineTo(new Vector2d(-36,-54), Math.toRadians(270))
+                        .setReversed(false)
                 .splineToSplineHeading(new Pose2d(-52, -36, Math.toRadians(180)), Math.toRadians(180))
                 .lineToX(-55.5)
-                .lineToX(-48)
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(10, -60), Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(49,-38), Math.toRadians(0))
-                .lineToX(44)
-                .setReversed(true)
-                .splineTo(new Vector2d(58, -64), Math.toRadians(0))
+//                .lineToX(-48)
+//                .setReversed(true)
+//                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
+//                .splineToConstantHeading(new Vector2d(10, -60), Math.toRadians(0))
+//                .splineToConstantHeading(new Vector2d(49,-38), Math.toRadians(0))
+//                .lineToX(44)
+//                .setReversed(true)
+//                .splineTo(new Vector2d(58, -64), Math.toRadians(0))
                 .build());
 
         RoadRunnerBotEntity redAudienceWallParkCenter = new DefaultBotBuilder(meepMeep)
@@ -1066,59 +1068,59 @@ public class MeepMeepTesting {
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
                 // blue
-                .addEntity(blueAudience)
-                // blue audience center
-                .addEntity(blueAudienceCenterParkCenter)
-                .addEntity(blueAudienceCenterParkCorner)
-                .addEntity(blueAudienceCenterTwoWhitesOnBackStage)
-                .addEntity(blueAudienceCenterTwoWhitesOnBackDrop) // dpad up
-                // blue audience wall
-                .addEntity(blueAudienceWallParkCorner)
-                .addEntity(blueAudienceWallParkCenter)
-                .addEntity(blueAudienceWallBackdropCenterWithTwoWhites) // dpad up
-                .addEntity(blueAudienceWallParkCornerWithTwoWhites) // dpad down
-                // blue backstage
-                .addEntity(blueBackstageParkCenter)
-                .addEntity(blueBackstageParkCorner)
-                // blue backstage center
-                .addEntity(blueBackstageCenterTwoWhitesInCenter)
-                .addEntity(blueBackstageCenterFourWhitesInCenter)
-                .addEntity(blueBackstageCenterTwoWhitesOnBackdropParkInCenter) // new
-                .addEntity(blueBackstageCenterTwoWhitesOnBackdropParkInCorner) // new
-                .addEntity(blueBackstageCenterFourWhitesOnBackdrop) // new
-                // blue backstage wall
-                .addEntity(blueBackstageWallTwoWhitesOnBackstage) // new
-                .addEntity(blueBackstageWallFourWhitesOnBackstage) // new
-                .addEntity(blueBackstageWallTwoWhitesOnBackdropParkInCenter) // new
-                .addEntity(blueBackstageWallTwoWhitesOnBackdropParkInCorner) // new
-                .addEntity(blueBackstageWallFourWhitesOnBackdrop) // new
+//                .addEntity(blueAudience)
+//                // blue audience center
+//                .addEntity(blueAudienceCenterParkCenter)
+//                .addEntity(blueAudienceCenterParkCorner)
+//                .addEntity(blueAudienceCenterTwoWhitesOnBackStage)
+//                .addEntity(blueAudienceCenterTwoWhitesOnBackDrop) // dpad up
+//                // blue audience wall
+//                .addEntity(blueAudienceWallParkCorner)
+//                .addEntity(blueAudienceWallParkCenter)
+//                .addEntity(blueAudienceWallBackdropCenterWithTwoWhites) // dpad up
+//                .addEntity(blueAudienceWallParkCornerWithTwoWhites) // dpad down
+//                // blue backstage
+//                .addEntity(blueBackstageParkCenter)
+//                .addEntity(blueBackstageParkCorner)
+//                // blue backstage center
+//                .addEntity(blueBackstageCenterTwoWhitesInCenter)
+//                .addEntity(blueBackstageCenterFourWhitesInCenter)
+//                .addEntity(blueBackstageCenterTwoWhitesOnBackdropParkInCenter) // new
+//                .addEntity(blueBackstageCenterTwoWhitesOnBackdropParkInCorner) // new
+//                .addEntity(blueBackstageCenterFourWhitesOnBackdrop) // new
+//                // blue backstage wall
+//                .addEntity(blueBackstageWallTwoWhitesOnBackstage) // new
+//                .addEntity(blueBackstageWallFourWhitesOnBackstage) // new
+//                .addEntity(blueBackstageWallTwoWhitesOnBackdropParkInCenter) // new
+//                .addEntity(blueBackstageWallTwoWhitesOnBackdropParkInCorner) // new
+//                .addEntity(blueBackstageWallFourWhitesOnBackdrop) // new
                 // red
-                .addEntity(redAudience)
+                //.addEntity(redAudience)
                 // red audience center
-                .addEntity(redAudienceCenterParkCenter)
-                .addEntity(redAudienceCenterParkCorner)
-                .addEntity(redAudienceCenterTwoWhitesOnBackStage) // dpad down
-                .addEntity(redAudienceCenterTwoWhitesOnBackDrop) // dpad up
-                // red audience wall
+                //.addEntity(redAudienceCenterParkCenter)
+//                .addEntity(redAudienceCenterParkCorner)
+//                .addEntity(redAudienceCenterTwoWhitesOnBackStage) // dpad down
+//                .addEntity(redAudienceCenterTwoWhitesOnBackDrop) // dpad up
+//                // red audience wall
                 .addEntity(redAudienceWallParkCorner)
-                .addEntity(redAudienceWallParkCenter)
-                .addEntity(redAudienceWallParkCornerWithTwoWhites) // dpad down
-                .addEntity(redAudienceWallBackdropCenterWithTwoWhites) // dpad up
-                // red backstage
-                .addEntity(redBackstageParkCenter)
-                .addEntity(redBackstageParkCorner)
-                // red backstage center
-                .addEntity(redBackstageCenterTwoWhitesInCenter)
-                .addEntity(redBackstageCenterFourWhitesInCenter)
-                .addEntity(redBackstageCenterTwoWhitesOnBackdropParkInCenter) // new
-                .addEntity(redBackstageCenterTwoWhitesOnBackdropParkInCorner) // new
-                .addEntity(redBackstageCenterFourWhitesOnBackdrop) // new
-                // red backstage wall
-                .addEntity(redBackstageWallTwoWhitesOnBackstage) // new
-                .addEntity(redBackstageWallFourWhitesOnBackstage) // new
-                .addEntity(redBackstageWallTwoWhitesOnBackdropParkInCenter) // new
-                .addEntity(redBackstageWallTwoWhitesOnBackdropParkInCorner) // new
-                .addEntity(redBackstageWallFourWhitesOnBackdrop) // new
+//                .addEntity(redAudienceWallParkCenter)
+//                .addEntity(redAudienceWallParkCornerWithTwoWhites) // dpad down
+//                .addEntity(redAudienceWallBackdropCenterWithTwoWhites) // dpad up
+//                // red backstage
+//                .addEntity(redBackstageParkCenter)
+//                .addEntity(redBackstageParkCorner)
+//                // red backstage center
+//                .addEntity(redBackstageCenterTwoWhitesInCenter)
+//                .addEntity(redBackstageCenterFourWhitesInCenter)
+//                .addEntity(redBackstageCenterTwoWhitesOnBackdropParkInCenter) // new
+//                .addEntity(redBackstageCenterTwoWhitesOnBackdropParkInCorner) // new
+//                .addEntity(redBackstageCenterFourWhitesOnBackdrop) // new
+//                // red backstage wall
+//                .addEntity(redBackstageWallTwoWhitesOnBackstage) // new
+//                .addEntity(redBackstageWallFourWhitesOnBackstage) // new
+//                .addEntity(redBackstageWallTwoWhitesOnBackdropParkInCenter) // new
+//                .addEntity(redBackstageWallTwoWhitesOnBackdropParkInCorner) // new
+//                .addEntity(redBackstageWallFourWhitesOnBackdrop) // new
                 .start();
     }
 }
