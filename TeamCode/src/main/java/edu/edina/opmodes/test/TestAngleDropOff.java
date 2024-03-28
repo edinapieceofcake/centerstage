@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.PoCMecanumDrive;
 
 import edu.edina.library.actions.roadrunner.ActionManager;
+import edu.edina.library.enums.LiftServoState;
 import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.RobotState;
@@ -25,8 +26,10 @@ public class TestAngleDropOff extends LinearOpMode  {
         RobotConfiguration config = RobotConfiguration.getInstance();
         SmartGamepad pad1 = new SmartGamepad(gamepad1);
         ActionManager manager = new ActionManager(hardware);
+        LiftServoState liftServoState = LiftServoState.One;
         boolean leftOpened = true;
         boolean rightOpened = true;
+        boolean liftRaised = false;
 
         // use out version of the drive based off the hardware that we created above.
 
@@ -45,18 +48,28 @@ public class TestAngleDropOff extends LinearOpMode  {
                 Actions.runBlocking(new SequentialAction(
                         manager.getLiftReadyToDropPixelFromLeft()
                 ));
+                liftRaised = true;
+            }
+
+            if (pad1.y) {
+                Actions.runBlocking(new SequentialAction(
+                        manager.getLiftReadytoDropThePixelAtSpecificHeight(liftServoState)
+                ));
+                liftRaised = true;
             }
 
             if (pad1.b) {
                 Actions.runBlocking(new SequentialAction(
                         manager.getLiftReadyToDropPixelFromRight()
                 ));
+                liftRaised = true;
             }
 
             if (pad1.a) {
                 Actions.runBlocking(new SequentialAction(
                         manager.getLiftReadyToDrive()
                 ));
+                liftRaised = false;
             }
 
             if (pad1.dpad_left) {
@@ -73,6 +86,34 @@ public class TestAngleDropOff extends LinearOpMode  {
 
             if (pad1.dpad_down) {
                 hardware.angleClawServo.setPosition(hardware.angleClawServo.getPosition() - .01);
+            }
+
+            if (gamepad1.right_trigger != 0) {
+                // extend
+                int currentPosition = hardware.topLiftMotor.getCurrentPosition();
+                int newPosition = currentPosition - (int)(config.liftExtenstionStep * Math.abs(gamepad1.right_trigger));
+
+                hardware.topLiftMotor.setTargetPosition(newPosition);
+                hardware.bottomLiftMotor.setTargetPosition(newPosition);
+                hardware.topLiftMotor.setPower(config.liftExtendingPower);
+                hardware.bottomLiftMotor.setPower(config.liftExtendingPower);
+
+            } else if (gamepad1.left_trigger != 0) {
+                // intake
+                if (liftRaised && (hardware.topLiftMotor.getCurrentPosition() > config.minimumExtensionBeforeRaisingLiftInTicks)) {
+                    hardware.topLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks - 10);
+                    hardware.bottomLiftMotor.setTargetPosition(config.minimumExtensionBeforeRaisingLiftInTicks - 10);
+                    hardware.topLiftMotor.setPower(config.liftExtendingPower);
+                    hardware.bottomLiftMotor.setPower(config.liftExtendingPower);
+                } else {
+                    int currentPosition = hardware.topLiftMotor.getCurrentPosition();
+                    int newPosition = currentPosition + (int)(config.liftRetractingStep * Math.abs(gamepad1.left_trigger));
+
+                    hardware.topLiftMotor.setTargetPosition(newPosition);
+                    hardware.bottomLiftMotor.setTargetPosition(newPosition);
+                    hardware.topLiftMotor.setPower(config.liftRetractingPower);
+                    hardware.bottomLiftMotor.setPower(config.liftRetractingPower);
+                }
             }
 
             if (pad1.right_bumper) {
@@ -97,14 +138,82 @@ public class TestAngleDropOff extends LinearOpMode  {
                 }
             }
 
+            if (pad1.left_stick_button) {
+                switch (liftServoState) {
+                    case One:
+                        liftServoState = LiftServoState.Two;
+                        break;
+                    case Two:
+                        liftServoState = LiftServoState.Three;
+                        break;
+                    case Three:
+                        liftServoState = LiftServoState.Four;
+                        break;
+                    case Four:
+                        liftServoState = LiftServoState.Five;
+                        break;
+                    case Five:
+                        liftServoState = LiftServoState.Six;
+                        break;
+                    case Six:
+                        liftServoState = LiftServoState.Seven;
+                        break;
+                    case Seven:
+                        liftServoState = LiftServoState.Eight;
+                        break;
+                    case Eight:
+                        liftServoState = LiftServoState.Nine;
+                        break;
+                    case Nine:
+                        liftServoState = LiftServoState.Ten;
+                        break;
+                }
+            }
+
+            if (pad1.right_stick_button) {
+                switch (liftServoState) {
+                    case Two:
+                        liftServoState = LiftServoState.One;
+                        break;
+                    case Three:
+                        liftServoState = LiftServoState.Two;
+                        break;
+                    case Four:
+                        liftServoState = LiftServoState.Three;
+                        break;
+                    case Five:
+                        liftServoState = LiftServoState.Four;
+                        break;
+                    case Six:
+                        liftServoState = LiftServoState.Five;
+                        break;
+                    case Seven:
+                        liftServoState = LiftServoState.Six;
+                        break;
+                    case Eight:
+                        liftServoState = LiftServoState.Seven;
+                        break;
+                    case Nine:
+                        liftServoState = LiftServoState.Eight;
+                        break;
+                    case Ten:
+                        liftServoState = LiftServoState.Nine;
+                        break;
+                }
+            }
+
+            telemetry.addData("Triggers control the lift motor", "");
             telemetry.addData("Bumpers control the claws", "");
             telemetry.addData("Press X to drop off from left", "");
+            telemetry.addData("Press Y to drop off from center", "");
             telemetry.addData("Press B to drop off from right", "");
             telemetry.addData("Press A to packup lift", "");
             telemetry.addData("Dpad left/right controls twist servo", "");
             telemetry.addData("Dpad up/down controls angle servo", "");
+            telemetry.addData("Press left/right joysticks to raise/lower lift", "");
             telemetry.addData("Twist Claw Position: ", hardware.twistClawServo.getPosition());
             telemetry.addData("Angle Claw Position: ", hardware.angleClawServo.getPosition());
+            telemetry.addData("Lift servo state", liftServoState);
 
             telemetry.update();
         }

@@ -65,15 +65,17 @@ public class RobotHanger implements Subsystem {
                             case Two:
                             case Three:
                             case Four:
-                            case Five:
                                 hardware.robotHangerMotor.setTargetPosition(config.hangMotorLowDropOffPosition);
                                 break;
+                            case Five:
                             case Six:
                             case Seven:
+                                hardware.robotHangerMotor.setTargetPosition(config.hangMotorMediumDropOffPosition);
+                                break;
                             case Eight:
                             case Nine:
                             case Ten:
-                                hardware.robotHangerMotor.setTargetPosition(config.hangMotorMediumDropOffPosition);
+                                hardware.robotHangerMotor.setTargetPosition(config.hangMotorHighDropOffPosition);
                                 break;
                         }
                         hardware.robotHangerMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);

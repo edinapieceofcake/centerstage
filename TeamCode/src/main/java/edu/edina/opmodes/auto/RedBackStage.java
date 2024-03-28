@@ -21,6 +21,9 @@ import edu.edina.library.util.SmartGamepad;
 
 public class RedBackStage extends BackStage {
 
+    public static double X_PROPDROP = 57;
+    public static double LIFT_WAIT_TIME = .8;
+
     @Override
     protected Alliance getAlliance() {
         return Alliance.Red;
@@ -45,17 +48,17 @@ public class RedBackStage extends BackStage {
             case Left:
                 propDropLocation = new Vector2d(15.5, -42);
                 propDropAngle = 135.0;
-                backdropLocation = new Pose2d(42,-32, Math.toRadians(0));
+                backdropLocation = new Pose2d(48,-30, Math.toRadians(0));
                 break;
             case Right:
                 propDropLocation = new Vector2d(27, -43);
                 propDropAngle =65.0;
-                backdropLocation = new Pose2d(42,-45, Math.toRadians(0));
+                backdropLocation = new Pose2d(48,-45, Math.toRadians(0));
                 break;
             case Center:
             default:
                 propDropLocation = new Vector2d(16.5, -34.5);
-                backdropLocation = new Pose2d(42,-38, Math.toRadians(0));
+                backdropLocation = new Pose2d(48,-38, Math.toRadians(0));
                 break;
         }
 
@@ -70,10 +73,9 @@ public class RedBackStage extends BackStage {
 
                             // Drive to backdrop and release
                             .setTangent((propLocation == PropLocation.Right) ? Math.toRadians(-180) : Math.toRadians(0))
-                            .afterTime(0, manager.getLiftReadyToDropThePixelLowOnTheWall())
+                            .afterTime(LIFT_WAIT_TIME, manager.getLiftReadyToDropThePixelLowOnTheWall())
                             .splineToSplineHeading(backdropLocation, Math.toRadians(0))
-                            .waitSeconds(.1)
-                            .lineToX(53)
+                            .lineToX(X_PROPDROP)
                             .stopAndAdd(manager.openRightClaw())
                             .build()
             );
@@ -87,9 +89,9 @@ public class RedBackStage extends BackStage {
 
                             // Drive to backdrop and release
                             .setTangent((propLocation == PropLocation.Right) ? Math.toRadians(-180) : Math.toRadians(0))
-                            .afterTime(0, manager.getLiftReadyToDropThePixelLowOnTheWall())
+                            .afterTime(LIFT_WAIT_TIME, manager.getLiftReadyToDropThePixelLowOnTheWall())
                             .splineToSplineHeading(backdropLocation, Math.toRadians(0))
-                            .lineToX(53)
+                            .lineToX(X_PROPDROP)
                             .stopAndAdd(manager.openRightClaw())
                             .build()
             );

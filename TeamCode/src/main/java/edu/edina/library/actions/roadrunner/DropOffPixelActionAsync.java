@@ -22,16 +22,16 @@ import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotState;
 
 public class DropOffPixelActionAsync implements Action {
-    private boolean isBackstage = false;
+    private LiftServoState liftServoState;
     private Claw claw;
     private Lift lift;
     private RobotHanger robotHanger;
 
-    public DropOffPixelActionAsync(Claw claw, Lift lift, RobotHanger robotHanger, boolean isBackstage) {
+    public DropOffPixelActionAsync(Claw claw, Lift lift, RobotHanger robotHanger, LiftServoState liftServoState) {
         this.claw = claw;
         this.lift = lift;
         this.robotHanger = robotHanger;
-        this.isBackstage = isBackstage;
+        this.liftServoState = liftServoState;
     }
 
     @Override
@@ -50,10 +50,48 @@ public class DropOffPixelActionAsync implements Action {
         state.currentLiftSlideState = LiftSlideState.Extending;
         state.dropOffOrientation = DropOffOrientation.Center;
         state.dropOffState = DropOffState.Start;
-        state.currentLiftMotorDropOffPosition = config.liftDropOffPositionOne;
-        state.currentLiftServoStateDropOffPosition = LiftServoState.Two;
-        if (isBackstage) {
-            state.currentLiftServoStateDropOffPosition = LiftServoState.One;
+
+        switch (liftServoState) {
+            case One:
+                state.currentLiftServoStateDropOffPosition = LiftServoState.One;
+                state.currentLiftMotorDropOffPosition = config.liftDropOffPositionOne;
+                break;
+            case Two:
+                state.currentLiftServoStateDropOffPosition = LiftServoState.Two;
+                state.currentLiftMotorDropOffPosition = config.liftDropOffPositionOne;
+                break;
+            case Three:
+                state.currentLiftServoStateDropOffPosition = LiftServoState.Three;
+                state.currentLiftMotorDropOffPosition = config.liftDropOffPositionOne;
+                break;
+            case Four:
+                state.currentLiftServoStateDropOffPosition = LiftServoState.Four;
+                state.currentLiftMotorDropOffPosition = config.liftDropOffPositionTwo;
+                break;
+            case Five:
+                state.currentLiftServoStateDropOffPosition = LiftServoState.Five;
+                state.currentLiftMotorDropOffPosition = config.liftDropOffPositionTwo;
+                break;
+            case Six:
+                state.currentLiftServoStateDropOffPosition = LiftServoState.Six;
+                state.currentLiftMotorDropOffPosition = config.liftDropOffPositionThree;
+                break;
+            case Seven:
+                state.currentLiftServoStateDropOffPosition = LiftServoState.Seven;
+                state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFour;
+                break;
+            case Eight:
+                state.currentLiftServoStateDropOffPosition = LiftServoState.Eight;
+                state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFour;
+                break;
+            case Nine:
+                state.currentLiftServoStateDropOffPosition = LiftServoState.Nine;
+                state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFive;
+                break;
+            case Ten:
+                state.currentLiftServoStateDropOffPosition = LiftServoState.Ten;
+                state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFive;
+                break;
         }
 
         dropOffPixelExecutor = ThreadPool.newSingleThreadExecutor("drop off pixel");
@@ -63,7 +101,6 @@ public class DropOffPixelActionAsync implements Action {
     }
 
     private void dropOffPixel() {
-        RobotConfiguration config = RobotConfiguration.getInstance();
         RobotState state = RobotState.getInstance();
 
         while (state.dropOffState != DropOffState.Finished) {

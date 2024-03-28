@@ -95,16 +95,20 @@ public class ActionManager {
         return new ZeroLiftAction(hardware);
     }
 
+    public Action getLiftReadytoDropThePixelAtSpecificHeight(LiftServoState liftServoState) {
+        return new DropOffPixelAction(claw, lift, robotHanger, liftServoState);
+    }
+
     public Action getLiftReadyToDropThePixelLowOnTheWall() {
-        return new DropOffPixelAction(claw, lift, robotHanger, true);
+        return new DropOffPixelAction(claw, lift, robotHanger, LiftServoState.One);
     }
 
     public Action getLiftReadyToDropThePixelLowOnTheWallAsync() {
-        return new DropOffPixelActionAsync(claw, lift, robotHanger, true);
+        return new DropOffPixelActionAsync(claw, lift, robotHanger, LiftServoState.One);
     }
 
     public Action getLiftReadyToDropThePixelHighOnTheWall() {
-        return new DropOffPixelAction(claw, lift, robotHanger, false);
+        return new DropOffPixelAction(claw, lift, robotHanger, LiftServoState.Two);
     }
 
     public Action getLiftReadyToDropPixelFromRight() {

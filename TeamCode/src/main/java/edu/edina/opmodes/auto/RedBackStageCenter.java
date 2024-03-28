@@ -1,11 +1,13 @@
 package edu.edina.opmodes.auto;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
+import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -22,8 +24,16 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
+@Photon
+@Config
 //@Disabled
 public class RedBackStageCenter extends RedBackStage {
+    public static double DRIVEINX_FIRSTPICKUP = -54;
+    public static double DRIVEINY_FIRSTPICKUP = -10.25;
+    public static double DRIVEINX_SECONDPICKUP = -56;
+    public static double DRIVEINY_SECONDPICKUP = -10.25;
+    public static int EXTENDARM_FIRSTPICKUP = -120;
+    public static int EXTENDARM_SECONDPICKUP = -40;
     @Override
     protected void runPaths() {
         if (twoWhites) {
@@ -37,20 +47,15 @@ public class RedBackStageCenter extends RedBackStage {
                             // Drive to stacks - first trip
                             .setReversed(true)
                             .splineToSplineHeading(new Pose2d(24, -10, Math.toRadians(180)), Math.toRadians(180))
-                            .splineTo(new Vector2d(-44, -10), Math.toRadians(180))
+                            .splineTo(new Vector2d(-44, DRIVEINY_FIRSTPICKUP), Math.toRadians(180))
 
                             // Prepare for grabbing - Trip 1
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                            .afterDisp(0, manager.runLiftToPosition(-123))
+                            .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP))
                             .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                            .lineToX(-53)
+                            .lineToX(DRIVEINX_FIRSTPICKUP)
                             .build()
             );
-        }
-
-        if ((propLocation == PropLocation.Right || propLocation == PropLocation.Center) && dropOnBackDrop) {
-            dropOnBackDrop = false;
-            dropOnBackStage = true;
         }
 
         if (fourWhites) {  // Make the middle trip
@@ -83,15 +88,13 @@ public class RedBackStageCenter extends RedBackStage {
                         .afterTime(0, manager.closeAutoClaw())
                         .afterTime(0, manager.closeLeftClaw())
                         .waitSeconds(0.1)
-                        .lineToX(-52.75)
 
                         // Back away and pack up
                         .stopAndAdd(manager.raiseLiftAfterStackPickup())
-
+                        .lineToX(-45)
                         .afterDisp(3, manager.lowerLiftForDriving())
                         .afterDisp(3, manager.zeroLift())
                         .afterDisp(3, manager.positionTheClawToDriveWithPixels())
-                        .lineToX(-50)
 
                         // Return to backdrop and angle drop
                         .setReversed(true)
@@ -99,7 +102,7 @@ public class RedBackStageCenter extends RedBackStage {
                         .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
                         .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
                         .splineTo(new Vector2d(40, -12), Math.toRadians(0))
-                        .splineTo(new Vector2d(59.5, -20), Math.toRadians(-35))
+                        .splineTo(new Vector2d(56, -20), Math.toRadians(-20))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                         .waitSeconds(0.25)
                         .afterTime(0, manager.openAutoClaw())
@@ -116,9 +119,9 @@ public class RedBackStageCenter extends RedBackStage {
 
                         // Prepare for grabbing - Trip 2
                         .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(175)))
-                        .afterDisp(0, manager.runLiftToPosition(-23))
+                        .afterDisp(0, manager.runLiftToPosition(EXTENDARM_SECONDPICKUP))
                         .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                        .lineToX(-57)
+                        .lineToX(DRIVEINX_SECONDPICKUP)
                         .build()
         );
     }
@@ -132,15 +135,13 @@ public class RedBackStageCenter extends RedBackStage {
                         .afterTime(0, manager.closeAutoClaw())
                         .afterTime(0, manager.closeLeftClaw())
                         .waitSeconds(0.1)
-                        .lineToX(-52.75)
 
                         // Back away and pack up
                         .stopAndAdd(manager.raiseLiftAfterStackPickup())
-
+                        .lineToX(-45)
                         .afterDisp(3, manager.lowerLiftForDriving())
                         .afterDisp(3, manager.zeroLift())
                         .afterDisp(3, manager.positionTheClawToDriveWithPixels())
-                        .lineToX(-50)
 
                         // Return to backstage and drop
                         .setReversed(true)
@@ -156,14 +157,14 @@ public class RedBackStageCenter extends RedBackStage {
                         .setReversed(true)
                         .splineToSplineHeading(new Pose2d(24, -11, Math.toRadians(180)), Math.toRadians(180))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                        .splineTo(new Vector2d(-44, -11), Math.toRadians(180))
+                        .splineTo(new Vector2d(-44, DRIVEINY_SECONDPICKUP), Math.toRadians(180))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                         // Prepare for grabbing - Trip 2
                         .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(175)))
-                        .afterDisp(0, manager.runLiftToPosition(-23))
+                        .afterDisp(0, manager.runLiftToPosition(EXTENDARM_SECONDPICKUP))
                         .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                        .lineToX(-57)
+                        .lineToX(DRIVEINX_SECONDPICKUP)
                         .build()
         );
     }
@@ -177,9 +178,11 @@ public class RedBackStageCenter extends RedBackStage {
                         // Move in and grab pixels until beam break
                         .afterTime(0, manager.closeAutoClaw())
                         .afterTime(0, manager.closeLeftClaw())
+                        .waitSeconds(0.1)
 
+                        // Back away and pack up
                         .stopAndAdd(manager.raiseLiftAfterStackPickup())
-                        .lineToX(-53)
+                        .lineToX(-45)
                         .afterDisp(3, manager.lowerLiftForDriving())
                         .afterDisp(3, manager.zeroLift())
                         .afterDisp(3, manager.positionTheClawToDriveWithPixels())
@@ -190,7 +193,7 @@ public class RedBackStageCenter extends RedBackStage {
                         .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
                         .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
                         .splineTo(new Vector2d(40, -12), Math.toRadians(0))
-                        .splineTo(new Vector2d(59.5, -20), Math.toRadians(-35))
+                        .splineTo(new Vector2d(55, -20), Math.toRadians(-20))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                         .waitSeconds(0.25)
                         .afterTime(0, manager.openAutoClaw())
@@ -204,6 +207,7 @@ public class RedBackStageCenter extends RedBackStage {
                         // Back up and pack up
                         .lineToX(50)
                         .afterDisp(1, manager.getLiftReadyToDrive())
+                        .lineToX(55)
                         .build()));
     }
 
@@ -216,9 +220,11 @@ public class RedBackStageCenter extends RedBackStage {
                         // Move in and grab pixels until beam break
                         .afterTime(0, manager.closeAutoClaw())
                         .afterTime(0, manager.closeLeftClaw())
+                        .waitSeconds(0.1)
 
+                        // Back away and pack up
                         .stopAndAdd(manager.raiseLiftAfterStackPickup())
-                        .lineToX(-53)
+                        .lineToX(-45)
                         .afterDisp(3, manager.lowerLiftForDriving())
                         .afterDisp(3, manager.zeroLift())
                         .afterDisp(3, manager.positionTheClawToDriveWithPixels())
