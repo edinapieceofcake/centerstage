@@ -2,36 +2,21 @@ package edu.edina.opmodes.auto;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.InstantAction;
-import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
-import org.firstinspires.ftc.teamcode.PoCMecanumDrive;
-
-import edu.edina.library.actions.roadrunner.ActionManager;
-import edu.edina.library.enums.Alliance;
-import edu.edina.library.enums.ParkLocation;
-import edu.edina.library.enums.PropLocation;
-import edu.edina.library.util.PoCHuskyLens;
-import edu.edina.library.util.RobotConfiguration;
-import edu.edina.library.util.RobotHardware;
-import edu.edina.library.util.SmartGamepad;
 
 @Autonomous
 @Photon
 @Config
-//@Disabled
 public class RedBackStageCenter extends RedBackStage {
     public static double DRIVEINX_FIRSTPICKUP = -54;
-    public static double DRIVEINY_FIRSTPICKUP = -10.25;
+    public static double DRIVEINY_FIRSTPICKUP = -12;
     public static double DRIVEINX_SECONDPICKUP = -56;
-    public static double DRIVEINY_SECONDPICKUP = -10.25;
+    public static double DRIVEINY_SECONDPICKUP = -14;
     public static int EXTENDARM_FIRSTPICKUP = -120;
     public static int EXTENDARM_SECONDPICKUP = -40;
     @Override
@@ -102,7 +87,7 @@ public class RedBackStageCenter extends RedBackStage {
                         .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
                         .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
                         .splineTo(new Vector2d(40, -12), Math.toRadians(0))
-                        .splineTo(new Vector2d(56, -20), Math.toRadians(-20))
+                        .splineTo(new Vector2d(53.5, -20), Math.toRadians(-20))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                         .waitSeconds(0.25)
                         .afterTime(0, manager.openAutoClaw())
@@ -193,7 +178,7 @@ public class RedBackStageCenter extends RedBackStage {
                         .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
                         .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
                         .splineTo(new Vector2d(40, -12), Math.toRadians(0))
-                        .splineTo(new Vector2d(55, -20), Math.toRadians(-20))
+                        .splineTo(new Vector2d(54, -20), Math.toRadians(-20))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                         .waitSeconds(0.25)
                         .afterTime(0, manager.openAutoClaw())
@@ -203,12 +188,8 @@ public class RedBackStageCenter extends RedBackStage {
         );
 
         Actions.runBlocking(new SequentialAction(
-                drive.actionBuilder(drive.pose)
-                        // Back up and pack up
-                        .lineToX(50)
-                        .afterDisp(1, manager.getLiftReadyToDrive())
-                        .lineToX(55)
-                        .build()));
+                manager.getLiftReadyToDrive()
+        ));
     }
 
     private void runLastTwoOrFourWhitesBackStage() {

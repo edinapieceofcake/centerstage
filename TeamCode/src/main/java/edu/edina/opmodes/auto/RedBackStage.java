@@ -1,28 +1,17 @@
 package edu.edina.opmodes.auto;
 
-import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.PoCMecanumDrive;
-
-import edu.edina.library.actions.roadrunner.ActionManager;
 import edu.edina.library.enums.Alliance;
-import edu.edina.library.enums.ParkLocation;
 import edu.edina.library.enums.PropLocation;
-import edu.edina.library.util.PoCHuskyLens;
-import edu.edina.library.util.RobotConfiguration;
-import edu.edina.library.util.RobotHardware;
-import edu.edina.library.util.SmartGamepad;
 
 public class RedBackStage extends BackStage {
 
     public static double X_PROPDROP = 57;
-    public static double LIFT_WAIT_TIME = .8;
+    public static double LIFT_WAIT_TIME = .7;
 
     @Override
     protected Alliance getAlliance() {

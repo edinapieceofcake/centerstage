@@ -14,7 +14,6 @@ import edu.edina.library.enums.PropLocation;
 @Autonomous
 @Photon
 @Config
-//@Disabled
 public class RedAudienceCenter extends RedAudience {
 
     public static double DRIVEINX_FIRSTPICKUP = -60;

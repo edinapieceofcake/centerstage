@@ -1,11 +1,13 @@
 package edu.edina.opmodes.teleop;
 
+import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import edu.edina.library.util.Robot;
 
 @TeleOp(name = "DriveMeSlow", group = "teleop")
+@Photon
 @Disabled
 public class TeleopSingleThread extends TeleopOpMode {
     @Override

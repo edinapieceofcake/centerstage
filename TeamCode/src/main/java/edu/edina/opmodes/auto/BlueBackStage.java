@@ -7,7 +7,6 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import edu.edina.library.enums.Alliance;
 import edu.edina.library.enums.PropLocation;
 
-
 public class BlueBackStage extends BackStage {
 
     @Override

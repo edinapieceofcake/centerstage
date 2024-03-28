@@ -1,5 +1,7 @@
 package edu.edina.library.actions.roadrunner;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
@@ -16,11 +18,13 @@ public class RunLiftToPositionAction implements Action {
     private boolean started = false;
     private int liftPosition;
     private RobotHardware hardware;
-    private Deadline positionTimeout = new Deadline(2000, TimeUnit.MILLISECONDS);
+    private Deadline positionTimeout;
+    private long duration;
 
-    public RunLiftToPositionAction(RobotHardware hardware, int liftPosition) {
+    public RunLiftToPositionAction(RobotHardware hardware, int liftPosition, long duration) {
         this.hardware = hardware;
         this.liftPosition = liftPosition;
+        this.duration = duration;
     }
 
     @Override
@@ -32,11 +36,17 @@ public class RunLiftToPositionAction implements Action {
             hardware.bottomLiftMotor.setTargetPosition(liftPosition);
             hardware.topLiftMotor.setPower(1);
             hardware.bottomLiftMotor.setPower(1);
-            positionTimeout.reset();
+            positionTimeout = new Deadline(duration, TimeUnit.MILLISECONDS);
         } else {
-            if (((hardware.topLiftMotor.getCurrentPosition() > (liftPosition - 10)) &&
-                    (hardware.topLiftMotor.getCurrentPosition() < (liftPosition + 10))) || positionTimeout.hasExpired()) {
+            if (positionTimeout.hasExpired()) {
+                Log.d("RunLiftToPositionAction: ", "Timeout expired");
+                return false;
+            }
+
+            if ((hardware.topLiftMotor.getCurrentPosition() > (liftPosition - 10)) &&
+                    (hardware.topLiftMotor.getCurrentPosition() < (liftPosition + 10))) {
                 // reached end or we have timed out
+                Log.d("RunLiftToPositionAction: ", "Distance expired");
                 return false;
             }
         }

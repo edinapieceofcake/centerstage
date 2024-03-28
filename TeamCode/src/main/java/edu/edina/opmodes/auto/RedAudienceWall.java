@@ -9,8 +9,6 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import edu.edina.library.enums.PropLocation;
-
 @Autonomous
 @Photon
 @Config
