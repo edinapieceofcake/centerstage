@@ -16,7 +16,7 @@ public class RedBackStageCenter extends RedBackStage {
     public static double DRIVEINX_FIRSTPICKUP = -54;
     public static double DRIVEINY_FIRSTPICKUP = -12;
     public static double DRIVEINX_SECONDPICKUP = -56;
-    public static double DRIVEINY_SECONDPICKUP = -14;
+    public static double DRIVEINY_SECONDPICKUP = -11;
     public static int EXTENDARM_FIRSTPICKUP = -120;
     public static int EXTENDARM_SECONDPICKUP = -40;
     @Override
@@ -97,7 +97,7 @@ public class RedBackStageCenter extends RedBackStage {
                         // Head to Stacks VIA C-Row
                         .setReversed(true)
                         .afterDisp(0, manager.getLiftReadyToDrive())
-                        .splineToSplineHeading(new Pose2d(24, -11, Math.toRadians(180)), Math.toRadians(180))
+                        .splineToSplineHeading(new Pose2d(24, DRIVEINY_SECONDPICKUP, Math.toRadians(180)), Math.toRadians(180))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                         .splineTo(new Vector2d(-44, -11), Math.toRadians(180))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
