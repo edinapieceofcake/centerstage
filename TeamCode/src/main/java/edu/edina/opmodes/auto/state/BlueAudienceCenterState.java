@@ -11,12 +11,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import edu.edina.library.enums.PropLocation;
-import edu.edina.library.util.RobotConfiguration;
-import edu.edina.opmodes.auto.BlueAudience;
 
 @Autonomous
 @Disabled
-public class BlueAudienceCenter extends BlueAudience {
+public class BlueAudienceCenterState extends BlueAudienceOld {
 
     private double stack1Y = 14.5;
     private double stack2Y = 15;
