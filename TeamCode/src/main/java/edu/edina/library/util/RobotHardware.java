@@ -6,7 +6,6 @@ import com.acmerobotics.roadrunner.ftc.FlightRecorder;
 import com.acmerobotics.roadrunner.ftc.LynxFirmware;
 import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.hardware.lynx.LynxModule;
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManagerImpl;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -56,8 +55,6 @@ public class RobotHardware {
     public final HuskyLens huskyLens;
 
     public final DigitalChannel liftSwitch;
-    public final RevBlinkinLedDriver blinkinLedDriver;
-
     public final DigitalChannel leftClawRed, leftClawGreen;
     public final DigitalChannel rightClawRed, rightClawGreen;
 
@@ -161,7 +158,7 @@ public class RobotHardware {
         bottomLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         bottomLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+
 
         leftClawRed = hardwareMap.get(DigitalChannel.class, "leftClawRed");
         leftClawGreen = hardwareMap.get(DigitalChannel.class, "leftClawGreen");

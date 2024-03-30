@@ -311,7 +311,7 @@ public class Lift implements Subsystem {
     private void driveOrPickup() {
         RobotState state = RobotState.getInstance();
         RobotConfiguration config = RobotConfiguration.getInstance();
-
+        
         if (state.pickUpState == PickUpState.Start) {
             state.currentTopMotorTargetPosition = config.minimumExtensionBeforeRaisingLiftInTicks;
             state.currentBottomMotorTargetPosition = config.minimumExtensionBeforeRaisingLiftInTicks;
