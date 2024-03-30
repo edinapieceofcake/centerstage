@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import edu.edina.library.enums.AngleClawState;
@@ -31,6 +32,7 @@ public class Lift implements Subsystem {
     private boolean isTeleop;
     private boolean liftMotorReset = false;
     private Deadline zeroSwitchTimeout = new Deadline(1000, TimeUnit.MILLISECONDS);
+    private Deadline hangWait = new Deadline(100, TimeUnit.MILLISECONDS);
 
     public Lift(RobotHardware hardware, boolean isTeleop) {
         this.hardware = hardware;
@@ -164,10 +166,13 @@ public class Lift implements Subsystem {
                     hardware.leftLiftServo.setPosition(config.startingLeftLiftServoPosition);
                     hardware.rightLiftServo.setPosition(config.startingRightLiftServoPosition);
                     state.currentLiftServoState = LiftServoState.Hung;
+                    hangWait.reset();
                     break;
                 case Hung:
-                    hardware.leftLiftServo.setPwmDisable();
-                    hardware.rightLiftServo.setPwmDisable();
+                    if (hangWait.hasExpired()) {
+                        hardware.leftLiftServo.setPwmDisable();
+                        hardware.rightLiftServo.setPwmDisable();
+                    }
                     break;
             }
 
