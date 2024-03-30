@@ -6,7 +6,7 @@ import edu.edina.library.enums.TwistServoState;
 import edu.edina.library.util.RobotState;
 
 public class Claw {
-    public static void setProperties(boolean toggleLeftClaw, boolean toggleRightClaw, boolean leftAngleDrop, boolean rightAngleDrop) {
+    public static void setProperties(boolean toggleLeftClaw, boolean toggleRightClaw, boolean leftAngleDrop, boolean rightAngleDrop, boolean b) {
         RobotState state = RobotState.getInstance();
 
         if (toggleLeftClaw) {
@@ -50,6 +50,14 @@ public class Claw {
             } else if (state.twistServoState == TwistServoState.LeftDropOff) {
                 state.twistServoState = TwistServoState.CenterDropOff;
                 state.angleClawState = AngleClawState.CenterDropOff;
+            }
+        }
+
+        if (b) {
+            if (state.pusherState == ClawState.Opened) {
+                state.pusherState = ClawState.Closed;
+            } else {
+                state.pusherState = ClawState.Opened;
             }
         }
     }

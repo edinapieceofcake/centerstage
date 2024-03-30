@@ -2,7 +2,6 @@ package edu.edina.library.util;
 
 import android.util.Log;
 
-import com.acmerobotics.roadrunner.ftc.FlightRecorder;
 import com.acmerobotics.roadrunner.ftc.LynxFirmware;
 import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.hardware.lynx.LynxModule;
@@ -10,17 +9,14 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManagerImpl;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ThreadPool;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 import java.util.List;
@@ -42,7 +38,7 @@ public class RobotHardware {
 
     public final PoCServo par0Servo, par1Servo, perpServo;
 
-    public final PoCServo leftClawServo, rightClawServo, twistClawServo, autoClawServo, angleClawServo;
+    public final PoCServo leftClawServo, rightClawServo, twistClawServo, autoClawServo, angleClawServo, pusherServo;
 
     public final PoCServo leftLiftServo, rightLiftServo;
 
@@ -129,6 +125,7 @@ public class RobotHardware {
         twistClawServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "twistClawServo"));
         angleClawServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "angleClawServo"));
         autoClawServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "autoClawServo"));
+        pusherServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "pusherServo"));
 
         leftLiftServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "rightLiftServo"));
         rightLiftServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "leftLiftServo"));
@@ -299,6 +296,7 @@ public class RobotHardware {
         telemetry.addData("twistClawServo", twistClawServo.getConnectionInfo());
         telemetry.addData("autoClawServo", autoClawServo.getConnectionInfo());
         telemetry.addData("angleClawServo", angleClawServo.getConnectionInfo());
+        telemetry.addData("pusherServo", pusherServo.getConnectionInfo());
 
         telemetry.addData("leftLiftServo", leftLiftServo.getConnectionInfo());
         telemetry.addData("rightLiftServo", rightLiftServo.getConnectionInfo());

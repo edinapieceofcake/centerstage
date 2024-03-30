@@ -18,7 +18,7 @@ import edu.edina.library.util.RobotState;
 
 public class Lift {
 
-    public static void setProperties(double rightTrigger, double leftTrigger, boolean a, boolean x, boolean y, boolean b, boolean gm2y,
+    public static void setProperties(double rightTrigger, double leftTrigger, boolean a, boolean x, boolean y, boolean gm2y,
                               boolean dpadUp, boolean dpadDown) {
         RobotState state = RobotState.getInstance();
         RobotConfiguration config = RobotConfiguration.getInstance();

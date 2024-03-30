@@ -55,6 +55,7 @@ public class RobotState {
     public ClawState leftClawState;
     public ClawState rightClawState;
     public ClawState autoClawState;
+    public ClawState pusherState;
 
 //    drone launcher properties
     public DroneLauncherState droneState;
@@ -74,6 +75,7 @@ public class RobotState {
         rightClawState = ClawState.Opened;
         leftClawState = ClawState.Opened;
         autoClawState = ClawState.Opened;
+        pusherState = ClawState.Closed;
         dropOffOrientation = DropOffOrientation.Center;
     }
 
