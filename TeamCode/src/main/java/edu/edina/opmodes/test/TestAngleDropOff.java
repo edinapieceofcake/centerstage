@@ -20,7 +20,7 @@ public class TestAngleDropOff extends LinearOpMode  {
         RobotConfiguration config = RobotConfiguration.getInstance();
         SmartGamepad pad1 = new SmartGamepad(gamepad1);
         ActionManager manager = new ActionManager(hardware);
-        LiftServoState liftServoState = LiftServoState.Del;
+        LiftServoState liftServoState = LiftServoState.One;
         boolean leftOpened = true;
         boolean rightOpened = true;
         boolean liftRaised = false;
@@ -134,9 +134,6 @@ public class TestAngleDropOff extends LinearOpMode  {
 
             if (pad1.left_stick_button) {
                 switch (liftServoState) {
-                    case Del:
-                        liftServoState = LiftServoState.One;
-                        break;
                     case One:
                         liftServoState = LiftServoState.Two;
                         break;
@@ -166,9 +163,6 @@ public class TestAngleDropOff extends LinearOpMode  {
 
             if (pad1.right_stick_button) {
                 switch (liftServoState) {
-                    case One:
-                        liftServoState = LiftServoState.Del;
-                        break;
                     case Two:
                         liftServoState = LiftServoState.One;
                         break;
