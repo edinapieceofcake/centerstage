@@ -11,7 +11,6 @@ public enum LiftServoState {
     Seven,
     Eight,
     Nine,
-    Ten,
     Latch,
     Hang,
     Hung,

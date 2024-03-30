@@ -14,7 +14,6 @@ import edu.edina.library.subsystems.Claw;
 import edu.edina.library.subsystems.Lift;
 import edu.edina.library.subsystems.RobotHanger;
 import edu.edina.library.util.RobotConfiguration;
-import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.RobotState;
 
 public class DropOffPixelAction implements Action {
@@ -56,7 +55,7 @@ public class DropOffPixelAction implements Action {
                     break;
                 case Three:
                     state.currentLiftServoStateDropOffPosition = LiftServoState.Three;
-                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionOne;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionTwo;
                     break;
                 case Four:
                     state.currentLiftServoStateDropOffPosition = LiftServoState.Four;
@@ -64,11 +63,11 @@ public class DropOffPixelAction implements Action {
                     break;
                 case Five:
                     state.currentLiftServoStateDropOffPosition = LiftServoState.Five;
-                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionTwo;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionThree;
                     break;
                 case Six:
                     state.currentLiftServoStateDropOffPosition = LiftServoState.Six;
-                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionThree;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFour;
                     break;
                 case Seven:
                     state.currentLiftServoStateDropOffPosition = LiftServoState.Seven;
@@ -76,14 +75,10 @@ public class DropOffPixelAction implements Action {
                     break;
                 case Eight:
                     state.currentLiftServoStateDropOffPosition = LiftServoState.Eight;
-                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFour;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFive;
                     break;
                 case Nine:
                     state.currentLiftServoStateDropOffPosition = LiftServoState.Nine;
-                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFive;
-                    break;
-                case Ten:
-                    state.currentLiftServoStateDropOffPosition = LiftServoState.Ten;
                     state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFive;
                     break;
             }

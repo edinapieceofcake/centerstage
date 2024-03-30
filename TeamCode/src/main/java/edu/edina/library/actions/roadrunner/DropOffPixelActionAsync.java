@@ -6,8 +6,6 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.util.ThreadPool;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-
 import java.util.concurrent.ExecutorService;
 
 import edu.edina.library.enums.DropOffOrientation;
@@ -62,7 +60,7 @@ public class DropOffPixelActionAsync implements Action {
                 break;
             case Three:
                 state.currentLiftServoStateDropOffPosition = LiftServoState.Three;
-                state.currentLiftMotorDropOffPosition = config.liftDropOffPositionOne;
+                state.currentLiftMotorDropOffPosition = config.liftDropOffPositionTwo;
                 break;
             case Four:
                 state.currentLiftServoStateDropOffPosition = LiftServoState.Four;
@@ -70,11 +68,11 @@ public class DropOffPixelActionAsync implements Action {
                 break;
             case Five:
                 state.currentLiftServoStateDropOffPosition = LiftServoState.Five;
-                state.currentLiftMotorDropOffPosition = config.liftDropOffPositionTwo;
+                state.currentLiftMotorDropOffPosition = config.liftDropOffPositionThree;
                 break;
             case Six:
                 state.currentLiftServoStateDropOffPosition = LiftServoState.Six;
-                state.currentLiftMotorDropOffPosition = config.liftDropOffPositionThree;
+                state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFour;
                 break;
             case Seven:
                 state.currentLiftServoStateDropOffPosition = LiftServoState.Seven;
@@ -82,14 +80,10 @@ public class DropOffPixelActionAsync implements Action {
                 break;
             case Eight:
                 state.currentLiftServoStateDropOffPosition = LiftServoState.Eight;
-                state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFour;
+                state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFive;
                 break;
             case Nine:
                 state.currentLiftServoStateDropOffPosition = LiftServoState.Nine;
-                state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFive;
-                break;
-            case Ten:
-                state.currentLiftServoStateDropOffPosition = LiftServoState.Ten;
                 state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFive;
                 break;
         }

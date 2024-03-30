@@ -112,7 +112,7 @@ public class ActionManager {
     }
 
     public Action getLiftReadyToDropThePixelHighOnTheWall() {
-        return new DropOffPixelAction(claw, lift, robotHanger, LiftServoState.Two);
+        return new DropOffPixelAction(claw, lift, robotHanger, LiftServoState.One);
     }
 
     public Action getLiftReadyToDropPixelFromRight() {

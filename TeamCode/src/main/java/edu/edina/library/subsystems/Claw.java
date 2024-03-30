@@ -2,9 +2,7 @@ package edu.edina.library.subsystems;
 
 import edu.edina.library.enums.AngleClawState;
 import edu.edina.library.enums.ClawState;
-import edu.edina.library.enums.DropOffOrientation;
 import edu.edina.library.enums.TwistServoState;
-import edu.edina.library.util.Robot;
 import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.RobotState;
@@ -125,18 +123,17 @@ public class Claw implements Subsystem {
                     switch (state.currentLiftServoState) {
                         case One:
                         case Two:
-                        case Three:
                             hardware.twistClawServo.setPosition(config.leftAutoLowTwistClawServoDropOffPosition);
                             break;
+                        case Three:
                         case Four:
                         case Five:
                         case Six:
-                        case Seven:
                             hardware.twistClawServo.setPosition(config.leftAutoMediumTwistClawServoDropOffPosition);
                             break;
+                        case Seven:
                         case Eight:
                         case Nine:
-                        case Ten:
                             hardware.twistClawServo.setPosition(config.leftAutoHighTwistClawServoDropOffPosition);
                             break;
                     }
@@ -145,18 +142,17 @@ public class Claw implements Subsystem {
                     switch (state.currentLiftServoState) {
                         case One:
                         case Two:
-                        case Three:
                             hardware.twistClawServo.setPosition(config.leftTeleopLowTwistClawServoDropOffPosition);
                             break;
+                        case Three:
                         case Four:
                         case Five:
                         case Six:
-                        case Seven:
                             hardware.twistClawServo.setPosition(config.leftTeleopMediumTwistClawServoDropOffPosition);
                             break;
+                        case Seven:
                         case Eight:
                         case Nine:
-                        case Ten:
                             hardware.twistClawServo.setPosition(config.leftTeleopHighTwistClawServoDropOffPosition);
                             break;
                     }
@@ -165,18 +161,17 @@ public class Claw implements Subsystem {
                     switch (state.currentLiftServoState) {
                         case One:
                         case Two:
-                        case Three:
                             hardware.twistClawServo.setPosition(config.rightLowTwistClawServoDropOffPosition);
                             break;
+                        case Three:
                         case Four:
                         case Five:
                         case Six:
-                        case Seven:
                             hardware.twistClawServo.setPosition(config.rightMediumTwistClawServoDropOffPosition);
                             break;
+                        case Seven:
                         case Eight:
                         case Nine:
-                        case Ten:
                             hardware.twistClawServo.setPosition(config.rightHighTwistClawServoDropOffPosition);
                             break;
                     }
@@ -197,18 +192,17 @@ public class Claw implements Subsystem {
                     switch (state.currentLiftServoState) {
                         case One:
                         case Two:
-                        case Three:
                             hardware.angleClawServo.setPosition(config.angleClawLowDropOffPosition);
                             break;
+                        case Three:
                         case Four:
                         case Five:
                         case Six:
-                        case Seven:
                             hardware.angleClawServo.setPosition(config.angleClawMediumDropOffPosition);
                             break;
+                        case Seven:
                         case Eight:
                         case Nine:
-                        case Ten:
                             hardware.angleClawServo.setPosition(config.angleClawHighDropOffPosition);
                             break;
                     }
@@ -217,18 +211,17 @@ public class Claw implements Subsystem {
                     switch (state.currentLiftServoState) {
                         case One:
                         case Two:
-                        case Three:
                             hardware.angleClawServo.setPosition(config.leftAutoLowAngleClawServoDropOffPosition);
                             break;
+                        case Three:
                         case Four:
                         case Five:
                         case Six:
-                        case Seven:
                             hardware.angleClawServo.setPosition(config.leftAutoMediumAngleClawServoDropOffPosition);
                             break;
+                        case Seven:
                         case Eight:
                         case Nine:
-                        case Ten:
                             hardware.angleClawServo.setPosition(config.leftAutoHighAngleClawServoDropOffPosition);
                             break;
                     }
@@ -237,18 +230,17 @@ public class Claw implements Subsystem {
                     switch (state.currentLiftServoState) {
                         case One:
                         case Two:
-                        case Three:
                             hardware.angleClawServo.setPosition(config.leftTeleopLowAngleClawServoDropOffPosition);
                             break;
+                        case Three:
                         case Four:
                         case Five:
                         case Six:
-                        case Seven:
                             hardware.angleClawServo.setPosition(config.leftTeleopMediumAngleClawServoDropOffPosition);
                             break;
+                        case Seven:
                         case Eight:
                         case Nine:
-                        case Ten:
                             hardware.angleClawServo.setPosition(config.leftTeleopHighAngleClawServoDropOffPosition);
                             break;
                     }
@@ -257,18 +249,17 @@ public class Claw implements Subsystem {
                     switch (state.currentLiftServoState) {
                         case One:
                         case Two:
-                        case Three:
                             hardware.angleClawServo.setPosition(config.rightLowAngleClawServoDropOffPosition);
                             break;
+                        case Three:
                         case Four:
                         case Five:
                         case Six:
-                        case Seven:
                             hardware.angleClawServo.setPosition(config.rightMediumAngleClawServoDropOffPosition);
                             break;
+                        case Seven:
                         case Eight:
                         case Nine:
-                        case Ten:
                             hardware.angleClawServo.setPosition(config.rightHighAngleClawServoDropOffPosition);
                             break;
                     }

@@ -23,8 +23,8 @@ public class RobotHanger {
         }
 
         if (hangServo) {
-            state.currentLiftServoState = LiftServoState.Five;
-            state.currentLiftServoStateDropOffPosition = LiftServoState.Five;
+            state.currentLiftServoState = LiftServoState.Four;
+            state.currentLiftServoStateDropOffPosition = LiftServoState.Four;
         } else if (latchServo) {
             state.currentLiftServoState = LiftServoState.Hang;
         }

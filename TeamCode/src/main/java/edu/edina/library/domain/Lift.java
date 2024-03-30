@@ -185,7 +185,7 @@ public class Lift {
                     break;
                 case Two:
                     state.currentLiftServoStateDropOffPosition = LiftServoState.Three;
-                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionOne;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionTwo;
                     state.liftDPadChanged = true;
                     break;
                 case Three:
@@ -195,12 +195,12 @@ public class Lift {
                     break;
                 case Four:
                     state.currentLiftServoStateDropOffPosition = LiftServoState.Five;
-                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionTwo;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionThree;
                     state.liftDPadChanged = true;
                     break;
                 case Five:
                     state.currentLiftServoStateDropOffPosition = LiftServoState.Six;
-                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionThree;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFour;
                     state.liftDPadChanged = true;
                     break;
                 case Six:
@@ -210,16 +210,11 @@ public class Lift {
                     break;
                 case Seven:
                     state.currentLiftServoStateDropOffPosition = LiftServoState.Eight;
-                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFour;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFive;
                     state.liftDPadChanged = true;
                     break;
                 case Eight:
                     state.currentLiftServoStateDropOffPosition = LiftServoState.Nine;
-                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFive;
-                    state.liftDPadChanged = true;
-                    break;
-                case Nine:
-                    state.currentLiftServoStateDropOffPosition = LiftServoState.Ten;
                     state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFive;
                     state.liftDPadChanged = true;
                     break;
@@ -240,7 +235,7 @@ public class Lift {
                     break;
                 case Four:
                     state.currentLiftServoStateDropOffPosition = LiftServoState.Three;
-                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionOne;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionTwo;
                     state.liftDPadChanged = true;
                     break;
                 case Five:
@@ -250,12 +245,12 @@ public class Lift {
                     break;
                 case Six:
                     state.currentLiftServoStateDropOffPosition = LiftServoState.Five;
-                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionTwo;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionThree;
                     state.liftDPadChanged = true;
                     break;
                 case Seven:
                     state.currentLiftServoStateDropOffPosition = LiftServoState.Six;
-                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionThree;
+                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFour;
                     state.liftDPadChanged = true;
                     break;
                 case Eight:
@@ -265,11 +260,6 @@ public class Lift {
                     break;
                 case Nine:
                     state.currentLiftServoStateDropOffPosition = LiftServoState.Eight;
-                    state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFour;
-                    state.liftDPadChanged = true;
-                    break;
-                case Ten:
-                    state.currentLiftServoStateDropOffPosition = LiftServoState.Nine;
                     state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFive;
                     state.liftDPadChanged = true;
                     break;

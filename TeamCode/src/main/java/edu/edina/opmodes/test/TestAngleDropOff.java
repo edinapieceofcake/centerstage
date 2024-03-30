@@ -1,20 +1,14 @@
 package edu.edina.opmodes.test;
 
-import com.acmerobotics.roadrunner.ParallelAction;
-import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.ftc.Actions;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
-import org.firstinspires.ftc.teamcode.PoCMecanumDrive;
 
 import edu.edina.library.actions.roadrunner.ActionManager;
 import edu.edina.library.enums.LiftServoState;
 import edu.edina.library.util.RobotConfiguration;
 import edu.edina.library.util.RobotHardware;
-import edu.edina.library.util.RobotState;
 import edu.edina.library.util.SmartGamepad;
 
 @TeleOp
@@ -26,7 +20,7 @@ public class TestAngleDropOff extends LinearOpMode  {
         RobotConfiguration config = RobotConfiguration.getInstance();
         SmartGamepad pad1 = new SmartGamepad(gamepad1);
         ActionManager manager = new ActionManager(hardware);
-        LiftServoState liftServoState = LiftServoState.One;
+        LiftServoState liftServoState = LiftServoState.Del;
         boolean leftOpened = true;
         boolean rightOpened = true;
         boolean liftRaised = false;
@@ -140,6 +134,9 @@ public class TestAngleDropOff extends LinearOpMode  {
 
             if (pad1.left_stick_button) {
                 switch (liftServoState) {
+                    case Del:
+                        liftServoState = LiftServoState.One;
+                        break;
                     case One:
                         liftServoState = LiftServoState.Two;
                         break;
@@ -164,14 +161,14 @@ public class TestAngleDropOff extends LinearOpMode  {
                     case Eight:
                         liftServoState = LiftServoState.Nine;
                         break;
-                    case Nine:
-                        liftServoState = LiftServoState.Ten;
-                        break;
                 }
             }
 
             if (pad1.right_stick_button) {
                 switch (liftServoState) {
+                    case One:
+                        liftServoState = LiftServoState.Del;
+                        break;
                     case Two:
                         liftServoState = LiftServoState.One;
                         break;
@@ -195,9 +192,6 @@ public class TestAngleDropOff extends LinearOpMode  {
                         break;
                     case Nine:
                         liftServoState = LiftServoState.Eight;
-                        break;
-                    case Ten:
-                        liftServoState = LiftServoState.Nine;
                         break;
                 }
             }

@@ -133,27 +133,26 @@ public class Lift implements Subsystem {
                     hardware.rightLiftServo.setPosition(config.startingRightLiftServoPosition);
                     break;
                 case One:
-                case Two:
                     hardware.leftLiftServo.setPosition(config.leftOne);
                     hardware.rightLiftServo.setPosition(config.rightOne);
                     break;
+                case Two:
                 case Three:
-                case Four:
                     hardware.leftLiftServo.setPosition(config.leftTwo);
                     hardware.rightLiftServo.setPosition(config.rightTwo);
                     break;
+                case Four:
                 case Five:
                 case Six:
-                case Seven:
                     hardware.leftLiftServo.setPosition(config.leftThree);
                     hardware.rightLiftServo.setPosition(config.rightThree);
                     break;
+                case Seven:
                 case Eight:
-                case Nine:
                     hardware.leftLiftServo.setPosition(config.leftFour);
                     hardware.rightLiftServo.setPosition(config.rightFour);
                     break;
-                case Ten:
+                case Nine:
                     hardware.leftLiftServo.setPosition(config.leftFive);
                     hardware.rightLiftServo.setPosition(config.rightFive);
                     break;
