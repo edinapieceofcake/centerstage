@@ -38,7 +38,7 @@ public class RobotHardware {
 
     public final PoCServo par0Servo, par1Servo, perpServo;
 
-    public final PoCServo leftClawServo, rightClawServo, twistClawServo, autoClawServo, angleClawServo, pusherServo;
+    public final PoCServo leftClawServo, rightClawServo, twistClawServo, autoClawServo, angleClawServo, pixelLiftServo;
 
     public final PoCServo leftLiftServo, rightLiftServo;
 
@@ -125,7 +125,7 @@ public class RobotHardware {
         twistClawServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "twistClawServo"));
         angleClawServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "angleClawServo"));
         autoClawServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "autoClawServo"));
-        pusherServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "pusherServo"));
+        pixelLiftServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "pixelLiftServo"));
 
         leftLiftServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "rightLiftServo"));
         rightLiftServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "leftLiftServo"));
@@ -296,7 +296,7 @@ public class RobotHardware {
         telemetry.addData("twistClawServo", twistClawServo.getConnectionInfo());
         telemetry.addData("autoClawServo", autoClawServo.getConnectionInfo());
         telemetry.addData("angleClawServo", angleClawServo.getConnectionInfo());
-        telemetry.addData("pusherServo", pusherServo.getConnectionInfo());
+        telemetry.addData("pusherServo", pixelLiftServo.getConnectionInfo());
 
         telemetry.addData("leftLiftServo", leftLiftServo.getConnectionInfo());
         telemetry.addData("rightLiftServo", rightLiftServo.getConnectionInfo());

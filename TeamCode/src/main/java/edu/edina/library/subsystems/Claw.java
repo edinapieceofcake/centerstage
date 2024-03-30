@@ -29,7 +29,7 @@ public class Claw implements Subsystem {
         hardware.autoClawServo.setPosition(RobotConfiguration.getInstance().autoClawServoOpenPosition);
         hardware.twistClawServo.setPosition(RobotConfiguration.getInstance().twistClawServoPickUpPosition);
         hardware.angleClawServo.setPosition(RobotConfiguration.getInstance().angleClawDrivePosition);
-        hardware.pusherServo.setPosition(RobotConfiguration.getInstance().clawPushClosedPosition);
+        hardware.pixelLiftServo.setPosition(RobotConfiguration.getInstance().clawPushClosedPosition);
 
     }
 
@@ -102,9 +102,9 @@ public class Claw implements Subsystem {
             }
             switch(state.pusherState){
                 case Opened:
-                    hardware.pusherServo.setPosition(config.clawPushOpenPosition);
+                    hardware.pixelLiftServo.setPosition(config.clawPushOpenPosition);
                 case Closed:
-                    hardware.pusherServo.setPosition(config.clawPushClosedPosition);
+                    hardware.pixelLiftServo.setPosition(config.clawPushClosedPosition);
             }
 
             switch(state.autoClawState){
