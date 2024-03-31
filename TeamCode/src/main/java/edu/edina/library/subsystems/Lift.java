@@ -317,8 +317,8 @@ public class Lift implements Subsystem {
         RobotConfiguration config = RobotConfiguration.getInstance();
         
         if (state.pickUpState == PickUpState.Start) {
-            state.currentTopMotorTargetPosition = config.minimumExtensionBeforeRaisingLiftInTicks;
-            state.currentBottomMotorTargetPosition = config.minimumExtensionBeforeRaisingLiftInTicks;
+            state.currentTopMotorTargetPosition = config.minimumExtensionBeforeRetractingLiftInTicks;
+            state.currentBottomMotorTargetPosition = config.minimumExtensionBeforeRetractingLiftInTicks;
             state.currentLiftSlidePower = config.liftRetractingPower;
 
             state.pickUpState = PickUpState.FirstRetraction;
@@ -327,7 +327,7 @@ public class Lift implements Subsystem {
         }
 
         if (state.pickUpState == PickUpState.FirstRetraction) {
-            if (state.currentTopMotorPosition > (config.minimumExtensionBeforeRaisingLiftInTicks - 10)) {
+            if (state.currentTopMotorPosition > (config.minimumExtensionBeforeRetractingLiftInTicks - 10)) {
                 state.pickUpState = PickUpState.DropArm;
                 state.currentLiftServoState = LiftServoState.Start;
                 state.hangerState = HangerState.Store;

@@ -19,8 +19,8 @@ public class RobotConfiguration {
     public final double autoClawServoOpenDropPosition = .85;
     public final double twistClawServoPickUpPosition = 0.5;
     public final double twistClawServoDropOffPosition = 0.621;
-    public final double clawPushOpenPosition = 0.1;//not a valid number(need testing)
-    public final double clawPushClosedPosition = 0.9;//not a valid number(need testing)
+    public final double clawPusherPushPosition = 0.0;
+    public final double clawPusherTuckPosition = 0.5;
 
     public final double angleClawPickupPosition = .45;
     public final double angleClawStackPickupPosition = .55;
@@ -103,7 +103,8 @@ public class RobotConfiguration {
     public final int liftDropOffPositionFive = -900;
     public final int liftTwistPosition = -200;
     public final int minimumExtensionBeforeTwistingInTicks = -350;
-    public final int minimumExtensionBeforeRaisingLiftInTicks = -170;
+    public final int minimumExtensionBeforeRetractingLiftInTicks = -170;
+    public final int minimumExtensionBeforeRaisingLiftInTicks = -120;
 
     // robot hanger positions
     public final double leftLatchServoPosition = .66;
