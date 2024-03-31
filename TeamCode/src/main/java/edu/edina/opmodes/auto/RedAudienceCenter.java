@@ -16,7 +16,8 @@ import edu.edina.library.enums.PropLocation;
 @Config
 public class RedAudienceCenter extends RedAudience {
 
-    public static double DRIVEINX_FIRSTPICKUP = -60;
+    public static double DRIVEINX_FIRSTPICKUP = -61.5;
+    public static double DRIVEINX_FIRSTPICKUPCENTER = -60;
     public static double DRIVEINY_FIRSTPICKUPLEFT = -12;
     public static double DRIVEINY_FIRSTPICKUPCENTER = -10;
     public static double DRIVEINY_FIRSTPICKUPRIGHT = -10.5;
@@ -71,16 +72,24 @@ public class RedAudienceCenter extends RedAudience {
                                 .setReversed(true)
                                 .splineToSplineHeading(new Pose2d(-48, -18, Math.toRadians(180)), Math.toRadians(90))
                                 .splineToSplineHeading(new Pose2d(-50, DRIVEINY_FIRSTPICKUPCENTER, Math.toRadians(180)), Math.toRadians(90))
-                                .setReversed(false)
                                 // Prepare for grabbing - Trip 1
-                                .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                                .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP))
-                                .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                                .lineToX(DRIVEINX_FIRSTPICKUP)
+                                .build()
+                );
+
+                Actions.runBlocking(new SequentialAction(
+                        new InstantAction(() -> drive.turnBeamBreakOn(150)),
+                        manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP),
+                        manager.positionTheClawToPickupPixelsFromStack()
+                ));
+
+                Actions.runBlocking(
+                        drive.actionBuilder(drive.pose)
+                                .setReversed(false)
+                                .lineToX(DRIVEINX_FIRSTPICKUPCENTER)
                                 .build()
                 );
                 break;
-            default:    // Left or unknown
+            default:    // Right or unknown
                 Actions.runBlocking(
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks
@@ -297,7 +306,6 @@ public class RedAudienceCenter extends RedAudience {
                         // Grab Pixels
                         .afterTime(0, manager.closeAutoClaw())
                         .afterTime(0, manager.closeLeftClaw())
-                        .afterTime(0, manager.closeRightClaw())
 
                         // Back away a little and raise the lift
                         .waitSeconds(0.1)
@@ -312,13 +320,12 @@ public class RedAudienceCenter extends RedAudience {
                         // Return to backdrop and angle drop
                         .setReversed(true)
                         .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
-                        .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
-                        .splineTo(new Vector2d(35, -12), Math.toRadians(0))
-                        .splineTo(new Vector2d(50, -23), Math.toRadians(-20))
+                        .afterDisp(40, manager.getLiftReadyToDropPixelFromLeft())
+                        .splineTo(new Vector2d(30, -13), Math.toRadians(0))
+                        .splineTo(new Vector2d(48, -18), Math.toRadians(-20))
 
                         // Release all pixels
                         .afterTime(0, manager.openLeftClaw())
-                        .afterTime(0, manager.openRightClaw())
                         .afterTime(0.2, manager.openAutoClaw())
                         .waitSeconds(0.25)
                         .build()

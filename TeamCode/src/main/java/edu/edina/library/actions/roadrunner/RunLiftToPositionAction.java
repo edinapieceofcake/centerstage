@@ -20,6 +20,8 @@ public class RunLiftToPositionAction implements Action {
     private RobotHardware hardware;
     private Deadline positionTimeout;
     private long duration;
+    private int pixelLengthInLiftTicks = -50;
+    private boolean beamBreakDistanceSet = false;
 
     public RunLiftToPositionAction(RobotHardware hardware, int liftPosition, long duration) {
         this.hardware = hardware;
@@ -38,15 +40,26 @@ public class RunLiftToPositionAction implements Action {
             hardware.bottomLiftMotor.setPower(1);
             positionTimeout = new Deadline(duration, TimeUnit.MILLISECONDS);
         } else {
+            if (!hardware.beamBreak.getState() && !beamBreakDistanceSet) {
+                // bream break hit
+                int currentLiftPosition = hardware.topLiftMotor.getCurrentPosition();
+                Log.d("RunLiftToPositionAction: ", String.format("Beambreak hit at %d", currentLiftPosition));
+
+                hardware.topLiftMotor.setPower(0);
+                hardware.bottomLiftMotor.setPower(0);
+                beamBreakDistanceSet = true;
+                return false;
+            }
+
             if (positionTimeout.hasExpired()) {
-                Log.d("RunLiftToPositionAction: ", "Timeout expired");
+                Log.d("RunLiftToPositionAction: ", String.format("Timeout expired, length %d", duration));
                 return false;
             }
 
             if ((hardware.topLiftMotor.getCurrentPosition() > (liftPosition - 10)) &&
                     (hardware.topLiftMotor.getCurrentPosition() < (liftPosition + 10))) {
                 // reached end or we have timed out
-                Log.d("RunLiftToPositionAction: ", "Distance expired");
+                Log.d("RunLiftToPositionAction: ", String.format("Distance expired, timeout left %d", positionTimeout.timeRemaining(TimeUnit.MILLISECONDS)));
                 return false;
             }
         }

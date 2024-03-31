@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import edu.edina.library.util.SmartGamepad;
 
 @TeleOp
-//@Disabled
+@Disabled
 public class TestPixelPusher extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

@@ -1,5 +1,7 @@
 package edu.edina.opmodes.auto;
 
+import android.util.Log;
+
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -248,5 +250,9 @@ public class Audience extends LinearOpMode {
 
             hardware.stopCurrentMonitor();
         }
+    }
+
+    protected void logPose() {
+        Log.d(this.toString(), String.format("Drive pose %f, %f, %f", drive.pose.position.x, drive.pose.position.y, drive.pose.heading.real));
     }
 }

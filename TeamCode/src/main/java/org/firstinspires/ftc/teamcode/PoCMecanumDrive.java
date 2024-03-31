@@ -284,6 +284,7 @@ public final class PoCMecanumDrive {
                         leftBack.setPower(0);
                         rightBack.setPower(0);
                         rightFront.setPower(0);
+                        Log.d("RunLiftToPositionAction: ", "Drive beam break setting power to 0");
 
                         beamBreakTripped = false;
                         return false;
@@ -292,6 +293,7 @@ public final class PoCMecanumDrive {
                     // bream break hit so start the timer to let it move a little more forward
                     beamBreakTripped = true;
                     beamBreakDelay = new Deadline(beamBreakDuration, TimeUnit.MILLISECONDS);
+                    Log.d("RunLiftToPositionAction: ", "Drive beam break hit");
                     beamBreakDelay.reset();
                 }
             }

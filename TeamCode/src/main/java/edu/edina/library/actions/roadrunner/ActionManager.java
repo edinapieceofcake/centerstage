@@ -92,7 +92,7 @@ public class ActionManager {
     }
 
     public Action runLiftToPosition(int liftPosition) {
-        return new RunLiftToPositionAction(hardware, liftPosition, 2000);
+        return new RunLiftToPositionAction(hardware, liftPosition, 750);
     }
 
     public Action zeroLift() {

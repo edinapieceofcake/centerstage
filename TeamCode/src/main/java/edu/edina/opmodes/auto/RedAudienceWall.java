@@ -14,9 +14,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 @Config
 public class RedAudienceWall extends RedAudience {
 
-    public static double DRIVEINX_FIRSTPICKUP = -59;
+    public static double DRIVEINX_FIRSTPICKUP = -58.5;
     public static double DRIVEINY_FIRSTPICKUP = -35.5;
-    public static double DRIVEINX_SECONDPICKUP = -64;
+    public static double DRIVEINX_SECONDPICKUP = -62.5;
     public static double DRIVEINY_SECONDPICKUP = -34;
     public static int EXTENDARM_FIRSTPICKUP = -200;
     public static int EXTENDARM_SECONDPICKUP = -100;
@@ -42,6 +42,7 @@ public class RedAudienceWall extends RedAudience {
     }
 
     protected void purpleToStack() {
+        logPose();
 
         // Drive to Stack Pick up 1st white
         Actions.runBlocking(
@@ -65,6 +66,8 @@ public class RedAudienceWall extends RedAudience {
     }
 
     protected void stackToYellow() {
+        logPose();
+
         // Run to backdrop.
         Actions.runBlocking(
                 drive.actionBuilder(drive.pose)
@@ -75,7 +78,7 @@ public class RedAudienceWall extends RedAudience {
                         .afterTime(0, manager.closeLeftClaw())
 
                         // Back away a little and raise the lift
-                        .lineToX(-56.5)
+                        .lineToX(-55.5)
                         .stopAndAdd(manager.raiseLiftAfterStackPickup())
                         .waitSeconds(delayTime / 1000) // Optional Wait
 
@@ -146,7 +149,7 @@ public class RedAudienceWall extends RedAudience {
                         .setReversed(true)
                         .splineToSplineHeading(new Pose2d(0, -58, Math.toRadians(-180)), Math.toRadians(180))
                         .splineToConstantHeading(new Vector2d(-38, -58), Math.toRadians(180))
-                        .splineToConstantHeading(new Vector2d(-50,  DRIVEINY_SECONDPICKUP), Math.toRadians(180))
+                        .splineToConstantHeading(new Vector2d(-55,  DRIVEINY_SECONDPICKUP), Math.toRadians(180))
 
                         // Prepare for grabbing - Trip 2
                         .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
