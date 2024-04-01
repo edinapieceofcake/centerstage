@@ -80,7 +80,7 @@ public class TestActions extends LinearOpMode  {
 
             if (pad1.left_bumper) {
                 Actions.runBlocking(new SequentialAction(
-                    manager.runLiftToPosition(-600)
+                    manager.runLiftToPosition(-600, true)
                 ));
             }
 

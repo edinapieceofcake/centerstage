@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 @Config
 @Photon
 public class RedBackStageWall extends RedBackStage {
-    public static double DRIVEINY_FIRSTPICKUP = -32;
+    public static double DRIVEINY_FIRSTPICKUP = -33;
     public static double DRIVEINY_SECONDPICKUP = -30;
     public static int EXTENDARM_FIRSTPICKUP = -170;
     public static int EXTENDARM_SECONDPICKUP = -20;
@@ -35,7 +35,7 @@ public class RedBackStageWall extends RedBackStage {
 
                             // Prepare for grabbing - Trip 1
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                            .afterDisp(0, manager.runLiftToPositionWithDuration(EXTENDARM_FIRSTPICKUP, 500))
+                            .afterDisp(0, manager.runLiftToPositionWithDuration(EXTENDARM_FIRSTPICKUP, 500, false))
                             .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
                             .build()
             );
@@ -106,7 +106,7 @@ public class RedBackStageWall extends RedBackStage {
 
                         // Prepare for grabbing - Trip 2
                         .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                        .afterDisp(0, manager.runLiftToPositionWithDuration(EXTENDARM_SECONDPICKUP, 500))
+                        .afterDisp(0, manager.runLiftToPositionWithDuration(EXTENDARM_SECONDPICKUP, 500, false))
                         .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
                         .lineToX(-55)
                         .build()
@@ -153,7 +153,7 @@ public class RedBackStageWall extends RedBackStage {
 
                         // Prepare for grabbing - Trip 2
                         .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                        .afterDisp(0, manager.runLiftToPositionWithDuration(EXTENDARM_SECONDPICKUP, 500))
+                        .afterDisp(0, manager.runLiftToPositionWithDuration(EXTENDARM_SECONDPICKUP, 500, false))
                         .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
                         .lineToX(-55)
                         .build()

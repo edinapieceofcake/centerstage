@@ -12,6 +12,7 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import edu.edina.library.enums.AngleClawState;
+import edu.edina.library.enums.ClawState;
 import edu.edina.library.enums.DropOffOrientation;
 import edu.edina.library.enums.DropOffState;
 import edu.edina.library.enums.HangState;
@@ -268,6 +269,7 @@ public class Lift implements Subsystem {
             state.currentBottomMotorTargetPosition = state.currentLiftMotorDropOffPosition;
 
             state.dropOffState = DropOffState.FirstExtension;
+            state.pusherState = ClawState.Closed;
         }
 
         if (state.dropOffState == DropOffState.FirstExtension) {
@@ -324,6 +326,7 @@ public class Lift implements Subsystem {
             state.pickUpState = PickUpState.FirstRetraction;
             state.twistServoState = TwistServoState.Pickup;
             state.angleClawState = AngleClawState.Drive;
+            state.pusherState = ClawState.Closed;
         }
 
         if (state.pickUpState == PickUpState.FirstRetraction) {

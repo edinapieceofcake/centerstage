@@ -57,7 +57,7 @@ public class BlueAudienceWall extends RedAudience {
                         .lineToX(DRIVEINX_FIRSTPICKUP)
                         // Prepare for grabbing - Trip 1
                         .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                        .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP))
+                        .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP, true))
                         .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
 
                         .build()
@@ -150,7 +150,7 @@ public class BlueAudienceWall extends RedAudience {
 
                         // Prepare for grabbing - Trip 2
                         .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                        .afterDisp(0, manager.runLiftToPosition(EXTENDARM_SECONDPICKUP))
+                        .afterDisp(0, manager.runLiftToPosition(EXTENDARM_SECONDPICKUP, true))
                         .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
                         .lineToX(DRIVEINX_SECONDPICKUP)
                         .build()

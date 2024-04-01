@@ -87,12 +87,12 @@ public class ActionManager {
         return new TwistClawAction(claw, TwistServoState.CenterDropOff);
     }
 
-    public Action runLiftToPositionWithDuration(int liftPosition, long duration) {
-        return new RunLiftToPositionAction(hardware, liftPosition, duration);
+    public Action runLiftToPositionWithDuration(int liftPosition, long duration, boolean useBeamBreak) {
+        return new RunLiftToPositionAction(hardware, liftPosition, duration, useBeamBreak);
     }
 
-    public Action runLiftToPosition(int liftPosition) {
-        return new RunLiftToPositionAction(hardware, liftPosition, 750);
+    public Action runLiftToPosition(int liftPosition, boolean useBeamBreak) {
+        return runLiftToPositionWithDuration(liftPosition, 750, useBeamBreak);
     }
 
     public Action zeroLift() {

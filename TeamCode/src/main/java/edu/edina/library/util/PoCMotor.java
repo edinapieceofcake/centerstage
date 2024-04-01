@@ -1,5 +1,7 @@
 package edu.edina.library.util;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -16,6 +18,10 @@ public class PoCMotor {
     // need this to make sure that even if the current and new are the same, it gets through for
     // the first time or you get the exception about changing modes without doing the setTarget
     private boolean targetSetOnce = false;
+    private boolean powerSetOnce = false;
+    private boolean modeSetOnce = false;
+    private boolean zeroPowerSetOnce = false;
+    private boolean directionSetOnce = false;
 
     public PoCMotor(DcMotorEx motor) {
         this.motor = motor;
@@ -27,9 +33,10 @@ public class PoCMotor {
     }
 
     public void setPower(double power) {
-        if (currentPower != power) {
+        if (!powerSetOnce || (currentPower != power)) {
             currentPower = power;
             motor.setPower(currentPower);
+            powerSetOnce = true;
         }
     }
 
@@ -50,9 +57,10 @@ public class PoCMotor {
     }
 
     public void setMode(DcMotor.RunMode mode) {
-        if (currentMode != mode) {
+        if (!modeSetOnce || (currentMode != mode)) {
             currentMode = mode;
             motor.setMode(currentMode);
+            modeSetOnce = true;
         }
     }
 
@@ -61,9 +69,10 @@ public class PoCMotor {
     }
 
     public void setZeroPowerBehavior(DcMotor.ZeroPowerBehavior zeroPower) {
-        if (currentZeroPowerBehavior != zeroPower) {
+        if (!zeroPowerSetOnce || (currentZeroPowerBehavior != zeroPower)) {
             currentZeroPowerBehavior = zeroPower;
             motor.setZeroPowerBehavior(currentZeroPowerBehavior);
+            zeroPowerSetOnce = true;
         }
     }
 
@@ -76,9 +85,10 @@ public class PoCMotor {
     }
 
     public void setDirection(DcMotorSimple.Direction direction) {
-        if (currentDirection != direction) {
+        if (!directionSetOnce || (currentDirection != direction)) {
             currentDirection = direction;
             motor.setDirection(currentDirection);
+            directionSetOnce = true;
         }
     }
 

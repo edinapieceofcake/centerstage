@@ -101,7 +101,7 @@ public class TestStackPickup extends LinearOpMode  {
                 Actions.runBlocking(
                         drive.actionBuilder(drive.pose)
                                 .afterDisp(0, new ParallelAction(
-                                        manager.runLiftToPosition(-180),
+                                        manager.runLiftToPosition(-180, true),
                                         manager.positionTheClawToPickupPixelsFromStack())
                                 )
                                 .lineToY(-46)
@@ -133,7 +133,7 @@ public class TestStackPickup extends LinearOpMode  {
             if (pad1.dpad_right) {
                 Actions.runBlocking(
                         new ParallelAction(
-                                manager.runLiftToPosition(-180),
+                                manager.runLiftToPosition(-180, true),
                                 manager.positionTheClawToPickupPixelsFromStack()
                         )
                 );
@@ -142,7 +142,7 @@ public class TestStackPickup extends LinearOpMode  {
             if (pad1.dpad_down) {
                 Actions.runBlocking(
                         new SequentialAction(
-                                manager.runLiftToPosition(-900),
+                                manager.runLiftToPosition(-900, false),
                                 manager.positionTheClawToPickupPixels(),
                                 new ParallelAction(
                                         manager.openAutoClaw(),

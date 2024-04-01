@@ -330,7 +330,7 @@ public class RedAudienceCenterHCState extends LinearOpMode {
                 Actions.runBlocking(
                         new SequentialAction(
                                 new ParallelAction(
-                                        manager.runLiftToPosition(-200),
+                                        manager.runLiftToPosition(-200, true),
                                         manager.positionTheClawToPickupPixelsFromStack()
                                 ),
                                 drive.actionBuilder(drive.pose)
@@ -465,7 +465,7 @@ public class RedAudienceCenterHCState extends LinearOpMode {
                     new SequentialAction(
                             new ParallelAction(
                                     manager.positionTheClawToPickupPixelsFromStack(),
-                                    manager.runLiftToPosition(secondPickupHeight)
+                                    manager.runLiftToPosition(secondPickupHeight, true)
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks

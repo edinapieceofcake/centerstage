@@ -326,7 +326,7 @@ public class RedAudienceWallState extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
-                                    manager.runLiftToPosition(-200),
+                                    manager.runLiftToPosition(-200, true),
                                     manager.positionTheClawToPickupPixelsFromStack()
                             ),
                             drive.actionBuilder(drive.pose)
@@ -451,7 +451,7 @@ public class RedAudienceWallState extends LinearOpMode {
                     new SequentialAction(
                             new ParallelAction(
                                     manager.positionTheClawToPickupPixelsFromStack(),
-                                    manager.runLiftToPosition(-145)
+                                    manager.runLiftToPosition(-145, true)
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks

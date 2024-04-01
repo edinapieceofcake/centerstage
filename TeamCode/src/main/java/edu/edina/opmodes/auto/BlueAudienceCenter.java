@@ -56,7 +56,7 @@ public class BlueAudienceCenter extends RedAudience {
                                 .splineToSplineHeading(new Pose2d(-35, 12, Math.toRadians(180)), Math.toRadians(315))
                                 // Prepare for grabbing - Trip 1
                                 .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                                .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP))
+                                .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP, true))
                                 .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
                                 .setReversed(false)
                                 .splineToSplineHeading(new Pose2d(-55, DRIVEINY_FIRSTPICKUPLEFT, Math.toRadians(180)), Math.toRadians(180))
@@ -74,7 +74,7 @@ public class BlueAudienceCenter extends RedAudience {
                                 .setReversed(false)
                                 // Prepare for grabbing - Trip 1
                                 .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                                .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP))
+                                .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP, true))
                                 .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
                                 .lineToX(DRIVEINX_FIRSTPICKUP)
                                 .build()
@@ -89,7 +89,7 @@ public class BlueAudienceCenter extends RedAudience {
                                 // Prepare for grabbing - Trip 1
                                 .setReversed(false)
                                 .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                                .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP))
+                                .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP, true))
                                 .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
                                 .lineToX(DRIVEINX_FIRSTPICKUP)
                                 .build()
@@ -230,7 +230,7 @@ public class BlueAudienceCenter extends RedAudience {
 
                             // Prepare for grabbing - Trip 2
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                            .afterDisp(0, manager.runLiftToPosition(EXTENDARM_SECONDPICKUP))
+                            .afterDisp(0, manager.runLiftToPosition(EXTENDARM_SECONDPICKUP, true))
                             .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
                             .lineToX(DRIVEINX_SECONDPICKUP)
                             .build()
@@ -280,7 +280,7 @@ public class BlueAudienceCenter extends RedAudience {
 
                             // Prepare for grabbing - Trip 2
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                            .afterDisp(0, manager.runLiftToPosition(EXTENDARM_SECONDPICKUP))
+                            .afterDisp(0, manager.runLiftToPosition(EXTENDARM_SECONDPICKUP, true))
                             .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
                             .lineToX(DRIVEINX_SECONDPICKUP)
                             .build()

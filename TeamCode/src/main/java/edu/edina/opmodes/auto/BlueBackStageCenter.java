@@ -34,7 +34,7 @@ public class BlueBackStageCenter extends BlueBackStage {
                             // Prepare for grabbing - Trip 1
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
-                            .afterDisp(0, manager.runLiftToPosition(-123))
+                            .afterDisp(0, manager.runLiftToPosition(-123, true))
                             .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
                             .lineToX(-59.25)
                             .build()
@@ -107,7 +107,7 @@ public class BlueBackStageCenter extends BlueBackStage {
 
                             // Prepare for grabbing - Trip 2
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(175)))
-                            .afterDisp(0, manager.runLiftToPosition(-23))
+                            .afterDisp(0, manager.runLiftToPosition(-23, true))
                             .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
                             .lineToX(-61.5)
                             .build()
@@ -151,7 +151,7 @@ public class BlueBackStageCenter extends BlueBackStage {
 
                         // Prepare for grabbing - Trip 2
                         .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(175)))
-                        .afterDisp(0, manager.runLiftToPosition(-23))
+                        .afterDisp(0, manager.runLiftToPosition(-23, true))
                         .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
                         .lineToX(-61.5)
                         .build()
