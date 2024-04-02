@@ -107,8 +107,8 @@ public class RobotConfiguration {
     public final int minimumExtensionBeforeRaisingLiftInTicks = -120;
 
     // robot hanger positions
-    public final double leftLatchServoPosition = .66;
-    public final double rightLatchServoPosition = .38;
+    public final double leftLatchServoPosition = .68;
+    public final double rightLatchServoPosition = .36;
     public final int hangMotorInitPosition = -230;
     public final int hangMotorStorePosition = 0;
     public final int hangMotorLowDropOffPosition = -640;
