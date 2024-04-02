@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 @Config
 @Photon
 public class RedBackStageWall extends RedBackStage {
-    public static double DRIVEINY_FIRSTPICKUP = -34;
+    public static double DRIVEINY_FIRSTPICKUP = -33;
     public static double DRIVEINY_SECONDPICKUP = -32;
     public static int EXTENDARM_FIRSTPICKUP = -170;
     public static int EXTENDARM_SECONDPICKUP = -20;
@@ -29,9 +29,10 @@ public class RedBackStageWall extends RedBackStage {
 
                             // Drive to stacks - first trip
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(0, -58, Math.toRadians(-180)), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(24,-58, Math.toRadians(225)), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(0, -58, Math.toRadians(180)), Math.toRadians(180))
                             .splineToConstantHeading(new Vector2d(-38, -58), Math.toRadians(180))
-                            .splineToConstantHeading(new Vector2d(-51, DRIVEINY_FIRSTPICKUP), Math.toRadians(180))
+                            .splineToConstantHeading(new Vector2d(-50, DRIVEINY_FIRSTPICKUP), Math.toRadians(180))
 
                             // Prepare for grabbing - Trip 1
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))

@@ -32,7 +32,7 @@ public class RedAudience extends Audience {
                 propDropLocation = new Vector2d(-39, -31);
                 propAngle = 135.0;
                 backdropDropLocation = new Vector2d(50,-32);
-                backdropDropLocationAW = new Vector2d(48,-27);
+                backdropDropLocationAW = new Vector2d(48,-31);
                 break;
             case Right:
                 propDropLocation = new Vector2d(-31, -35);
@@ -47,7 +47,7 @@ public class RedAudience extends Audience {
                 propDropLocation = new Vector2d(-33, -34.5);  // default to Center if all goes bad
                 propAngle = 90.0;
                 backdropDropLocation = new Vector2d(50,-38 ); // default to center if all goes bad
-                backdropDropLocationAW = new Vector2d(48, -35.5);
+                backdropDropLocationAW = new Vector2d(48, -34.5);
                 break;
         }
 

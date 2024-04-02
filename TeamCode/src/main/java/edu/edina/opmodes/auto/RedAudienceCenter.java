@@ -17,13 +17,13 @@ import edu.edina.library.enums.PropLocation;
 public class RedAudienceCenter extends RedAudience {
 
     public static double DRIVEINX_FIRSTPICKUP = -61.5;
-    public static double DRIVEINX_FIRSTPICKUPCENTER = -60;
+    public static double DRIVEINX_FIRSTPICKUPCENTER = -61.5;
     public static double DRIVEINY_FIRSTPICKUPLEFT = -12;
     public static double DRIVEINY_FIRSTPICKUPCENTER = -10;
     public static double DRIVEINY_FIRSTPICKUPRIGHT = -10.5;
     public static double DRIVEINX_SECONDPICKUP = -61.5;
     public static double DRIVEINY_SECONDPICKUP = -11;
-    public static int EXTENDARM_FIRSTPICKUP = -180;
+    public static int EXTENDARM_FIRSTPICKUP = -200;
     public static int EXTENDARM_SECONDPICKUP = -100;
 
     @Override
@@ -77,7 +77,7 @@ public class RedAudienceCenter extends RedAudience {
                 );
 
                 Actions.runBlocking(new SequentialAction(
-                        new InstantAction(() -> drive.turnBeamBreakOn(150)),
+                        new InstantAction(() -> drive.turnBeamBreakOn(180)),
                         manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP, true),
                         manager.positionTheClawToPickupPixelsFromStack()
                 ));
@@ -201,7 +201,7 @@ public class RedAudienceCenter extends RedAudience {
                             .afterTime(0, manager.closeLeftClaw())
 
                             // Back away a little and raise the lift
-                            .lineToX(-56.5)
+                            .lineToX(-55)
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
                             .waitSeconds(delayTime / 1000)
 
@@ -322,7 +322,7 @@ public class RedAudienceCenter extends RedAudience {
                         .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
                         .afterDisp(40, manager.getLiftReadyToDropPixelFromLeft())
                         .splineTo(new Vector2d(30, -13), Math.toRadians(0))
-                        .splineTo(new Vector2d(48, -18), Math.toRadians(-20))
+                        .splineTo(new Vector2d(48, -19), Math.toRadians(-20))
 
                         // Release all pixels
                         .afterTime(0, manager.openLeftClaw())

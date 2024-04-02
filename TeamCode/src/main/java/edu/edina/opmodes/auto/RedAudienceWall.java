@@ -14,11 +14,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 @Config
 public class RedAudienceWall extends RedAudience {
 
-    public static double DRIVEINX_FIRSTPICKUP = -58.5;
+    public static double DRIVEINX_FIRSTPICKUP = -59;
     public static double DRIVEINY_FIRSTPICKUP = -35.5;
-    public static double DRIVEINX_SECONDPICKUP = -62.5;
+    public static double DRIVEINX_SECONDPICKUP = -63;
     public static double DRIVEINY_SECONDPICKUP = -34;
-    public static int EXTENDARM_FIRSTPICKUP = -200;
+    public static int EXTENDARM_FIRSTPICKUP = -205;
     public static int EXTENDARM_SECONDPICKUP = -100;
 
     @Override
@@ -49,12 +49,11 @@ public class RedAudienceWall extends RedAudience {
                 drive.actionBuilder(drive.pose)
                         // Head to Stacks
                         .setReversed(true)
-                        .splineTo(new Vector2d(-31, -54), Math.toRadians(315))
+                        .splineTo(new Vector2d(-33, -55), Math.toRadians(315))
                         .setReversed(false)
 
                         .splineToSplineHeading(new Pose2d(-44, DRIVEINY_FIRSTPICKUP, Math.toRadians(180)), Math.toRadians(180))
 
-                        //.splineToSplineHeading(new Pose2d(-55, DRIVEINY_FIRSTPICKUP, Math.toRadians(180)), Math.toRadians(180))
                         .lineToX(DRIVEINX_FIRSTPICKUP)
                         // Prepare for grabbing - Trip 1
                         .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
@@ -187,7 +186,7 @@ public class RedAudienceWall extends RedAudience {
                         .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
                         .splineToConstantHeading(new Vector2d(10, -58), Math.toRadians(0))
                         .splineTo(new Vector2d(30, -58), Math.toRadians(0))
-                        .splineTo(new Vector2d(48.5, -53), Math.toRadians(35))
+                        .splineTo(new Vector2d(48.5, -52), Math.toRadians(35))
 
                         // Release all pixels
                         .afterTime(0.0, manager.openLeftClaw())
