@@ -99,7 +99,8 @@ public class RedBackStageWall extends RedBackStage {
                         .afterDisp(0, manager.getLiftReadyToDrive())
 
                         // Head to Stacks VIA Wall
-                        .splineToSplineHeading(new Pose2d(0, -58, Math.toRadians(-180)), Math.toRadians(180))
+                        .splineToSplineHeading(new Pose2d(24,-58, Math.toRadians(225)), Math.toRadians(180))
+                        .splineToSplineHeading(new Pose2d(0, -58, Math.toRadians(180)), Math.toRadians(180))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                         .splineToConstantHeading(new Vector2d(-38, -58), Math.toRadians(180))
                         .splineToConstantHeading(new Vector2d(-50, DRIVEINY_SECONDPICKUP), Math.toRadians(180))
@@ -147,7 +148,8 @@ public class RedBackStageWall extends RedBackStage {
 
                         // Head to Stacks VIA Wall
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                        .splineToSplineHeading(new Pose2d(0, -58, Math.toRadians(-180)), Math.toRadians(180))
+                        .splineToSplineHeading(new Pose2d(24,-58, Math.toRadians(225)), Math.toRadians(180))
+                        .splineToSplineHeading(new Pose2d(0, -58, Math.toRadians(180)), Math.toRadians(180))
                         .splineToConstantHeading(new Vector2d(-38, -58), Math.toRadians(180))
                         .splineToConstantHeading(new Vector2d(-50, DRIVEINY_SECONDPICKUP), Math.toRadians(180))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
