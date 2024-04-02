@@ -33,11 +33,11 @@ public class PoCMotor {
     }
 
     public void setPower(double power) {
-        if (!powerSetOnce || (currentPower != power)) {
+//        if (!powerSetOnce || (currentPower != power)) {
             currentPower = power;
             motor.setPower(currentPower);
             powerSetOnce = true;
-        }
+//        }
     }
 
     public double getPower() {
