@@ -13,8 +13,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 @Config
 @Photon
 public class RedBackStageWall extends RedBackStage {
-    public static double DRIVEINY_FIRSTPICKUP = -33;
-    public static double DRIVEINY_SECONDPICKUP = -30;
+    public static double DRIVEINY_FIRSTPICKUP = -34;
+    public static double DRIVEINY_SECONDPICKUP = -32;
     public static int EXTENDARM_FIRSTPICKUP = -170;
     public static int EXTENDARM_SECONDPICKUP = -20;
     @Override
@@ -185,7 +185,7 @@ public class RedBackStageWall extends RedBackStage {
 
                         .splineToConstantHeading(new Vector2d(10, -58), Math.toRadians(0))
                         .splineTo(new Vector2d(40, -58), Math.toRadians(0))
-                        .splineTo(new Vector2d(57, -52), Math.toRadians(20))
+                        .splineTo(new Vector2d(57, -50), Math.toRadians(20))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                         .afterTime(0.1, manager.openAutoClaw())
                         .afterTime(0.1, manager.openLeftClaw())
@@ -214,13 +214,13 @@ public class RedBackStageWall extends RedBackStage {
                         // Return to backstage and drop
                         .setReversed(true)
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -56), Math.toRadians(0)), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -58), Math.toRadians(0)), Math.toRadians(0))
 
                         .afterDisp(0, manager.lowerLiftForDriving())
                         .afterDisp(0, manager.zeroLift())
                         .afterDisp(0, manager.positionTheClawToDriveWithPixels())
 
-                        .splineToConstantHeading(new Vector2d(57, -56), Math.toRadians(0))
+                        .splineToConstantHeading(new Vector2d(57, -58), Math.toRadians(0))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                         .afterTime(0.1, manager.openAutoClaw())
                         .afterTime(0.1, manager.openLeftClaw())
