@@ -16,7 +16,7 @@ public class BlueAudience extends Audience {
         }
 
     @Override
-    protected Pose2d getStartPose() { return new Pose2d(-42, 64, Math.toRadians(270)); }
+    protected Pose2d getStartPose() { return new Pose2d(-31, 64, Math.toRadians(270)); }
 
     @Override
     protected PropLocation getNonePropLocation() { return PropLocation.Left; }
@@ -37,10 +37,11 @@ public class BlueAudience extends Audience {
                 backdropDropLocationAW2 = new Vector2d(48, 33);
                 break;
             case Right:
-                propDropLocation = new Vector2d(-39, 31);
+                propDropLocation = new Vector2d(-42, 39);
                 propAngle = 225;
                 backdropDropLocation = new Vector2d(50,32);
                 backdropDropLocationAW = new Vector2d(48,27);
+                backdropDropLocationSecond = new Vector2d(48, 38);
                 break;
             case Center:
             default:
@@ -48,6 +49,7 @@ public class BlueAudience extends Audience {
                 propAngle = 270;
                 backdropDropLocation = new Vector2d(50,38 ); // default to center if all goes bad
                 backdropDropLocationAW = new Vector2d(48, 35.5);
+                backdropDropLocationSecond = new Vector2d(48, 38);
                 break;
         }
 

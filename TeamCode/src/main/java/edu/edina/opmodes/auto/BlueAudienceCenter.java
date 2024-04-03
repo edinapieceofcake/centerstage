@@ -16,13 +16,13 @@ import edu.edina.library.enums.PropLocation;
 @Config
 public class BlueAudienceCenter extends BlueAudience {
 
-    public static double DRIVEINX_FIRSTPICKUP = -60;
-    public static double DRIVEINY_FIRSTPICKUPLEFT = 12;
-    public static double DRIVEINY_FIRSTPICKUPCENTER = 10;
-    public static double DRIVEINY_FIRSTPICKUPRIGHT = 10.5;
+    public static double DRIVEINX_FIRSTPICKUP = -56.5;
+    public static double DRIVEINY_FIRSTPICKUPLEFT = 14;
+    public static double DRIVEINY_FIRSTPICKUPCENTER = 14;
+    public static double DRIVEINY_FIRSTPICKUPRIGHT = 14;
     public static double DRIVEINX_SECONDPICKUP = -61.5;
     public static double DRIVEINY_SECONDPICKUP = 11;
-    public static int EXTENDARM_FIRSTPICKUP = -180;
+    public static int EXTENDARM_FIRSTPICKUP = -220;
     public static int EXTENDARM_SECONDPICKUP = -100;
 
     @Override
@@ -69,8 +69,8 @@ public class BlueAudienceCenter extends BlueAudience {
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks
                                 .setReversed(true)
-                                .splineToSplineHeading(new Pose2d(-48, 18, Math.toRadians(180)), Math.toRadians(270))
-                                .splineToSplineHeading(new Pose2d(-50, DRIVEINY_FIRSTPICKUPCENTER, Math.toRadians(180)), Math.toRadians(270))
+                                .splineToSplineHeading(new Pose2d(-46, 18, Math.toRadians(180)), Math.toRadians(270))
+                                .splineToSplineHeading(new Pose2d(-48, DRIVEINY_FIRSTPICKUPCENTER, Math.toRadians(180)), Math.toRadians(270))
                                 .setReversed(false)
                                 // Prepare for grabbing - Trip 1
                                 .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
@@ -85,7 +85,9 @@ public class BlueAudienceCenter extends BlueAudience {
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks
                                 .setReversed(true)
-                                .splineToSplineHeading(new Pose2d(-45, DRIVEINY_FIRSTPICKUPRIGHT, Math.toRadians(180)), Math.toRadians(270))
+                                .setTangent(Math.toRadians(315))
+                                .splineToConstantHeading(new Vector2d(-36, 12), Math.toRadians(180))
+                                .splineToSplineHeading(new Pose2d(-45, DRIVEINY_FIRSTPICKUPRIGHT, Math.toRadians(180)), Math.toRadians(180))
                                 // Prepare for grabbing - Trip 1
                                 .setReversed(false)
                                 .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
@@ -111,7 +113,7 @@ public class BlueAudienceCenter extends BlueAudience {
                             .afterTime(0, manager.closeLeftClaw())
 
                             // Back away a little and raise the lift
-                            .lineToX(-56.5)
+                            .lineToX(-55)
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
                             .waitSeconds(delayTime/1000) // Optional Wait
 
@@ -136,8 +138,9 @@ public class BlueAudienceCenter extends BlueAudience {
                             .setReversed(false)
                             .lineToX(50)
 
-                            .stopAndAdd(manager.openLeftClaw())
-                            .stopAndAdd(manager.openAutoClaw())
+                            .stopAndAdd(manager.openRightClaw())
+                            .afterTime(0.25, manager.openLeftClaw())
+                            .afterTime(0.25, manager.openAutoClaw())
                             .waitSeconds(0.25)
                             .build()
             );
@@ -152,7 +155,7 @@ public class BlueAudienceCenter extends BlueAudience {
                             .afterTime(0, manager.closeLeftClaw())
 
                             // Back away a little and raise the lift
-                            .lineToX(-56.5)
+                            .lineToX(-55)
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
                             .waitSeconds(delayTime / 1000) // Optional Wait
 
