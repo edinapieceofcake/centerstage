@@ -19,7 +19,7 @@ import edu.edina.library.util.RobotState;
 public class Lift {
 
     public static void setProperties(double rightTrigger, double leftTrigger, boolean a, boolean x, boolean y, boolean gm2y,
-                              boolean dpadUp, boolean dpadDown) {
+                              boolean rightStick, boolean leftStick, boolean dpadDown) {
         RobotState state = RobotState.getInstance();
         RobotConfiguration config = RobotConfiguration.getInstance();
 
@@ -176,7 +176,7 @@ public class Lift {
             }
         }
 
-        if (dpadUp) {
+        if (rightStick) {
             switch (state.currentLiftServoStateDropOffPosition) {
                 case One:
                     state.currentLiftServoStateDropOffPosition = LiftServoState.Two;
@@ -218,10 +218,11 @@ public class Lift {
                     state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFive;
                     state.liftDPadChanged = true;
                     break;
+
             }
         }
 
-        if (dpadDown) {
+        if (leftStick) {
             switch (state.currentLiftServoStateDropOffPosition) {
                 case Two:
                     state.currentLiftServoStateDropOffPosition = LiftServoState.One;
@@ -263,6 +264,11 @@ public class Lift {
                     state.currentLiftMotorDropOffPosition = config.liftDropOffPositionFive;
                     state.liftDPadChanged = true;
                     break;
+            }
+            if(dpadDown) {
+                state.currentLiftServoStateDropOffPosition = LiftServoState.One;
+                state.currentLiftMotorDropOffPosition = config.liftDropOffPositionOne;
+                state.liftDPadChanged = true;
             }
         }
     }
