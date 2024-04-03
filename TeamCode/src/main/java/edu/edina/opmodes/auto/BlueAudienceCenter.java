@@ -14,7 +14,7 @@ import edu.edina.library.enums.PropLocation;
 @Autonomous
 @Photon
 @Config
-public class BlueAudienceCenter extends RedAudience {
+public class BlueAudienceCenter extends BlueAudience {
 
     public static double DRIVEINX_FIRSTPICKUP = -60;
     public static double DRIVEINY_FIRSTPICKUPLEFT = 12;
