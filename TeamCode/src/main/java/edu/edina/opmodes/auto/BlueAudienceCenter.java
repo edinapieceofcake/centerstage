@@ -53,7 +53,7 @@ public class BlueAudienceCenter extends BlueAudience {
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks
                                 .setReversed(true)
-                                .splineToSplineHeading(new Pose2d(-35, 12, Math.toRadians(180)), Math.toRadians(315))
+                                .splineToSplineHeading(new Pose2d(-35, DRIVEINY_FIRSTPICKUPLEFT, Math.toRadians(180)), Math.toRadians(315))
                                 // Prepare for grabbing - Trip 1
                                 .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
                                 .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP, true))
@@ -69,8 +69,7 @@ public class BlueAudienceCenter extends BlueAudience {
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks
                                 .setReversed(true)
-                                .splineToSplineHeading(new Pose2d(-46, 18, Math.toRadians(180)), Math.toRadians(270))
-                                .splineToSplineHeading(new Pose2d(-48, DRIVEINY_FIRSTPICKUPCENTER, Math.toRadians(180)), Math.toRadians(270))
+                                .splineToSplineHeading(new Pose2d(-46, DRIVEINY_FIRSTPICKUPCENTER, Math.toRadians(180)), Math.toRadians(270))
                                 .setReversed(false)
                                 // Prepare for grabbing - Trip 1
                                 .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
@@ -85,7 +84,8 @@ public class BlueAudienceCenter extends BlueAudience {
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks
                                 .setTangent(Math.toRadians(315))
-                                .splineTo(new Vector2d(-40, 12), Math.toRadians(180))
+                                .splineToLinearHeading(new Pose2d(-40, DRIVEINY_FIRSTPICKUPRIGHT, Math.toRadians(180)), Math.toRadians(180))
+                                .setReversed(false)
                                 .splineToSplineHeading(new Pose2d(-45, DRIVEINY_FIRSTPICKUPRIGHT, Math.toRadians(180)), Math.toRadians(180))
                                 // Prepare for grabbing - Trip 1
                                 .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
@@ -123,7 +123,9 @@ public class BlueAudienceCenter extends BlueAudience {
 
                             // Head to backdrop
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, 11), Math.toRadians(0)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(350)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-24, 11), Math.toRadians(0)), Math.toRadians(0))
+
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
                             .splineToConstantHeading(new Vector2d(10, 11), Math.toRadians(0))
                             .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
@@ -165,7 +167,9 @@ public class BlueAudienceCenter extends BlueAudience {
 
                             // Head to backdrop
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, 11), Math.toRadians(0)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(350)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-24, 11), Math.toRadians(0)), Math.toRadians(0))
+
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
                             .splineToConstantHeading(new Vector2d(10, 11), Math.toRadians(0))
                             .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
@@ -205,7 +209,9 @@ public class BlueAudienceCenter extends BlueAudience {
 
                             // Return to backdrop
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, 11), Math.toRadians(0)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(350)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-24, 11), Math.toRadians(0)), Math.toRadians(0))
+
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
                             .splineToConstantHeading(new Vector2d(10, 11), Math.toRadians(0))
                             .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
@@ -259,7 +265,9 @@ public class BlueAudienceCenter extends BlueAudience {
 
                             // Return to backdrop
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, 11), Math.toRadians(0)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(350)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-24, 11), Math.toRadians(0)), Math.toRadians(0))
+
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
                             .splineToConstantHeading(new Vector2d(10, 11), Math.toRadians(0))
                             .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
@@ -312,7 +320,9 @@ public class BlueAudienceCenter extends BlueAudience {
 
                         // Return to backdrop and angle drop
                         .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(-11, 12, Math.toRadians(0)), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(350)), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-24, 11), Math.toRadians(0)), Math.toRadians(0))
+
                         .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
                         .splineTo(new Vector2d(35, -12), Math.toRadians(0))
                         .splineTo(new Vector2d(50, -23), Math.toRadians(-20))
@@ -357,7 +367,9 @@ public class BlueAudienceCenter extends BlueAudience {
 
                         // Return to backdrop and angle drop
                         .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(-11, 12, Math.toRadians(0)), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(350)), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-24, 11), Math.toRadians(0)), Math.toRadians(0))
+
                         .splineTo(new Vector2d(55, 12), Math.toRadians(0))
 
                         // Release all pixels
