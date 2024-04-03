@@ -84,12 +84,10 @@ public class BlueAudienceCenter extends BlueAudience {
                 Actions.runBlocking(
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks
-                                .setReversed(true)
                                 .setTangent(Math.toRadians(315))
-                                .splineToConstantHeading(new Vector2d(-36, 12), Math.toRadians(180))
+                                .splineTo(new Vector2d(-40, 12), Math.toRadians(180))
                                 .splineToSplineHeading(new Pose2d(-45, DRIVEINY_FIRSTPICKUPRIGHT, Math.toRadians(180)), Math.toRadians(180))
                                 // Prepare for grabbing - Trip 1
-                                .setReversed(false)
                                 .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
                                 .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP, true))
                                 .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
