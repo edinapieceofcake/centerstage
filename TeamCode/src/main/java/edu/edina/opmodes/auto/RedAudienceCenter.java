@@ -132,9 +132,10 @@ public class RedAudienceCenter extends RedAudience {
 
                             // Head to backdrop
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-40, -10), Math.toRadians(-10)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, -10), Math.toRadians(0)), Math.toRadians(0))
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                            .splineToConstantHeading(new Vector2d(10, -11), Math.toRadians(0))
+                            .splineToConstantHeading(new Vector2d(10, -10), Math.toRadians(0))
                             .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
 
                             // Release Yellow + White
@@ -173,9 +174,10 @@ public class RedAudienceCenter extends RedAudience {
 
                             // Head to backdrop
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-40, -10), Math.toRadians(-10)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, -10), Math.toRadians(0)), Math.toRadians(0))
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                            .splineToConstantHeading(new Vector2d(10, -11), Math.toRadians(0))
+                            .splineToConstantHeading(new Vector2d(10, -10), Math.toRadians(0))
                             .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
 
                             // Release Yellow + White
@@ -213,9 +215,10 @@ public class RedAudienceCenter extends RedAudience {
 
                             // Return to backdrop
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-40, -10), Math.toRadians(-10)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, -10), Math.toRadians(0)), Math.toRadians(0))
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                            .splineToConstantHeading(new Vector2d(10, -11), Math.toRadians(0))
+                            .splineToConstantHeading(new Vector2d(15, -10), Math.toRadians(0))
                             .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
 
                             // Release Yellow + White
@@ -234,7 +237,7 @@ public class RedAudienceCenter extends RedAudience {
 
                             // Drive back to stacks
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(24, -10.5, Math.toRadians(180)), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(24, DRIVEINY_SECONDPICKUP, Math.toRadians(180)), Math.toRadians(180))
                             .splineTo(new Vector2d(-48, DRIVEINY_SECONDPICKUP), Math.toRadians(180))
 
                             // Prepare for grabbing - Trip 2
@@ -267,9 +270,10 @@ public class RedAudienceCenter extends RedAudience {
 
                             // Return to backdrop
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, -11), Math.toRadians(0)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-40, -10), Math.toRadians(-10)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, -10), Math.toRadians(0)), Math.toRadians(0))
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                            .splineToConstantHeading(new Vector2d(10, -11), Math.toRadians(0))
+                            .splineToConstantHeading(new Vector2d(15, -10), Math.toRadians(0))
                             .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
 
                             // Release Yellow + White
@@ -284,7 +288,7 @@ public class RedAudienceCenter extends RedAudience {
 
                             // Drive back to stacks
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(24, -10.5, Math.toRadians(180)), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(24, DRIVEINY_SECONDPICKUP, Math.toRadians(180)), Math.toRadians(180))
                             .splineTo(new Vector2d(-48, DRIVEINY_SECONDPICKUP), Math.toRadians(180))
 
                             // Prepare for grabbing - Trip 2
@@ -319,7 +323,8 @@ public class RedAudienceCenter extends RedAudience {
 
                         // Return to backdrop and angle drop
                         .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-40, -10), Math.toRadians(-10)), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(-35, -10, Math.toRadians(0)), Math.toRadians(0))
                         .afterDisp(40, manager.getLiftReadyToDropPixelFromLeft())
                         .splineTo(new Vector2d(30, -13), Math.toRadians(0))
                         .splineTo(new Vector2d(48, -19), Math.toRadians(-20))
@@ -363,8 +368,9 @@ public class RedAudienceCenter extends RedAudience {
 
                         // Return to backdrop and angle drop
                         .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(-11, -12, Math.toRadians(0)), Math.toRadians(0))
-                        .splineTo(new Vector2d(55, -12), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-40, -10), Math.toRadians(-10)), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(-35, -10, Math.toRadians(0)), Math.toRadians(0))
+                        .splineTo(new Vector2d(55, -10), Math.toRadians(0))
 
                         // Release all pixels
                         .afterTime(0, manager.openLeftClaw())
