@@ -14,10 +14,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 @Config
 public class RedAudienceWall extends RedAudience {
 
-    public static double DRIVEINX_FIRSTPICKUP = -59;
+    public static double DRIVEINX_FIRSTPICKUP = -60;
     public static double DRIVEINY_FIRSTPICKUP = -35.5;
     public static double DRIVEINX_SECONDPICKUP = -63;
-    public static double DRIVEINY_SECONDPICKUP = -34;
+    public static double DRIVEINY_SECONDPICKUP = -35.5;
     public static int EXTENDARM_FIRSTPICKUP = -205;
     public static int EXTENDARM_SECONDPICKUP = -100;
 
@@ -77,7 +77,7 @@ public class RedAudienceWall extends RedAudience {
                         .afterTime(0, manager.closeLeftClaw())
 
                         // Back away a little and raise the lift
-                        .lineToX(-55.5)
+                        .lineToX(-57.5)
                         .stopAndAdd(manager.raiseLiftAfterStackPickup())
                         .waitSeconds(delayTime / 1000) // Optional Wait
 
@@ -89,9 +89,9 @@ public class RedAudienceWall extends RedAudience {
 
                         // Head to backdrop
                         .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -58), Math.toRadians(0)), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -59), Math.toRadians(0)), Math.toRadians(0))
                         .afterDisp(30, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                        .splineToConstantHeading(new Vector2d(10, -58), Math.toRadians(0))
+                        .splineToConstantHeading(new Vector2d(10, -59), Math.toRadians(0))
                         .splineToConstantHeading(backdropDropLocationAW, Math.toRadians(0))
 
                         // Release Yellow + White
@@ -117,7 +117,7 @@ public class RedAudienceWall extends RedAudience {
                         .afterTime(0, manager.closeLeftClaw())
 
                         // Back away a little and raise the lift
-                        .lineToX(-56.5)
+                        .lineToX(-57.5)
                         .stopAndAdd(manager.raiseLiftAfterStackPickup())
                         .waitSeconds(delayTime / 1000)
 
@@ -129,9 +129,10 @@ public class RedAudienceWall extends RedAudience {
 
                         // Return to backdrop
                         .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -58), Math.toRadians(0)), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-40, -59), Math.toRadians(-10)), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -59), Math.toRadians(0)), Math.toRadians(0))
                         .afterDisp(30, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                        .splineToConstantHeading(new Vector2d(10, -58), Math.toRadians(0))
+                        .splineToConstantHeading(new Vector2d(10, -59), Math.toRadians(0))
                         .splineToConstantHeading(backdropDropLocationAW, Math.toRadians(0))
 
                         // Release Yellow + White
@@ -146,8 +147,9 @@ public class RedAudienceWall extends RedAudience {
 
                         // Head to Stacks VIA Wall
                         .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(0, -58, Math.toRadians(-180)), Math.toRadians(180))
-                        .splineToConstantHeading(new Vector2d(-38, -58), Math.toRadians(180))
+                        .splineToSplineHeading(new Pose2d(6, -59, Math.toRadians(190)), Math.toRadians(180))
+                        .splineToSplineHeading(new Pose2d(0, -59, Math.toRadians(180)), Math.toRadians(180))
+                        .splineToConstantHeading(new Vector2d(-38, -59), Math.toRadians(180))
                         .splineToConstantHeading(new Vector2d(-55,  DRIVEINY_SECONDPICKUP), Math.toRadians(180))
 
                         // Prepare for grabbing - Trip 2
@@ -182,11 +184,12 @@ public class RedAudienceWall extends RedAudience {
 
                         // Return to backdrop and angle drop
                         .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -58), Math.toRadians(0)), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-40, -59), Math.toRadians(-10)), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -59), Math.toRadians(0)), Math.toRadians(0))
                         .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
-                        .splineToConstantHeading(new Vector2d(10, -58), Math.toRadians(0))
-                        .splineTo(new Vector2d(30, -58), Math.toRadians(0))
-                        .splineTo(new Vector2d(48.5, -52), Math.toRadians(35))
+                        .splineToConstantHeading(new Vector2d(10, -59), Math.toRadians(0))
+                        .splineTo(new Vector2d(30, -59), Math.toRadians(0))
+                        .splineTo(new Vector2d(50, -54), Math.toRadians(35))
 
                         // Release all pixels
                         .afterTime(0.0, manager.openLeftClaw())
@@ -227,9 +230,10 @@ public class RedAudienceWall extends RedAudience {
 
                         // Return to backdrop and angle drop
                         .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -58), Math.toRadians(0)), Math.toRadians(0))
-                        .splineToConstantHeading(new Vector2d(10, -58), Math.toRadians(0))
-                        .splineTo(new Vector2d(50, -58), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-40, -59), Math.toRadians(-10)), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -59), Math.toRadians(0)), Math.toRadians(0))
+                        .splineToConstantHeading(new Vector2d(10, -59), Math.toRadians(0))
+                        .splineTo(new Vector2d(50, -59), Math.toRadians(0))
 
                         // Release all pixels
                         .afterTime(0, manager.openLeftClaw())
