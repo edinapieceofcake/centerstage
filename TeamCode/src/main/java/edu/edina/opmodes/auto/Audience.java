@@ -97,7 +97,7 @@ public class Audience extends LinearOpMode {
             telemetry.addData("X for P, Y, 1W and park in corner", "");
             telemetry.addData("Y for P, Y, 1W and park in center", "");
             telemetry.addData("DPAD-UP for P, Y, 3Ws on backdrop park in front", "");
-            telemetry.addData("DPAD-DN for P, Y, 3Ws and park in center", "");
+            telemetry.addData("DPAD-DN for P, Y, 3Ws on backstage park in center", "");
             telemetry.addData("L-BUMPER to increase delay, R-BUMPER to decrease delay.", "");
             telemetry.addData("L-TRIGGER to close claws, R-TRIGGER to open", "");
             telemetry.addData("LEFT-STICK-DOWN : manual rotate prop position", "");

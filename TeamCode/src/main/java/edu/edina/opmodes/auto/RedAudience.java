@@ -47,7 +47,7 @@ public class RedAudience extends Audience {
                 propDropLocation = new Vector2d(-33, -34.5);  // default to Center if all goes bad
                 propAngle = 90.0;
                 backdropDropLocation = new Vector2d(50,-38 ); // default to center if all goes bad
-                backdropDropLocationAW = new Vector2d(48, -34.5);
+                backdropDropLocationAW = new Vector2d(48, -35.5);
                 break;
         }
 
@@ -57,8 +57,8 @@ public class RedAudience extends Audience {
                         drive.actionBuilder(drive.pose)
                                 .splineTo(propDropLocation, Math.toRadians(propAngle))
                                 .build(),
-                        manager.openLeftClaw(),
-                        manager.openAutoClaw()
+                        manager.openLeftClaw(0),
+                        manager.openAutoClaw(0)
                 )
         );
     }

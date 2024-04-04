@@ -22,7 +22,7 @@ public class RedAudienceCenter extends RedAudience {
     public static double DRIVEINY_FIRSTPICKUPCENTER = -10;
     public static double DRIVEINY_FIRSTPICKUPRIGHT = -10.5;
     public static double DRIVEINX_SECONDPICKUP = -61.5;
-    public static double DRIVEINY_SECONDPICKUP = -11;
+    public static double DRIVEINY_SECONDPICKUP = -12;
     public static int EXTENDARM_FIRSTPICKUP = -200;
     public static int EXTENDARM_SECONDPICKUP = -100;
 
@@ -132,11 +132,13 @@ public class RedAudienceCenter extends RedAudience {
 
                             // Head to backdrop
                             .setReversed(true)
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineToSplineHeading(new Pose2d(new Vector2d(-40, -10), Math.toRadians(-10)), Math.toRadians(0))
                             .splineToSplineHeading(new Pose2d(new Vector2d(-35, -10), Math.toRadians(0)), Math.toRadians(0))
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
                             .splineToConstantHeading(new Vector2d(10, -10), Math.toRadians(0))
                             .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                             // Release Yellow + White
                             .stopAndAdd(manager.openRightClaw())
@@ -174,11 +176,13 @@ public class RedAudienceCenter extends RedAudience {
 
                             // Head to backdrop
                             .setReversed(true)
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineToSplineHeading(new Pose2d(new Vector2d(-40, -10), Math.toRadians(-10)), Math.toRadians(0))
                             .splineToSplineHeading(new Pose2d(new Vector2d(-35, -10), Math.toRadians(0)), Math.toRadians(0))
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
                             .splineToConstantHeading(new Vector2d(10, -10), Math.toRadians(0))
                             .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                             // Release Yellow + White
                             .stopAndAdd(manager.openRightClaw())
@@ -215,11 +219,13 @@ public class RedAudienceCenter extends RedAudience {
 
                             // Return to backdrop
                             .setReversed(true)
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineToSplineHeading(new Pose2d(new Vector2d(-40, -10), Math.toRadians(-10)), Math.toRadians(0))
                             .splineToSplineHeading(new Pose2d(new Vector2d(-35, -10), Math.toRadians(0)), Math.toRadians(0))
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
                             .splineToConstantHeading(new Vector2d(15, -10), Math.toRadians(0))
                             .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                             // Release Yellow + White
                             .stopAndAdd(manager.openRightClaw())
@@ -237,8 +243,10 @@ public class RedAudienceCenter extends RedAudience {
 
                             // Drive back to stacks
                             .setReversed(true)
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineToSplineHeading(new Pose2d(24, DRIVEINY_SECONDPICKUP, Math.toRadians(180)), Math.toRadians(180))
                             .splineTo(new Vector2d(-48, DRIVEINY_SECONDPICKUP), Math.toRadians(180))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                             // Prepare for grabbing - Trip 2
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
@@ -270,11 +278,13 @@ public class RedAudienceCenter extends RedAudience {
 
                             // Return to backdrop
                             .setReversed(true)
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineToSplineHeading(new Pose2d(new Vector2d(-40, -10), Math.toRadians(-10)), Math.toRadians(0))
                             .splineToSplineHeading(new Pose2d(new Vector2d(-35, -10), Math.toRadians(0)), Math.toRadians(0))
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
                             .splineToConstantHeading(new Vector2d(15, -10), Math.toRadians(0))
                             .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                             // Release Yellow + White
                             .stopAndAdd(manager.openRightClaw())
@@ -288,8 +298,10 @@ public class RedAudienceCenter extends RedAudience {
 
                             // Drive back to stacks
                             .setReversed(true)
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineToSplineHeading(new Pose2d(24, DRIVEINY_SECONDPICKUP, Math.toRadians(180)), Math.toRadians(180))
                             .splineTo(new Vector2d(-48, DRIVEINY_SECONDPICKUP), Math.toRadians(180))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                             // Prepare for grabbing - Trip 2
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
@@ -323,11 +335,13 @@ public class RedAudienceCenter extends RedAudience {
 
                         // Return to backdrop and angle drop
                         .setReversed(true)
+                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                         .splineToSplineHeading(new Pose2d(new Vector2d(-40, -10), Math.toRadians(-10)), Math.toRadians(0))
                         .splineToSplineHeading(new Pose2d(-35, -10, Math.toRadians(0)), Math.toRadians(0))
                         .afterDisp(40, manager.getLiftReadyToDropPixelFromLeft())
                         .splineTo(new Vector2d(30, -13), Math.toRadians(0))
-                        .splineTo(new Vector2d(48, -19), Math.toRadians(-20))
+                        .splineTo(new Vector2d(50, -19), Math.toRadians(-20))
+                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                         // Release all pixels
                         .afterTime(0, manager.openLeftClaw())
@@ -368,9 +382,11 @@ public class RedAudienceCenter extends RedAudience {
 
                         // Return to backdrop and angle drop
                         .setReversed(true)
+                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                         .splineToSplineHeading(new Pose2d(new Vector2d(-40, -10), Math.toRadians(-10)), Math.toRadians(0))
                         .splineToSplineHeading(new Pose2d(-35, -10, Math.toRadians(0)), Math.toRadians(0))
                         .splineTo(new Vector2d(55, -10), Math.toRadians(0))
+                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                         // Release all pixels
                         .afterTime(0, manager.openLeftClaw())

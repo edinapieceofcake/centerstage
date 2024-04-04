@@ -33,8 +33,10 @@ public class RedBackStageCenter extends RedBackStage {
 
                             // Drive to stacks - first trip
                             .setReversed(true)
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineToSplineHeading(new Pose2d(24, DRIVEINY_FIRSTPICKUP, Math.toRadians(180)), Math.toRadians(180))
                             .splineTo(new Vector2d(-44, DRIVEINY_FIRSTPICKUP), Math.toRadians(180))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                             // Prepare for grabbing - Trip 1
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
@@ -144,8 +146,8 @@ public class RedBackStageCenter extends RedBackStage {
 
                         // Head to Stacks VIA C-Row
                         .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(24, DRIVEINY_SECONDPICKUP, Math.toRadians(180)), Math.toRadians(180))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
+                        .splineToSplineHeading(new Pose2d(24, DRIVEINY_SECONDPICKUP, Math.toRadians(180)), Math.toRadians(180))
                         .splineTo(new Vector2d(-44, DRIVEINY_SECONDPICKUP), Math.toRadians(180))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
