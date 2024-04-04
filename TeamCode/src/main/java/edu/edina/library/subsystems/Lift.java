@@ -191,7 +191,7 @@ public class Lift implements Subsystem {
 
         if (state.currentLiftSlideState == LiftSlideState.Retracting) {
             if (!hardware.liftSwitch.getState()) {
-                state.currentLiftSlidePower = config.superSlowLiftRetractingPower;
+                state.currentLiftSlidePower = 0;
             } else {
                 if ((state.currentLiftServoState != LiftServoState.Start) &&
                         (state.currentTopMotorPosition > config.minimumExtensionBeforeRaisingLiftInTicks)) {
