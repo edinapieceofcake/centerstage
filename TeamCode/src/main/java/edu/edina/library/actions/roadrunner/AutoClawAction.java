@@ -11,8 +11,8 @@ import edu.edina.library.util.RobotState;
 public class AutoClawAction extends ClawAction {
     private ClawState clawState;
 
-    public AutoClawAction(Claw claw, ClawState clawState) {
-        super(claw);
+    public AutoClawAction(Claw claw, ClawState clawState, long duration) {
+        super(claw, duration);
         this.clawState = clawState;
     }
 

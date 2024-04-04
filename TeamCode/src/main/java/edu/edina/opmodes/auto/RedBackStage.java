@@ -58,14 +58,14 @@ public class RedBackStage extends BackStage {
                             // Go to spike and drop
                             .splineTo(propDropLocation, Math.toRadians(propDropAngle))
                             .endTrajectory()
-                            .stopAndAdd(manager.openLeftClaw())
+                            .stopAndAdd(manager.openLeftClaw(0))
 
                             // Drive to backdrop and release
                             .setTangent((propLocation == PropLocation.Right) ? Math.toRadians(-180) : Math.toRadians(0))
                             .afterTime(LIFT_WAIT_TIME, manager.getLiftReadyToDropThePixelLowOnTheWall())
                             .splineToSplineHeading(backdropLocation, Math.toRadians(0))
                             .lineToX(X_PROPDROP)
-                            .stopAndAdd(manager.openRightClaw())
+                            .stopAndAdd(manager.openRightClaw(0))
                             .build()
             );
         } else {
@@ -74,14 +74,14 @@ public class RedBackStage extends BackStage {
                             // Go to spike and drop
                             .splineTo(propDropLocation, Math.toRadians(propDropAngle))
                             .endTrajectory()
-                            .stopAndAdd(manager.openLeftClaw())
+                            .stopAndAdd(manager.openLeftClaw(0))
 
                             // Drive to backdrop and release
                             .setTangent((propLocation == PropLocation.Right) ? Math.toRadians(-180) : Math.toRadians(0))
                             .afterTime(LIFT_WAIT_TIME, manager.getLiftReadyToDropThePixelLowOnTheWall())
                             .splineToSplineHeading(backdropLocation, Math.toRadians(0))
                             .lineToX(X_PROPDROP)
-                            .stopAndAdd(manager.openRightClaw())
+                            .stopAndAdd(manager.openRightClaw(0))
                             .build()
             );
         }

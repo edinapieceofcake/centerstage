@@ -17,12 +17,13 @@ import edu.edina.library.util.RobotHardware;
 import edu.edina.library.util.RobotState;
 
 public class ClawAction implements Action {
-    private Deadline clawDelay = new Deadline(200, TimeUnit.MILLISECONDS);
+    private Deadline clawDelay;
     private boolean started = false;
     private Claw claw;
 
-    public ClawAction(Claw claw) {
+    public ClawAction(Claw claw, long duration) {
         this.claw = claw;
+        clawDelay = new Deadline(duration, TimeUnit.MILLISECONDS);
     }
 
     @Override

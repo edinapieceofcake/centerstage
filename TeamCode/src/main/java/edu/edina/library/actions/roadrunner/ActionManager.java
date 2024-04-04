@@ -37,54 +37,77 @@ public class ActionManager {
     }
 
     public Action openLeftClaw() {
-        return new LeftClawAction(claw, ClawState.Opened);
+        return openLeftClaw(200);
     }
+    public Action openLeftClaw(long duration) { return new LeftClawAction(claw, ClawState.Opened, duration); }
 
-    public Action closeLeftClaw() {
-        return new LeftClawAction(claw, ClawState.Closed);
-    }
+    public Action closeLeftClaw() { return closeLeftClaw(200); }
+    public Action closeLeftClaw(long duration) { return new LeftClawAction(claw, ClawState.Closed, duration); }
 
-    public Action openRightClaw() {
-        return new RightClawAction(claw, ClawState.Opened);
-    }
+    public Action openRightClaw() { return openRightClaw(200); }
 
-    public Action closeRightClaw() {
-        return new RightClawAction(claw, ClawState.Closed);
-    }
+    public Action openRightClaw(long duration) { return new RightClawAction(claw, ClawState.Opened, duration); }
+
+    public Action closeRightClaw() { return closeRightClaw(200); }
+
+    public Action closeRightClaw(long duration) { return new RightClawAction(claw, ClawState.Closed, duration); }
 
     public Action openAutoClaw() {
-        return new AutoClawAction(claw, ClawState.Opened);
+        return openAutoClaw(200);
     }
 
-    public Action closeAutoClaw() {
-        return new AutoClawAction(claw, ClawState.Closed);
-    }
+    public Action openAutoClaw(long duration) { return new AutoClawAction(claw, ClawState.Opened, duration); }
 
-    public Action openAllClaws() {return new AllClawsAction(claw, ClawState.Opened); }
-    public Action closeAllClaws() {return new AllClawsAction(claw, ClawState.Closed); }
+    public Action closeAutoClaw() { return closeAutoClaw(200); }
+
+    public Action closeAutoClaw(long duration) { return new AutoClawAction(claw, ClawState.Closed, duration); }
+
+    public Action positionTheClawToDriveWithPixels(long duration) {
+        return new AngleClawAction(claw, AngleClawState.Drive, duration);
+    }
 
     public Action positionTheClawToDriveWithPixels() {
-        return new AngleClawAction(claw, AngleClawState.Drive);
+        return positionTheClawToDriveWithPixels(200);
+    }
+
+    public Action positionTheClawToPickupPixels(long duration) {
+        return new AngleClawAction(claw, AngleClawState.Pickup, duration);
     }
 
     public Action positionTheClawToPickupPixels() {
-        return new AngleClawAction(claw, AngleClawState.Pickup);
+        return positionTheClawToPickupPixels(200);
+    }
+
+    public Action positionTheClawToPickupPixelsFromStack(long duration) {
+        return new AngleClawAction(claw, AngleClawState.Stack, duration);
     }
 
     public Action positionTheClawToPickupPixelsFromStack() {
-        return new AngleClawAction(claw, AngleClawState.Stack);
+        return positionTheClawToPickupPixelsFromStack(200);
+    }
+
+    public Action positionTheClawToDropPixels(long duration) {
+        return new AngleClawAction(claw, AngleClawState.CenterDropOff, duration);
     }
 
     public Action positionTheClawToDropPixels() {
-        return new AngleClawAction(claw, AngleClawState.CenterDropOff);
+        return positionTheClawToDropPixels(200);
+    }
+
+    public Action twistClawForPickup(long duration) {
+        return new TwistClawAction(claw, TwistServoState.Pickup, duration);
     }
 
     public Action twistClawForPickup() {
-        return new TwistClawAction(claw, TwistServoState.Pickup);
+        return twistClawForPickup(200);
+    }
+
+    public Action twistClawForDropOff(long duration) {
+        return new TwistClawAction(claw, TwistServoState.CenterDropOff, duration);
     }
 
     public Action twistClawForDropOff() {
-        return new TwistClawAction(claw, TwistServoState.CenterDropOff);
+        return twistClawForDropOff(200);
     }
 
     public Action runLiftToPositionWithDuration(int liftPosition, long duration, boolean useBeamBreak) {
