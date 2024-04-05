@@ -94,8 +94,8 @@ public class BlueBackStageWall extends BlueBackStage {
                             .splineTo(new Vector2d(30, 58), Math.toRadians(0))
                             .splineTo(new Vector2d(51.5, 52), Math.toRadians(-35))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
-                            .afterTime(0.1, manager.openLeftClaw())
-                            .afterTime(0.1, manager.openAutoClaw())
+                            .afterTime(0.1, manager.openLeftClaw(0))
+                            .afterTime(0.2, manager.openAutoClaw(0))
                             .waitSeconds(0.25)
 
                             // Head to Stacks VIA A-Row
@@ -193,8 +193,8 @@ public class BlueBackStageWall extends BlueBackStage {
                             .splineTo(new Vector2d(30, 58), Math.toRadians(0))
                             .splineTo(new Vector2d(54, 53), Math.toRadians(-35))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
-                            .afterTime(0.1, manager.openLeftClaw())
-                            .afterTime(0.1, manager.openAutoClaw())
+                            .afterTime(0.1, manager.openLeftClaw(0))
+                            .afterTime(0.2, manager.openAutoClaw())
                             .waitSeconds(.25)
 
                             .build()
@@ -233,8 +233,8 @@ public class BlueBackStageWall extends BlueBackStage {
                         .splineToConstantHeading(new Vector2d(10, 58), Math.toRadians(0))
                         .splineTo(new Vector2d(59.5, 58), Math.toRadians(0))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
-                        .afterTime(0.1, manager.openLeftClaw())
-                        .afterTime(0.1, manager.openAutoClaw())
+                        .afterTime(0.1, manager.openLeftClaw(0))
+                        .afterTime(0.1, manager.openAutoClaw(0))
                         .waitSeconds(.25)
                         .lineToX(55)
                         .build()

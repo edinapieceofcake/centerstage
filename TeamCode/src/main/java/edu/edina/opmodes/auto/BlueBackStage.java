@@ -59,7 +59,7 @@ public class BlueBackStage extends BackStage {
                         .waitSeconds(.1)
                         .splineToSplineHeading(backdropLocation, Math.toRadians(0))
                         .lineToX(47)
-                        .stopAndAdd(manager.openRightClaw())
+                        .stopAndAdd(manager.openRightClaw(0))
                         .waitSeconds(.25)
                         .build()
         );
