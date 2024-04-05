@@ -91,7 +91,7 @@ public class RedBackStageWall extends RedBackStage {
 
                         .splineToConstantHeading(new Vector2d(10, -58), Math.toRadians(0))
                         .splineTo(new Vector2d(40, -58), Math.toRadians(0))
-                        .splineTo(new Vector2d(57, -52), Math.toRadians(20))
+                        .splineTo(new Vector2d(56, -52), Math.toRadians(20))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                         .afterTime(0.1, manager.openAutoClaw(0))
                         .afterTime(0.1, manager.openLeftClaw(0))
@@ -193,7 +193,7 @@ public class RedBackStageWall extends RedBackStage {
 
                         .splineToConstantHeading(new Vector2d(10, -58), Math.toRadians(0))
                         .splineTo(new Vector2d(40, -58), Math.toRadians(0))
-                        .splineTo(new Vector2d(57, -50), Math.toRadians(20))
+                        .splineTo(new Vector2d(56, -50), Math.toRadians(20))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                         .afterTime(0.1, manager.openAutoClaw(0))
                         .afterTime(0.1, manager.openLeftClaw(0))

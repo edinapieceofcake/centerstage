@@ -95,7 +95,7 @@ public class RedBackStageCenter extends RedBackStage {
                         .splineTo(new Vector2d(57, -22), Math.toRadians(-20))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                         .waitSeconds(0.25)
-                        .afterTime(0, manager.openAutoClaw(0))
+                        .afterTime(.1, manager.openAutoClaw(0))
                         .afterTime(0, manager.openLeftClaw(0))
                         .waitSeconds(0.25)
 
@@ -188,7 +188,7 @@ public class RedBackStageCenter extends RedBackStage {
                         .splineTo(new Vector2d(58, -22), Math.toRadians(-20))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                         .waitSeconds(0.25)
-                        .afterTime(0, manager.openAutoClaw(0))
+                        .afterTime(.1, manager.openAutoClaw(0))
                         .afterTime(0, manager.openLeftClaw(0))
                         .waitSeconds(0.25)
                         .build()
