@@ -123,51 +123,6 @@ public class Lift {
                     state.currentLiftSlideState, state.currentLiftDriveState, state.currentTopMotorPosition, config.liftTwistPosition));
         }
 
-//        if (b) {
-//            // high
-//            Log.d("IAMHERE", String.format("BS P:%s, L:%s, C:%s, D:%s, M:%d, T:%d", state.pickUpState, state.lastKnownLiftState,
-//                    state.currentLiftSlideState, state.currentLiftDriveState, state.currentTopMotorPosition, config.liftTwistPosition));
-//            if (state.lastKnownLiftState == LiftDriveState.HighDropOff) {
-//                if (state.pickUpState == PickUpState.Finished) {
-//                    state.currentLiftDriveState = Manual;
-//                } else {
-//                    state.lastKnownLiftState = state.currentLiftDriveState;
-//                    state.currentLiftDriveState = LiftDriveState.HighDropOff;
-//                    if (state.currentLiftSlideState == LiftSlideState.Retracting || state.currentLiftSlideState == LiftSlideState.Idle) {
-//                        switch (state.pickUpState) {
-//                            case FirstRetraction:
-//                                state.currentTopMotorTargetPosition = state.currentHighDropOffPostiion;
-//                                state.currentBottomMotorTargetPosition = state.currentHighDropOffPostiion;
-//                                state.currentLiftSlidePower = config.liftExtendingPower;
-//                                state.dropOffState = DropOffState.SecondExtension;
-//                                state.secondExtensionTimeout.reset();
-//                                break;
-//                            case DropArm:
-//                                state.dropOffState = DropOffState.LiftArm;
-//                                break;
-//                            default:
-//                                state.dropOffState = DropOffState.Start;
-//                                break;
-//                        }
-//                    } else {
-//                        Log.d("IAMHERE", "B Pressed");
-//                    }
-//                    state.currentLiftSlideState = LiftSlideState.Extending;
-//                    state.pickUpState = PickUpState.Finished;
-//                }
-//            } else {
-//                state.currentLiftDriveState = LiftDriveState.HighDropOff;
-//                if (state.lastKnownLiftState == LiftDriveState.LowDropOff) {
-//                    state.dropOffState = DropOffState.FirstExtension;
-//                } else if (state.dropOffState != DropOffState.Start) {
-//                    state.dropOffState = DropOffState.Start;
-//                }
-//                state.currentLiftSlideState = LiftSlideState.Extending;
-//            }
-//            Log.d("IAMHERE", String.format("BF D:%s, L:%s, C:%s, D:%s, M:%d, T:%d", state.dropOffState, state.lastKnownLiftState,
-//                    state.currentLiftSlideState, state.currentLiftDriveState, state.currentTopMotorPosition, config.liftTwistPosition));
-//        }
-
         if (gm2y) {
             if (state.currentLiftDriveState != Hang) {
                 state.currentLiftDriveState = Hang;
@@ -265,11 +220,12 @@ public class Lift {
                     state.liftDPadChanged = true;
                     break;
             }
-            if(dpadDown) {
-                state.currentLiftServoStateDropOffPosition = LiftServoState.One;
-                state.currentLiftMotorDropOffPosition = config.liftDropOffPositionOne;
-                state.liftDPadChanged = true;
-            }
+        }
+
+        if(dpadDown) {
+            state.currentLiftServoStateDropOffPosition = LiftServoState.One;
+            state.currentLiftMotorDropOffPosition = config.liftDropOffPositionOne;
+            state.liftDPadChanged = true;
         }
     }
 }
