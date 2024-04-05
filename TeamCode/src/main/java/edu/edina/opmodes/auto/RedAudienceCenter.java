@@ -141,15 +141,15 @@ public class RedAudienceCenter extends RedAudience {
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                             // Release Yellow + White
-                            .stopAndAdd(manager.openRightClaw())
+                            .stopAndAdd(manager.openRightClaw(0))
 
                             .setReversed(true)
                             .splineToConstantHeading(backdropDropLocationSecond, Math.toRadians(0))
                             .setReversed(false)
                             .lineToX(50)
 
-                            .stopAndAdd(manager.openLeftClaw())
-                            .stopAndAdd(manager.openAutoClaw())
+                            .stopAndAdd(manager.openLeftClaw(0))
+                            .stopAndAdd(manager.openAutoClaw(0))
                             .waitSeconds(0.25)
                             .build()
             );
@@ -185,9 +185,9 @@ public class RedAudienceCenter extends RedAudience {
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                             // Release Yellow + White
-                            .stopAndAdd(manager.openRightClaw())
-                            .afterTime(0.25, manager.openLeftClaw())
-                            .afterTime(0.25, manager.openAutoClaw())
+                            .stopAndAdd(manager.openRightClaw(0))
+                            .afterTime(0.25, manager.openLeftClaw(0))
+                            .afterTime(0.25, manager.openAutoClaw(0))
                             .waitSeconds(0.25)
                             .build()
             );
@@ -228,13 +228,13 @@ public class RedAudienceCenter extends RedAudience {
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                             // Release Yellow + White
-                            .stopAndAdd(manager.openRightClaw())
+                            .stopAndAdd(manager.openRightClaw(0))
                             .setReversed(true)
                             .splineToConstantHeading(backdropDropLocationSecond, Math.toRadians(0))
                             .setReversed(false)
                             .lineToX(50)
-                            .stopAndAdd(manager.openLeftClaw())
-                            .stopAndAdd(manager.openAutoClaw())
+                            .stopAndAdd(manager.openLeftClaw(0))
+                            .stopAndAdd(manager.openAutoClaw(0))
                             .waitSeconds(0.25)
 
                             // Back up and pack up
@@ -287,9 +287,9 @@ public class RedAudienceCenter extends RedAudience {
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                             // Release Yellow + White
-                            .stopAndAdd(manager.openRightClaw())
-                            .afterTime(0.2, manager.openLeftClaw())
-                            .afterTime(0.2, manager.openAutoClaw())
+                            .stopAndAdd(manager.openRightClaw(0))
+                            .afterTime(0.2, manager.openLeftClaw(0))
+                            .afterTime(0.2, manager.openAutoClaw(0))
                             .waitSeconds(0.25)
 
                             // Back up and pack up
@@ -340,12 +340,12 @@ public class RedAudienceCenter extends RedAudience {
                         .splineToSplineHeading(new Pose2d(-35, -10, Math.toRadians(0)), Math.toRadians(0))
                         .afterDisp(40, manager.getLiftReadyToDropPixelFromLeft())
                         .splineTo(new Vector2d(30, -13), Math.toRadians(0))
-                        .splineTo(new Vector2d(50, -19), Math.toRadians(-20))
+                        .splineTo(new Vector2d(49, -19), Math.toRadians(-20))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                         // Release all pixels
-                        .afterTime(0, manager.openLeftClaw())
-                        .afterTime(0.2, manager.openAutoClaw())
+                        .afterTime(0, manager.openLeftClaw(0))
+                        .afterTime(0.2, manager.openAutoClaw(0))
                         .waitSeconds(0.25)
                         .build()
         );
@@ -389,9 +389,9 @@ public class RedAudienceCenter extends RedAudience {
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                         // Release all pixels
-                        .afterTime(0, manager.openLeftClaw())
-                        .afterTime(0, manager.openRightClaw())
-                        .afterTime(0.2, manager.openAutoClaw())
+                        .afterTime(0, manager.openLeftClaw(0))
+                        .afterTime(0, manager.openRightClaw(0))
+                        .afterTime(0.2, manager.openAutoClaw(0))
                         .waitSeconds(0.25)
                         .build()
         );
