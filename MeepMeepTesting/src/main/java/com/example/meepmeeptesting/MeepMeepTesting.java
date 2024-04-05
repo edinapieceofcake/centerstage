@@ -1,5 +1,6 @@
 package com.example.meepmeeptesting;
 
+import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -658,12 +659,32 @@ public class MeepMeepTesting {
                 .build();
 
         redAudienceWallParkCorner.runAction(redAudienceWallParkCorner.getDrive().actionBuilder(new Pose2d(-42, -64, Math.toRadians(90)))
-                .splineTo(new Vector2d(-38, -36), Math.toRadians(90))
+                .splineTo(new Vector2d(-39, -31), Math.toRadians(135))
+                .waitSeconds(0.5)
                 .setReversed(true)
-                .splineTo(new Vector2d(-36,-54), Math.toRadians(270))
-                        .setReversed(false)
-                .splineToSplineHeading(new Pose2d(-52, -36, Math.toRadians(180)), Math.toRadians(180))
+                .splineTo(new Vector2d(-33,-55), Math.toRadians(300))
+                .setReversed(false)
+                .splineToSplineHeading(new Pose2d(-48, -35.5, Math.toRadians(180)), Math.toRadians(180))
                 .lineToX(-55.5)
+                .waitSeconds(2)
+                .lineToX(-54)
+
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(new Vector2d(-30, -59), Math.toRadians(-5)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(new Vector2d(-25, -59), Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(10, -59), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(48, -35.5), Math.toRadians(0))
+                .waitSeconds(2)
+
+                // back to stacks
+                .lineToX(47)
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(6, -59, Math.toRadians(185)), Math.toRadians(180))
+                .splineToSplineHeading(new Pose2d(0, -59, Math.toRadians(180)), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-30, -59), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-55,  -35.5), Math.toRadians(180))
+                                .waitSeconds(2)
+
 //                .lineToX(-48)
 //                .setReversed(true)
 //                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))

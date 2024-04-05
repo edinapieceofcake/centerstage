@@ -124,7 +124,7 @@ public class RedAudienceWall extends RedAudience {
                         .stopAndAdd(manager.raiseLiftAfterStackPickup())
                         .waitSeconds(delayTime / 1000)
 
-                        // Finish backing away and prepae to drive
+                        // Finish backing away and prepare to drive
                         .lineToX(-53)
                         .afterDisp(3, manager.lowerLiftForDriving())
                         .afterDisp(3, manager.zeroLift())
