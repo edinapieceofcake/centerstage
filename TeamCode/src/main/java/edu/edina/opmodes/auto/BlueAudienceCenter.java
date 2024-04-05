@@ -16,12 +16,12 @@ import edu.edina.library.enums.PropLocation;
 @Config
 public class BlueAudienceCenter extends BlueAudience {
 
-    public static double DRIVEINX_FIRSTPICKUP = -56.5;
+    public static double DRIVEINX_FIRSTPICKUP = -57;
     public static double DRIVEINY_FIRSTPICKUPLEFT = 14;
     public static double DRIVEINY_FIRSTPICKUPCENTER = 14;
     public static double DRIVEINY_FIRSTPICKUPRIGHT = 14;
-    public static double DRIVEINX_SECONDPICKUP = -61.5;
-    public static double DRIVEINY_SECONDPICKUP = 11;
+    public static double DRIVEINX_SECONDPICKUP = -61;
+    public static double DRIVEINY_SECONDPICKUP = 14;
     public static int EXTENDARM_FIRSTPICKUP = -220;
     public static int EXTENDARM_SECONDPICKUP = -100;
 
@@ -123,24 +123,26 @@ public class BlueAudienceCenter extends BlueAudience {
 
                             // Head to backdrop
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(350)), Math.toRadians(0))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(-10)), Math.toRadians(0))
                             .splineToSplineHeading(new Pose2d(new Vector2d(-24, 11), Math.toRadians(0)), Math.toRadians(0))
 
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
                             .splineToConstantHeading(new Vector2d(10, 11), Math.toRadians(0))
                             .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                             // Release Yellow + White
-                            .stopAndAdd(manager.openRightClaw())
+                            .stopAndAdd(manager.openRightClaw(0))
 
                             .setReversed(true)
                             .splineToConstantHeading(backdropDropLocationSecond, Math.toRadians(0))
                             .setReversed(false)
                             .lineToX(50)
 
-                            .stopAndAdd(manager.openRightClaw())
-                            .afterTime(0.25, manager.openLeftClaw())
-                            .afterTime(0.25, manager.openAutoClaw())
+                            .stopAndAdd(manager.openRightClaw(0))
+                            .afterTime(0.25, manager.openLeftClaw(0))
+                            .afterTime(0.25, manager.openAutoClaw(0))
                             .waitSeconds(0.25)
                             .build()
             );
@@ -167,17 +169,19 @@ public class BlueAudienceCenter extends BlueAudience {
 
                             // Head to backdrop
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(350)), Math.toRadians(0))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(-10)), Math.toRadians(0))
                             .splineToSplineHeading(new Pose2d(new Vector2d(-24, 11), Math.toRadians(0)), Math.toRadians(0))
 
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
                             .splineToConstantHeading(new Vector2d(10, 11), Math.toRadians(0))
                             .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                             // Release Yellow + White
-                            .stopAndAdd(manager.openRightClaw())
-                            .afterTime(0.25, manager.openLeftClaw())
-                            .afterTime(0.25, manager.openAutoClaw())
+                            .stopAndAdd(manager.openRightClaw(0))
+                            .afterTime(0.25, manager.openLeftClaw(0))
+                            .afterTime(0.25, manager.openAutoClaw(0))
                             .waitSeconds(0.25)
                             .build()
             );
@@ -209,21 +213,23 @@ public class BlueAudienceCenter extends BlueAudience {
 
                             // Return to backdrop
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(350)), Math.toRadians(0))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(-10)), Math.toRadians(0))
                             .splineToSplineHeading(new Pose2d(new Vector2d(-24, 11), Math.toRadians(0)), Math.toRadians(0))
 
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
                             .splineToConstantHeading(new Vector2d(10, 11), Math.toRadians(0))
                             .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                             // Release Yellow + White
-                            .stopAndAdd(manager.openRightClaw())
+                            .stopAndAdd(manager.openRightClaw(0))
                             .setReversed(true)
                             .splineToConstantHeading(backdropDropLocationSecond, Math.toRadians(0))
                             .setReversed(false)
                             .lineToX(50)
-                            .stopAndAdd(manager.openLeftClaw())
-                            .stopAndAdd(manager.openAutoClaw())
+                            .stopAndAdd(manager.openLeftClaw(0))
+                            .stopAndAdd(manager.openAutoClaw(0))
                             .waitSeconds(0.25)
 
                             // Back up and pack up
@@ -232,7 +238,8 @@ public class BlueAudienceCenter extends BlueAudience {
 
                             // Drive back to stacks
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(24, 10.5, Math.toRadians(180)), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(30, DRIVEINY_SECONDPICKUP, Math.toRadians(190)), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(24, DRIVEINY_SECONDPICKUP, Math.toRadians(180)), Math.toRadians(180))
                             .splineTo(new Vector2d(-48, DRIVEINY_SECONDPICKUP), Math.toRadians(180))
 
                             // Prepare for grabbing - Trip 2
@@ -265,17 +272,19 @@ public class BlueAudienceCenter extends BlueAudience {
 
                             // Return to backdrop
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(350)), Math.toRadians(0))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(-10)), Math.toRadians(0))
                             .splineToSplineHeading(new Pose2d(new Vector2d(-24, 11), Math.toRadians(0)), Math.toRadians(0))
 
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
                             .splineToConstantHeading(new Vector2d(10, 11), Math.toRadians(0))
                             .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                             // Release Yellow + White
-                            .stopAndAdd(manager.openRightClaw())
-                            .afterTime(0.2, manager.openLeftClaw())
-                            .afterTime(0.2, manager.openAutoClaw())
+                            .stopAndAdd(manager.openRightClaw(0))
+                            .afterTime(0.2, manager.openLeftClaw(0))
+                            .afterTime(0.2, manager.openAutoClaw(0))
                             .waitSeconds(0.25)
 
                             // Back up and pack up
@@ -284,7 +293,8 @@ public class BlueAudienceCenter extends BlueAudience {
 
                             // Drive back to stacks
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(24, 10.5, Math.toRadians(180)), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(30, DRIVEINY_SECONDPICKUP, Math.toRadians(190)), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(24, DRIVEINY_SECONDPICKUP, Math.toRadians(180)), Math.toRadians(180))
                             .splineTo(new Vector2d(-48, DRIVEINY_SECONDPICKUP), Math.toRadians(180))
 
                             // Prepare for grabbing - Trip 2
@@ -320,17 +330,19 @@ public class BlueAudienceCenter extends BlueAudience {
 
                         // Return to backdrop and angle drop
                         .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(350)), Math.toRadians(0))
+                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(-10)), Math.toRadians(0))
                         .splineToSplineHeading(new Pose2d(new Vector2d(-24, 11), Math.toRadians(0)), Math.toRadians(0))
 
-                        .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
-                        .splineTo(new Vector2d(35, -12), Math.toRadians(0))
-                        .splineTo(new Vector2d(50, -23), Math.toRadians(-20))
+                        .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
+                        .splineTo(new Vector2d(35, 11), Math.toRadians(0))
+                        .splineTo(new Vector2d(48, 19), Math.toRadians(20))
+                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                         // Release all pixels
-                        .afterTime(0, manager.openLeftClaw())
-                        .afterTime(0, manager.openRightClaw())
-                        .afterTime(0.2, manager.openAutoClaw())
+                        .afterTime(0, manager.openLeftClaw(0))
+                        .afterTime(0, manager.openRightClaw(0))
+                        .afterTime(0.2, manager.openAutoClaw(0))
                         .waitSeconds(0.25)
                         .build()
         );
@@ -338,7 +350,7 @@ public class BlueAudienceCenter extends BlueAudience {
         Actions.runBlocking(new SequentialAction(
                 drive.actionBuilder(drive.pose)
                         // Back up and pack up
-                        .lineToX(48)
+                        .lineToX(45)
                         .afterDisp(1, manager.getLiftReadyToDrive())
                         .build()));
 
@@ -367,15 +379,17 @@ public class BlueAudienceCenter extends BlueAudience {
 
                         // Return to backdrop and angle drop
                         .setReversed(true)
-                        .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(350)), Math.toRadians(0))
+                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(-10)), Math.toRadians(0))
                         .splineToSplineHeading(new Pose2d(new Vector2d(-24, 11), Math.toRadians(0)), Math.toRadians(0))
 
                         .splineTo(new Vector2d(55, 12), Math.toRadians(0))
+                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                         // Release all pixels
-                        .afterTime(0, manager.openLeftClaw())
-                        .afterTime(0, manager.openRightClaw())
-                        .afterTime(0.2, manager.openAutoClaw())
+                        .afterTime(0, manager.openLeftClaw(0))
+                        .afterTime(0, manager.openRightClaw(0))
+                        .afterTime(0.2, manager.openAutoClaw(0))
                         .waitSeconds(0.25)
                         .build()
         );
