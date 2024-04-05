@@ -9,6 +9,8 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import edu.edina.library.enums.PropLocation;
+
 @Autonomous
 @Photon
 @Config
@@ -68,104 +70,210 @@ public class RedAudienceWall extends RedAudience {
         logPose();
 
         // Run to backdrop.
-        Actions.runBlocking(
-                drive.actionBuilder(drive.pose)
-                        // Back away and pack up
-                        .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOff()))
+        if (propLocation == PropLocation.Right) {
+            Actions.runBlocking(
+                    drive.actionBuilder(drive.pose)
+                            // Back away and pack up
+                            .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOff()))
 
-                        // Move in and grab pixels until beam break
-                        .afterTime(0, manager.closeLeftClaw())
+                            // Move in and grab pixels until beam break
+                            .afterTime(0, manager.closeLeftClaw())
 
-                        // Back away a little and raise the lift
-                        .lineToX(-57.5)
-                        .stopAndAdd(manager.raiseLiftAfterStackPickup())
-                        .waitSeconds(delayTime / 1000) // Optional Wait
+                            // Back away a little and raise the lift
+                            .lineToX(-57.5)
+                            .stopAndAdd(manager.raiseLiftAfterStackPickup())
+                            .waitSeconds(delayTime / 1000) // Optional Wait
 
-                        // Finish backing away and prepare to drive
-                        .lineToX(-54)
-                        .afterDisp(3, manager.lowerLiftForDriving())
-                        .afterDisp(3, manager.zeroLift())
-                        .afterDisp(3, manager.positionTheClawToDriveWithPixels())
+                            // Finish backing away and prepare to drive
+                            .lineToX(-54)
+                            .afterDisp(3, manager.lowerLiftForDriving())
+                            .afterDisp(3, manager.zeroLift())
+                            .afterDisp(3, manager.positionTheClawToDriveWithPixels())
 
-                        // Head to backdrop
-                        .setReversed(true)
-                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                        .splineToSplineHeading(new Pose2d(new Vector2d(-40, -59), Math.toRadians(-10)), Math.toRadians(0))
-                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -59), Math.toRadians(0)), Math.toRadians(0))
-                        .afterDisp(30, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                        .splineToConstantHeading(new Vector2d(10, -59), Math.toRadians(0))
-                        .splineToConstantHeading(backdropDropLocationAW, Math.toRadians(0))
-                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
+                            // Head to backdrop
+                            .setReversed(true)
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-40, -59), Math.toRadians(-10)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, -59), Math.toRadians(0)), Math.toRadians(0))
+                            .afterDisp(30, manager.getLiftReadyToDropThePixelHighOnTheWall())
+                            .splineToConstantHeading(new Vector2d(10, -59), Math.toRadians(0))
+                            .splineToConstantHeading(backdropDropLocationAW, Math.toRadians(0))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
-                        // Release Yellow + White
-                        .stopAndAdd(manager.openRightClaw(0))
-                        .afterTime(0.25, manager.openLeftClaw(0))
-                        .afterTime(0.25, manager.openAutoClaw(0))
-                        .waitSeconds(0.25)
-                        .lineToX(48)
-                        .build()
-        );
+                            // Release Yellow + White
+                            .stopAndAdd(manager.openRightClaw(0))
+                            .setReversed(true)
+                            .splineToConstantHeading(backdropDropLocationSecond, Math.toRadians(0))
+                            .setReversed(false)
+                            .lineToX(50)
 
+                            .stopAndAdd(manager.openLeftClaw())
+                            .stopAndAdd(manager.openAutoClaw())
+                            .waitSeconds(0.25)
+                            .build()
+            );
+        } else {
+            Actions.runBlocking(
+                    drive.actionBuilder(drive.pose)
+                            // Back away and pack up
+                            .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOff()))
+
+                            // Move in and grab pixels until beam break
+                            .afterTime(0, manager.closeLeftClaw())
+
+                            // Back away a little and raise the lift
+                            .lineToX(-57.5)
+                            .stopAndAdd(manager.raiseLiftAfterStackPickup())
+                            .waitSeconds(delayTime / 1000) // Optional Wait
+
+                            // Finish backing away and prepare to drive
+                            .lineToX(-54)
+                            .afterDisp(3, manager.lowerLiftForDriving())
+                            .afterDisp(3, manager.zeroLift())
+                            .afterDisp(3, manager.positionTheClawToDriveWithPixels())
+
+                            // Head to backdrop
+                            .setReversed(true)
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-40, -59), Math.toRadians(-10)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, -59), Math.toRadians(0)), Math.toRadians(0))
+                            .afterDisp(30, manager.getLiftReadyToDropThePixelHighOnTheWall())
+                            .splineToConstantHeading(new Vector2d(10, -59), Math.toRadians(0))
+                            .splineToConstantHeading(backdropDropLocationAW, Math.toRadians(0))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
+
+                            // Release Yellow + White
+                            .stopAndAdd(manager.openRightClaw(0))
+                            .afterTime(0.25, manager.openLeftClaw(0))
+                            .afterTime(0.25, manager.openAutoClaw(0))
+                            .waitSeconds(0.25)
+                            .lineToX(48)
+                            .build()
+            );
+        }
     }
 
     protected void stackToYellowToStack() {
 
         // Run to backdrop.
-        Actions.runBlocking(
-                drive.actionBuilder(drive.pose)
-                        // Disable beam break
-                        .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOff()))
+        if (propLocation == PropLocation.Right) {
+            Actions.runBlocking(
+                    drive.actionBuilder(drive.pose)
+                            // Disable beam break
+                            .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOff()))
 
-                        // Grab Pixels
-                        .afterTime(0, manager.closeLeftClaw())
+                            // Grab Pixels
+                            .afterTime(0, manager.closeLeftClaw())
 
-                        // Back away a little and raise the lift
-                        .lineToX(-57.5)
-                        .stopAndAdd(manager.raiseLiftAfterStackPickup())
-                        .waitSeconds(delayTime / 1000)
+                            // Back away a little and raise the lift
+                            .lineToX(-57.5)
+                            .stopAndAdd(manager.raiseLiftAfterStackPickup())
+                            .waitSeconds(delayTime / 1000)
 
-                        // Finish backing away and prepare to drive
-                        .lineToX(-53)
-                        .afterDisp(3, manager.lowerLiftForDriving())
-                        .afterDisp(3, manager.zeroLift())
-                        .afterDisp(3, manager.positionTheClawToDriveWithPixels())
+                            // Finish backing away and prepare to drive
+                            .lineToX(-53)
+                            .afterDisp(3, manager.lowerLiftForDriving())
+                            .afterDisp(3, manager.zeroLift())
+                            .afterDisp(3, manager.positionTheClawToDriveWithPixels())
 
-                        // Return to backdrop
-                        .setReversed(true)
-                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                        .splineToSplineHeading(new Pose2d(new Vector2d(-40, -59), Math.toRadians(-10)), Math.toRadians(0))
-                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, -59), Math.toRadians(0)), Math.toRadians(0))
-                        .afterDisp(30, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                        .splineToConstantHeading(new Vector2d(10, -59), Math.toRadians(0))
-                        .splineToConstantHeading(backdropDropLocationAW, Math.toRadians(0))
-                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
+                            // Return to backdrop
+                            .setReversed(true)
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-40, -59), Math.toRadians(-10)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, -59), Math.toRadians(0)), Math.toRadians(0))
+                            .afterDisp(30, manager.getLiftReadyToDropThePixelHighOnTheWall())
+                            .splineToConstantHeading(new Vector2d(10, -59), Math.toRadians(0))
+                            .splineToConstantHeading(backdropDropLocationAW, Math.toRadians(0))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
-                        // Release Yellow + White
-                        .stopAndAdd(manager.openRightClaw(0))
-                        .afterTime(0.25, manager.openLeftClaw(0))
-                        .afterTime(0.25, manager.openAutoClaw(0))
-                        .waitSeconds(0.25)
+                            // Release Yellow + White
+                            .stopAndAdd(manager.openRightClaw(0))
+                            .setReversed(true)
+                            .splineToConstantHeading(backdropDropLocationSecond, Math.toRadians(0))
+                            .setReversed(false)
+                            .lineToX(50)
 
-                        // Back up and pack up
-                        .lineToX(47)
-                        .afterDisp(0, manager.getLiftReadyToDrive())
+                            .stopAndAdd(manager.openLeftClaw())
+                            .stopAndAdd(manager.openAutoClaw())
+                            .waitSeconds(0.25)
 
-                        // Head to Stacks VIA Wall
-                        .setReversed(true)
-                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                        .splineToSplineHeading(new Pose2d(6, -59, Math.toRadians(190)), Math.toRadians(180))
-                        .splineToSplineHeading(new Pose2d(0, -59, Math.toRadians(180)), Math.toRadians(180))
-                        .splineToConstantHeading(new Vector2d(-38, -59), Math.toRadians(180))
-                        .splineToConstantHeading(new Vector2d(-55,  DRIVEINY_SECONDPICKUP), Math.toRadians(180))
-                        .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
+                            // Back up and pack up
+                            .lineToX(47)
+                            .afterDisp(0, manager.getLiftReadyToDrive())
 
-                        // Prepare for grabbing - Trip 2
-                        .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                        .afterDisp(0, manager.runLiftToPosition(EXTENDARM_SECONDPICKUP, true))
-                        .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                        .lineToX(DRIVEINX_SECONDPICKUP)
-                        .build()
-        );
+                            // Head to Stacks VIA Wall
+                            .setReversed(true)
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
+                            .splineToSplineHeading(new Pose2d(6, -59, Math.toRadians(190)), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(0, -59, Math.toRadians(180)), Math.toRadians(180))
+                            .splineToConstantHeading(new Vector2d(-38, -59), Math.toRadians(180))
+                            .splineToConstantHeading(new Vector2d(-55, DRIVEINY_SECONDPICKUP), Math.toRadians(180))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
+
+                            // Prepare for grabbing - Trip 2
+                            .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
+                            .afterDisp(0, manager.runLiftToPosition(EXTENDARM_SECONDPICKUP, true))
+                            .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
+                            .lineToX(DRIVEINX_SECONDPICKUP)
+                            .build()
+            );
+        } else {
+            Actions.runBlocking(
+                    drive.actionBuilder(drive.pose)
+                            // Disable beam break
+                            .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOff()))
+
+                            // Grab Pixels
+                            .afterTime(0, manager.closeLeftClaw())
+
+                            // Back away a little and raise the lift
+                            .lineToX(-57.5)
+                            .stopAndAdd(manager.raiseLiftAfterStackPickup())
+                            .waitSeconds(delayTime / 1000)
+
+                            // Finish backing away and prepare to drive
+                            .lineToX(-53)
+                            .afterDisp(3, manager.lowerLiftForDriving())
+                            .afterDisp(3, manager.zeroLift())
+                            .afterDisp(3, manager.positionTheClawToDriveWithPixels())
+
+                            // Return to backdrop
+                            .setReversed(true)
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-40, -59), Math.toRadians(-10)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, -59), Math.toRadians(0)), Math.toRadians(0))
+                            .afterDisp(30, manager.getLiftReadyToDropThePixelHighOnTheWall())
+                            .splineToConstantHeading(new Vector2d(10, -59), Math.toRadians(0))
+                            .splineToConstantHeading(backdropDropLocationAW, Math.toRadians(0))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
+
+                            // Release Yellow + White
+                            .stopAndAdd(manager.openRightClaw(0))
+                            .afterTime(0.25, manager.openLeftClaw(0))
+                            .afterTime(0.25, manager.openAutoClaw(0))
+                            .waitSeconds(0.25)
+
+                            // Back up and pack up
+                            .lineToX(47)
+                            .afterDisp(0, manager.getLiftReadyToDrive())
+
+                            // Head to Stacks VIA Wall
+                            .setReversed(true)
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
+                            .splineToSplineHeading(new Pose2d(6, -59, Math.toRadians(190)), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(0, -59, Math.toRadians(180)), Math.toRadians(180))
+                            .splineToConstantHeading(new Vector2d(-38, -59), Math.toRadians(180))
+                            .splineToConstantHeading(new Vector2d(-55, DRIVEINY_SECONDPICKUP), Math.toRadians(180))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
+
+                            // Prepare for grabbing - Trip 2
+                            .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
+                            .afterDisp(0, manager.runLiftToPosition(EXTENDARM_SECONDPICKUP, true))
+                            .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
+                            .lineToX(DRIVEINX_SECONDPICKUP)
+                            .build()
+            );
+        }
     }
 
     protected void stackToAngleDrop() {
