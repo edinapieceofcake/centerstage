@@ -15,12 +15,13 @@ import edu.edina.library.enums.PropLocation;
 @Config
 @Photon
 public class BlueBackStageWall extends BlueBackStage {
-    public static double DRIVEINX_FIRSTPICKUP = -59;
-    public static double DRIVEINY_FIRSTPICKUP = 34;
+    public static double DRIVEINX_FIRSTPICKUP = -58;
+    public static double DRIVEINY_FIRSTPICKUP = 38;
     public static double DRIVEINX_SECONDPICKUP = -61;
     public static double DRIVEINX_THIRDPICKUP = -62;
-
     public static double DRIVEINY_SECONDPICKUP = 34;
+    public static double DRIVEINY_COLUMN1 = 58;
+    public static double DRIVEINY2_COLUMN1 = 54;
     public static int EXTENDARM_FIRSTPICKUP = -123;
     public static int EXTENDARM_SECONDPICKUP = -23;
      protected void runPaths() {
@@ -43,16 +44,11 @@ public class BlueBackStageWall extends BlueBackStage {
 
                              // Prepare for grabbing - Trip 1
                              .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                             .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP, true))
+                             .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP, false))
                              .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
                              .lineToX(DRIVEINX_FIRSTPICKUP)
                              .build()
              );
-         }
-
-         if ((propLocation == PropLocation.Left || propLocation == PropLocation.Center) && dropOnBackDrop) {
-             dropOnBackDrop = false;
-             dropOnBackStage = true;
          }
 
          if (fourWhites) {  // Make the middle trip
@@ -97,12 +93,14 @@ public class BlueBackStageWall extends BlueBackStage {
                             // Return to backdrop and angle drop
                             .setReversed(true)
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-40, 58), Math.toRadians(-10)), Math.toRadians(0))
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, 58), Math.toRadians(0)), Math.toRadians(0))
-                            .afterDisp(0, manager.getLiftReadyToDropPixelFromLeft())
-                            .splineToConstantHeading(new Vector2d(10, 58), Math.toRadians(0))
-                            .splineTo(new Vector2d(30, 58), Math.toRadians(0))
-                            .splineTo(new Vector2d(51.5, 52), Math.toRadians(-35))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-40, DRIVEINY_COLUMN1), Math.toRadians(-10)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, DRIVEINY_COLUMN1), Math.toRadians(0)), Math.toRadians(0))
+
+                            .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
+                            .splineToConstantHeading(new Vector2d(10, DRIVEINY_COLUMN1), Math.toRadians(0))
+                            .splineTo(new Vector2d(30, DRIVEINY_COLUMN1), Math.toRadians(0))
+
+                            .splineTo(new Vector2d(54, 53), Math.toRadians(-35))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                             .afterTime(0.1, manager.openLeftClaw(0))
                             .afterTime(0.2, manager.openAutoClaw(0))
@@ -113,10 +111,11 @@ public class BlueBackStageWall extends BlueBackStage {
                             .afterDisp(0, manager.getLiftReadyToDrive())
 
                             // Head to Stacks VIA Wall
-                            .splineToSplineHeading(new Pose2d(6, 56, Math.toRadians(190)), Math.toRadians(180))
-                            .splineToSplineHeading(new Pose2d(0, 56, Math.toRadians(180)), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(6, DRIVEINY2_COLUMN1, Math.toRadians(190)), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(0, DRIVEINY2_COLUMN1, Math.toRadians(180)), Math.toRadians(180))
+
                             .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                            .splineToConstantHeading(new Vector2d(-38, 58), Math.toRadians(180))
+                            .splineToConstantHeading(new Vector2d(-38, DRIVEINY2_COLUMN1), Math.toRadians(180))
                             .splineToConstantHeading(new Vector2d(-50, DRIVEINY_SECONDPICKUP), Math.toRadians(180))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
@@ -150,10 +149,11 @@ public class BlueBackStageWall extends BlueBackStage {
                          // Return to backstage and drop
                          .setReversed(true)
                          .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                         .splineToSplineHeading(new Pose2d(new Vector2d(-40, 58), Math.toRadians(-10)), Math.toRadians(0))
-                         .splineToSplineHeading(new Pose2d(new Vector2d(-35, 58), Math.toRadians(0)), Math.toRadians(0))
-                         .splineToConstantHeading(new Vector2d(10, 58), Math.toRadians(0))
-                         .splineTo(new Vector2d(59, 58), Math.toRadians(0))
+                         .splineToSplineHeading(new Pose2d(new Vector2d(-40, DRIVEINY_COLUMN1), Math.toRadians(-10)), Math.toRadians(0))
+                         .splineToSplineHeading(new Pose2d(new Vector2d(-35, DRIVEINY_COLUMN1), Math.toRadians(0)), Math.toRadians(0))
+
+                         .splineToConstantHeading(new Vector2d(10, DRIVEINY_COLUMN1), Math.toRadians(0))
+                         .splineTo(new Vector2d(59, DRIVEINY_COLUMN1), Math.toRadians(0))
                          .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                          .afterTime(0.1, manager.openLeftClaw())
                          .afterTime(0.1, manager.openAutoClaw())
@@ -164,9 +164,10 @@ public class BlueBackStageWall extends BlueBackStage {
 
                          // Head to Stacks VIA Wall
                          .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                         .splineToSplineHeading(new Pose2d(6, 56, Math.toRadians(190)), Math.toRadians(180))
-                         .splineToSplineHeading(new Pose2d(0, 56, Math.toRadians(-180)), Math.toRadians(180))
-                         .splineToConstantHeading(new Vector2d(-38, 58), Math.toRadians(180))
+                         .splineToSplineHeading(new Pose2d(6, DRIVEINY_COLUMN1, Math.toRadians(190)), Math.toRadians(180))
+                         .splineToSplineHeading(new Pose2d(0, DRIVEINY_COLUMN1, Math.toRadians(-180)), Math.toRadians(180))
+
+                         .splineToConstantHeading(new Vector2d(-38, DRIVEINY_COLUMN1), Math.toRadians(180))
                          .splineToConstantHeading(new Vector2d(-50, DRIVEINY_SECONDPICKUP), Math.toRadians(180))
                          .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
@@ -200,12 +201,14 @@ public class BlueBackStageWall extends BlueBackStage {
                             // Return to backdrop and angle drop
                             .setReversed(true)
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-40, 58), Math.toRadians(-10)), Math.toRadians(0))
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-35, 58), Math.toRadians(0)), Math.toRadians(0))
-                            .afterDisp(5, manager.getLiftReadyToDropPixelFromLeft())
-                            .splineToConstantHeading(new Vector2d(10, 58), Math.toRadians(0))
-                            .splineTo(new Vector2d(30, 58), Math.toRadians(0))
-                            .splineTo(new Vector2d(54, 53), Math.toRadians(-35))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-42, DRIVEINY2_COLUMN1), Math.toRadians(-10)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-37, DRIVEINY2_COLUMN1), Math.toRadians(0)), Math.toRadians(0))
+
+                            .afterDisp(30, manager.getLiftReadyToDropPixelFromLeft())
+                            .splineToConstantHeading(new Vector2d(10, DRIVEINY2_COLUMN1), Math.toRadians(0))
+                            .splineTo(new Vector2d(30, DRIVEINY2_COLUMN1), Math.toRadians(0))
+
+                            .splineTo(new Vector2d(58, 50), Math.toRadians(-35))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                             .afterTime(0.1, manager.openLeftClaw(0))
                             .afterTime(0.2, manager.openAutoClaw())
@@ -217,7 +220,7 @@ public class BlueBackStageWall extends BlueBackStage {
          Actions.runBlocking(new SequentialAction(
                  drive.actionBuilder(drive.pose)
                          // Back up and pack up
-                         .lineToX(46)
+                         .lineToX(50)
                          .afterDisp(1, manager.getLiftReadyToDrive())
                          .build()));
     }
@@ -243,10 +246,10 @@ public class BlueBackStageWall extends BlueBackStage {
                         // Return to backstage and drop
                         .setReversed(true)
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                        .splineToSplineHeading(new Pose2d(new Vector2d(-40, 58), Math.toRadians(-10)), Math.toRadians(0))
-                        .splineToSplineHeading(new Pose2d(new Vector2d(-35, 58), Math.toRadians(0)), Math.toRadians(0))
-                        .splineToConstantHeading(new Vector2d(10, 58), Math.toRadians(0))
-                        .splineTo(new Vector2d(59.5, 58), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-42, DRIVEINY2_COLUMN1), Math.toRadians(-10)), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(new Vector2d(-37, DRIVEINY2_COLUMN1), Math.toRadians(0)), Math.toRadians(0))
+                        .splineToConstantHeading(new Vector2d(10, DRIVEINY2_COLUMN1), Math.toRadians(0))
+                        .splineTo(new Vector2d(59.5, DRIVEINY2_COLUMN1), Math.toRadians(0))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                         .afterTime(0.1, manager.openLeftClaw(0))
                         .afterTime(0.1, manager.openAutoClaw(0))

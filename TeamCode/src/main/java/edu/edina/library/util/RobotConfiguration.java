@@ -63,7 +63,7 @@ public class RobotConfiguration {
 
     // lift servo positions
     public final double startingLeftLiftServoPosition = 0.93;
-    public final double startingRightLiftServoPosition = 0.13;
+    public final double startingRightLiftServoPosition = 0.17;
     public final double leftStackPickupServoPosition = 0.8;
     public final double rightStackPickupServoPosition = 0.29;
     public final double leftLowDropOffServoPosition = .53;
