@@ -16,13 +16,13 @@ import edu.edina.library.enums.PropLocation;
 @Config
 public class BlueAudienceCenter extends BlueAudience {
 
-    public static double DRIVEINX_FIRSTPICKUP = -57;
+    public static double DRIVEINX_FIRSTPICKUP = -57.5;
     public static double DRIVEINY_FIRSTPICKUPLEFT = 14;
     public static double DRIVEINY_FIRSTPICKUPCENTER = 14;
-    public static double DRIVEINY_FIRSTPICKUPRIGHT = 14;
-    public static double DRIVEINX_SECONDPICKUP = -61;
-    public static double DRIVEINY_SECONDPICKUP = 14;
-    public static int EXTENDARM_FIRSTPICKUP = -220;
+    public static double DRIVEINY_FIRSTPICKUPRIGHT = 13.5;
+    public static double DRIVEINX_SECONDPICKUP = -59.5;
+    public static double DRIVEINY_SECONDPICKUP = 13.5;
+    public static int EXTENDARM_FIRSTPICKUP = -200;
     public static int EXTENDARM_SECONDPICKUP = -100;
 
     @Override
@@ -55,8 +55,8 @@ public class BlueAudienceCenter extends BlueAudience {
                                 .setReversed(true)
                                 .splineToSplineHeading(new Pose2d(-35, DRIVEINY_FIRSTPICKUPLEFT, Math.toRadians(180)), Math.toRadians(315))
                                 // Prepare for grabbing - Trip 1
-                                .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                                .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP, true))
+                                .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(250)))
+                                .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP, false))
                                 .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
                                 .setReversed(false)
                                 .splineToSplineHeading(new Pose2d(-55, DRIVEINY_FIRSTPICKUPLEFT, Math.toRadians(180)), Math.toRadians(180))
@@ -72,8 +72,8 @@ public class BlueAudienceCenter extends BlueAudience {
                                 .splineToSplineHeading(new Pose2d(-46, DRIVEINY_FIRSTPICKUPCENTER, Math.toRadians(180)), Math.toRadians(270))
                                 .setReversed(false)
                                 // Prepare for grabbing - Trip 1
-                                .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                                .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP, true))
+                                .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(250)))
+                                .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP, false))
                                 .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
                                 .lineToX(DRIVEINX_FIRSTPICKUP)
                                 .build()
@@ -88,8 +88,8 @@ public class BlueAudienceCenter extends BlueAudience {
                                 .setReversed(false)
                                 .splineToSplineHeading(new Pose2d(-45, DRIVEINY_FIRSTPICKUPRIGHT, Math.toRadians(180)), Math.toRadians(180))
                                 // Prepare for grabbing - Trip 1
-                                .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                                .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP, true))
+                                .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(250)))
+                                .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP, false))
                                 .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
                                 .lineToX(DRIVEINX_FIRSTPICKUP)
                                 .build()
@@ -111,12 +111,12 @@ public class BlueAudienceCenter extends BlueAudience {
                             .afterTime(0, manager.closeLeftClaw())
 
                             // Back away a little and raise the lift
-                            .lineToX(-55)
+                            .lineToX(DRIVEINX_FIRSTPICKUP+1)
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
                             .waitSeconds(delayTime/1000) // Optional Wait
 
                             // Finish backing away and prepare to drive
-                            .lineToX(-53)
+                            .lineToX(DRIVEINX_FIRSTPICKUP+3)
                             .afterDisp(3, manager.lowerLiftForDriving())
                             .afterDisp(3, manager.zeroLift())
                             .afterDisp(3, manager.positionTheClawToDriveWithPixels())
@@ -124,11 +124,11 @@ public class BlueAudienceCenter extends BlueAudience {
                             // Head to backdrop
                             .setReversed(true)
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(-10)), Math.toRadians(0))
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-24, 11), Math.toRadians(0)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(-5)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-22, 11), Math.toRadians(0)), Math.toRadians(0))
 
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                            .splineToConstantHeading(new Vector2d(10, 11), Math.toRadians(0))
+                            .splineToConstantHeading(new Vector2d(25, 11), Math.toRadians(0))
                             .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
@@ -140,7 +140,6 @@ public class BlueAudienceCenter extends BlueAudience {
                             .setReversed(false)
                             .lineToX(50)
 
-                            .stopAndAdd(manager.openRightClaw(0))
                             .afterTime(0.25, manager.openLeftClaw(0))
                             .afterTime(0.25, manager.openAutoClaw(0))
                             .waitSeconds(0.25)
@@ -157,12 +156,12 @@ public class BlueAudienceCenter extends BlueAudience {
                             .afterTime(0, manager.closeLeftClaw())
 
                             // Back away a little and raise the lift
-                            .lineToX(-55)
+                            .lineToX(DRIVEINX_FIRSTPICKUP+1)
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
                             .waitSeconds(delayTime / 1000) // Optional Wait
 
                             // Finish backing away and prepare to drive
-                            .lineToX(-53)
+                            .lineToX(DRIVEINX_FIRSTPICKUP+3)
                             .afterDisp(3, manager.lowerLiftForDriving())
                             .afterDisp(3, manager.zeroLift())
                             .afterDisp(3, manager.positionTheClawToDriveWithPixels())
@@ -170,11 +169,11 @@ public class BlueAudienceCenter extends BlueAudience {
                             // Head to backdrop
                             .setReversed(true)
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(-10)), Math.toRadians(0))
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-24, 11), Math.toRadians(0)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(-5)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-22, 11), Math.toRadians(0)), Math.toRadians(0))
 
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                            .splineToConstantHeading(new Vector2d(10, 11), Math.toRadians(0))
+                            .splineToConstantHeading(new Vector2d(25, 11), Math.toRadians(0))
                             .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
@@ -201,12 +200,12 @@ public class BlueAudienceCenter extends BlueAudience {
                             .afterTime(0, manager.closeLeftClaw())
 
                             // Back away a little and raise the lift
-                            .lineToX(-56.5)
+                            .lineToX(DRIVEINX_FIRSTPICKUP+1)
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
                             .waitSeconds(delayTime / 1000)
 
                             // Finish backing away and prepare to drive
-                            .lineToX(-53)
+                            .lineToX(DRIVEINX_FIRSTPICKUP+3)
                             .afterDisp(3, manager.lowerLiftForDriving())
                             .afterDisp(3, manager.zeroLift())
                             .afterDisp(3, manager.positionTheClawToDriveWithPixels())
@@ -214,11 +213,11 @@ public class BlueAudienceCenter extends BlueAudience {
                             // Return to backdrop
                             .setReversed(true)
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(-10)), Math.toRadians(0))
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-24, 11), Math.toRadians(0)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(-5)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-22, 11), Math.toRadians(0)), Math.toRadians(0))
 
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                            .splineToConstantHeading(new Vector2d(10, 11), Math.toRadians(0))
+                            .splineToConstantHeading(new Vector2d(25, 11), Math.toRadians(0))
                             .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
@@ -260,12 +259,12 @@ public class BlueAudienceCenter extends BlueAudience {
                             .afterTime(0, manager.closeLeftClaw())
 
                             // Back away a little and raise the lift
-                            .lineToX(-56.5)
+                            .lineToX(DRIVEINX_FIRSTPICKUP+3)
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
                             .waitSeconds(delayTime / 1000)
 
                             // Finish backing away and prepare to drive
-                            .lineToX(-53)
+                            .lineToX(DRIVEINX_FIRSTPICKUP+5)
                             .afterDisp(3, manager.lowerLiftForDriving())
                             .afterDisp(3, manager.zeroLift())
                             .afterDisp(3, manager.positionTheClawToDriveWithPixels())
@@ -273,11 +272,11 @@ public class BlueAudienceCenter extends BlueAudience {
                             // Return to backdrop
                             .setReversed(true)
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(-10)), Math.toRadians(0))
-                            .splineToSplineHeading(new Pose2d(new Vector2d(-24, 11), Math.toRadians(0)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(-5)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(new Vector2d(-22, 11), Math.toRadians(0)), Math.toRadians(0))
 
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
-                            .splineToConstantHeading(new Vector2d(10, 11), Math.toRadians(0))
+                            .splineToConstantHeading(new Vector2d(25, 11), Math.toRadians(0))
                             .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
@@ -326,7 +325,7 @@ public class BlueAudienceCenter extends BlueAudience {
                         .afterDisp(3, manager.lowerLiftForDriving())
                         .afterDisp(3, manager.zeroLift())
                         .afterDisp(3, manager.positionTheClawToDriveWithPixels())
-                        .lineToX(-50)
+                        .lineToX(DRIVEINX_SECONDPICKUP+3)
 
                         // Return to backdrop and angle drop
                         .setReversed(true)
@@ -336,7 +335,7 @@ public class BlueAudienceCenter extends BlueAudience {
 
                         .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
                         .splineTo(new Vector2d(35, 11), Math.toRadians(0))
-                        .splineTo(new Vector2d(48, 19), Math.toRadians(20))
+                        .splineTo(new Vector2d(52, 20), Math.toRadians(20))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                         // Release all pixels
@@ -375,7 +374,7 @@ public class BlueAudienceCenter extends BlueAudience {
                         .afterDisp(3, manager.lowerLiftForDriving())
                         .afterDisp(3, manager.zeroLift())
                         .afterDisp(3, manager.positionTheClawToDriveWithPixels())
-                        .lineToX(-50)
+                        .lineToX(DRIVEINX_SECONDPICKUP+3)
 
                         // Return to backdrop and angle drop
                         .setReversed(true)

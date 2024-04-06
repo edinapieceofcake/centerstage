@@ -31,25 +31,25 @@ public class BlueAudience extends Audience {
             case Left:
                 propDropLocation = new Vector2d(-31, 35);
                 propAngle = 315;
-                backdropDropLocation = new Vector2d(50,44.5);
+                backdropDropLocation = new Vector2d(50,40.5);
                 backdropDropLocationSecond = new Vector2d(48, 38);
-                backdropDropLocationAW = new Vector2d(48,43.5);
-                backdropDropLocationAW2 = new Vector2d(48, 33);
+                backdropDropLocationAW = new Vector2d(51,36.5);
+                backdropDropLocationAW2 = new Vector2d(51, 30);
                 break;
             case Right:
                 propDropLocation = new Vector2d(-42, 33);
                 propAngle = 225;
-                backdropDropLocation = new Vector2d(50,32);
-                backdropDropLocationAW = new Vector2d(48,27);
-                backdropDropLocationSecond = new Vector2d(48, 38);
+                backdropDropLocation = new Vector2d(50,29);
+                backdropDropLocationAW = new Vector2d(51,26);
+                backdropDropLocationSecond = new Vector2d(51, 38);
                 break;
             case Center:
             default:
                 propDropLocation = new Vector2d(-33, 34.5);  // default to Center if all goes bad
                 propAngle = 270;
-                backdropDropLocation = new Vector2d(50,38 ); // default to center if all goes bad
-                backdropDropLocationAW = new Vector2d(48, 35.5);
-                backdropDropLocationSecond = new Vector2d(48, 38);
+                backdropDropLocation = new Vector2d(50,34 ); // default to center if all goes bad
+                backdropDropLocationAW = new Vector2d(51, 31.5);
+                backdropDropLocationSecond = new Vector2d(51, 38);
                 break;
         }
 
@@ -74,7 +74,7 @@ public class BlueAudience extends Audience {
                         new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(58, 14), Math.toRadians(0))
+                                .splineTo(new Vector2d(54, 14), Math.toRadians(0))
                                 .build(),
                         manager.getLiftReadyToDrive()
                         ));
@@ -84,7 +84,7 @@ public class BlueAudience extends Audience {
                         new SequentialAction(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(true)
-                                .splineTo(new Vector2d(58, 60), Math.toRadians(0))
+                                .splineTo(new Vector2d(54 , 60), Math.toRadians(0))
                                 .build(),
                         manager.getLiftReadyToDrive()
                 ));
