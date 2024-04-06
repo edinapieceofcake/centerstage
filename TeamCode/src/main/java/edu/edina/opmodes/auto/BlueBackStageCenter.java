@@ -152,8 +152,8 @@ public class BlueBackStageCenter extends BlueBackStage {
                             // Return to backdrop and angle drop
                             .setReversed(true)
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                            .splineToSplineHeading(new Pose2d(-15, 13, Math.toRadians(5)), Math.toRadians(0))
-                            .splineToSplineHeading(new Pose2d(-11, 13, Math.toRadians(0)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(-17, 13, Math.toRadians(5)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(-13, 13, Math.toRadians(0)), Math.toRadians(0))
                             .afterDisp(0, manager.getLiftReadyToDropPixelFromRight())
                             .splineTo(new Vector2d(30, 13), Math.toRadians(0))
                             .splineTo(new Vector2d(51, 21), Math.toRadians(35))
@@ -201,9 +201,9 @@ public class BlueBackStageCenter extends BlueBackStage {
                         // Return to backdrop and angle drop
                         .setReversed(true)
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                        .splineToSplineHeading(new Pose2d(-15, 13, Math.toRadians(5)), Math.toRadians(0))
-                        .splineToSplineHeading(new Pose2d(-11, 13, Math.toRadians(0)), Math.toRadians(0))
-                        .splineTo(new Vector2d(61, 13), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(-17, 13, Math.toRadians(5)), Math.toRadians(0))
+                        .splineToSplineHeading(new Pose2d(-13, 13, Math.toRadians(0)), Math.toRadians(0))
+                        .splineTo(new Vector2d(56, 13), Math.toRadians(0))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                         .afterTime(0, manager.openLeftClaw(0))
                         .afterTime(0, manager.openAutoClaw(0))
@@ -286,12 +286,12 @@ public class BlueBackStageCenter extends BlueBackStage {
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                         .splineToSplineHeading(new Pose2d(-15, 12, Math.toRadians(5)), Math.toRadians(0))
                         .splineToSplineHeading(new Pose2d(-11, 12, Math.toRadians(0)), Math.toRadians(0))
-                        .splineTo(new Vector2d(61, 12), Math.toRadians(0))
+                        .splineTo(new Vector2d(54, 12), Math.toRadians(0))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                         .afterTime(0, manager.openAutoClaw(0))
                         .afterTime(0, manager.openLeftClaw(0))
                         .waitSeconds(0.25)
-                        .lineToX(57)
+                        .lineToX(52)
                         .build()
         );
     }

@@ -55,7 +55,7 @@ public class BlueBackStage extends BackStage {
 
                         // Drive to backdrop and release
                         .setTangent((propLocation==PropLocation.Left) ? Math.toRadians(115) : Math.toRadians(0))
-                        .afterTime(0, manager.getLiftReadyToDropThePixelLowOnTheWall())
+                        .afterTime(0.5, manager.getLiftReadyToDropThePixelLowOnTheWall())
                         .waitSeconds(.1)
                         .splineToSplineHeading(backdropLocation, Math.toRadians(0))
                         .lineToX(47)
