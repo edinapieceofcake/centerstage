@@ -278,4 +278,17 @@ public class Claw implements Subsystem {
             }
         }
     }
+//    static double angleToClawAngle(double degrees) {
+//        double m = 0; //idk
+//        double b = 0.45;
+//        double mx = m * degrees;
+//        return(mx + b);
+//    }
+//
+//    static double angleToClawTwist(double degrees) {
+//        double m = 0.00067222222222222222222;
+//        double b = 0.5;
+//        double mx = m * degrees;
+//        return(mx + b);
+//    }
 }
