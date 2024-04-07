@@ -49,14 +49,6 @@ public class Claw implements Subsystem {
         RobotConfiguration config = RobotConfiguration.getInstance();
 
         if (started) {
-//            if ((state.currentLiftDriveState == LiftDriveState.Manual) && (state.currentLiftServoState == LiftServoState.Start)) {
-//                if (state.currentLiftHeight > config.minimumHeightToTwistServoInInches) {
-//                    state.twistServoState = TwistServoState.DropOff;
-//                } else {
-//                    state.twistServoState = TwistServoState.Pickup;
-//                }
-//            }
-
             switch (state.currentLiftDriveState) {
                 case Drive:
                     hardware.angleClawServo.setPosition(config.angleClawDrivePosition);
@@ -197,6 +189,7 @@ public class Claw implements Subsystem {
                     hardware.angleClawServo.setPosition(config.angleClawStackPickupPosition);
                     break;
                 case Pickup:
+                case Pusher:
                     hardware.angleClawServo.setPosition(config.angleClawPickupPosition);
                     break;
                 case CenterDropOff:
