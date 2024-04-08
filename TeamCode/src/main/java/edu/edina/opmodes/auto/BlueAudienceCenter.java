@@ -129,8 +129,8 @@ public class BlueAudienceCenter extends BlueAudience {
 
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
                             .splineToConstantHeading(new Vector2d(25, 11), Math.toRadians(0))
-                            .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
+                            .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
 
                             // Release Yellow + White
                             .stopAndAdd(manager.openRightClaw(0))
@@ -174,8 +174,8 @@ public class BlueAudienceCenter extends BlueAudience {
 
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
                             .splineToConstantHeading(new Vector2d(25, 11), Math.toRadians(0))
-                            .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
+                            .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
 
                             // Release Yellow + White
                             .stopAndAdd(manager.openRightClaw(0))
@@ -218,8 +218,8 @@ public class BlueAudienceCenter extends BlueAudience {
 
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
                             .splineToConstantHeading(new Vector2d(25, 11), Math.toRadians(0))
-                            .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
+                            .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
 
                             // Release Yellow + White
                             .stopAndAdd(manager.openRightClaw(0))
@@ -237,9 +237,11 @@ public class BlueAudienceCenter extends BlueAudience {
 
                             // Drive back to stacks
                             .setReversed(true)
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineToSplineHeading(new Pose2d(30, DRIVEINY_SECONDPICKUP, Math.toRadians(190)), Math.toRadians(180))
                             .splineToSplineHeading(new Pose2d(24, DRIVEINY_SECONDPICKUP, Math.toRadians(180)), Math.toRadians(180))
                             .splineTo(new Vector2d(-48, DRIVEINY_SECONDPICKUP), Math.toRadians(180))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                             // Prepare for grabbing - Trip 2
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
@@ -277,8 +279,8 @@ public class BlueAudienceCenter extends BlueAudience {
 
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
                             .splineToConstantHeading(new Vector2d(25, 11), Math.toRadians(0))
-                            .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
+                            .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
 
                             // Release Yellow + White
                             .stopAndAdd(manager.openRightClaw(0))
@@ -292,9 +294,11 @@ public class BlueAudienceCenter extends BlueAudience {
 
                             // Drive back to stacks
                             .setReversed(true)
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineToSplineHeading(new Pose2d(30, DRIVEINY_SECONDPICKUP, Math.toRadians(190)), Math.toRadians(180))
                             .splineToSplineHeading(new Pose2d(24, DRIVEINY_SECONDPICKUP, Math.toRadians(180)), Math.toRadians(180))
                             .splineTo(new Vector2d(-48, DRIVEINY_SECONDPICKUP), Math.toRadians(180))
+                            .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                             // Prepare for grabbing - Trip 2
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
@@ -335,8 +339,8 @@ public class BlueAudienceCenter extends BlueAudience {
 
                         .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
                         .splineTo(new Vector2d(35, 11), Math.toRadians(0))
-                        .splineTo(new Vector2d(52, 20), Math.toRadians(20))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
+                        .splineTo(new Vector2d(52, 20), Math.toRadians(20))
 
                         // Release all pixels
                         .afterTime(0, manager.openLeftClaw(0))
@@ -382,7 +386,7 @@ public class BlueAudienceCenter extends BlueAudience {
                         .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(-10)), Math.toRadians(0))
                         .splineToSplineHeading(new Pose2d(new Vector2d(-24, 11), Math.toRadians(0)), Math.toRadians(0))
 
-                        .splineTo(new Vector2d(55, 12), Math.toRadians(0))
+                        .splineTo(new Vector2d(55, 11), Math.toRadians(0))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                         // Release all pixels
@@ -396,7 +400,7 @@ public class BlueAudienceCenter extends BlueAudience {
         Actions.runBlocking(new SequentialAction(
                 drive.actionBuilder(drive.pose)
                         // Back up
-                        .lineToX(58)
+                        .lineToX(50)
                         .build()));
 
     }
