@@ -430,26 +430,14 @@ public class MeepMeepTesting {
 
         blueBackstageWallFourWhitesOnBackstage.runAction(blueBackstageWallFourWhitesOnBackstage.getDrive().actionBuilder(new Pose2d(17.5, 64, Math.toRadians(270)))
                 .splineTo(new Vector2d(13, 35.5), Math.toRadians(270))
+                .setTangent( Math.toRadians(115))
+                .splineToSplineHeading(new Pose2d(42,41.5, Math.toRadians(0)), Math.toRadians(0))
                 .setReversed(true)
-                .splineToSplineHeading(new Pose2d(46.5,35, Math.toRadians(0)), Math.toRadians(0))
-                .lineToX(44 )
-                .splineToSplineHeading(new Pose2d(10, 59, Math.toRadians(180)), Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(-30, 59), Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(-52, 37), Math.toRadians(180))
-                .lineToX(-55)
-                .lineToX(-48)
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(new Vector2d(-35, 59), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(54, 64), Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(10, 59, Math.toRadians(180)), Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(-30, 59), Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(-52, 37), Math.toRadians(180))
-                .lineToX(-55)
-                .lineToX(-48)
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(new Vector2d(-35, 59), Math.toRadians(0)), Math.toRadians(0))
-                .splineTo(new Vector2d(54, 64), Math.toRadians(0))
-                .lineToX(50)
+                .splineToSplineHeading(new Pose2d(6, 60, Math.toRadians(180)), Math.toRadians(180))
+
+                //.afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
+                .splineToConstantHeading(new Vector2d(-24, 60), Math.toRadians(180))
+                .splineToSplineHeading(new Pose2d(-50, 38, Math.toRadians(180)), Math.toRadians(180))
                 .build());
 
         RoadRunnerBotEntity blueBackstageWallTwoWhitesOnBackdropParkInCenter = new DefaultBotBuilder(meepMeep)
@@ -1114,7 +1102,7 @@ public class MeepMeepTesting {
 //                .addEntity(blueBackstageWallFourWhitesOnBackstage) // new
 //                .addEntity(blueBackstageWallTwoWhitesOnBackdropParkInCenter) // new
 //                .addEntity(blueBackstageWallTwoWhitesOnBackdropParkInCorner) // new
-//                .addEntity(blueBackstageWallFourWhitesOnBackdrop) // new
+               .addEntity(blueBackstageWallFourWhitesOnBackstage) // new
                 // red
                 //.addEntity(redAudience)
                 // red audience center
@@ -1123,7 +1111,7 @@ public class MeepMeepTesting {
 //                .addEntity(redAudienceCenterTwoWhitesOnBackStage) // dpad down
 //                .addEntity(redAudienceCenterTwoWhitesOnBackDrop) // dpad up
 //                // red audience wall
-                .addEntity(redAudienceWallParkCorner)
+ //               .addEntity(redAudienceWallParkCorner)
 //                .addEntity(redAudienceWallParkCenter)
 //                .addEntity(redAudienceWallParkCornerWithTwoWhites) // dpad down
 //                .addEntity(redAudienceWallBackdropCenterWithTwoWhites) // dpad up

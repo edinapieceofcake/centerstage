@@ -17,7 +17,7 @@ import edu.edina.library.enums.PropLocation;
 public class BlueAudienceCenter extends BlueAudience {
 
     public static double DRIVEINX_FIRSTPICKUP = -57.5;
-    public static double DRIVEINY_FIRSTPICKUPLEFT = 14;
+    public static double DRIVEINY_FIRSTPICKUPLEFT = 14.5;
     public static double DRIVEINY_FIRSTPICKUPCENTER = 14;
     public static double DRIVEINY_FIRSTPICKUPRIGHT = 13.5;
     public static double DRIVEINX_SECONDPICKUP = -59.5;
