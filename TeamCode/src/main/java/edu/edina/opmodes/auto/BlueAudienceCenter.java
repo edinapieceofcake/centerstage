@@ -29,7 +29,7 @@ public class BlueAudienceCenter extends BlueAudience {
     public static Vector2d firstAngleDropRight = new Vector2d(52, 20);
 
     public Vector2d firstPickup, secondPickup, firstAngleDrop;
-    
+
     public static int EXTENDARM_FIRSTPICKUP = -200;
     public static int EXTENDARM_SECONDPICKUP = -100;
 

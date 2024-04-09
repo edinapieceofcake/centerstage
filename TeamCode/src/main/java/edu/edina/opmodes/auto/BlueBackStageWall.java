@@ -247,9 +247,9 @@ public class BlueBackStageWall extends BlueBackStage {
 
                             .splineTo(secondAngleDrop, Math.toRadians(-35))
                             .afterTime(0.1, manager.openLeftClaw(0))
-                            .afterTime(0.2, manager.openAutoClaw())
+                            .afterTime(0.2, manager.openAutoClaw(0))
                             .waitSeconds(0.2)
-                            .splineToSplineHeading(new Pose2d(secondAngleDrop.x-2, secondAngleDrop.y+2, Math.toRadians(-35)), Math.toRadians(180))
+                            .lineToX(50)
                             .afterDisp(0, manager.getLiftReadyToDrive())
                             .build()
             );
