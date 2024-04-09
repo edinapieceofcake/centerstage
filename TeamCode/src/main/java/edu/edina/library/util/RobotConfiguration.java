@@ -12,22 +12,24 @@ public class RobotConfiguration {
     public final double clawLeftOpenDropPosition = 0.65;
     public final double clawLeftClosedPosition = 0.75;
     public final double clawRightClosedPosition = 0.39;
-    public final double clawRightOpenPosition = 0.54;
-    public final double clawRightOpenDropPosition = 0.48;
-    public final double autoClawServoOpenPosition = 0.70;
+    public final double clawRightOpenPosition = 0.50;
+    public final double clawRightOpenDropPosition = 0.485;
+    public final double autoClawServoOpenPosition = 0.72;
     public final double autoClawServoClosePosition = 1.0;
-    public final double autoClawServoOpenDropPosition = .85;
-    public final double twistClawServoPickUpPosition = 0.4983;
+    public final double autoClawServoOpenDropPosition = .86;
+    public final double twistClawServoPickUpPosition = 0.5;
     public final double twistClawServoDropOffPosition = 0.621;
+    public final double clawPusherPushPosition = 0.9;
+    public final double clawPusherTuckPosition = 0.1;
 
-    public final double angleClawPickupPosition = .55;
-    public final double angleClawStackPickupPosition = .60;
-    public final double angleClawDrivePosition = .77;
-    public final double angleClawLowDropOffPosition = .52;
+    public final double angleClawPickupPosition = .45;
+    public final double angleClawStackPickupPosition = .55;
+    public final double angleClawDrivePosition = .7;
+    public final double angleClawLowDropOffPosition = .62;
     public final double angleClawMediumDropOffPosition = 0.52;
     public final double angleClawHighDropOffPosition = .4;
 
-    public final double leftAutoLowAngleClawServoDropOffPosition = 0.55;
+    public final double leftAutoLowAngleClawServoDropOffPosition = 0.79;
     public final double leftAutoMediumAngleClawServoDropOffPosition = 0.52;
     public final double leftAutoHighAngleClawServoDropOffPosition = 0.52;
 
@@ -35,11 +37,11 @@ public class RobotConfiguration {
     public final double leftTeleopMediumAngleClawServoDropOffPosition = 0.52;
     public final double leftTeleopHighAngleClawServoDropOffPosition = 0.52;
 
-    public final double rightLowAngleClawServoDropOffPosition = 0.619;
+    public final double rightLowAngleClawServoDropOffPosition = 0.789;
     public final double rightMediumAngleClawServoDropOffPosition = 0.469;
     public final double rightHighAngleClawServoDropOffPosition = 0.52;
 
-    public final double leftAutoLowTwistClawServoDropOffPosition = 0.4277;
+    public final double leftAutoLowTwistClawServoDropOffPosition = 0.4297;
     public final double leftAutoMediumTwistClawServoDropOffPosition = 0.4277;
     public final double leftAutoHighTwistClawServoDropOffPosition = 0.4277;
 
@@ -61,7 +63,7 @@ public class RobotConfiguration {
 
     // lift servo positions
     public final double startingLeftLiftServoPosition = 0.93;
-    public final double startingRightLiftServoPosition = 0.13;
+    public final double startingRightLiftServoPosition = 0.17;
     public final double leftStackPickupServoPosition = 0.8;
     public final double rightStackPickupServoPosition = 0.29;
     public final double leftLowDropOffServoPosition = .53;
@@ -101,16 +103,17 @@ public class RobotConfiguration {
     public final int liftDropOffPositionFive = -900;
     public final int liftTwistPosition = -200;
     public final int minimumExtensionBeforeTwistingInTicks = -350;
+    public final int minimumExtensionBeforeRetractingLiftInTicks = -170;
     public final int minimumExtensionBeforeRaisingLiftInTicks = -120;
 
     // robot hanger positions
-    public final double leftLatchServoPosition = .62;
-    public final double rightLatchServoPosition = .42;
+    public final double leftLatchServoPosition = .68;
+    public final double rightLatchServoPosition = .36;
     public final int hangMotorInitPosition = -230;
     public final int hangMotorStorePosition = 0;
     public final int hangMotorLowDropOffPosition = -640;
     public final int hangMotorMediumDropOffPosition = -730;
-    public final int hangMotorHighDropOffPosition = -830;
+    public final int hangMotorHighDropOffPosition = -870;
     public final int hangMotorHangPosition = -2800;
 
     public final double minimumHeightToTwistServoInInches = 12.0;

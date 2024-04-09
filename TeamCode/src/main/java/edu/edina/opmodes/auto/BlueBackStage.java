@@ -7,7 +7,6 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import edu.edina.library.enums.Alliance;
 import edu.edina.library.enums.PropLocation;
 
-
 public class BlueBackStage extends BackStage {
 
     @Override
@@ -37,11 +36,11 @@ public class BlueBackStage extends BackStage {
             case Right:
                 propDropLocation = new Vector2d(7.5, 42);
                 propDropAngle = 225;
-                backdropLocation = new Pose2d(42,26.5, Math.toRadians(0));
+                backdropLocation = new Pose2d(41.5,28, Math.toRadians(0));
                 break;
             case Center:
             default:
-                propDropLocation = new Vector2d(15, 35);  // default to Center if all goes bad
+                propDropLocation = new Vector2d(15, 35.5);  // default to Center if all goes bad
                 backdropLocation = new Pose2d(42,34, Math.toRadians(0)); // default to center if all goes bad
                 break;
         }
@@ -56,11 +55,10 @@ public class BlueBackStage extends BackStage {
 
                         // Drive to backdrop and release
                         .setTangent((propLocation==PropLocation.Left) ? Math.toRadians(115) : Math.toRadians(0))
-                        .afterTime(0, manager.getLiftReadyToDropThePixelLowOnTheWall())
-                        .waitSeconds(.1)
+                        .afterDisp(6, manager.getLiftReadyToDropThePixelLowOnTheWall())
                         .splineToSplineHeading(backdropLocation, Math.toRadians(0))
                         .lineToX(47)
-                        .stopAndAdd(manager.openRightClaw())
+                        .stopAndAdd(manager.openRightClaw(0))
                         .waitSeconds(.25)
                         .build()
         );

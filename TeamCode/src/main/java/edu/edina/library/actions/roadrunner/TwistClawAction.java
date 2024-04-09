@@ -12,8 +12,8 @@ import edu.edina.library.util.RobotState;
 public class TwistClawAction extends ClawAction {
     TwistServoState twistServoState;
 
-    public TwistClawAction(Claw claw, TwistServoState twistServoState) {
-        super(claw);
+    public TwistClawAction(Claw claw, TwistServoState twistServoState, long duration) {
+        super(claw, duration);
 
         this.twistServoState = twistServoState;
     }

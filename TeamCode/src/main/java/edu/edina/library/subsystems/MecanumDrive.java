@@ -44,10 +44,10 @@ public class MecanumDrive implements Subsystem {
         if (started) {
             drive.setDrivePowers(new PoseVelocity2d(
                     new Vector2d(
-                            -state.leftStickY * 0.9,
-                            -state.leftStickX * 0.9
+                            -state.leftStickY,
+                            -state.leftStickX
                     ),
-                    (-state.rightStickX / 1.5)
+                    -state.rightStickX
             ));
 
             //drive.updatePoseEstimate();

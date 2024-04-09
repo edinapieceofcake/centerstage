@@ -130,7 +130,7 @@ public class RedAudienceWallNew extends RedAudienceNew {
 
                         // Prepare for grabbing - Trip 2
                         .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
-                        .afterDisp(0, manager.runLiftToPosition(-23))
+                        .afterDisp(0, manager.runLiftToPosition(-23, true))
                         .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
                         .lineToX(-57)
                         .build()

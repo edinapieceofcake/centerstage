@@ -1,5 +1,7 @@
 package edu.edina.opmodes.test;
 
+import android.util.Log;
+
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -70,6 +72,7 @@ public class TestStackPickup extends LinearOpMode  {
                         manager.openLeftClaw(), manager.openAutoClaw()
                 ));
             }
+
             if(pad1.left_stick_button){
                 if(toggleBeamBreak){
                     toggleBeamBreak = false;
@@ -78,44 +81,60 @@ public class TestStackPickup extends LinearOpMode  {
                     toggleBeamBreak = true;
                 }
             }
+
+            if (pad1.dpad_left) {
+                Actions.runBlocking(
+                        new ParallelAction(
+                                manager.lowerLiftForDriving(),
+                                manager.zeroLift(),
+                                manager.positionTheClawToDriveWithPixels()
+                        )
+                );
+            }
+
             if (pad1.dpad_up) {
                 // start at one tile out
                 if(toggleBeamBreak){
                     drive.turnBeamBreakOn();
                 }
+
                 Actions.runBlocking(
-                        new SequentialAction(
-                                new ParallelAction(
-                                        manager.runLiftToPosition(-100),
-                                        manager.positionTheClawToPickupPixels(),
-                                        drive.actionBuilder(drive.pose)
-                                                .lineToY(-46)
-                                                .build()
-                                ),
-                                new ParallelAction(
-                                        manager.closeAutoClaw(),
-                                        manager.closeLeftClaw()
-                                ),
-                                manager.raiseLiftAfterStackPickup()
-                        )
+                        drive.actionBuilder(drive.pose)
+                                .afterDisp(0, new ParallelAction(
+                                        manager.runLiftToPosition(-180, true),
+                                        manager.positionTheClawToPickupPixelsFromStack())
+                                )
+                                .lineToY(-46)
+                                .build()
                 );
+
                 if(toggleBeamBreak){
                     drive.turnBeamBreakOff();
                 }
-                Actions.runBlocking(
-                        new SequentialAction(
-                                drive.actionBuilder(drive.pose)
-                                        .lineToY(-54)
-                                        .afterDisp(0,
-                                                new ParallelAction(
-                                                        manager.lowerLiftForDriving(),
-                                                        manager.zeroLift(),
-                                                        manager.positionTheClawToDriveWithPixels()
-                                                )
 
-                                        )
-                                        .lineToY(-64)
-                                        .build()
+                Log.d("RunLiftToPositionAction: ", String.format("Drive pose %f, %f, %f", drive.pose.position.x, drive.pose.position.y, drive.pose.heading.real));
+
+                double newLineToY = drive.pose.position.y - 1.0;
+                Actions.runBlocking(
+                        drive.actionBuilder(drive.pose)
+                                .afterTime(0, new ParallelAction(manager.closeLeftClaw(), manager.closeAutoClaw()))
+                                .lineToY(newLineToY)
+                                .stopAndAdd(manager.raiseLiftAfterStackPickup())
+                                .lineToY(-64)
+                                .afterDisp(3, new ParallelAction(
+                                        manager.lowerLiftForDriving(),
+                                        manager.zeroLift(),
+                                        manager.positionTheClawToDriveWithPixels())
+                                )
+                                .build()
+                );
+            }
+
+            if (pad1.dpad_right) {
+                Actions.runBlocking(
+                        new ParallelAction(
+                                manager.runLiftToPosition(-180, true),
+                                manager.positionTheClawToPickupPixelsFromStack()
                         )
                 );
             }
@@ -123,7 +142,7 @@ public class TestStackPickup extends LinearOpMode  {
             if (pad1.dpad_down) {
                 Actions.runBlocking(
                         new SequentialAction(
-                                manager.runLiftToPosition(-900),
+                                manager.runLiftToPosition(-900, false),
                                 manager.positionTheClawToPickupPixels(),
                                 new ParallelAction(
                                         manager.openAutoClaw(),
@@ -139,13 +158,17 @@ public class TestStackPickup extends LinearOpMode  {
             telemetry.addData("Press right bumper to close right claw", "");
             telemetry.addData("Press y to raise angle claw", "");
             telemetry.addData("Press a to lower angle claw", "");
+            telemetry.addData("Press dpad left to retract and store lift", "");
             telemetry.addData("Press dpad up to drive forward, extend lift, close, retract and drive back.", "");
+            telemetry.addData("Press Dpad right top right to run lift out for testing", "");
             telemetry.addData("Press dpad down to extend lift to -900, and drop pixels.", "");
+            telemetry.addData("Press left joystick to toggle beam break for drive", "");
             telemetry.addData("Top Motor Lift Position", hardware.topLiftMotor.getCurrentPosition());
             telemetry.addData("Zero Switch", hardware.liftSwitch.getState());
             telemetry.addData("Top motor power", hardware.topLiftMotor.getPower());
             telemetry.addData("Toggle Beam Break", toggleBeamBreak);
             telemetry.addData("Beam Break:", hardware.beamBreak.getState());
+            telemetry.addData("Pose", drive.pose);
             telemetry.update();
         }
     }

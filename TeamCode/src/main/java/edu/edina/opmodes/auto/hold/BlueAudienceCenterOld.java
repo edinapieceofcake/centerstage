@@ -303,7 +303,7 @@ public class BlueAudienceCenterOld extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             new ParallelAction(
-                                    manager.runLiftToPosition(-245),
+                                    manager.runLiftToPosition(-245, true),
                                     manager.positionTheClawToPickupPixels()
                             ),
                             drive.actionBuilder(drive.pose)
@@ -411,7 +411,7 @@ public class BlueAudienceCenterOld extends LinearOpMode {
                     new SequentialAction(
                             new ParallelAction(
                                     manager.positionTheClawToPickupPixels(),
-                                    manager.runLiftToPosition(-180)
+                                    manager.runLiftToPosition(-180, true)
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks

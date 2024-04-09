@@ -1,11 +1,12 @@
 package edu.edina.opmodes.auto;
 
+import android.util.Log;
+
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.PoCMecanumDrive;
@@ -28,6 +29,9 @@ public class Audience extends LinearOpMode {
     protected PropLocation propLocation = PropLocation.Right;
     protected PropLocation lastPropLocation = PropLocation.Right;
     protected Vector2d backdropDropLocation;
+    protected Vector2d backdropDropLocationSecond;
+    protected Vector2d backdropDropLocationAW;
+    protected Vector2d backdropDropLocationAW2;
 
     protected boolean makeSecondTrip = false;
     protected boolean yellowPixel = false;
@@ -93,7 +97,7 @@ public class Audience extends LinearOpMode {
             telemetry.addData("X for P, Y, 1W and park in corner", "");
             telemetry.addData("Y for P, Y, 1W and park in center", "");
             telemetry.addData("DPAD-UP for P, Y, 3Ws on backdrop park in front", "");
-            telemetry.addData("DPAD-DN for P, Y, 3Ws and park in center", "");
+            telemetry.addData("DPAD-DN for P, Y, 3Ws on backstage park in center", "");
             telemetry.addData("L-BUMPER to increase delay, R-BUMPER to decrease delay.", "");
             telemetry.addData("L-TRIGGER to close claws, R-TRIGGER to open", "");
             telemetry.addData("LEFT-STICK-DOWN : manual rotate prop position", "");
@@ -246,5 +250,9 @@ public class Audience extends LinearOpMode {
 
             hardware.stopCurrentMonitor();
         }
+    }
+
+    protected void logPose() {
+        Log.d(this.toString(), String.format("Drive pose %f, %f, %f", drive.pose.position.x, drive.pose.position.y, drive.pose.heading.real));
     }
 }

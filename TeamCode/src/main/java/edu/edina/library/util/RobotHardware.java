@@ -2,26 +2,21 @@ package edu.edina.library.util;
 
 import android.util.Log;
 
-import com.acmerobotics.roadrunner.ftc.FlightRecorder;
 import com.acmerobotics.roadrunner.ftc.LynxFirmware;
 import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.hardware.lynx.LynxModule;
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManagerImpl;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ThreadPool;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 import java.util.List;
@@ -43,21 +38,19 @@ public class RobotHardware {
 
     public final PoCServo par0Servo, par1Servo, perpServo;
 
-    public final PoCServo leftClawServo, rightClawServo, twistClawServo, autoClawServo, angleClawServo;
+    public final PoCServo leftClawServo, rightClawServo, twistClawServo, autoClawServo, angleClawServo, pixelLiftServo;
 
     public final PoCServo leftLiftServo, rightLiftServo;
 
     public final PoCServo droneLaunchServo;
 
-    public final PoCMotor robotHangerMotor;
+    public final DcMotorEx robotHangerMotor;
 
     public final PoCMotor topLiftMotor, bottomLiftMotor;
 
     public final HuskyLens huskyLens;
 
     public final DigitalChannel liftSwitch;
-    public final RevBlinkinLedDriver blinkinLedDriver;
-
     public final DigitalChannel leftClawRed, leftClawGreen;
     public final DigitalChannel rightClawRed, rightClawGreen;
 
@@ -132,13 +125,15 @@ public class RobotHardware {
         twistClawServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "twistClawServo"));
         angleClawServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "angleClawServo"));
         autoClawServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "autoClawServo"));
+        pixelLiftServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "pixelLiftServo"));
 
         leftLiftServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "rightLiftServo"));
         rightLiftServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "leftLiftServo"));
 
         droneLaunchServo = new PoCServo(hardwareMap.get(ServoImplEx.class, "droneLaunchServo"));
 
-        robotHangerMotor = new PoCMotor(hardwareMap.get(DcMotorEx.class, "robotHangerMotor"));
+        robotHangerMotor = hardwareMap.get(DcMotorEx.class, "robotHangerMotor");
+        //robotHangerMotor = new PoCMotor(hardwareMap.get(DcMotorEx.class, "robotHangerMotor"));
         robotHangerMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robotHangerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robotHangerMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -161,7 +156,7 @@ public class RobotHardware {
         bottomLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         bottomLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+
 
         leftClawRed = hardwareMap.get(DigitalChannel.class, "leftClawRed");
         leftClawGreen = hardwareMap.get(DigitalChannel.class, "leftClawGreen");
@@ -302,6 +297,7 @@ public class RobotHardware {
         telemetry.addData("twistClawServo", twistClawServo.getConnectionInfo());
         telemetry.addData("autoClawServo", autoClawServo.getConnectionInfo());
         telemetry.addData("angleClawServo", angleClawServo.getConnectionInfo());
+        telemetry.addData("pusherServo", pixelLiftServo.getConnectionInfo());
 
         telemetry.addData("leftLiftServo", leftLiftServo.getConnectionInfo());
         telemetry.addData("rightLiftServo", rightLiftServo.getConnectionInfo());

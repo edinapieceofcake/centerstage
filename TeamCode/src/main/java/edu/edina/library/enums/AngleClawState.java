@@ -8,4 +8,5 @@ public enum AngleClawState {
     LeftAutoDropOff,
     LeftDropOff,
     RightDropOff,
+    Pusher,
 }

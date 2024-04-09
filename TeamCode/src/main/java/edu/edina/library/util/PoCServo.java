@@ -7,7 +7,7 @@ public class PoCServo {
     private double currentPosition;
     public PoCServo (ServoImplEx servo) {
         this.servo = servo;
-        currentPosition = servo.getPosition();
+        currentPosition = -1;
     }
 
     public void setPosition(double position) {

@@ -8,9 +8,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import edu.edina.library.enums.AngleClawState;
+import edu.edina.library.enums.ClawState;
 import edu.edina.library.enums.DropOffOrientation;
 import edu.edina.library.enums.DropOffState;
 import edu.edina.library.enums.HangState;
@@ -31,6 +33,7 @@ public class Lift implements Subsystem {
     private boolean isTeleop;
     private boolean liftMotorReset = false;
     private Deadline zeroSwitchTimeout = new Deadline(1000, TimeUnit.MILLISECONDS);
+    private Deadline hangWait = new Deadline(100, TimeUnit.MILLISECONDS);
 
     public Lift(RobotHardware hardware, boolean isTeleop) {
         this.hardware = hardware;
@@ -133,27 +136,26 @@ public class Lift implements Subsystem {
                     hardware.rightLiftServo.setPosition(config.startingRightLiftServoPosition);
                     break;
                 case One:
-                case Two:
                     hardware.leftLiftServo.setPosition(config.leftOne);
                     hardware.rightLiftServo.setPosition(config.rightOne);
                     break;
+                case Two:
                 case Three:
-                case Four:
                     hardware.leftLiftServo.setPosition(config.leftTwo);
                     hardware.rightLiftServo.setPosition(config.rightTwo);
                     break;
+                case Four:
                 case Five:
                 case Six:
-                case Seven:
                     hardware.leftLiftServo.setPosition(config.leftThree);
                     hardware.rightLiftServo.setPosition(config.rightThree);
                     break;
+                case Seven:
                 case Eight:
-                case Nine:
                     hardware.leftLiftServo.setPosition(config.leftFour);
                     hardware.rightLiftServo.setPosition(config.rightFour);
                     break;
-                case Ten:
+                case Nine:
                     hardware.leftLiftServo.setPosition(config.leftFive);
                     hardware.rightLiftServo.setPosition(config.rightFive);
                     break;
@@ -165,10 +167,13 @@ public class Lift implements Subsystem {
                     hardware.leftLiftServo.setPosition(config.startingLeftLiftServoPosition);
                     hardware.rightLiftServo.setPosition(config.startingRightLiftServoPosition);
                     state.currentLiftServoState = LiftServoState.Hung;
+                    hangWait.reset();
                     break;
                 case Hung:
-                    hardware.leftLiftServo.setPwmDisable();
-                    hardware.rightLiftServo.setPwmDisable();
+                    if (hangWait.hasExpired()) {
+                        hardware.leftLiftServo.setPwmDisable();
+                        hardware.rightLiftServo.setPwmDisable();
+                    }
                     break;
             }
 
@@ -186,7 +191,7 @@ public class Lift implements Subsystem {
 
         if (state.currentLiftSlideState == LiftSlideState.Retracting) {
             if (!hardware.liftSwitch.getState()) {
-                state.currentLiftSlidePower = config.superSlowLiftRetractingPower;
+                state.currentLiftSlidePower = 0;
             } else {
                 if ((state.currentLiftServoState != LiftServoState.Start) &&
                         (state.currentTopMotorPosition > config.minimumExtensionBeforeRaisingLiftInTicks)) {
@@ -264,6 +269,7 @@ public class Lift implements Subsystem {
             state.currentBottomMotorTargetPosition = state.currentLiftMotorDropOffPosition;
 
             state.dropOffState = DropOffState.FirstExtension;
+            state.pusherState = ClawState.Closed;
         }
 
         if (state.dropOffState == DropOffState.FirstExtension) {
@@ -311,19 +317,20 @@ public class Lift implements Subsystem {
     private void driveOrPickup() {
         RobotState state = RobotState.getInstance();
         RobotConfiguration config = RobotConfiguration.getInstance();
-
+        
         if (state.pickUpState == PickUpState.Start) {
-            state.currentTopMotorTargetPosition = config.minimumExtensionBeforeRaisingLiftInTicks;
-            state.currentBottomMotorTargetPosition = config.minimumExtensionBeforeRaisingLiftInTicks;
+            state.currentTopMotorTargetPosition = config.minimumExtensionBeforeRetractingLiftInTicks;
+            state.currentBottomMotorTargetPosition = config.minimumExtensionBeforeRetractingLiftInTicks;
             state.currentLiftSlidePower = config.liftRetractingPower;
 
             state.pickUpState = PickUpState.FirstRetraction;
             state.twistServoState = TwistServoState.Pickup;
             state.angleClawState = AngleClawState.Drive;
+            state.pusherState = ClawState.Closed;
         }
 
         if (state.pickUpState == PickUpState.FirstRetraction) {
-            if (state.currentTopMotorPosition > (config.minimumExtensionBeforeRaisingLiftInTicks - 10)) {
+            if (state.currentTopMotorPosition > (config.minimumExtensionBeforeRetractingLiftInTicks - 10)) {
                 state.pickUpState = PickUpState.DropArm;
                 state.currentLiftServoState = LiftServoState.Start;
                 state.hangerState = HangerState.Store;

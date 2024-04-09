@@ -10,11 +10,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import edu.edina.library.enums.PropLocation;
-import edu.edina.opmodes.auto.BlueAudience;
 
 @Autonomous
 @Disabled
-public class BlueAudienceCenterHC extends BlueAudience {
+public class BlueAudienceCenterHC extends BlueAudienceOld {
 
     private double stack1Y = 14.5;
     private double stack2Y = 14.5;
@@ -53,7 +52,7 @@ public class BlueAudienceCenterHC extends BlueAudience {
                 Actions.runBlocking(
                         new SequentialAction(
                                 new ParallelAction(
-                                        manager.runLiftToPosition(-200),
+                                        manager.runLiftToPosition(-200, true),
                                         manager.positionTheClawToPickupPixelsFromStack()
                                 ),
                                 drive.actionBuilder(drive.pose)
@@ -188,7 +187,7 @@ public class BlueAudienceCenterHC extends BlueAudience {
                     new SequentialAction(
                             new ParallelAction(
                                     manager.positionTheClawToPickupPixelsFromStack(),
-                                    manager.runLiftToPosition(secondPickupHeight)
+                                    manager.runLiftToPosition(secondPickupHeight, true)
                             ),
                             drive.actionBuilder(drive.pose)
                                     // Head to Stacks

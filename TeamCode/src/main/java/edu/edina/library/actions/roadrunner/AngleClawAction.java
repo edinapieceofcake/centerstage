@@ -10,8 +10,8 @@ import edu.edina.library.util.RobotState;
 
 public class AngleClawAction extends ClawAction {
     private AngleClawState clawState;
-    public AngleClawAction(Claw claw, AngleClawState clawState) {
-        super(claw);
+    public AngleClawAction(Claw claw, AngleClawState clawState, long duration) {
+        super(claw, duration);
 
         this.clawState = clawState;
     }
