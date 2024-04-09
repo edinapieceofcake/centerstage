@@ -64,7 +64,7 @@ public class RedBackStage extends BackStage {
                             .setTangent((propLocation == PropLocation.Right) ? Math.toRadians(-180) : Math.toRadians(0))
                             .afterTime(LIFT_WAIT_TIME, manager.getLiftReadyToDropThePixelLowOnTheWall())
                             .splineToSplineHeading(backdropLocation, Math.toRadians(0))
-                            .lineToX(X_PROPDROP)
+                            .lineToX(X_PROPDROP-2)
                             .stopAndAdd(manager.openRightClaw(0))
                             .build()
             );

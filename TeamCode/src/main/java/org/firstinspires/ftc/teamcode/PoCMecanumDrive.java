@@ -129,7 +129,7 @@ public final class PoCMecanumDrive {
     private long beamBreakDuration = 225;
     private boolean beamBreakTripped = false;
     private boolean poseErrorStopUsage = false;
-    private double poseErrorDistance = 8.0;
+    private double poseErrorDistance = 12.0;
 
     public PoCMecanumDrive(PoCMotor leftFront, PoCMotor leftBack, PoCMotor rightBack,
                            PoCMotor rightFront,DcMotorEx par0, DcMotorEx par1, DcMotorEx perp,
