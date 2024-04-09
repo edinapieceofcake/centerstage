@@ -5,6 +5,8 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+
 import edu.edina.library.actions.roadrunner.ActionManager;
 import edu.edina.library.enums.LiftServoState;
 import edu.edina.library.util.RobotConfiguration;
@@ -199,6 +201,7 @@ public class TestAngleDropOff extends LinearOpMode  {
             telemetry.addData("Dpad left/right controls twist servo", "");
             telemetry.addData("Dpad up/down controls angle servo", "");
             telemetry.addData("Press left/right joysticks to raise/lower lift", "");
+            telemetry.addData("Robot Angle", hardware.externalImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
             telemetry.addData("Twist Claw Position: ", hardware.twistClawServo.getPosition());
             telemetry.addData("Angle Claw Position: ", hardware.angleClawServo.getPosition());
             telemetry.addData("Lift servo state", liftServoState);
