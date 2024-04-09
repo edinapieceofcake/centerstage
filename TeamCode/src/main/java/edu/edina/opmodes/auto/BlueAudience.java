@@ -29,7 +29,7 @@ public class BlueAudience extends Audience {
         // Determine location for purple pixel
         switch(propLocation) {
             case Left:
-                propDropLocation = new Vector2d(-31, 35);
+                propDropLocation = new Vector2d(-32, 35);
                 propAngle = 315;
                 backdropDropLocation = new Vector2d(50,40.5);
                 backdropDropLocationSecond = new Vector2d(48, 38);
@@ -39,7 +39,7 @@ public class BlueAudience extends Audience {
             case Right:
                 propDropLocation = new Vector2d(-42, 33);
                 propAngle = 225;
-                backdropDropLocation = new Vector2d(50,29);
+                backdropDropLocation = new Vector2d(50.5,30);
                 backdropDropLocationAW = new Vector2d(51,26);
                 backdropDropLocationSecond = new Vector2d(51, 38);
                 break;

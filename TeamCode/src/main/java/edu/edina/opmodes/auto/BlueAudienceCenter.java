@@ -16,7 +16,7 @@ import edu.edina.library.enums.PropLocation;
 @Config
 public class BlueAudienceCenter extends BlueAudience {
 
-    public static Vector2d firstPickupLeft = new Vector2d(-57.5, 14.5);
+    public static Vector2d firstPickupLeft = new Vector2d(-57, 14.5);
     public static Vector2d firstPickupCenter = new Vector2d(-57.5, 14);
     public static Vector2d firstPickupRight = new Vector2d(-57.5, 14);
 
