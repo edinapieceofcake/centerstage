@@ -16,18 +16,44 @@ import edu.edina.library.enums.PropLocation;
 @Config
 public class RedAudienceCenter extends RedAudience {
 
-    public static double DRIVEINX_FIRSTPICKUP = -61.5;
-    public static double DRIVEINX_FIRSTPICKUPCENTER = -61.5;
-    public static double DRIVEINY_FIRSTPICKUPLEFT = -12;
-    public static double DRIVEINY_FIRSTPICKUPCENTER = -10;
-    public static double DRIVEINY_FIRSTPICKUPRIGHT = -10.5;
-    public static double DRIVEINX_SECONDPICKUP = -61.5;
-    public static double DRIVEINY_SECONDPICKUP = -12;
+    public static Vector2d firstPickupLeft = new Vector2d(-61.5, -12);
+    public static Vector2d firstPickupCenter = new Vector2d(-61.5, -10);
+    public static Vector2d firstPickupRight = new Vector2d(-61.5, -10.5);
+
+    public static Vector2d secondPickupLeft = new Vector2d(-61.5, -12);
+    public static Vector2d secondPickupCenter = new Vector2d(-61.5, -12);
+    public static Vector2d secondPickupRight = new Vector2d(-61.5, -12);
+
+    public static Vector2d firstAngleDropLeft = new Vector2d(49, -19);
+    public static Vector2d firstAngleDropCenter = new Vector2d(49, -19);
+    public static Vector2d firstAngleDropRight = new Vector2d(49, -19);
+
+    public Vector2d firstPickup, secondPickup, firstAngleDrop;
+
     public static int EXTENDARM_FIRSTPICKUP = -200;
-    public static int EXTENDARM_SECONDPICKUP = -100;
+    public static int EXTENDARM_SECONDPICKUP = -80;
 
     @Override
     protected void runPaths() {
+
+        switch (propLocation) {
+            case Left:
+                firstPickup = firstPickupLeft;
+                secondPickup = secondPickupLeft;
+                firstAngleDrop = firstAngleDropLeft;
+                break;
+            case Center:
+                firstPickup = firstPickupCenter;
+                secondPickup = secondPickupCenter;
+                firstAngleDrop = firstAngleDropCenter;
+                break;
+            case Right:
+            default:
+                firstPickup = firstPickupRight;
+                secondPickup = secondPickupRight;
+                firstAngleDrop = firstAngleDropRight;
+                break;
+        }
 
         if (yellowPixel) {  // P + Y + 1W path
             purpleToStack(); // B
@@ -60,8 +86,8 @@ public class RedAudienceCenter extends RedAudience {
                                 .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP, true))
                                 .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
                                 .setReversed(false)
-                                .splineToSplineHeading(new Pose2d(-55, DRIVEINY_FIRSTPICKUPLEFT, Math.toRadians(180)), Math.toRadians(180))
-                                .lineToX(DRIVEINX_FIRSTPICKUP)
+                                .splineToSplineHeading(new Pose2d(-55, firstPickup.y, Math.toRadians(180)), Math.toRadians(180))
+                                .lineToX(firstPickup.x)
                                 .build()
                 );
                 break;
@@ -71,7 +97,7 @@ public class RedAudienceCenter extends RedAudience {
                                 // Head to Stacks
                                 .setReversed(true)
                                 .splineToSplineHeading(new Pose2d(-48, -18, Math.toRadians(180)), Math.toRadians(90))
-                                .splineToSplineHeading(new Pose2d(-50, DRIVEINY_FIRSTPICKUPCENTER, Math.toRadians(180)), Math.toRadians(90))
+                                .splineToSplineHeading(new Pose2d(-50, firstPickup.y, Math.toRadians(180)), Math.toRadians(90))
                                 // Prepare for grabbing - Trip 1
                                 .build()
                 );
@@ -85,7 +111,7 @@ public class RedAudienceCenter extends RedAudience {
                 Actions.runBlocking(
                         drive.actionBuilder(drive.pose)
                                 .setReversed(false)
-                                .lineToX(DRIVEINX_FIRSTPICKUPCENTER)
+                                .lineToX(firstPickup.x)
                                 .build()
                 );
                 break;
@@ -94,13 +120,13 @@ public class RedAudienceCenter extends RedAudience {
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks
                                 .setReversed(true)
-                                .splineToSplineHeading(new Pose2d(-45, DRIVEINY_FIRSTPICKUPRIGHT, Math.toRadians(180)), Math.toRadians(90))
+                                .splineToSplineHeading(new Pose2d(-45, firstPickup.y, Math.toRadians(180)), Math.toRadians(90))
                                 // Prepare for grabbing - Trip 1
                                 .setReversed(false)
                                 .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
                                 .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP, true))
                                 .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                                .lineToX(DRIVEINX_FIRSTPICKUP)
+                                .lineToX(firstPickup.x)
                                 .build()
                 );
                 break;
@@ -244,15 +270,15 @@ public class RedAudienceCenter extends RedAudience {
                             // Drive back to stacks
                             .setReversed(true)
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                            .splineToSplineHeading(new Pose2d(24, DRIVEINY_SECONDPICKUP, Math.toRadians(180)), Math.toRadians(180))
-                            .splineTo(new Vector2d(-48, DRIVEINY_SECONDPICKUP), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(24, secondPickup.y, Math.toRadians(180)), Math.toRadians(180))
+                            .splineTo(new Vector2d(-48, secondPickup.y), Math.toRadians(180))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                             // Prepare for grabbing - Trip 2
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
                             .afterDisp(0, manager.runLiftToPosition(EXTENDARM_SECONDPICKUP, true))
                             .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                            .lineToX(DRIVEINX_SECONDPICKUP)
+                            .lineToX(secondPickup.x)
                             .build()
             );
         } else {
@@ -299,15 +325,15 @@ public class RedAudienceCenter extends RedAudience {
                             // Drive back to stacks
                             .setReversed(true)
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                            .splineToSplineHeading(new Pose2d(24, DRIVEINY_SECONDPICKUP, Math.toRadians(180)), Math.toRadians(180))
-                            .splineTo(new Vector2d(-48, DRIVEINY_SECONDPICKUP), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(24, secondPickup.y, Math.toRadians(180)), Math.toRadians(180))
+                            .splineTo(new Vector2d(-48, secondPickup.y), Math.toRadians(180))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                             // Prepare for grabbing - Trip 2
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
                             .afterDisp(0, manager.runLiftToPosition(EXTENDARM_SECONDPICKUP, true))
                             .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                            .lineToX(DRIVEINX_SECONDPICKUP)
+                            .lineToX(secondPickup.x)
                             .build()
             );
         }
@@ -335,12 +361,14 @@ public class RedAudienceCenter extends RedAudience {
 
                         // Return to backdrop and angle drop
                         .setReversed(true)
+
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                         .splineToSplineHeading(new Pose2d(new Vector2d(-40, -10), Math.toRadians(-10)), Math.toRadians(0))
                         .splineToSplineHeading(new Pose2d(-35, -10, Math.toRadians(0)), Math.toRadians(0))
                         .afterDisp(40, manager.getLiftReadyToDropPixelFromLeft())
                         .splineTo(new Vector2d(30, -13), Math.toRadians(0))
-                        .splineTo(new Vector2d(49, -19), Math.toRadians(-20))
+
+                        .splineTo(firstAngleDrop, Math.toRadians(-20))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                         // Release all pixels

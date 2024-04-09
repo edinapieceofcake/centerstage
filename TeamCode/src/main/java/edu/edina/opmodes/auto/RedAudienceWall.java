@@ -16,15 +16,44 @@ import edu.edina.library.enums.PropLocation;
 @Config
 public class RedAudienceWall extends RedAudience {
 
-    public static double DRIVEINX_FIRSTPICKUP = -60;
-    public static double DRIVEINY_FIRSTPICKUP = -35.5;
-    public static double DRIVEINX_SECONDPICKUP = -63;
-    public static double DRIVEINY_SECONDPICKUP = -35.5;
+    public static Vector2d firstPickupLeft = new Vector2d(-60.5, -35.5);
+    public static Vector2d firstPickupCenter = new Vector2d(-60.5, -35.5);
+    public static Vector2d firstPickupRight = new Vector2d(-60.5, -35.5);
+
+    public static Vector2d secondPickupLeft = new Vector2d(-63, -35.5);
+    public static Vector2d secondPickupCenter = new Vector2d(-63, -35.5);
+    public static Vector2d secondPickupRight = new Vector2d(-63, -35.5);
+
+    public static Vector2d firstAngleDropLeft = new Vector2d(51, -56);
+    public static Vector2d firstAngleDropCenter = new Vector2d(51, -56);
+    public static Vector2d firstAngleDropRight = new Vector2d(51, -56);
+
+    public Vector2d firstPickup, secondPickup, firstAngleDrop;
+
     public static int EXTENDARM_FIRSTPICKUP = -205;
     public static int EXTENDARM_SECONDPICKUP = -100;
 
     @Override
     protected void runPaths() {
+
+        switch (propLocation) {
+            case Left:
+                firstPickup = firstPickupLeft;
+                secondPickup = secondPickupLeft;
+                firstAngleDrop = firstAngleDropLeft;
+                break;
+            case Center:
+                firstPickup = firstPickupCenter;
+                secondPickup = secondPickupCenter;
+                firstAngleDrop = firstAngleDropCenter;
+                break;
+            case Right:
+            default:
+                firstPickup = firstPickupRight;
+                secondPickup = secondPickupRight;
+                firstAngleDrop = firstAngleDropRight;
+                break;
+        }
 
         if (yellowPixel) {  // P + Y + 1W path
             purpleToStack(); // B
@@ -54,9 +83,9 @@ public class RedAudienceWall extends RedAudience {
                         .splineTo(new Vector2d(-33, -55), Math.toRadians(315))
                         .setReversed(false)
 
-                        .splineToSplineHeading(new Pose2d(-44, DRIVEINY_FIRSTPICKUP, Math.toRadians(180)), Math.toRadians(180))
+                        .splineToSplineHeading(new Pose2d(-44, firstPickup.y, Math.toRadians(180)), Math.toRadians(180))
 
-                        .lineToX(DRIVEINX_FIRSTPICKUP)
+                        .lineToX(firstPickup.x)
                         // Prepare for grabbing - Trip 1
                         .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
                         .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP, true))
@@ -207,14 +236,14 @@ public class RedAudienceWall extends RedAudience {
                             .splineToSplineHeading(new Pose2d(6, -59, Math.toRadians(190)), Math.toRadians(180))
                             .splineToSplineHeading(new Pose2d(0, -59, Math.toRadians(180)), Math.toRadians(180))
                             .splineToConstantHeading(new Vector2d(-38, -59), Math.toRadians(180))
-                            .splineToConstantHeading(new Vector2d(-55, DRIVEINY_SECONDPICKUP), Math.toRadians(180))
+                            .splineToConstantHeading(new Vector2d(-55, secondPickup.y), Math.toRadians(180))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                             // Prepare for grabbing - Trip 2
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
                             .afterDisp(0, manager.runLiftToPosition(EXTENDARM_SECONDPICKUP, true))
                             .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                            .lineToX(DRIVEINX_SECONDPICKUP)
+                            .lineToX(secondPickup.x)
                             .build()
             );
         } else {
@@ -263,14 +292,14 @@ public class RedAudienceWall extends RedAudience {
                             .splineToSplineHeading(new Pose2d(6, -59, Math.toRadians(190)), Math.toRadians(180))
                             .splineToSplineHeading(new Pose2d(0, -59, Math.toRadians(180)), Math.toRadians(180))
                             .splineToConstantHeading(new Vector2d(-38, -59), Math.toRadians(180))
-                            .splineToConstantHeading(new Vector2d(-55, DRIVEINY_SECONDPICKUP), Math.toRadians(180))
+                            .splineToConstantHeading(new Vector2d(-55, secondPickup.y), Math.toRadians(180))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                             // Prepare for grabbing - Trip 2
                             .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(150)))
                             .afterDisp(0, manager.runLiftToPosition(EXTENDARM_SECONDPICKUP, true))
                             .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                            .lineToX(DRIVEINX_SECONDPICKUP)
+                            .lineToX(secondPickup.x)
                             .build()
             );
         }
@@ -305,7 +334,7 @@ public class RedAudienceWall extends RedAudience {
                         .afterDisp(30, manager.getLiftReadyToDropPixelFromRight())
                         .splineToConstantHeading(new Vector2d(10, -59), Math.toRadians(0))
                         .splineTo(new Vector2d(30, -59), Math.toRadians(0))
-                        .splineTo(new Vector2d(51, -54), Math.toRadians(35))
+                        .splineTo(firstAngleDrop, Math.toRadians(23))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                         // Release all pixels
