@@ -31,6 +31,8 @@ public class RedAudience extends Audience {
             case Left:
                 propDropLocation = new Vector2d(-39, -31);
                 propAngle = 135.0;
+//                propDropLocation = new Vector2d(-48, -31);
+//                propAngle = 90.0;
                 backdropDropLocation = new Vector2d(50,-34);
                 backdropDropLocationAW = new Vector2d(48,-36);
                 break;
