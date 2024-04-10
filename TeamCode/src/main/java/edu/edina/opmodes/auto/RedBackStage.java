@@ -47,7 +47,7 @@ public class RedBackStage extends BackStage {
             case Center:
             default:
                 propDropLocation = new Vector2d(16.5, -34.5);
-                backdropLocation = new Pose2d(48,-36, Math.toRadians(0));
+                backdropLocation = new Pose2d(48,-36.5, Math.toRadians(0));
                 break;
         }
 

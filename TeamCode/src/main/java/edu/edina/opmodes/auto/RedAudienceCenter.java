@@ -16,17 +16,17 @@ import edu.edina.library.enums.PropLocation;
 @Config
 public class RedAudienceCenter extends RedAudience {
 
-    public static Vector2d firstPickupLeft = new Vector2d(-61.5, -12);
+    public static Vector2d firstPickupLeft = new Vector2d(-60, -12);
     public static Vector2d firstPickupCenter = new Vector2d(-61.5, -10);
-    public static Vector2d firstPickupRight = new Vector2d(-61.5, -10.5);
+    public static Vector2d firstPickupRight = new Vector2d(-61, -10.5);
 
     public static Vector2d secondPickupLeft = new Vector2d(-61.5, -12);
     public static Vector2d secondPickupCenter = new Vector2d(-61.5, -12);
-    public static Vector2d secondPickupRight = new Vector2d(-61.5, -12);
+    public static Vector2d secondPickupRight = new Vector2d(-61.5, -12.5);
 
-    public static Vector2d firstAngleDropLeft = new Vector2d(49, -19);
+    public static Vector2d firstAngleDropLeft = new Vector2d(49, -23);
     public static Vector2d firstAngleDropCenter = new Vector2d(49, -19);
-    public static Vector2d firstAngleDropRight = new Vector2d(49, -19);
+    public static Vector2d firstAngleDropRight = new Vector2d(49, -24);
 
     public Vector2d firstPickup, secondPickup, firstAngleDrop;
 
@@ -146,7 +146,7 @@ public class RedAudienceCenter extends RedAudience {
                             .afterTime(0, manager.closeLeftClaw())
 
                             // Back away a little and raise the lift
-                            .lineToX(-56.5)
+                            .lineToX(-57)
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
                             .waitSeconds(delayTime/1000) // Optional Wait
 
@@ -190,7 +190,7 @@ public class RedAudienceCenter extends RedAudience {
                             .afterTime(0, manager.closeLeftClaw())
 
                             // Back away a little and raise the lift
-                            .lineToX(-56.5)
+                            .lineToX(-57)
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
                             .waitSeconds(delayTime / 1000) // Optional Wait
 
@@ -233,7 +233,7 @@ public class RedAudienceCenter extends RedAudience {
                             .afterTime(0, manager.closeLeftClaw())
 
                             // Back away a little and raise the lift
-                            .lineToX(-55)
+                            .lineToX(-57)
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
                             .waitSeconds(delayTime / 1000)
 
@@ -292,7 +292,7 @@ public class RedAudienceCenter extends RedAudience {
                             .afterTime(0, manager.closeLeftClaw())
 
                             // Back away a little and raise the lift
-                            .lineToX(-56.5)
+                            .lineToX(-57)
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
                             .waitSeconds(delayTime / 1000)
 
@@ -365,7 +365,7 @@ public class RedAudienceCenter extends RedAudience {
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                         .splineToSplineHeading(new Pose2d(new Vector2d(-40, -10), Math.toRadians(-10)), Math.toRadians(0))
                         .splineToSplineHeading(new Pose2d(-35, -10, Math.toRadians(0)), Math.toRadians(0))
-                        .afterDisp(40, manager.getLiftReadyToDropPixelFromLeft())
+                        .afterDisp(50, manager.getLiftReadyToDropPixelFromLeft())
                         .splineTo(new Vector2d(30, -13), Math.toRadians(0))
 
                         .splineTo(firstAngleDrop, Math.toRadians(-20))

@@ -17,16 +17,16 @@ import edu.edina.library.enums.PropLocation;
 public class RedAudienceWall extends RedAudience {
 
     public static Vector2d firstPickupLeft = new Vector2d(-60.5, -35.5);
-    public static Vector2d firstPickupCenter = new Vector2d(-60.5, -35.5);
-    public static Vector2d firstPickupRight = new Vector2d(-60.5, -35.5);
+    public static Vector2d firstPickupCenter = new Vector2d(-60, -35.5);
+    public static Vector2d firstPickupRight = new Vector2d(-60.5, -36);
 
     public static Vector2d secondPickupLeft = new Vector2d(-63, -35.5);
     public static Vector2d secondPickupCenter = new Vector2d(-63, -35.5);
-    public static Vector2d secondPickupRight = new Vector2d(-63, -35.5);
+    public static Vector2d secondPickupRight = new Vector2d(-63, -36);
 
-    public static Vector2d firstAngleDropLeft = new Vector2d(51, -56);
-    public static Vector2d firstAngleDropCenter = new Vector2d(51, -56);
-    public static Vector2d firstAngleDropRight = new Vector2d(51, -56);
+    public static Vector2d firstAngleDropLeft = new Vector2d(51, -53);
+    public static Vector2d firstAngleDropCenter = new Vector2d(51, -53);
+    public static Vector2d firstAngleDropRight = new Vector2d(51, -53);
 
     public Vector2d firstPickup, secondPickup, firstAngleDrop;
 
@@ -176,7 +176,7 @@ public class RedAudienceWall extends RedAudience {
                             .afterTime(0.25, manager.openLeftClaw(0))
                             .afterTime(0.25, manager.openAutoClaw(0))
                             .waitSeconds(0.25)
-                            .lineToX(48)
+                            .lineToX(47)
                             .build()
             );
         }

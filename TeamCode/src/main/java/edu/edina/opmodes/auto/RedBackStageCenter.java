@@ -13,25 +13,25 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 @Photon
 @Config
 public class RedBackStageCenter extends RedBackStage {
-    public static Vector2d firstPickupLeft = new Vector2d(-57.5, -11);
-    public static Vector2d firstPickupCenter = new Vector2d(-57.5, -11);
-    public static Vector2d firstPickupRight = new Vector2d(-57.5, -11);
+    public static Vector2d firstPickupLeft = new Vector2d(-56.5, -12.5);
+    public static Vector2d firstPickupCenter = new Vector2d(-56.5, -10.5);
+    public static Vector2d firstPickupRight = new Vector2d(-56.5, -10.5);
 
     public static Vector2d secondPickupLeft = new Vector2d(-56.5, -13);
-    public static Vector2d secondPickupCenter = new Vector2d(-56.5, -13);
-    public static Vector2d secondPickupRight = new Vector2d(-56.5, -13);
+    public static Vector2d secondPickupCenter = new Vector2d(-56.5, -11);
+    public static Vector2d secondPickupRight = new Vector2d(-56.5, -11);
 
     public static Vector2d firstAngleDropLeft = new Vector2d(57, -22);
     public static Vector2d firstAngleDropCenter = new Vector2d(57, -22);
     public static Vector2d firstAngleDropRight = new Vector2d(57, -22);
 
     public static Vector2d secondAngleDropLeft = new Vector2d(58, -22);
-    public static Vector2d secondAngleDropCenter = new Vector2d(58, -22);
-    public static Vector2d secondAngleDropRight = new Vector2d(58, -22);
+    public static Vector2d secondAngleDropCenter = new Vector2d(58, -25);
+    public static Vector2d secondAngleDropRight = new Vector2d(58, -25);
 
     public Vector2d firstPickup, secondPickup, firstAngleDrop, secondAngleDrop;
 
-    public static int EXTENDARM_FIRSTPICKUP = -120;
+    public static int EXTENDARM_FIRSTPICKUP = -180;
     public static int EXTENDARM_SECONDPICKUP = -40;
 
     @Override
