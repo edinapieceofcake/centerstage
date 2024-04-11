@@ -239,9 +239,9 @@ public class RedAudienceWall extends RedAudience {
                             // Head to Stacks VIA Wall
                             .setReversed(true)
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                            .splineToSplineHeading(new Pose2d(6, -59, Math.toRadians(190)), Math.toRadians(180))
-                            .splineToSplineHeading(new Pose2d(0, -59, Math.toRadians(180)), Math.toRadians(180))
-                            .splineToConstantHeading(new Vector2d(-38, -59), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(6, -60, Math.toRadians(190)), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(0, -60, Math.toRadians(180)), Math.toRadians(180))
+                            .splineToConstantHeading(new Vector2d(-38, -60), Math.toRadians(180))
                             .splineToConstantHeading(new Vector2d(-55, secondPickup.y), Math.toRadians(180))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
@@ -295,9 +295,9 @@ public class RedAudienceWall extends RedAudience {
                             // Head to Stacks VIA Wall
                             .setReversed(true)
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
-                            .splineToSplineHeading(new Pose2d(6, -59, Math.toRadians(190)), Math.toRadians(180))
-                            .splineToSplineHeading(new Pose2d(0, -59, Math.toRadians(180)), Math.toRadians(180))
-                            .splineToConstantHeading(new Vector2d(-38, -59), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(6, -60, Math.toRadians(190)), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(0, -60, Math.toRadians(180)), Math.toRadians(180))
+                            .splineToConstantHeading(new Vector2d(-38, -60), Math.toRadians(180))
                             .splineToConstantHeading(new Vector2d(-55, secondPickup.y), Math.toRadians(180))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
