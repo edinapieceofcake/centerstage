@@ -712,27 +712,12 @@ public class MeepMeepTesting {
                 .build();
 
         redAudienceWallBackdropCenterWithTwoWhites.runAction(redAudienceWallBackdropCenterWithTwoWhites.getDrive().actionBuilder(new Pose2d(-42, -64, Math.toRadians(90)))
-                .splineTo(new Vector2d(-38, -36), Math.toRadians(90))
+                .splineTo(new Vector2d(-48, -31), Math.toRadians(90))
                 .setReversed(true)
-                .splineToSplineHeading(new Pose2d(-52, -36, Math.toRadians(180)), Math.toRadians(180))
-                .lineToX(-55.5)
-                .lineToX(-48)
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(10, -60), Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(49,-38), Math.toRadians(0))
-                .lineToX(44)
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(0, -60, Math.toRadians(-180)), Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(-40, -58), Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(-52, -33), Math.toRadians(180))
-                .lineToX(-60)
-                .lineToX(-48)
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(new Vector2d(-35, -60), Math.toRadians(0)), Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(10, -60), Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(49,-38), Math.toRadians(0))
-                .lineToX(42)
+                .splineTo(new Vector2d(-33, -55), Math.toRadians(315))
+                .setReversed(false)
+
+                .splineToSplineHeading(new Pose2d(-44, -36, Math.toRadians(180)), Math.toRadians(180))
                 .build());
 
         RoadRunnerBotEntity redAudienceWallParkCornerWithTwoWhites = new DefaultBotBuilder(meepMeep)
@@ -1102,7 +1087,7 @@ public class MeepMeepTesting {
 //                .addEntity(blueBackstageWallFourWhitesOnBackstage) // new
 //                .addEntity(blueBackstageWallTwoWhitesOnBackdropParkInCenter) // new
 //                .addEntity(blueBackstageWallTwoWhitesOnBackdropParkInCorner) // new
-               .addEntity(blueBackstageWallFourWhitesOnBackstage) // new
+//               .addEntity(blueBackstageWallFourWhitesOnBackstage) // new
                 // red
                 //.addEntity(redAudience)
                 // red audience center
@@ -1114,7 +1099,7 @@ public class MeepMeepTesting {
  //               .addEntity(redAudienceWallParkCorner)
 //                .addEntity(redAudienceWallParkCenter)
 //                .addEntity(redAudienceWallParkCornerWithTwoWhites) // dpad down
-//                .addEntity(redAudienceWallBackdropCenterWithTwoWhites) // dpad up
+                .addEntity(redAudienceWallBackdropCenterWithTwoWhites) // dpad up
 //                // red backstage
 //                .addEntity(redBackstageParkCenter)
 //                .addEntity(redBackstageParkCorner)

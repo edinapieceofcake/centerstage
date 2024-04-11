@@ -21,6 +21,10 @@ public class RedAudience extends Audience {
     @Override
     protected PropLocation getNonePropLocation() { return PropLocation.Right; }
 
+    protected Vector2d getLeftPropDropLocation() { return new Vector2d(-39, -31); }
+
+    protected double getLeftPropAngle() { return 135; }
+
     @Override
     protected void dropPurplePixel() {
         Vector2d propDropLocation;
@@ -29,24 +33,24 @@ public class RedAudience extends Audience {
         // Determine location for purple pixel
         switch(propLocation) {
             case Left:
-                propDropLocation = new Vector2d(-39, -31);
-                propAngle = 135.0;
-                backdropDropLocation = new Vector2d(50,-32);
-                backdropDropLocationAW = new Vector2d(48,-31);
+                propDropLocation = getLeftPropDropLocation();
+                propAngle = getLeftPropAngle();
+                backdropDropLocation = new Vector2d(50,-34);
+                backdropDropLocationAW = new Vector2d(48,-30);
                 break;
             case Right:
                 propDropLocation = new Vector2d(-31, -35);
                 propAngle = 45.0;
-                backdropDropLocation = new Vector2d(50,-43.5);
+                backdropDropLocation = new Vector2d(50,-46.5);
                 backdropDropLocationSecond = new Vector2d(48, -38);
-                backdropDropLocationAW = new Vector2d(48,-43.5);
-                backdropDropLocationAW2 = new Vector2d(48, -33);
+                backdropDropLocationAW = new Vector2d(47.5,-44.5);
+                backdropDropLocationAW2 = new Vector2d(47, -33);
                 break;
             case Center:
             default:
                 propDropLocation = new Vector2d(-33, -34.5);  // default to Center if all goes bad
                 propAngle = 90.0;
-                backdropDropLocation = new Vector2d(50,-38 ); // default to center if all goes bad
+                backdropDropLocation = new Vector2d(50,-39 ); // default to center if all goes bad
                 backdropDropLocationAW = new Vector2d(48, -35.5);
                 break;
         }
