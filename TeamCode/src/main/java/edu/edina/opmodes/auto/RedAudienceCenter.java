@@ -34,6 +34,12 @@ public class RedAudienceCenter extends RedAudience {
     public static int EXTENDARM_SECONDPICKUP = -80;
 
     @Override
+    protected Vector2d getLeftPropDropLocation() { return new Vector2d(-39, -31); }
+
+    @Override
+    protected double getLeftPropAngle() { return 135; }
+
+    @Override
     protected void runPaths() {
 
         switch (propLocation) {

@@ -21,6 +21,10 @@ public class RedAudience extends Audience {
     @Override
     protected PropLocation getNonePropLocation() { return PropLocation.Right; }
 
+    protected Vector2d getLeftPropDropLocation() { return new Vector2d(-39, -31); }
+
+    protected double getLeftPropAngle() { return 135; }
+
     @Override
     protected void dropPurplePixel() {
         Vector2d propDropLocation;
@@ -29,12 +33,10 @@ public class RedAudience extends Audience {
         // Determine location for purple pixel
         switch(propLocation) {
             case Left:
-                propDropLocation = new Vector2d(-39, -31);
-                propAngle = 135.0;
-//                propDropLocation = new Vector2d(-48, -31);
-//                propAngle = 90.0;
+                propDropLocation = getLeftPropDropLocation();
+                propAngle = getLeftPropAngle();
                 backdropDropLocation = new Vector2d(50,-34);
-                backdropDropLocationAW = new Vector2d(48,-36);
+                backdropDropLocationAW = new Vector2d(48,-30);
                 break;
             case Right:
                 propDropLocation = new Vector2d(-31, -35);

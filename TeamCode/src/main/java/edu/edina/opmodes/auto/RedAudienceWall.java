@@ -34,6 +34,12 @@ public class RedAudienceWall extends RedAudience {
     public static int EXTENDARM_SECONDPICKUP = -100;
 
     @Override
+    protected Vector2d getLeftPropDropLocation() { return new Vector2d(-47, -35); }
+
+    @Override
+    protected double getLeftPropAngle() { return 90; }
+
+    @Override
     protected void runPaths() {
 
         switch (propLocation) {
