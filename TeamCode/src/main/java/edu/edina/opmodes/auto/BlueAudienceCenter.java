@@ -16,21 +16,21 @@ import edu.edina.library.enums.PropLocation;
 @Config
 public class BlueAudienceCenter extends BlueAudience {
 
-    public static Vector2d firstPickupLeft = new Vector2d(-57, 14.5);
-    public static Vector2d firstPickupCenter = new Vector2d(-57.5, 14);
-    public static Vector2d firstPickupRight = new Vector2d(-57.5, 14);
+    public static Vector2d firstPickupLeft = new Vector2d(-57, 15);
+    public static Vector2d firstPickupCenter = new Vector2d(-57.5, 14.5);
+    public static Vector2d firstPickupRight = new Vector2d(-57, 15);
 
-    public static Vector2d secondPickupLeft = new Vector2d(-59.5, 13.5);
-    public static Vector2d secondPickupCenter = new Vector2d(-59.5, 13.5);
-    public static Vector2d secondPickupRight = new Vector2d(-59.5, 13.5);
+    public static Vector2d secondPickupLeft = new Vector2d(-59.5, 14.5);
+    public static Vector2d secondPickupCenter = new Vector2d(-59.5, 14);
+    public static Vector2d secondPickupRight = new Vector2d(-59.5, 14.25);
 
-    public static Vector2d firstAngleDropLeft = new Vector2d(52, 20);
-    public static Vector2d firstAngleDropCenter = new Vector2d(52, 20);
-    public static Vector2d firstAngleDropRight = new Vector2d(52, 20);
+    public static Vector2d firstAngleDropLeft = new Vector2d(51, 20);
+    public static Vector2d firstAngleDropCenter = new Vector2d(51.5, 20);
+    public static Vector2d firstAngleDropRight = new Vector2d(50.5, 20);
 
     public Vector2d firstPickup, secondPickup, firstAngleDrop;
 
-    public static int EXTENDARM_FIRSTPICKUP = -200;
+    public static int EXTENDARM_FIRSTPICKUP = -195;
     public static int EXTENDARM_SECONDPICKUP = -100;
 
     @Override
@@ -111,14 +111,15 @@ public class BlueAudienceCenter extends BlueAudience {
                         drive.actionBuilder(drive.pose)
                                 // Head to Stacks
                                 .setTangent(Math.toRadians(315))
-                                .splineToLinearHeading(new Pose2d(-40, firstPickup.y, Math.toRadians(180)), Math.toRadians(180))
+                                .splineToLinearHeading(new Pose2d(-36, firstPickup.y, Math.toRadians(180)), Math.toRadians(180))
                                 .setReversed(false)
-                                .splineToSplineHeading(new Pose2d(-45, firstPickup.y, Math.toRadians(180)), Math.toRadians(180))
-                                // Prepare for grabbing - Trip 1
                                 .afterTime(0, new InstantAction(() -> drive.turnBeamBreakOn(250)))
                                 .afterDisp(0, manager.runLiftToPosition(EXTENDARM_FIRSTPICKUP, false))
                                 .afterDisp(0, manager.positionTheClawToPickupPixelsFromStack())
-                                .lineToX(firstPickup.x)
+                                .splineToSplineHeading(new Pose2d(firstPickup.x, firstPickup.y, Math.toRadians(180)), Math.toRadians(180))
+                                // Prepare for grabbing - Trip 1
+
+                                //.lineToX(firstPickup.x)
                                 .build()
                 );
                 break;
@@ -286,7 +287,7 @@ public class BlueAudienceCenter extends BlueAudience {
 
                             // Grab Pixels
                             .afterTime(0, manager.closeLeftClaw())
-
+                            .waitSeconds(.25)
                             // Back away a little and raise the lift
                             .lineToX(firstPickup.x+3)
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
