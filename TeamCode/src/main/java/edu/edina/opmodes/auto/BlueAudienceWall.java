@@ -30,7 +30,7 @@ public class BlueAudienceWall extends BlueAudience {
 
     public Vector2d firstPickup, secondPickup, firstAngleDrop;
 
-    public static int EXTENDARM_FIRSTPICKUP = -190;
+    public static int EXTENDARM_FIRSTPICKUP = -180;
     public static int EXTENDARM_SECONDPICKUP = -100;
 
     @Override

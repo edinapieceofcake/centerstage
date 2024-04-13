@@ -33,7 +33,7 @@ public class BlueAudience extends Audience {
                 propAngle = 315;
                 backdropDropLocation = new Vector2d(50,40.5);
                 backdropDropLocationSecond = new Vector2d(48, 38);
-                backdropDropLocationAW = new Vector2d(51,35.5);
+                backdropDropLocationAW = new Vector2d(51,36.5);
                 backdropDropLocationAW2 = new Vector2d(51, 30);
                 break;
             case Right:

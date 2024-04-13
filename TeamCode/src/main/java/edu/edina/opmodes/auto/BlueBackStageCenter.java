@@ -27,11 +27,11 @@ public class BlueBackStageCenter extends BlueBackStage {
 
     public static Vector2d firstAngleDropLeft = new Vector2d(51, 21);
     public static Vector2d firstAngleDropCenter = new Vector2d(51, 21);
-    public static Vector2d firstAngleDropRight = new Vector2d(51, 21);
+    public static Vector2d firstAngleDropRight = new Vector2d(51, 23);
 
     public static Vector2d secondAngleDropLeft = new Vector2d(50, 22);
     public static Vector2d secondAngleDropCenter = new Vector2d(50, 22);
-    public static Vector2d secondAngleDropRight = new Vector2d(49, 22);
+    public static Vector2d secondAngleDropRight = new Vector2d(49, 24);
 
     public Vector2d firstPickup, secondPickup, firstAngleDrop, secondAngleDrop;
 
@@ -143,7 +143,7 @@ public class BlueBackStageCenter extends BlueBackStage {
 
                             .splineTo(firstAngleDrop, Math.toRadians(35))
                             .stopAndAdd(manager.openLeftClaw(0))
-                            .afterTime(0.2, manager.openAutoClaw(0))
+                            .afterTime(0.5, manager.openAutoClaw(0))
                             .waitSeconds(0.25)
 
                             // Head to Stacks VIA C-Row
@@ -243,7 +243,7 @@ public class BlueBackStageCenter extends BlueBackStage {
 
                             .splineTo(secondAngleDrop, Math.toRadians(35))
                             .stopAndAdd(manager.openLeftClaw(0))
-                            .afterTime(0.1, manager.openAutoClaw(0))
+                            .afterTime(0.5, manager.openAutoClaw(0))
                             .build()
             );
 
