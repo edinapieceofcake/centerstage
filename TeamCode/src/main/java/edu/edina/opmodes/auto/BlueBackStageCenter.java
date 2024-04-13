@@ -23,7 +23,7 @@ public class BlueBackStageCenter extends BlueBackStage {
 
     public static Vector2d secondPickupLeft = new Vector2d(-67, 18.5);
     public static Vector2d secondPickupCenter = new Vector2d(-66, 18.5);
-    public static Vector2d secondPickupRight = new Vector2d(-66, 18);
+    public static Vector2d secondPickupRight = new Vector2d(-66, 19);
 
     public static Vector2d firstAngleDropLeft = new Vector2d(51, 21);
     public static Vector2d firstAngleDropCenter = new Vector2d(51, 21);
@@ -75,10 +75,10 @@ public class BlueBackStageCenter extends BlueBackStage {
 
                             // Drive to stacks - first trip
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(28, firstPickup.y-2, Math.toRadians(175)), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(28, firstPickup.y-2, Math.toRadians(170)), Math.toRadians(180))
                             .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineToSplineHeading(new Pose2d(24, firstPickup.y-2, Math.toRadians(180)), Math.toRadians(180))
-                            .splineTo(new Vector2d(-16, firstPickup.y-1), Math.toRadians(180))
+                            .splineTo(new Vector2d(-20, firstPickup.y-1), Math.toRadians(180))
                             .splineTo(new Vector2d(-48, firstPickup.y), Math.toRadians(180))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
@@ -134,17 +134,17 @@ public class BlueBackStageCenter extends BlueBackStage {
 
                             // Return to backdrop and angle drop
                             .setReversed(true)
-                            .splineToSplineHeading(new Pose2d(-19, 13, Math.toRadians(5)), Math.toRadians(0))
+                            .splineToSplineHeading(new Pose2d(-19, 13, Math.toRadians(10)), Math.toRadians(0))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineToSplineHeading(new Pose2d(-15, 13, Math.toRadians(0)), Math.toRadians(0))
-                            .afterDisp(0, manager.getLiftReadyToDropPixelFromRight())
                             .splineTo(new Vector2d(30, 13), Math.toRadians(0))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
+                            .afterDisp(2, manager.getLiftReadyToDropPixelFromRight())
                             .splineTo(firstAngleDrop, Math.toRadians(35))
                             .stopAndAdd(manager.openLeftClaw(0))
                             .afterTime(0.5, manager.openAutoClaw(0))
-                            .waitSeconds(0.25)
+                            .waitSeconds(0.6)
 
                             // Head to Stacks VIA C-Row
                             .setReversed(true)
@@ -237,8 +237,9 @@ public class BlueBackStageCenter extends BlueBackStage {
                             .splineToSplineHeading(new Pose2d(-19, 14, Math.toRadians(5)), Math.toRadians(0))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineToSplineHeading(new Pose2d(-15, 14, Math.toRadians(0)), Math.toRadians(0))
-                            .afterDisp(0, manager.getLiftReadyToDropPixelFromRight())
                             .splineTo(new Vector2d(30, 14), Math.toRadians(0))
+
+                            .afterDisp(2, manager.getLiftReadyToDropPixelFromRight())
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                             .splineTo(secondAngleDrop, Math.toRadians(35))

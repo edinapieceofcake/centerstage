@@ -16,21 +16,21 @@ import edu.edina.library.enums.PropLocation;
 @Photon
 public class BlueBackStageWall extends BlueBackStage {
 
-    public static Vector2d firstPickupLeft = new Vector2d(-59, 37.5);
-    public static Vector2d firstPickupCenter = new Vector2d(-59, 36.5);
-    public static Vector2d firstPickupRight = new Vector2d(-59, 36.5);
+    public static Vector2d firstPickupLeft = new Vector2d(-59, 38);
+    public static Vector2d firstPickupCenter = new Vector2d(-59, 37.5);
+    public static Vector2d firstPickupRight = new Vector2d(-59, 38);
 
-    public static Vector2d secondPickupLeft = new Vector2d(-61, 35.5);
+    public static Vector2d secondPickupLeft = new Vector2d(-61, 36);
     public static Vector2d secondPickupCenter = new Vector2d(-61.5, 36);
-    public static Vector2d secondPickupRight = new Vector2d(-61, 33.5);
+    public static Vector2d secondPickupRight = new Vector2d(-61, 36.75);
 
-    public static Vector2d firstAngleDropLeft = new Vector2d(55, 53);
-    public static Vector2d firstAngleDropCenter = new Vector2d(55, 53);
-    public static Vector2d firstAngleDropRight = new Vector2d(54.5, 53);
+    public static Vector2d firstAngleDropLeft = new Vector2d(52, 53);
+    public static Vector2d firstAngleDropCenter = new Vector2d(52, 53);
+    public static Vector2d firstAngleDropRight = new Vector2d(52, 53.5);
 
-    public static Vector2d secondAngleDropLeft = new Vector2d(56, 48);
-    public static Vector2d secondAngleDropCenter = new Vector2d(56, 48);
-    public static Vector2d secondAngleDropRight = new Vector2d(55.5, 48);
+    public static Vector2d secondAngleDropLeft = new Vector2d(56, 49);
+    public static Vector2d secondAngleDropCenter = new Vector2d(56.5, 49);
+    public static Vector2d secondAngleDropRight = new Vector2d(55.5, 50);
 
     public Vector2d firstPickup, secondPickup, firstAngleDrop, secondAngleDrop;
 
@@ -73,7 +73,7 @@ public class BlueBackStageWall extends BlueBackStage {
 
                              // Drive to stacks - first trip
                              .setReversed(true)
-                             .splineToSplineHeading(new Pose2d(10, 60, Math.toRadians(177)), Math.toRadians(180))
+                             .splineToSplineHeading(new Pose2d(10, 60, Math.toRadians(170)), Math.toRadians(180))
                              .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                              .splineToSplineHeading(new Pose2d(6, 60, Math.toRadians(180)), Math.toRadians(180))
 
@@ -141,16 +141,16 @@ public class BlueBackStageWall extends BlueBackStage {
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
 
                             .splineTo(firstAngleDrop, Math.toRadians(-35))
-                            .afterTime(0.1, manager.openLeftClaw(0))
-                            .afterTime(0.1, manager.openAutoClaw(0))
-                            .waitSeconds(0.2)
+                            .afterTime(0, manager.openLeftClaw(0))
+                            .afterTime(0.3, manager.openAutoClaw(0))
+                            .waitSeconds(0.4)
 
                             // Head to Stacks VIA A-Row
                             .setReversed(true)
                             .afterDisp(0, manager.getLiftReadyToDrive())
 
                             // Head to Stacks VIA Wall
-                            .splineToSplineHeading(new Pose2d(24, 58, Math.toRadians(177)), Math.toRadians(180))
+                            .splineToSplineHeading(new Pose2d(24, 58, Math.toRadians(170)), Math.toRadians(180))
                             .afterDisp(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineToSplineHeading(new Pose2d(20, 58, Math.toRadians(180)), Math.toRadians(180))
 
@@ -201,7 +201,7 @@ public class BlueBackStageWall extends BlueBackStage {
                          .setReversed(true)
 
                          // Head to Stacks VIA Wall
-                         .splineToSplineHeading(new Pose2d(4, 57, Math.toRadians(183)), Math.toRadians(180))
+                         .splineToSplineHeading(new Pose2d(4, 57, Math.toRadians(190)), Math.toRadians(180))
                          .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                          .splineToSplineHeading(new Pose2d(0, 57, Math.toRadians(180)), Math.toRadians(180))
 
@@ -247,8 +247,8 @@ public class BlueBackStageWall extends BlueBackStage {
 
                             .splineTo(secondAngleDrop, Math.toRadians(-35))
                             .afterTime(0.1, manager.openLeftClaw(0))
-                            .afterTime(0.2, manager.openAutoClaw(0))
-                            .waitSeconds(0.2)
+                            .afterTime(0.3, manager.openAutoClaw(0))
+                            .waitSeconds(0.4)
                             .lineToX(50)
                             .afterDisp(0, manager.getLiftReadyToDrive())
                             .build()
