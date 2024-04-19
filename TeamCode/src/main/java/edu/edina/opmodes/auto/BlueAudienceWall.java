@@ -109,7 +109,6 @@ public class BlueAudienceWall extends BlueAudience {
                             // Back away a little and raise the lift
                             .lineToX(-56.5)
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
-                            .waitSeconds(delayTime / 1000) // Optional Wait
 
                             // Finish backing away and prepare to drive
                             .lineToX(-54)
@@ -123,6 +122,7 @@ public class BlueAudienceWall extends BlueAudience {
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .afterDisp(30, manager.getLiftReadyToDropThePixelHighOnTheWall())
                             .splineToSplineHeading(new Pose2d(new Vector2d(-24, 58), Math.toRadians(0)), Math.toRadians(0))
+                            .waitSeconds(delayTime / 1000) // Optional Wait
 
                             .splineToConstantHeading(new Vector2d(25, 58), Math.toRadians(0))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))

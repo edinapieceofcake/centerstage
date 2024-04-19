@@ -18,7 +18,7 @@ public class BlueBackStageWall extends BlueBackStage {
 
     public static Vector2d firstPickupLeft = new Vector2d(-59, 38);
     public static Vector2d firstPickupCenter = new Vector2d(-59, 37.5);
-    public static Vector2d firstPickupRight = new Vector2d(-59, 38);
+    public static Vector2d firstPickupRight = new Vector2d(-58.5, 38);
 
     public static Vector2d secondPickupLeft = new Vector2d(-61, 36);
     public static Vector2d secondPickupCenter = new Vector2d(-61.5, 36);
@@ -191,7 +191,7 @@ public class BlueBackStageWall extends BlueBackStage {
                          .splineToSplineHeading(new Pose2d(new Vector2d(-35, 57), Math.toRadians(0)), Math.toRadians(0))
 
                          .splineToConstantHeading(new Vector2d(10, 57), Math.toRadians(0))
-                         .splineTo(new Vector2d(59, 57), Math.toRadians(0))
+                         .splineTo(new Vector2d(61, 57), Math.toRadians(0))
                          .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                          .afterTime(0.1, manager.openLeftClaw())
                          .afterTime(0.1, manager.openAutoClaw())
@@ -279,7 +279,7 @@ public class BlueBackStageWall extends BlueBackStage {
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                         .splineToSplineHeading(new Pose2d(new Vector2d(-37, 56), Math.toRadians(0)), Math.toRadians(0))
                         .splineToConstantHeading(new Vector2d(10, 56), Math.toRadians(0))
-                        .splineTo(new Vector2d(59.5, 56), Math.toRadians(0))
+                        .splineTo(new Vector2d(60.5, 56), Math.toRadians(0))
                         .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
                         .afterTime(0.1, manager.openLeftClaw(0))
                         .afterTime(0.1, manager.openAutoClaw(0))

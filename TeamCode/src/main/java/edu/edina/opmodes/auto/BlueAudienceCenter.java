@@ -30,7 +30,7 @@ public class BlueAudienceCenter extends BlueAudience {
 
     public Vector2d firstPickup, secondPickup, firstAngleDrop;
 
-    public static int EXTENDARM_FIRSTPICKUP = -195;
+    public static int EXTENDARM_FIRSTPICKUP = -200;
     public static int EXTENDARM_SECONDPICKUP = -100;
 
     @Override
@@ -141,7 +141,6 @@ public class BlueAudienceCenter extends BlueAudience {
                             // Back away a little and raise the lift
                             .lineToX(firstPickup.x+1)
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
-                            .waitSeconds(delayTime/1000) // Optional Wait
 
                             // Finish backing away and prepare to drive
                             .lineToX(firstPickup.x+3)
@@ -154,6 +153,7 @@ public class BlueAudienceCenter extends BlueAudience {
                             .splineToSplineHeading(new Pose2d(new Vector2d(-28, 11), Math.toRadians(-5)), Math.toRadians(0))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineToSplineHeading(new Pose2d(new Vector2d(-22, 11), Math.toRadians(0)), Math.toRadians(0))
+                            .waitSeconds(delayTime/1000) // Optional Wait
 
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
                             .splineToConstantHeading(new Vector2d(25, 11), Math.toRadians(0))

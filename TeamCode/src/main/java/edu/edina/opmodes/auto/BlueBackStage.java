@@ -40,7 +40,7 @@ public class BlueBackStage extends BackStage {
                 break;
             case Center:
             default:
-                propDropLocation = new Vector2d(13.75, 35.5);  // default to Center if all goes bad
+                propDropLocation = new Vector2d(7.75, 35.5);  // default to Center if all goes bad
                 backdropLocation = new Pose2d(42,34, Math.toRadians(0)); // default to center if all goes bad
                 break;
         }

@@ -117,7 +117,6 @@ public class RedAudienceWall extends RedAudience {
                             // Back away a little and raise the lift
                             .lineToX(-57.5)
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
-                            .waitSeconds(delayTime / 1000) // Optional Wait
 
                             // Finish backing away and prepare to drive
                             .lineToX(-54)
@@ -130,6 +129,7 @@ public class RedAudienceWall extends RedAudience {
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineToSplineHeading(new Pose2d(new Vector2d(-40, -59), Math.toRadians(-10)), Math.toRadians(0))
                             .splineToSplineHeading(new Pose2d(new Vector2d(-35, -59), Math.toRadians(0)), Math.toRadians(0))
+                            .waitSeconds(delayTime / 1000) // Optional Wait
                             .afterDisp(30, manager.getLiftReadyToDropThePixelHighOnTheWall())
                             .splineToConstantHeading(new Vector2d(10, -59), Math.toRadians(0))
                             .splineToConstantHeading(backdropDropLocationAW, Math.toRadians(0))
