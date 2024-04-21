@@ -34,13 +34,13 @@ public class BlueBackStage extends BackStage {
                 backdropLocation = new Pose2d(42,41.5, Math.toRadians(0));
                 break;
             case Right:
-                propDropLocation = new Vector2d(7.5, 42);
+                propDropLocation = new Vector2d(7, 42);
                 propDropAngle = 225;
                 backdropLocation = new Pose2d(41.5,28, Math.toRadians(0));
                 break;
             case Center:
             default:
-                propDropLocation = new Vector2d(15, 35.5);  // default to Center if all goes bad
+                propDropLocation = new Vector2d(7.75, 35.5);  // default to Center if all goes bad
                 backdropLocation = new Pose2d(42,34, Math.toRadians(0)); // default to center if all goes bad
                 break;
         }

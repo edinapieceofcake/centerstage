@@ -13,7 +13,7 @@ public class RobotConfiguration {
     public final double clawLeftClosedPosition = 0.75;
     public final double clawRightClosedPosition = 0.39;
     public final double clawRightOpenPosition = 0.50;
-    public final double clawRightOpenDropPosition = 0.485;
+    public final double clawRightOpenDropPosition = 0.49;
     public final double autoClawServoOpenPosition = 0.72;
     public final double autoClawServoClosePosition = 1.0;
     public final double autoClawServoOpenDropPosition = .86;

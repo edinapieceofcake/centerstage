@@ -16,21 +16,21 @@ import edu.edina.library.enums.PropLocation;
 @Config
 public class BlueAudienceWall extends BlueAudience {
 
-    public static Vector2d firstPickupLeft = new Vector2d(-58, 38);
-    public static Vector2d firstPickupCenter = new Vector2d(-57.5, 38);
-    public static Vector2d firstPickupRight = new Vector2d(-57.5, 38);
+    public static Vector2d firstPickupLeft = new Vector2d(-58, 39);
+    public static Vector2d firstPickupCenter = new Vector2d(-57.5, 38.5);
+    public static Vector2d firstPickupRight = new Vector2d(-57.5, 39);
 
-    public static Vector2d secondPickupLeft = new Vector2d(-60, 37.5);
+    public static Vector2d secondPickupLeft = new Vector2d(-60, 38.5);
     public static Vector2d secondPickupCenter = new Vector2d(-60, 37);
     public static Vector2d secondPickupRight = new Vector2d(-60, 36.5);
 
-    public static Vector2d firstAngleDropLeft = new Vector2d(52, 50);
-    public static Vector2d firstAngleDropCenter = new Vector2d(52, 50);
-    public static Vector2d firstAngleDropRight = new Vector2d(52, 50);
+    public static Vector2d firstAngleDropLeft = new Vector2d(52, 48);
+    public static Vector2d firstAngleDropCenter = new Vector2d(52, 48);
+    public static Vector2d firstAngleDropRight = new Vector2d(52, 48);
 
     public Vector2d firstPickup, secondPickup, firstAngleDrop;
 
-    public static int EXTENDARM_FIRSTPICKUP = -200;
+    public static int EXTENDARM_FIRSTPICKUP = -180;
     public static int EXTENDARM_SECONDPICKUP = -100;
 
     @Override
@@ -109,7 +109,6 @@ public class BlueAudienceWall extends BlueAudience {
                             // Back away a little and raise the lift
                             .lineToX(-56.5)
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
-                            .waitSeconds(delayTime / 1000) // Optional Wait
 
                             // Finish backing away and prepare to drive
                             .lineToX(-54)
@@ -123,6 +122,7 @@ public class BlueAudienceWall extends BlueAudience {
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .afterDisp(30, manager.getLiftReadyToDropThePixelHighOnTheWall())
                             .splineToSplineHeading(new Pose2d(new Vector2d(-24, 58), Math.toRadians(0)), Math.toRadians(0))
+                            .waitSeconds(delayTime / 1000) // Optional Wait
 
                             .splineToConstantHeading(new Vector2d(25, 58), Math.toRadians(0))
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOff()))
@@ -196,7 +196,8 @@ public class BlueAudienceWall extends BlueAudience {
                             .waitSeconds(0.25)
 
                             // Back away a little and raise the lift
-                            .lineToX(-56.5)
+                            .lineToX(-55.5)
+                            .waitSeconds(0.25)
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
                             .waitSeconds(delayTime / 1000)
 

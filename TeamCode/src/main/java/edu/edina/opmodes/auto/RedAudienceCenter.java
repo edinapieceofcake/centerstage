@@ -26,11 +26,11 @@ public class RedAudienceCenter extends RedAudience {
 
     public static Vector2d firstAngleDropLeft = new Vector2d(49, -23);
     public static Vector2d firstAngleDropCenter = new Vector2d(49, -19);
-    public static Vector2d firstAngleDropRight = new Vector2d(49, -24);
+    public static Vector2d firstAngleDropRight = new Vector2d(50, -24);
 
     public Vector2d firstPickup, secondPickup, firstAngleDrop;
 
-    public static int EXTENDARM_FIRSTPICKUP = -200;
+    public static int EXTENDARM_FIRSTPICKUP = -190;
     public static int EXTENDARM_SECONDPICKUP = -80;
 
     @Override
@@ -241,7 +241,6 @@ public class RedAudienceCenter extends RedAudience {
                             // Back away a little and raise the lift
                             .lineToX(-57)
                             .stopAndAdd(manager.raiseLiftAfterStackPickup())
-                            .waitSeconds(delayTime / 1000)
 
                             // Finish backing away and prepare to drive
                             .lineToX(-53)
@@ -254,6 +253,7 @@ public class RedAudienceCenter extends RedAudience {
                             .afterTime(0, new InstantAction(() -> drive.turnErrorPoseStopOn()))
                             .splineToSplineHeading(new Pose2d(new Vector2d(-40, -10), Math.toRadians(-10)), Math.toRadians(0))
                             .splineToSplineHeading(new Pose2d(new Vector2d(-35, -10), Math.toRadians(0)), Math.toRadians(0))
+                            .waitSeconds(delayTime / 1000)
                             .afterDisp(25, manager.getLiftReadyToDropThePixelHighOnTheWall())
                             .splineToConstantHeading(new Vector2d(15, -10), Math.toRadians(0))
                             .splineToConstantHeading(backdropDropLocation, Math.toRadians(0))
