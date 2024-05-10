@@ -9,7 +9,25 @@ import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Vector;
 import org.firstinspires.ftc.teamcode.pedroPathing.util.NanoTimer;
 
 /**
- * This is the ThreeWheelLocalizer class.
+ * This is the ThreeWheelLocalizer class. This class extends the Localizer superclass and is a
+ * localizer that uses the three wheel odometry set up. The diagram below, which is taken from
+ * Road Runner, shows a typical set up.
+ *
+ * The view is from the bottom of the robot looking upwards.
+ *
+ * left on robot is y pos
+ *
+ * front on robot is x pos
+ *
+ *    /--------------\
+ *    |     ____     |
+ *    |     ----     |
+ *    | ||        || |
+ *    | ||        || |   left (y pos)
+ *    |              |
+ *    |              |
+ *    \--------------/
+ *      front (x pos)
  *
  * @author Anyi Lin - 10158 Scott's Bots
  * @version 1.0, 4/2/2024
@@ -32,7 +50,7 @@ public class ThreeWheelLocalizer extends Localizer {
     private double totalHeading;
     public static double FORWARD_TICKS_TO_INCHES = 0.00599224697552627;//8192 * 1.37795 * 2 * Math.PI * 0.5008239963;
     public static double STRAFE_TICKS_TO_INCHES = 0.00599224697552627;//8192 * 1.37795 * 2 * Math.PI * 0.5018874659;
-    public static double TURN_TICKS_TO_INCHES = 0.00599224697552627;//8192 * 1.37795 * 2 * Math.PI * 0.5;
+    public static double TURN_TICKS_TO_RADIANS = 0.00599224697552627;//8192 * 1.37795 * 2 * Math.PI * 0.5;
 
     public ThreeWheelLocalizer(HardwareMap map) {
         this(map, new Pose());
@@ -62,6 +80,8 @@ public class ThreeWheelLocalizer extends Localizer {
         displacementPose = new Pose();
         currentVelocity = new Pose();
         totalHeading = 0;
+
+        resetEncoders();
     }
 
     @Override
@@ -151,7 +171,7 @@ public class ThreeWheelLocalizer extends Localizer {
         //y/strafe movement
         returnMatrix.set(1,0, STRAFE_TICKS_TO_INCHES * (strafeEncoder.getDeltaPosition() - strafeEncoderPose.getX() * ((rightEncoder.getDeltaPosition() - leftEncoder.getDeltaPosition()) / (leftEncoderPose.getY() - rightEncoderPose.getY()))));
         // theta/turning
-        returnMatrix.set(2,0, TURN_TICKS_TO_INCHES * ((rightEncoder.getDeltaPosition() - leftEncoder.getDeltaPosition()) / (leftEncoderPose.getY() - rightEncoderPose.getY())));
+        returnMatrix.set(2,0, TURN_TICKS_TO_RADIANS * ((rightEncoder.getDeltaPosition() - leftEncoder.getDeltaPosition()) / (leftEncoderPose.getY() - rightEncoderPose.getY())));
         return returnMatrix;
     }
 
@@ -168,6 +188,6 @@ public class ThreeWheelLocalizer extends Localizer {
     }
 
     public double getTurningMultiplier() {
-        return TURN_TICKS_TO_INCHES;
+        return TURN_TICKS_TO_RADIANS;
     }
 }
