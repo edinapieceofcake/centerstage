@@ -22,8 +22,8 @@ public class FollowerConstants {
 
     // This section is for setting the actual drive vector for the front left wheel, if the robot
     // is facing a heading of 0 radians with the wheel centered at (0,0)
-    private static double xMovement = 81.34056;
-    private static double yMovement = 65.43028;
+    private static double xMovement = 67.4361997;
+    private static double yMovement = 46.8490301;
     private static double[] convertToPolar = Point.cartesianToPolar(xMovement, -yMovement);
     public static Vector frontLeftVector = MathFunctions.normalizeVector(new Vector(convertToPolar[0],convertToPolar[1]));
 
@@ -89,9 +89,9 @@ public class FollowerConstants {
 
     // Large drive PIDF coefficients
     public static CustomPIDFCoefficients largeDrivePIDFCoefficients = new CustomPIDFCoefficients(
-            0.025,
+            0.007,
             0,
-            0.00001,
+            0.000001,
             0);
 
     // Feed forward constant added on to the large drive PIDF
@@ -102,16 +102,16 @@ public class FollowerConstants {
 
     // Small drive PIDF coefficients
     public static CustomPIDFCoefficients smallDrivePIDFCoefficients = new CustomPIDFCoefficients(
-            0.02,
+            0.2,
             0,
-            0.000005,
+            0.00000001,
             0);
 
     // Feed forward constant added on to the small drive PIDF
     public static double smallDrivePIDFFeedForward = 0.01;
 
     // Mass of robot in kilograms
-    public static double mass = 10.65942;
+    public static double mass = 15.42214;
 
     // Centripetal force to power scaling
     // todo: there are currently issues with the centripetal force correction, so just don't use it for now
@@ -121,12 +121,12 @@ public class FollowerConstants {
     // Acceleration of the drivetrain when power is cut in inches/second^2 (should be negative)
     // if not negative, then the robot thinks that its going to go faster under 0 power
     // this is for curves
-    public static double forwardZeroPowerAcceleration = -34.62719;
+    public static double forwardZeroPowerAcceleration = -26.0246534;
 
     // Acceleration of the drivetrain when power is cut in inches/second^2 (should be negative)
     // if not negative, then the robot thinks that its going to go faster under 0 power
     // this is for curves
-    public static double lateralZeroPowerAcceleration = -78.15554;
+    public static double lateralZeroPowerAcceleration = -87.66269;
 
     // A multiplier for the zero power acceleration to change the speed the robot decelerates at
     // the end of paths.
@@ -135,7 +135,7 @@ public class FollowerConstants {
     // Decreasing this will cause the deceleration at the end of the Path to be slower, making the
     // robot slower but reducing risk of end-of-path overshoots or localization slippage.
     // This can be set individually for each Path, but this is the default.
-    public static double zeroPowerAccelerationMultiplier = 4;
+    public static double zeroPowerAccelerationMultiplier = 2;
 
     // When the robot is at the end of its current Path or PathChain and the velocity goes below
     // this value, then end the Path. This is in inches/second.
