@@ -114,8 +114,6 @@ public class FollowerConstants {
     public static double mass = 15.42214;
 
     // Centripetal force to power scaling
-    // todo: there are currently issues with the centripetal force correction, so just don't use it for now
-    // i will fix these in another commit soon
     public static double centripetalScaling = 0.001;
 
     // Acceleration of the drivetrain when power is cut in inches/second^2 (should be negative)
@@ -158,7 +156,7 @@ public class FollowerConstants {
     public static double pathEndTValueConstraint = 0.995;
 
     // When the Path is considered at its end parametrically, then the Follower has this many
-    // seconds to further correct by default.
+    // milliseconds to further correct by default.
     // This can be custom set for each Path.
     public static double pathEndTimeoutConstraint = 1.5;
 
