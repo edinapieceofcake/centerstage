@@ -71,8 +71,8 @@ public class ThreeWheelLocalizer extends Localizer {
      */
     public ThreeWheelLocalizer(HardwareMap map, Pose setStartPose) {
         // TODO: replace these with your encoder positions
-        leftEncoderPose = new Pose(0, -4.287, 0);
-        rightEncoderPose = new Pose(0, 4.53, 0);
+        leftEncoderPose = new Pose(0, -4.337, 0);
+        rightEncoderPose = new Pose(0, 4.58, 0);
         strafeEncoderPose = new Pose(-5.165, 0, Math.toRadians(90));
 
         hardwareMap = map;
