@@ -44,9 +44,12 @@ public class ThreeWheelLocalizer extends Localizer {
     private Encoder leftEncoder;
     private Encoder rightEncoder;
     private Encoder strafeEncoder;
-    private Pose leftEncoderPose;
-    private Pose rightEncoderPose;
-    private Pose strafeEncoderPose;
+//    private Pose leftEncoderPose;
+//    private Pose rightEncoderPose;
+//    private Pose strafeEncoderPose;
+    private double leftEncoderPosition;
+    private double rightEncoderPosition;
+    private double strafeEncoderPosition;
     private double totalHeading;
     public static double FORWARD_TICKS_TO_INCHES = 0.00588870763119913;//8192 * 1.37795 * 2 * Math.PI * 0.5008239963;
     public static double STRAFE_TICKS_TO_INCHES = 0.00601471169123254;//8192 * 1.37795 * 2 * Math.PI * 0.5018874659;
@@ -71,9 +74,18 @@ public class ThreeWheelLocalizer extends Localizer {
      */
     public ThreeWheelLocalizer(HardwareMap map, Pose setStartPose) {
         // TODO: replace these with your encoder positions
-        leftEncoderPose = new Pose(0, -4.287, 0);
-        rightEncoderPose = new Pose(0, 4.53, 0);
-        strafeEncoderPose = new Pose(-5.165, 0, Math.toRadians(90));
+        leftEncoderPosition = -4.287;
+        rightEncoderPosition = 4.53;
+        strafeEncoderPosition = -5.165;
+
+
+        leftEncoderPosition = -756.6437132344282;
+        rightEncoderPosition = 715.4844633783896;
+        strafeEncoderPosition = -862.0096899816914;
+
+//        leftEncoderPose = new Pose(0, -4.287, 0);
+//        rightEncoderPose = new Pose(0, 4.53, 0);
+//        strafeEncoderPose = new Pose(-5.165, 0, Math.toRadians(90));
 
         hardwareMap = map;
 
@@ -229,11 +241,11 @@ public class ThreeWheelLocalizer extends Localizer {
     public Matrix getRobotDeltas() {
         Matrix returnMatrix = new Matrix(3,1);
         // x/forward movement
-        returnMatrix.set(0,0, FORWARD_TICKS_TO_INCHES * ((rightEncoder.getDeltaPosition() * leftEncoderPose.getY() - leftEncoder.getDeltaPosition() * rightEncoderPose.getY()) / (leftEncoderPose.getY() - rightEncoderPose.getY())));
+        returnMatrix.set(0,0, FORWARD_TICKS_TO_INCHES * ((rightEncoder.getDeltaPosition() * leftEncoderPosition - leftEncoder.getDeltaPosition() * rightEncoderPosition) / (leftEncoderPosition - rightEncoderPosition)));
         //y/strafe movement
-        returnMatrix.set(1,0, STRAFE_TICKS_TO_INCHES * (strafeEncoder.getDeltaPosition() - strafeEncoderPose.getX() * ((rightEncoder.getDeltaPosition() - leftEncoder.getDeltaPosition()) / (leftEncoderPose.getY() - rightEncoderPose.getY()))));
+        returnMatrix.set(1,0, STRAFE_TICKS_TO_INCHES * (strafeEncoder.getDeltaPosition() - strafeEncoderPosition * ((rightEncoder.getDeltaPosition() - leftEncoder.getDeltaPosition()) / (leftEncoderPosition - rightEncoderPosition))));
         // theta/turning
-        returnMatrix.set(2,0, TURN_TICKS_TO_RADIANS * ((rightEncoder.getDeltaPosition() - leftEncoder.getDeltaPosition()) / (leftEncoderPose.getY() - rightEncoderPose.getY())));
+        returnMatrix.set(2,0, TURN_TICKS_TO_RADIANS * ((rightEncoder.getDeltaPosition() - leftEncoder.getDeltaPosition()) / (leftEncoderPosition - rightEncoderPosition)));
         return returnMatrix;
     }
 
