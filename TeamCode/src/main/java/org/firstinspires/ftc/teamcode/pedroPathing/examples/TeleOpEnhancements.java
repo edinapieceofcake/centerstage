@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.examples;
 
 import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.leftFrontMotorName;
-import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.leftBackMotorName;
+import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.leftRearMotorName;
 import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.rightFrontMotorName;
-import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.rightBackMotorName;
+import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.rightRearMotorName;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -38,8 +38,8 @@ public class TeleOpEnhancements extends OpMode {
         follower = new Follower(hardwareMap);
 
         leftFront = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
-        leftBack = hardwareMap.get(DcMotorEx.class, leftBackMotorName);
-        rightBack = hardwareMap.get(DcMotorEx.class, rightBackMotorName);
+        leftBack = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
+        rightBack = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
         rightFront = hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

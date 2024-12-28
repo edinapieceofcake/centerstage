@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.tuning;
 
 import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.leftFrontMotorName;
-import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.leftBackMotorName;
+import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.leftRearMotorName;
 import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.rightFrontMotorName;
-import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.rightBackMotorName;
+import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.rightRearMotorName;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -71,8 +71,8 @@ public class ForwardZeroPowerAccelerationTuner extends OpMode {
         poseUpdater = new PoseUpdater(hardwareMap);
 
         leftFront = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
-        leftBack = hardwareMap.get(DcMotorEx.class, leftBackMotorName);
-        rightBack = hardwareMap.get(DcMotorEx.class, rightBackMotorName);
+        leftBack = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
+        rightBack = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
         rightFront = hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
 
         // TODO: Make sure that this is the direction your motors need to be reversed in.
