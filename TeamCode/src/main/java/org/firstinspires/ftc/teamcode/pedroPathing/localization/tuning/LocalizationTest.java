@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.localization.tuning;
 
 import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.leftFrontMotorName;
-import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.leftRearMotorName;
+import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.leftBackMotorName;
 import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.rightFrontMotorName;
-import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.rightRearMotorName;
+import static org.firstinspires.ftc.teamcode.pedroPathing.tuning.FollowerConstants.rightBackMotorName;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -54,8 +54,8 @@ public class LocalizationTest extends OpMode {
         dashboardPoseTracker = new DashboardPoseTracker(poseUpdater);
 
         leftFront = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
-        leftBack = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
-        rightBack = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
+        leftBack = hardwareMap.get(DcMotorEx.class, leftBackMotorName);
+        rightBack = hardwareMap.get(DcMotorEx.class, rightBackMotorName);
         rightFront = hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
 
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
